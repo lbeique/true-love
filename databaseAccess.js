@@ -83,7 +83,7 @@ const updateUserPoints = (userID, points, callback) => {
         points: points
     }
     const sqlUpdatePoints = "UPDATE user SET total_points = total_points + :points WHERE user_id = :user_id;";
-    database.query(sqlUpdatePoints, (err, results, fields) => {
+    database.query(sqlUpdatePoints, params, (err, results, fields) => {
         if (err) {
             console.log(err);
             callback(err, null);
@@ -98,7 +98,7 @@ const deleteUser = (userID, callback) => {
         user_id: userID
     }
     const sqlDeleteUser = "DELETE FROM user WHERE user_id = :user_id;";
-    database.query(sqlDeleteUser, (err, results, fields) => {
+    database.query(sqlDeleteUser, params, (err, results, fields) => {
         if (err) {
             console.log(err);
             callback(err, null);
