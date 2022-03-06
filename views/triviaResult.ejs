@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/main.css">
+    <title>Trivia Phase</title>
+</head>
+<body>
+    
+    <section class="section-header">
+        <h1 class="heading-primary"> TRIVIA GAME </h1>
+
+    </section>
+
+
+
+    <main>
+
+        <!-- TIMER WILL STAY IN PROGRESS SOMEHOW -->
+        <%= console.log("trivia result") %> 
+        <section class="section-main">
+            <% if (trivia.completed === true && trivia.totalGuesses >= 0) { %>
+
+                <h2 class="heading-secondary">You Win!</h2>
+                <a href="/lobby/" class="link"> Go to Lobby</a>  
+
+            <% } else if(trivia.completed === false && trivia.totalGuesses > 0) { %>
+
+                <h2 class="heading-secondary">Chances left:<%= trivia.totalGuesses %> </h2>
+                <h2 class="heading-secondary">Wrong Answer</h2>
+                <a href="/trivia/" class="link"> Try Again </a>
+
+            <% } else if (trivia.completed == false && trivia.totalGuesses == 0){ %> 
+                
+                <h2 class="heading-secondary">You have no more chances :(</h2>
+                <a href="/lobby/"> Go to Lobby </a>
+
+            <% } %> 
+        </section>
+    </main>
+</body>
+</html>

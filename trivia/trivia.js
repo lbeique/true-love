@@ -2,13 +2,16 @@ const database = require("../databaseConnection");
 
 class Trivia {
 
-    #totalGuesses = 0;
+    #totalGuesses; 
     #completed = false;
+    #id;
     #answer;
     #question;
     #prompts;
     
     constructor(question) {
+        this.#id = question.id;
+        this.#totalGuesses = 3;
         this.#answer = question.answer;
         this.#question = question.question;
         this.#prompts = question.prompts;
@@ -41,15 +44,15 @@ class Trivia {
             answer: 1
         }]
         let question = questions[Math.floor(Math.random()*questions.length)]
-        return new Trivia(question)
+        return new Trivia(question);
     }
 
     guess(prompt) {
-        if (prompt === this.#answer) {
-            this.#totalGuesses++;
+        if (Number(prompt) === this.#answer) {
+            // this.#totalGuesses++;
             this.#completed = true;
         } else {
-            this.#totalGuesses++;
+            this.#totalGuesses--;
         }
     }
 
@@ -72,13 +75,17 @@ class Trivia {
     get prompts() {
         return this.#prompts;
     }
+
+    get id(){
+        return this.#id;
+    }
 }
 
-let trivia = Trivia.random()
-console.log(trivia.question);
-console.log(trivia.prompts);
-console.log(1);
-trivia.guess(1);
-console.log(trivia.completed);
+// let trivia = Trivia.random()
+// console.log(trivia.question);
+// console.log(trivia.prompts);
+// console.log(1);
+// trivia.guess(1);
+// console.log(trivia.completed);
 
 module.exports = Trivia

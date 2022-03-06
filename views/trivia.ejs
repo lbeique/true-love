@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../public/main.css">
+    <title>Trivia Phase</title>
+</head>
+<body>
+    
+    <section class="section-header">
+        <h1 class="heading-primary"> TRIVIA GAME </h1>
+
+    </section>
+
+
+    <main>
+        <section class="section-main">        
+            <!-- TIMER HERE? -->
+
+            
+
+            <h2 class="heading-secondary"><%= trivia.question %></h2>
+            <h3 class="heading-tertiary">Chances left:<%= trivia.totalGuesses %> </h3>
+            <%= console.log("trivia page") %> 
+            <div class="form__page">
+                <form method="POST" action="/trivia/">
+                    <% for(let i = 0; i < trivia.prompts.length; i++) {%>
+                        <button  name="prompt" class="button__prompt" value=" <%= trivia.prompts[i] %>">  <%= trivia.prompts[i] %> </button>
+                    <% } %> 
+                </form>
+            </div>
+
+                
+        </section>
+    </main>
+</body>
+</html>

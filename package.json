@@ -1,11 +1,12 @@
 {
   "name": "true-love",
   "version": "1.0.0",
-  "description": "",
+  "description": "https://idsp-true-love.herokuapp.com/",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
