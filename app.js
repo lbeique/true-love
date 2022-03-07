@@ -9,10 +9,14 @@ const app = express();
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const signUpRouter = require('./routes/signup');
+const triviaRouter = require('./routes/trivia');
+const lobbyRouter = require('./routes/lobby')
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signUpRouter);
+app.use('/trivia', triviaRouter);
+app.use('/lobby', lobbyRouter);
 
 app.set('view engine', 'ejs')
 app.use(express.static("public"))
