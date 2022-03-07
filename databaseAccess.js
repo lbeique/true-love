@@ -38,9 +38,10 @@ const getUserByLogin = (postBody, callback) => {
             console.log(err);
             callback(err, null);
         } else {
-            const passwordComparison = await bcrypt.compare(password, results[0].password);
+            const passwordComparison = await bcrypt.compare(password, results[0].password_hash);
             if (passwordComparison) {
                 callback(null, results);
+                console.log('user logged in')
             } else {
                 console.log(new Error("User Password and Email do not match"));
                 callback(err, null);
