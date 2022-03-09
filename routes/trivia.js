@@ -9,7 +9,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(express.static("public"))
 
 const getSession = (session) => {
-    if (session.username) {
+    if (session.user_name) {
         return session;
     } else {
         return null;
@@ -17,26 +17,32 @@ const getSession = (session) => {
 }
 
 router.get("/", (req, res) => {
-    const newGame = req.query.newGame;
-    if (newGame == 0) {
-        newTrivia.random((error, batman) => {
-            if (error) {
-                console.error(error);
-                res.status(500).redirect("/");
-            }
-            trivia = batman;
-            res.render("trivia", { trivia })
-        });
+    let user = getSession(req.session);
+    if (user) {
+        const newGame = +req.query.newGame;
+        if (newGame === 0) {
+            newTrivia.random((error, result) => {
+                if (error) {
+                    console.error(error);
+                    res.status(500).redirect("/");
+                }
+                trivia = result;
+                res.status(200).render("trivia", { trivia, user })
+            });
+        } else {
+            res.status(200).render("trivia", { trivia, user })
+        }
     } else {
-        res.render("trivia", { trivia })
+        res.status(300).redirect('/');
     }
 })
 
 router.post("/", (req, res) => {
+    let user = getSession(req.session);
     const UserAnswer = req.body;
     console.log(UserAnswer.prompt);
     trivia.guess(UserAnswer.prompt);
-    res.render("triviaResult", { trivia })
+    res.status(200).render("triviaResult", { trivia, user })
 })
 
 

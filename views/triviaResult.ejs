@@ -24,17 +24,23 @@
             <% if (trivia.completed === true && trivia.totalGuesses >= 0) { %>
 
                 <h2 class="heading-secondary">You Win!</h2>
+                <a href="/trivia/?newGame=0" class="link"> Play Again? </a>
+                <br>
+                <br>
                 <a href="/lobby/" class="link"> Go to Lobby</a>  
 
             <% } else if(trivia.completed === false && trivia.totalGuesses > 0) { %>
 
-                <h2 class="heading-secondary">Chances left:<%= trivia.totalGuesses %> </h2>
+                <h2 class="heading-secondary"><%= user.user_name %>, you have <%= trivia.totalGuesses %> chances left!</h2>
                 <h2 class="heading-secondary">Wrong Answer</h2>
                 <a href="/trivia/" class="link"> Try Again </a>
 
             <% } else if (trivia.completed == false && trivia.totalGuesses == 0){ %> 
                 
-                <h2 class="heading-secondary">You have no more chances :(</h2>
+                <h2 class="heading-secondary">Sorry <%= user.user_name %>, you have no more chances :(</h2>
+                <a href="/trivia/?newGame=0" class="link"> Play Again? </a>
+                <br>
+                <br>
                 <a href="/lobby/"> Go to Lobby </a>
 
             <% } %> 

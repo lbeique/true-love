@@ -8,7 +8,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(express.static("public"))
 
 const getSession = (session) => {
-  if (session.username) {
+  if (session.user_name) {
     return session;
   } else {
     return null;
@@ -16,32 +16,34 @@ const getSession = (session) => {
 }
 
 router.get("/", (req, res) => {
-  res.render('loginForm')
+  let user = getSession(req.session)
+  if (user) {
+    res.status(300).redirect('/lobby')
+  } else {
+    res.status(200).render('loginForm')
+  }
 })
 
 router.post("/", (req, res) => {
   database.getConnection(function (err, dbConnection) {
     if (err) {
-      res.render('error', { message: 'Error connecting to MySQL' });
+      res.status(500).render('error', { message: 'Error connecting to MySQL' });
       console.log("Error connecting to mysql");
       console.log(err);
     } else {
       db.getUserByLogin(req.body, (err, result) => {
         if (err) {
-          res.render('error', { message: 'Error reading from MySQL' });
+          res.status(500).render('error', { message: 'Error reading from MySQL' });
           console.log("Error reading from mysql");
           console.log(err);
-        }
-        else { //success
-          console.log(req.body)
-          /*
-          rn everyone gets redirected to lobby
-          need session to verify user is signed in
-          */
-          if (req.body) {
-            res.redirect('/lobby');
+        } else { //success
+          console.log(result);
+          if (result) {
+            req.session.user_name = result.user_name;
+            req.session.user_id = +result.user_id;
+            res.status(300).redirect('/lobby');
           } else {
-            res.redirect('/')
+            res.status(300).redirect('/')
           }
         }
       })

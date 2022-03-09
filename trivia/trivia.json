@@ -143,6 +143,105 @@
                 "Cirrus"
             ],
             "answer": "Cumulus"
+        },
+        {
+            "question": "What are the lakes of Titan made of?",
+            "prompts": [
+                "Methane",
+                "Water",
+                "Hydrogen"
+            ],
+            "answer": "Methane"
+        },
+        {
+            "question": "What is the middle color in a rainbow?",
+            "prompts": [
+                "Orange",
+                "Yellow",
+                "Green"
+            ],
+            "answer": "Green"
+        },
+        {
+            "question": "What causes the holes in Swiss cheese?",
+            "prompts": [
+                "Mice",
+                "Bacteria",
+                "Sticks"
+            ],
+            "answer": "Bacteria"
+        },
+        {
+            "question": "What animal has the most teeth?",
+            "prompts": [
+                "Sharks",
+                "Kraken",
+                "Snail"
+            ],
+            "answer": "Snail"
+        },
+        {
+            "question": "Greenland is part of which kingdom?",
+            "prompts": [
+                "England",
+                "Finland",
+                "Denmark"
+            ],
+            "answer": "Denmark"
+        },
+        {
+            "question": "What is the name of Harry Potter's pet owl?",
+            "prompts": [
+                "Errol",
+                "Hedwig",
+                "Pigwidgeon"
+            ],
+            "answer": "Hedwig"
+        },
+        {
+            "question": "What was the last album recorded by The Beatles?",
+            "prompts": [
+                "Revolver",
+                "Abbey Road",
+                "Help!"
+            ],
+            "answer": "Abbey Road"
+        },
+        {
+            "question": "Any color plus white is called what?",
+            "prompts": [
+                "Tint",
+                "Tone",
+                "Shade"
+            ],
+            "answer": "Tint"
+        },
+        {
+            "question": "What is the name of Johnny Depp's character in 'Pirates of the Caribbean' movie franchise?",
+            "prompts": [
+                "Jack Falcon",
+                "Jack Sparrow",
+                "Jack Dragonfly"
+            ],
+            "answer": "Jack Sparrow"
+        },
+        {
+            "question": "How many brothers did Ryan lose in the movie 'Saving Private Ryan'?",
+            "prompts": [
+                "2",
+                "3",
+                "4"
+            ],
+            "answer": "3"
+        },
+        {
+            "question": "What is the name of Zorro's horse?",
+            "prompts": [
+                "Tornado",
+                "Hurricane",
+                "Stormfront"
+            ],
+            "answer": "Tornado"
         }
     ]
 }
