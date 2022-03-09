@@ -1,0 +1,247 @@
+{
+    "questions": [
+        {
+            "question": "How many ducks are in a goose?",
+            "prompts": [
+                "1",
+                "2",
+                "3"
+            ],
+            "answer": "2"
+        },
+        {
+            "question": "Who was the first US president to live in the white house?",
+            "prompts": [
+                "George Washington",
+                "Alexander Hamilton",
+                "John Adams"
+            ],
+            "answer": "John Adams"
+        },
+        {
+            "question": "Who was the first dog in space?",
+            "prompts": [
+                "Balto",
+                "Laika",
+                "Toto"
+            ],
+            "answer": "Laika"
+        },
+        {
+            "question": "What festival falls on the first day of the Chinese New Year?",
+            "prompts": [
+                "Winter Festival",
+                "Lunar Festival",
+                "Spring Festival"
+            ],
+            "answer": "Spring Festival"
+        },
+        {
+            "question": "What animal was the Egyptian God Horus depicted as?",
+            "prompts": [
+                "Falcon",
+                "Cat",
+                "Dog"
+            ],
+            "answer": "Falcon"
+        },
+        {
+            "question": "What was the capital of East Germany?",
+            "prompts": [
+                "Hamburg",
+                "Munich",
+                "East Berlin"
+            ],
+            "answer": "East Berlin"
+        },
+        {
+            "question": "In 'The Wizard of Oz', what was the lion in search of?",
+            "prompts": [
+                "Heart",
+                "Brain",
+                "Courage"
+            ],
+            "answer": "Courage"
+        },
+        {
+            "question": "What is the name of Thor's hammer?",
+            "prompts": [
+                "Jarnbjorn",
+                "Mjolnir",
+                "Gungnir"
+            ],
+            "answer": "Mjolnir"
+        },
+        {
+            "question": "Which Mario character has appeared in all but one 'Mario Party' game?",
+            "prompts": [
+                "Bowser",
+                "Daisy",
+                "Wario"
+            ],
+            "answer": "Wario"
+        },
+        {
+            "question": "In The Simpsons, which character died by getting hit with T-shirts?",
+            "prompts": [
+                "Maude",
+                "Frank Grimes",
+                "Fat Tony"
+            ],
+            "answer": "Maude"
+        },
+        {
+            "question": "In the game 'Joust', what animal was your mount?",
+            "prompts": [
+                "A Unicorn",
+                "A Pegasus",
+                "An Ostritch"
+            ],
+            "answer": "An Ostritch"
+        },
+        {
+            "question": "What is the Japanese art of flower arrangement called?",
+            "prompts": [
+                "Rokkugaden",
+                "Ikebana",
+                "Heiwa"
+            ],
+            "answer": "Ikebana"
+        },
+        {
+            "question": "What would a sommelier recommend to you?",
+            "prompts": [
+                "Shoes",
+                "Flowers",
+                "Wine"
+            ],
+            "answer": "Wine"
+        },
+        {
+            "question": "What is the main substance found in bones?",
+            "prompts": [
+                "Cartilage",
+                "Calcium",
+                "Collagen"
+            ],
+            "answer": "Collagen"
+        },
+        {
+            "question": "`Mach One` refers to the speed of what?",
+            "prompts": [
+                "Sound",
+                "Frequency",
+                "Light"
+            ],
+            "answer": "Sound"
+        },
+        {
+            "question": "What type of cloud is often described as 'cotton-like'?",
+            "prompts": [
+                "Stratus",
+                "Cumulus",
+                "Cirrus"
+            ],
+            "answer": "Cumulus"
+        },
+        {
+            "question": "What are the lakes of Titan made of?",
+            "prompts": [
+                "Methane",
+                "Water",
+                "Hydrogen"
+            ],
+            "answer": "Methane"
+        },
+        {
+            "question": "What is the middle color in a rainbow?",
+            "prompts": [
+                "Orange",
+                "Yellow",
+                "Green"
+            ],
+            "answer": "Green"
+        },
+        {
+            "question": "What causes the holes in Swiss cheese?",
+            "prompts": [
+                "Mice",
+                "Bacteria",
+                "Sticks"
+            ],
+            "answer": "Bacteria"
+        },
+        {
+            "question": "What animal has the most teeth?",
+            "prompts": [
+                "Sharks",
+                "Kraken",
+                "Snail"
+            ],
+            "answer": "Snail"
+        },
+        {
+            "question": "Greenland is part of which kingdom?",
+            "prompts": [
+                "England",
+                "Finland",
+                "Denmark"
+            ],
+            "answer": "Denmark"
+        },
+        {
+            "question": "What is the name of Harry Potter's pet owl?",
+            "prompts": [
+                "Errol",
+                "Hedwig",
+                "Pigwidgeon"
+            ],
+            "answer": "Hedwig"
+        },
+        {
+            "question": "What was the last album recorded by The Beatles?",
+            "prompts": [
+                "Revolver",
+                "Abbey Road",
+                "Help!"
+            ],
+            "answer": "Abbey Road"
+        },
+        {
+            "question": "Any color plus white is called what?",
+            "prompts": [
+                "Tint",
+                "Tone",
+                "Shade"
+            ],
+            "answer": "Tint"
+        },
+        {
+            "question": "What is the name of Johnny Depp's character in 'Pirates of the Caribbean' movie franchise?",
+            "prompts": [
+                "Jack Falcon",
+                "Jack Sparrow",
+                "Jack Dragonfly"
+            ],
+            "answer": "Jack Sparrow"
+        },
+        {
+            "question": "How many brothers did Ryan lose in the movie 'Saving Private Ryan'?",
+            "prompts": [
+                "2",
+                "3",
+                "4"
+            ],
+            "answer": "3"
+        },
+        {
+            "question": "What is the name of Zorro's horse?",
+            "prompts": [
+                "Tornado",
+                "Hurricane",
+                "Stormfront"
+            ],
+            "answer": "Tornado"
+        }
+    ]
+}

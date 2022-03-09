@@ -10,13 +10,8 @@ const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const signUpRouter = require('./routes/signup');
 const triviaRouter = require('./routes/trivia');
-const lobbyRouter = require('./routes/lobby')
-
-app.use('/', indexRouter);
-app.use('/login', loginRouter);
-app.use('/signup', signUpRouter);
-app.use('/trivia', triviaRouter);
-app.use('/lobby', lobbyRouter);
+const lobbyRouter = require('./routes/lobby');
+const logoutRouter = require('./routes/logout');
 
 app.set('view engine', 'ejs')
 app.use(express.static("public"))
@@ -26,6 +21,14 @@ app.use(cookieSession({
     name: 'session',
     keys: ['28@$()@Y%932h59237b#*)hfsb'],
 }));
+
+// SUPER IMPORTANT TO PUT THESE AT THE END OF APP.USE
+app.use('/', indexRouter);
+app.use('/login', loginRouter);
+app.use('/signup', signUpRouter);
+app.use('/trivia', triviaRouter);
+app.use('/lobby', lobbyRouter);
+app.use('/logout', logoutRouter);
 
 database.getConnection((err, dbConnection) => {
     if (!err) {

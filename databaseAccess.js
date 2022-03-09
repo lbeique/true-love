@@ -33,18 +33,24 @@ const getUserByLogin = (postBody, callback) => {
         identifier: identifier,
     }
     const sqlSelectUserByEmail = "SELECT * FROM user WHERE email = :identifier OR user_name = :identifier;";
-    database.query(sqlSelectUserByEmail, params, async (err, results, fields) => {
+    database.query(sqlSelectUserByEmail, params, (err, results, fields) => {
         if (err) {
             console.log(err);
             callback(err, null);
         } else {
-            const passwordComparison = await bcrypt.compare(password, results[0].password_hash);
-            if (passwordComparison) {
-                callback(null, results);
-                console.log('user logged in')
-            } else {
-                console.log(new Error("User Password and Email do not match"));
+            console.log(results);
+            if (results = []) {
                 callback(err, null);
+            } else {
+                bcrypt.compare(password, results[0].password_hash, (err, same) => {
+                    if (same) {
+                        callback(null, results[0]);
+                        console.log('user logged in')
+                    } else {
+                        console.log(err);
+                        callback(err, null);
+                    }
+                });
             }
         }
     });

@@ -1,14 +1,15 @@
 const database = require("../databaseConnection");
+const fs = require("fs");
 
 class Trivia {
 
-    #totalGuesses; 
+    #totalGuesses;
     #completed = false;
     #id;
     #answer;
     #question;
     #prompts;
-    
+
     constructor(question) {
         this.#id = question.id;
         this.#totalGuesses = 3;
@@ -17,38 +18,20 @@ class Trivia {
         this.#prompts = question.prompts;
     }
 
-    static random() {
-        let questions = [{
-            question: "How many ducks are in a goose?",
-            prompts: [1, 2, 3],
-            answer: 2
-        },
-        {
-            question: "How many beers can you drink?",
-            prompts: [1, 2, 3],
-            answer: 3
-        },
-        {
-            question: "What is the average velocity of a North African Swallow?",
-            prompts: [1, 2, 3],
-            answer: 1
-        },
-        {
-            question: "What time is it?",
-            prompts: [1, 2, 3],
-            answer: 2
-        },
-        {
-            question: "Which of these numbers is a number one?",
-            prompts: [1, 2, 3],
-            answer: 1
-        }]
-        let question = questions[Math.floor(Math.random()*questions.length)]
-        return new Trivia(question);
+    static random(callback) {
+        fs.readFile("./trivia/trivia.json", "utf-8", (error, result) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                let parsedTrivia = JSON.parse(result);
+                let question = parsedTrivia.questions[Math.floor(Math.random() * parsedTrivia.questions.length)];
+                callback(null, new Trivia(question));
+            }
+        });
     }
 
     guess(prompt) {
-        if (Number(prompt) === this.#answer) {
+        if (prompt === this.#answer) {
             // this.#totalGuesses++;
             this.#completed = true;
         } else {
@@ -76,7 +59,7 @@ class Trivia {
         return this.#prompts;
     }
 
-    get id(){
+    get id() {
         return this.#id;
     }
 }
