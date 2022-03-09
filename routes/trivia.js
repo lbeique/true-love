@@ -18,9 +18,15 @@ const getSession = (session) => {
 
 router.get("/", (req, res) => {
     const newGame = req.query.newGame;
-    if(newGame == 0){
-        trivia = newTrivia.random();
-        res.render("trivia", { trivia })
+    if (newGame == 0) {
+        newTrivia.random((error, batman) => {
+            if (error) {
+                console.error(error);
+                res.status(500).redirect("/");
+            }
+            trivia = batman;
+            res.render("trivia", { trivia })
+        });
     } else {
         res.render("trivia", { trivia })
     }
@@ -28,6 +34,7 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
     const UserAnswer = req.body;
+    console.log(UserAnswer.prompt);
     trivia.guess(UserAnswer.prompt);
     res.render("triviaResult", { trivia })
 })

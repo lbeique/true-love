@@ -27,7 +27,7 @@
             <div class="form__page">
                 <form method="POST" action="/trivia/">
                     <% for(let i = 0; i < trivia.prompts.length; i++) {%>
-                        <button  name="prompt" class="button__prompt" value=" <%= trivia.prompts[i] %>">  <%= trivia.prompts[i] %> </button>
+                        <button  name="prompt" class="button__prompt" value="<%= trivia.prompts[i] %>">  <%= trivia.prompts[i] %> </button>
                     <% } %> 
                 </form>
             </div>
