@@ -9,21 +9,13 @@ class UserValidation {
     }
 
     validateEmail () {
-        const regex = new RegExp('^(?=.*[@])(?=.*[.])', '');
-        if (regex.test(this.#email)) {
-            return true;
-        } else {
-            return false;
-        }
+        const regex = new RegExp('^(?=.*[@])(?=.*[.])');
+        return regex.test(this.#email);
     };
 
     validatePassword () {
-        const regex = new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@#$!()%*?&])[A-Za-z0-9@#$!()%*?&]{8,}$", '');
-        if (regex.test(this.#password)) {
-            return true;
-        } else {
-            return false;
-        }
+        const regex = new RegExp('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@#$!()%*?&])[A-Za-z0-9@#$!()%*?&]{8,}$');
+        return regex.test(this.#password);
     };
 
 };
