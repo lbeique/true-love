@@ -1,29 +1,33 @@
 const database = require("./databaseConnection");
 const bcrypt = require('bcrypt');
+const UserValidation = require('./validateEmailPassword');
 
 
 const addUser = async (postBody, callback) => {
-    const password = postBody.password;
-    const encryptedPassword = await bcrypt.hash(password, 10);
-    const dateObj = new Date;
-    const datetime = `${dateObj.getUTCFullYear()}-${dateObj.getUTCMonth() + 1}-${dateObj.getUTCDate()}`;
-    const params = {
-        name: postBody.name,
-        email: postBody.email,
-        password: encryptedPassword,
-        date: datetime,
-        currency: 0,
-        points: 0
-    }
-    const sqlInsertUser = "INSERT INTO user (user_name, email, password_hash, creation_date, game_currency, total_points) VALUES (:name, :email, :password, :date, :currency, :points);";
-    database.query(sqlInsertUser, params, (err, results, fields) => {
-        if (err) {
-            console.log(err);
-            callback(err, null);
-        } else {
-            callback(null, results);
+    const newUser = new UserValidation(postBody.email, postBody.password);
+    if (newUser.validateEmail() && newUser.validatePassword()) {
+        const password = postBody.password;
+        const encryptedPassword = await bcrypt.hash(password, 10);
+        const params = {
+            name: postBody.name,
+            email: postBody.email,
+            password: encryptedPassword,
+            currency: 0,
+            points: 0
         }
-    });
+        const sqlInsertUser = "INSERT INTO user (user_name, email, password_hash, creation_date, game_currency, total_points) VALUES (:name, :email, :password, NOW(), :currency, :points);";
+        database.query(sqlInsertUser, params, (err, results, fields) => {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            } else {
+                callback(null, results);
+            }
+        });
+    } else {
+        console.log("invalid username/password");
+        callback(err, null);
+    }
 };
 
 const getUserByLogin = (postBody, callback) => {
@@ -39,7 +43,7 @@ const getUserByLogin = (postBody, callback) => {
             callback(err, null);
         } else {
             console.log(results);
-            if (results = []) {
+            if (!results[0]) {
                 callback(err, null);
             } else {
                 bcrypt.compare(password, results[0].password_hash, (err, same) => {
@@ -71,7 +75,7 @@ const getUserByID = (userID, callback) => {
     });
 };
 
-// currently doesn't get user email, password, or delete status
+// doesn't get user email, password, or delete status
 const getAllUsers = (callback) => {
     const sqlSelectUsers = "SELECT user_id, user_name, creation_date, game_currency, total_points FROM user;";
     database.query(sqlSelectUsers, (err, results, fields) => {
