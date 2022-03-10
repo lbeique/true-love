@@ -39,7 +39,7 @@ const getUserByLogin = (postBody, callback) => {
             callback(err, null);
         } else {
             console.log(results);
-            if (results = []) {
+            if (!results[0]) {
                 callback(err, null);
             } else {
                 bcrypt.compare(password, results[0].password_hash, (err, same) => {
