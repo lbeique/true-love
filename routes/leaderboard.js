@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router();
 const bodyParser = require("body-parser")
-const database = require("../databaseConnection");
 const db = require("../databaseAccess")
+const database = require("../databaseConnection");
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(express.static("public"))
@@ -15,23 +15,15 @@ const getSession = (session) => {
   }
 }
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   let user = getSession(req.session)
-  if (user) {
-    res.status(300).redirect('/lobby')
-  } else {
-    res.status(200).render('loginForm')
-  }
-})
-
-router.post("/", (req, res) => {
   database.getConnection(function (err, dbConnection) {
     if (err) {
       res.status(500).render('error', { message: 'Error connecting to MySQL' });
       console.log("Error connecting to mysql");
       console.log(err);
     } else {
-      db.getUserByLogin(req.body, (err, result) => {
+      db.getAllUsers((err, result) => {
         if (err) {
           res.status(500).render('error', { message: 'Error reading from MySQL' });
           console.log("Error reading from mysql");
@@ -39,12 +31,8 @@ router.post("/", (req, res) => {
         } else { //success
           console.log(result);
           if (result) {
-            req.session.user_name = result.user_name;
-            req.session.user_id = +result.user_id;
-            req.session.total_points = +result.total_points;
-            res.status(300).redirect('/lobby');
-          } else {
-            res.status(300).redirect('/')
+            let allUsers = result;
+            res.render('leaderboard', { user, allUsers })
           }
         }
       })

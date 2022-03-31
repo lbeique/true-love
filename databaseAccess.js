@@ -77,7 +77,7 @@ const getUserByID = (userID, callback) => {
 
 // doesn't get user email, password, or delete status
 const getAllUsers = (callback) => {
-    const sqlSelectUsers = "SELECT user_id, user_name, creation_date, game_currency, total_points FROM user;";
+    const sqlSelectUsers = "SELECT user_id, user_name, creation_date, game_currency, total_points FROM user ORDER BY total_points DESC;";
     database.query(sqlSelectUsers, (err, results, fields) => {
         if (err) {
             console.log(err);
