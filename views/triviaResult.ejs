@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/main.css">
+    <link rel="stylesheet" href="main.css">
     <title>Trivia Phase</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
         <!-- TIMER WILL STAY IN PROGRESS SOMEHOW -->
         <%= console.log("trivia result") %> 
         <section class="section-main">
-            <% if (trivia.completed === true && trivia.totalGuesses >= 0) { %>
+            <% if (trivia.completed === true && trivia.remainingGuesses >= 0) { %>
 
                 <h2 class="heading-secondary">You Win!</h2>
                 <a href="/trivia/?newGame=0" class="link"> Play Again? </a>
@@ -29,13 +29,13 @@
                 <br>
                 <a href="/lobby/" class="link"> Go to Lobby</a>  
 
-            <% } else if(trivia.completed === false && trivia.totalGuesses > 0) { %>
+            <% } else if(trivia.completed === false && trivia.remainingGuesses > 0) { %>
 
-                <h2 class="heading-secondary"><%= user.user_name %>, you have <%= trivia.totalGuesses %> chances left!</h2>
+                <h2 class="heading-secondary"><%= user.user_name %>, you have <%= trivia.remainingGuesses %> chances left!</h2>
                 <h2 class="heading-secondary">Wrong Answer</h2>
                 <a href="/trivia/" class="link"> Try Again </a>
 
-            <% } else if (trivia.completed == false && trivia.totalGuesses == 0){ %> 
+            <% } else if (trivia.completed == false && trivia.remainingGuesses == 0){ %> 
                 
                 <h2 class="heading-secondary">Sorry <%= user.user_name %>, you have no more chances :(</h2>
                 <a href="/trivia/?newGame=0" class="link"> Play Again? </a>

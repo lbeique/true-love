@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title> Leaderboard </title>
+</head>
+
+<body>
+
+    <section class="section-header">
+        <h1 class="heading-primary"> Leaderboard </h1>
+    </section>
+    <main>
+
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th> User </th>
+                        <th> Score </th>
+                    </tr>
+                </thead>
+
+                <% for (let i=0; i < allUsers.length; i++) { %>
+                    <tr>
+                        <td>
+                            <% if (allUsers[i]) { %>
+                                <%= allUsers[i].user_name %>
+                                    <% } %>
+                        </td>
+                        <td>
+                            <% if (allUsers[i]) { %>
+                                <%= allUsers[i].total_points %>
+                                    <% } %>
+                        </td>
+                    </tr>
+                    <% } %>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2">
+                                    Top Ten Users
+                                </td>
+                            </tr>
+                        </tfoot>
+            </table>
+        </div>
+    </main>
+        <section class="section-main">
+            <a href="/lobby" class="link"> Back to Lobby </a>
+        </section>
+        <section class="section-main">
+            <a href="/logout" class="link"> Logout </a>
+        </section>
+
+    
+</body>
+
+</html>
