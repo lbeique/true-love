@@ -18,8 +18,8 @@ const logoutRouter = require('./routes/logout');
 
 
 // Conflict Oh no
-app.set('view engine', 'ejs')
-app.use(express.static("./public"))
+app.set('view engine', 'ejs');
+app.use(express.static("./public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
@@ -38,6 +38,7 @@ app.use('/trivia', triviaRouter);
 app.use('/leaderboard', leaderboardRouter);
 app.use('/lobby', lobbyRouter);
 app.use('/logout', logoutRouter);
+
 
 database.getConnection((err, dbConnection) => {
     if (!err) {
