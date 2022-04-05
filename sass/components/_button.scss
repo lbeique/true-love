@@ -1,0 +1,42 @@
+.btn{
+    // DESKTOP VERSION
+
+
+    // MOBILE VERSION
+    &, 
+    &:link, 
+    &:visited{
+        display: inline-block;
+        padding: 10px;
+        text-align: center;
+        margin-bottom: 2px;
+        text-decoration: none;
+        border-radius: 2em;
+        transition: all .2s;
+        box-shadow: 0 .3em 0 rgba($color-black, .2);      
+    }
+
+
+    &:hover{ // note: mobile devices do not have a hover function- only works on desktop
+        transform: translateY(-3px);
+        box-shadow: 0 .5em 0 rgba($color-black, .2);        
+    }
+
+    &:active{
+        transform: translateY(1px);
+        box-shadow: 0 .3em 0 rgba($color-black, .2);
+    }
+    
+
+    &--green{
+        font-family: 'Arial Rounded MT Bold';
+        color: $primary-color;
+        background-color: $tertiary-color;
+
+        &--auth{
+            animation: popUpCenter 1s ease 2s;
+            animation-fill-mode: backwards;
+        }
+    }
+
+}
