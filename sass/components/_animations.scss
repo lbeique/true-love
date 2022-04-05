@@ -11,3 +11,27 @@
         transform: scale(100%);
     }    
 }
+
+@keyframes fadingIn{
+    0%{
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 100%;
+    }
+}
+
+@keyframes upDownMotion{
+    0%{
+        transform: translateY(-1em);
+    }
+
+    50%{
+        transform: translateY(2em);
+    }
+
+    100%{
+        transform: translateY(-1em);
+    }
+}
