@@ -1,0 +1,27 @@
+.spaceShip_gametitle{
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    top: 5em;
+    left: 30%;
+
+    animation: fadingIn 2s ease .5s, upDownMotion 2s ease 2s infinite;
+    animation-fill-mode: backwards;
+
+    
+    @include respond(iPhone_SE){
+        position: absolute;
+        width: 60%;
+        height: 50%;
+        top: 2em;
+        left: 20%;
+
+        animation: fadingIn 2s ease .5s, upDownMotion 2s ease 2s infinite;
+        animation-fill-mode: backwards;
+    }
+    
+    
+
+
+
+}

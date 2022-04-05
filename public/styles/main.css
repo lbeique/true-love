@@ -9,15 +9,10 @@
 body {
   box-sizing: border-box;
 }
-
-.welcomeScreen {
-  background-color: #19083c;
-}
-.welcomeScreen__bgImg {
-  width: 100%;
-  height: 45em;
-  object-fit: fill;
-  object-position: center -12em;
+@media (max-width: 37.5em) {
+  body {
+    height: 100vh;
+  }
 }
 
 .heading-primary {
@@ -52,6 +47,46 @@ body {
     transform: scale(100%);
   }
 }
+@keyframes fadingIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+@keyframes upDownMotion {
+  0% {
+    transform: translateY(-1em);
+  }
+  50% {
+    transform: translateY(2em);
+  }
+  100% {
+    transform: translateY(-1em);
+  }
+}
+.spaceShip_gametitle {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  top: 5em;
+  left: 30%;
+  animation: fadingIn 2s ease 0.5s, upDownMotion 2s ease 2s infinite;
+  animation-fill-mode: backwards;
+}
+@media (max-width: 37.5em) {
+  .spaceShip_gametitle {
+    position: absolute;
+    width: 60%;
+    height: 50%;
+    top: 2em;
+    left: 20%;
+    animation: fadingIn 2s ease 0.5s, upDownMotion 2s ease 2s infinite;
+    animation-fill-mode: backwards;
+  }
+}
+
 .btn, .btn:link, .btn:visited {
   display: inline-block;
   padding: 10px;
@@ -76,7 +111,7 @@ body {
   background-color: #D7FF60;
 }
 .btn--green--auth {
-  animation: popUpCenter 1s ease 2s;
+  animation: popUpCenter 1s ease 3s;
   animation-fill-mode: backwards;
 }
 
@@ -107,13 +142,28 @@ tr:nth-child(even) {
 }
 
 .section-main--welcomeScreen {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: url(../assets/welcomeScreen_bg.png) no-repeat center center fixed;
+  background-size: contain;
+  background-color: #19083c;
+}
+@media (max-width: 37.5em) {
+  .section-main--welcomeScreen {
+    background: url(../assets/welcomeScreen_bg.png) no-repeat center center fixed;
+    background-size: 26.6em 47em;
+    background-color: #19083c;
+  }
+}
+
+.auth__content {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.auth__content {
+  top: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;
