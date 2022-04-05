@@ -1,5 +1,6 @@
 
 let socketUsers = {}; // wanna use Database instead later
+let gameRoom = {};
 
 
 

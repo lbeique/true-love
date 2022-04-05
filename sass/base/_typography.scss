@@ -1,0 +1,27 @@
+.heading-primary{
+    font-family: 'Arial Rounded MT Bold';
+    color: $tertiary-color;
+    margin-bottom: 2em;
+    text-align: center;
+
+
+    &--gameTitle{
+        display: block;
+        animation: popUpCenter 1s ease 1s;
+        animation-fill-mode: backwards;
+        // apply the styles according to its keyframe, in this case it's backwards so it
+        // applies the state of the 0% keyframe before the animation starts 
+        text-align: center;
+        font-size: 33px;
+    }
+
+    &--subTitle{
+        display: block;
+        animation: popUpCenter 1s ease 0s;
+        animation-fill-mode: backwards;
+        text-align: center;
+        font-size: 20px;
+    }
+}
+
+

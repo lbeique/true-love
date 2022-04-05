@@ -1,0 +1,33 @@
+.section-main--welcomeScreen{ //will have to change back to section-main
+
+
+    @include absCenter;
+
+
+    //&--gameTitle{
+        
+        // background-color: $tertiary-color;
+        // height: 15em;
+        // width: 12em;
+        // clip-path: polygon(30% 0, 70% 0, 100% 100%, 0 100%);
+        // margin-bottom: 10em;
+        // border-top-left-radius: 7em;
+        // border-top-right-radius: 7em;
+
+        // border-bottom-left-radius: 2em;
+        // border-bottom-right-radius: 2em;
+
+        // display: flex;
+        // flex-wrap: wrap;
+        // align-items: center;
+
+    //}    
+}
+
+.auth__content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+

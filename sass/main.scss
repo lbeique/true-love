@@ -1,0 +1,21 @@
+
+// IMPORT ALL SCSS FILE CODE TO HERE WHERE IT WILL ALL BE COMPILES TO MAIN.CSS
+
+@import "abstracts/mixins";
+@import "abstracts/variables";
+
+@import "base/base";
+@import "base/typography";
+
+@import "components/animations";
+@import "components/button";
+@import "components/table";
+
+@import "layout/footer";
+@import "layout/header";
+
+@import "pages/lobby";
+@import "pages/loginSignUp";
+@import "pages/trivia";
+@import "pages/welcomeScreen";
+

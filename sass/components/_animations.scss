@@ -1,0 +1,13 @@
+@keyframes popUpCenter{
+    0%{
+        transform: scale(0%);
+    }
+
+    80%{
+        transform: scale(120%);
+    }
+
+    100%{
+        transform: scale(100%);
+    }    
+}
