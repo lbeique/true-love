@@ -60,7 +60,7 @@ body {
     transform: translateY(-1em);
   }
   50% {
-    transform: translateY(2em);
+    transform: translateY(1em);
   }
   100% {
     transform: translateY(-1em);
@@ -68,11 +68,11 @@ body {
 }
 .spaceShip_gametitle {
   position: absolute;
-  width: 40%;
+  width: 35%;
   height: 40%;
   top: 5em;
-  left: 30%;
-  animation: fadingIn 2s ease 0.5s, upDownMotion 2s ease 2s infinite;
+  left: 33%;
+  animation: fadingIn 2s ease 0.5s, upDownMotion 1.7s ease 2s infinite;
   animation-fill-mode: backwards;
 }
 @media (max-width: 37.5em) {
@@ -82,7 +82,7 @@ body {
     height: 50%;
     top: 2em;
     left: 20%;
-    animation: fadingIn 2s ease 0.5s, upDownMotion 2s ease 2s infinite;
+    animation: fadingIn 2s ease 0.5s, upDownMotion 1.7s ease 2s infinite;
     animation-fill-mode: backwards;
   }
 }
