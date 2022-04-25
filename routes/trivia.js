@@ -1,71 +1,78 @@
 const express = require('express')
-const router = express.Router();
+const router = express.Router()
 const bodyParser = require("body-parser")
-const db = require("../databaseAccess");
-const database = require("../databaseConnection");
-const newTrivia = require("../trivia/trivia"); // when we 'play game' from lobby, we want a new trivia question, not the same one
-let trivia; // keep the trivia question for this round until player hits play game in lobby. Doesn't work with trivia = newTrivia  
+const database = require("../databaseAccess")
+const newTrivia = require("../trivia/trivia") // when we 'play game' from lobby, we want a new trivia question, not the same one
 
-router.use(bodyParser.urlencoded({ extended: false }));
+
+
+let trivia // keep the trivia question for this round until player hits play game in lobby. Doesn't work with trivia = newTrivia  
+
+// !!!!! This needs to change because it breaks if 2 users are logged in at same time.
+
+// Two possible options: 
+// - track trivia progress in session (quick & easy)
+// - do trivia logic in frontend with ajax calls (harder but better)
+
+
+
+router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
 
 const getSession = (session) => {
-    if (session.user_name) {
-        return session;
-    } else {
-        return null;
+    if (!session.user_info) {
+        return null
     }
+    return session.user_info
 }
 
-router.get("/", (req, res) => {
-    let user = getSession(req.session);
-    if (user) {
-        const newGame = +req.query.newGame;
-        if (newGame === 0) {
-            newTrivia.random((error, result) => {
-                if (error) {
-                    console.error(error);
-                    res.status(500).redirect("/");
-                }
-                trivia = result;
-                res.status(200).render("trivia", { trivia, user })
-            });
-        } else {
-            res.status(200).render("trivia", { trivia, user })
-        }
+router.get("/", async (req, res) => {
+    let user_info = getSession(req.session)
+    if (!user_info) {
+        res.status(400).redirect('/')
+        return
+    }
+    const newGame = +req.query.newGame
+    if (newGame === 0) {
+        trivia = await newTrivia.random()
+        console.log('trivia route', trivia.answer)
+        res.status(200).render("trivia", { trivia, user_info })
+        return
     } else {
-        res.status(300).redirect('/');
+        res.status(200).render("trivia", { trivia, user_info })
+        return
     }
 })
 
 router.post("/", async (req, res) => {
-    let user = getSession(req.session);
-    const UserAnswer = req.body;
-    console.log(UserAnswer.prompt);
-    trivia.guess(UserAnswer.prompt);
+    let user_info = getSession(req.session)
+    if (!user_info) {
+        res.status(400).redirect('/')
+        return
+    }
+    const UserAnswer = req.body
+    console.log('trivia post', UserAnswer.prompt)
+    trivia.guess(UserAnswer.prompt)
     if (trivia.completed) {
         const points = trivia.point_value
-        database.getConnection(function (err, dbConnection) {
-            if (err) {
-              res.status(500).render('error', { message: 'Error connecting to MySQL' });
-              console.log("Error connecting to mysql");
-              console.log(err);
-            } else {
-              db.updateUserPoints(user.user_id, points, (err, result) => {
-                if (err) {
-                  res.status(500).render('error', { message: 'Error reading from MySQL' });
-                  console.log("Error reading from mysql");
-                  console.log(err);
-                } else { //success
-                  console.log('user points updated');
-                }
-              })
-            }
-          })
+        await database.updateUserPoints(user_info.user_id, points)
     }
-    res.status(200).render("triviaResult", { trivia, user })
+    res.status(200).render("triviaResult", { trivia, user_info })
+    return
 })
 
+router.use((req, res) => {
+    res.status(404).send({ error: "This isn't a valid address." })
+    return
+})
 
+router.use((err, req, res, next) => {
+    if (res.headersSent) {
+        return (next(err))
+    }
+    console.log('500', err)
+    res.status(500).send({ error: "Something bad happened to the server. :shrug:" })
+    return
+})
 
-module.exports = router;
+module.exports = router

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +8,9 @@
     <link rel="stylesheet" href="styles/main.css">
     <title>Trivia Phase</title>
 </head>
+
 <body>
-    
+
     <section class="section-header">
         <h1 class="heading-primary"> TRIVIA GAME </h1>
 
@@ -16,26 +18,56 @@
 
 
     <main>
-        <section class="section-main">        
-            <!-- TIMER HERE? -->
+        <section class="section-main">
 
-            
 
-            <h2 class="heading-secondary"><%= trivia.question %></h2>
-            <h3 class="heading-tertiary"><%= user.user_name %>, you have <%= trivia.remainingGuesses %> chances left! </h3>
-            <%= console.log("trivia page") %> 
-            <div class="form__page">
-                <form method="POST" action="/trivia/">
-                    <% for(let i = 0; i < trivia.prompts.length; i++) {%>
-                        <button  name="prompt" class="button__prompt" value="<%= trivia.prompts[i] %>">  <%= trivia.prompts[i] %> </button>
-                    <% } %> 
-                </form>
-            </div>
-            <br>
-            <a href="/lobby/" class="link"> Go to Lobby</a> 
+            <!-- TIMER HERE - Very janky, we can do better -->
 
-                
+            <h1 class="heading-timer"></h1>
+
+            <script>
+                let countdown_time = Date.now() + 30000
+
+                let timer = setInterval(function () {      
+
+                    let time_remaining = countdown_time - Date.now();
+                    
+                    let seconds = Math.floor(time_remaining / 1000);
+                    
+                    document.querySelector(".heading-timer").innerHTML = "Timer: " + seconds + "s";
+
+                    if (time_remaining < 0) {
+                        clearInterval(timer);
+                        document.querySelector(".heading-timer").innerHTML = "Time Is Up!";
+                    }
+
+                }, 1000);
+            </script>
+
+
+
+            <h2 class="heading-secondary">
+                <%= trivia.question %>
+            </h2>
+            <h3 class="heading-tertiary">
+                <%= user_info.user_name %>, you have <%= trivia.remainingGuesses %> chances left!
+            </h3>
+            <%= console.log("trivia page") %>
+                <div class="form__page">
+                    <form method="POST" action="/trivia/">
+                        <% for(let i=0; i < trivia.prompts.length; i++) {%>
+                            <button name="prompt" class="button__prompt" value="<%= trivia.prompts[i] %>">
+                                <%= trivia.prompts[i] %>
+                            </button>
+                            <% } %>
+                    </form>
+                </div>
+                <br>
+                <a href="/lobby/" class="link"> Go to Lobby</a>
+
+
         </section>
     </main>
 </body>
+
 </html>

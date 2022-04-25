@@ -1,98 +1,85 @@
-const UserValidation = require('./validateEmailPassword');
+const UserValidation = require('./validateEmailPassword')
 
-test("returns false because email is missing @ and .", () => {
-    function testInvalidEmail(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validateEmail()).toBe(false);
-    }
-    testInvalidEmail("happybodycom", "isPassword");
-});
+describe('USER VALIDATION', () => {
 
-test("returns false because email is missing @", () => {
-    function testInvalidEmail(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validateEmail()).toBe(false);
+    const testInvalidEmail = (email) => {
+        const user = new UserValidation(email, null)
+        expect(user.validateEmail()).toBe(false)
     }
-    testInvalidEmail("happybody.com", "isPassword");
-});
 
-test("returns false because email is missing .", () => {
-    function testInvalidEmail(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validateEmail()).toBe(false);
-    }
-    testInvalidEmail("happy@bodycom", "isPassword");
-});
+    describe('EMAIL SAD PATH', () => {
+        test("returns false because email is missing @ and .", () => {
+            testInvalidEmail("happybodycom")
+        })
 
-test("returns false because email has @ and . in the wrong order", () => {
-    function testInvalidEmail(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validateEmail()).toBe(false);
-    }
-    testInvalidEmail("happy.body@com", "isPassword");
-});
+        test("returns false because email is missing @", () => {
+            testInvalidEmail("happybody.com")
+        })
 
-test("returns true because email is valid", () => {
-    function testValidEmail(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validateEmail()).toBe(true);
-    }
-    testValidEmail("happy@body.com", "isPassword");
-});
+        test("returns false because email is missing .", () => {
+            testInvalidEmail("happy@bodycom")
+        })
 
-test("returns false because password only contains letters", () => {
-    function testInvalidPassword(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validatePassword()).toBe(false);
-    }
-    testInvalidPassword("happybodycom", "isPassword");
-});
+        test("returns false because email has @ and . in the wrong order", () => {
+            testInvalidEmail("happy.body@com")
+        })
+    })
 
-test("returns false because password only contains numbers", () => {
-    function testInvalidPassword(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validatePassword()).toBe(false);
-    }
-    testInvalidPassword("happybodycom", "1231455151");
-});
+    describe('EMAIL HAPPY PATH', () => {
 
-test("returns false because password only contains numbers and letters", () => {
-    function testInvalidPassword(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validatePassword()).toBe(false);
-    }
-    testInvalidPassword("happybodycom", "ispaAs1swor2d");
-});
+        function testValidEmail(email) {
+            const user = new UserValidation(email, null)
+            expect(user.validateEmail()).toBe(true)
+        }
 
-test("returns false because password only contains symbols", () => {
-    function testInvalidPassword(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validatePassword()).toBe(false);
-    }
-    testInvalidPassword("happybodycom", "@*(%&@^%)@%!!");
-});
+        test("returns true because email is valid", () => {
+            testValidEmail("happy@body.com")
+        })
+    })
 
-test("returns false because password length is shorter than 8 characters", () => {
-    function testInvalidPassword(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validatePassword()).toBe(false);
-    }
-    testInvalidPassword("happybodycom", "A2a!");
-});
+    describe('PASSWORD SAD PATH', () => {
 
-test("returns false because password contains no capital letters", () => {
-    function testInvalidPassword(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validatePassword()).toBe(false);
-    }
-    testInvalidPassword("happybodycom", "i13@8)dord");
-});
+        function testInvalidPassword(password) {
+            const user = new UserValidation(null, password)
+            expect(user.validatePassword()).toBe(false)
+        }
 
-test("returns true because password is valid", () => {
-    function testValidPassword(email, password) {
-        const user = new UserValidation(email, password);
-        expect(user.validatePassword()).toBe(true);
-    }
-    testValidPassword("happybodycom", "W(*hfd9awawa@SD");
-    testValidPassword("happybodycom", "A!!SdE27");
-});
+        test("returns false because password only contains letters", () => {
+            testInvalidPassword("isPassword")
+        })
+
+        test("returns false because password only contains numbers", () => {
+            testInvalidPassword("1231455151")
+        })
+
+        test("returns false because password only contains numbers and letters", () => {
+            testInvalidPassword("ispaAs1swor2d")
+        })
+
+        test("returns false because password only contains symbols", () => {
+            testInvalidPassword("@(%&@^%)@%!!")
+        })
+
+        test("returns false because password length is shorter than 8 characters", () => {
+            testInvalidPassword("A2a!")
+        })
+
+        test("returns false because password contains no capital letters", () => {
+            testInvalidPassword("i13@8)dord")
+        })
+    })
+
+    describe('PASSWORD HAPPY PATH', () => {
+
+        function testValidPassword(password) {
+            const user = new UserValidation(null, password)
+            expect(user.validatePassword()).toBe(true)
+        }
+
+        test("returns true because password is valid", () => {
+
+            testValidPassword("W(hfd9awawa@SD")
+            testValidPassword("A!!SdE27")
+        })
+    })
+})
