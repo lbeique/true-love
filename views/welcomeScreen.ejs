@@ -30,16 +30,16 @@
         </h1> -->
 
         <div class="auth__content">
-            <% if (!user) { %>
-                <a href="login" class="btn btn--green btn--green--auth"> Log In </a>
+            <% if (!user_info) { %>
+                <a href="auth/login" class="btn btn--green btn--green--auth"> Log In </a>
                 <br>
                 <br>
-                <a href="signup" class="btn btn--green btn--green--auth"> Sign Up </a>
-                <% } else if (user) { %>
+                <a href="auth/signup" class="btn btn--green btn--green--auth"> Sign Up </a>
+                <% } else if (user_info) { %>
                     <a href="lobby" class="btn btn--green btn--green--auth"> Go to Game Lobby </a>
                     <br>
                     <br>
-                    <a href="logout" class="btn btn--green btn--green--auth"> Logout </a>
+                    <a href="auth/logout" class="btn btn--green btn--green--auth"> Logout </a>
                 <% } %>
         </div>
     </section>

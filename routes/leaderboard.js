@@ -1,44 +1,43 @@
 const express = require('express')
-const router = express.Router();
+const router = express.Router()
 const bodyParser = require("body-parser")
-const db = require("../databaseAccess")
-const database = require("../databaseConnection");
+const database = require("../databaseAccess")
 
-router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
 
 const getSession = (session) => {
-  if (session.user_name) {
-    return session;
-  } else {
-    return null;
+  if (!session.user_info) {
+    return null
   }
+  return session.user_info
 }
 
 router.get("/", async (req, res) => {
-  let user = getSession(req.session)
-  database.getConnection(function (err, dbConnection) {
-    if (err) {
-      res.status(500).render('error', { message: 'Error connecting to MySQL' });
-      console.log("Error connecting to mysql");
-      console.log(err);
-    } else {
-      db.getAllUsers((err, result) => {
-        if (err) {
-          res.status(500).render('error', { message: 'Error reading from MySQL' });
-          console.log("Error reading from mysql");
-          console.log(err);
-        } else { //success
-          console.log(result);
-          if (result) {
-            let allUsers = result;
-            res.render('leaderboard', { user, allUsers })
-          }
-        }
-      })
-      dbConnection.release();
-    }
-  })
+  const user_info = getSession(req.session)
+  const all_users = await database.getAllUsers()
+  console.log(all_users)
+  if (!all_users) {
+    console.log('Error loading users for leaderboard')
+    res.status(404).redirect('/lobby')
+    return
+  }
+  res.render('leaderboard', { user_info, all_users })
+  return
 })
 
-module.exports = router;
+router.use((req, res) => {
+  res.status(404).send({ error: "This isn't a valid address." })
+  return
+})
+
+router.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return (next(err))
+  }
+  console.log('500', err)
+  res.status(500).send({ error: "Something bad happened to the server. :shrug:" })
+  return
+})
+
+module.exports = router

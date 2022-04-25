@@ -1,4 +1,4 @@
-const fs = require("fs")
+const fs = require("fs").promises
 
 class Trivia {
 
@@ -19,17 +19,14 @@ class Trivia {
         this.#point_value = 0
     }
 
-    static random(callback) {
-        fs.readFile("./trivia/trivia.json", "utf-8", (error, result) => {
-            if (error) {
-                callback(error, null)
-            } else {
-                let parsedTrivia = JSON.parse(result)
-                let question = parsedTrivia.questions[Math.floor(Math.random() * parsedTrivia.questions.length)]
-                callback(null, new Trivia(question))
-            }
-        })
+    static async random() {
+        const result = await fs.readFile("./trivia/trivia.json", "utf-8")
+        let parsedTrivia = JSON.parse(result)
+        let question = parsedTrivia.questions[Math.floor(Math.random() * parsedTrivia.questions.length)]
+        return new Trivia(question)
     }
+
+
 
     guess(prompt) {
         if (prompt === this.#answer) {
