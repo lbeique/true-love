@@ -13,6 +13,7 @@ const getSession = (session) => {
 }
 
 router.get("/", (req, res) => {
+  console.log("SESSION", req.session)
   let user_info = getSession(req.session)
   res.render('welcomeScreen', { user_info })
   return

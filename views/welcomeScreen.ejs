@@ -11,15 +11,12 @@
 <body>
 
     <!-- <img class="welcomeScreen__bgImg" src="assets/welcomeScreen_bg.png"> -->
-    <section class="section-main--welcomeScreen">
+    <section class="section-main--bg1">
 
     <!-- <h3 class="heading-tertiary"> We recommend to play with sounds on &9834;</h3> -->
 
    
     <img class="spaceShip_gametitle" src="assets/spaceship_gameTitle.png">
-
-
-
 
        
        
@@ -31,15 +28,15 @@
 
         <div class="auth__content">
             <% if (!user_info) { %>
-                <a href="auth/login" class="btn btn--green btn--green--auth"> Log In </a>
+                <a href="auth/login" class="btn btn--green btn--green__auth"> Log In </a>
                 <br>
                 <br>
-                <a href="auth/signup" class="btn btn--green btn--green--auth"> Sign Up </a>
+                <a href="auth/signup" class="btn btn--green btn--green__auth"> Sign Up </a>
                 <% } else if (user_info) { %>
-                    <a href="lobby" class="btn btn--green btn--green--auth"> Go to Game Lobby </a>
+                    <a href="lobby" class="btn btn--green btn--green__auth"> Go to Game Lobby </a>
                     <br>
                     <br>
-                    <a href="auth/logout" class="btn btn--green btn--green--auth"> Logout </a>
+                    <a href="auth/logout" class="btn btn--green btn--green__auth"> Logout </a>
                 <% } %>
         </div>
     </section>

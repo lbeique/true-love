@@ -11,12 +11,14 @@
 @import "components/assets";
 @import "components/button";
 @import "components/table";
+@import "components/timer";
+@import "components/trivia";
 
+@import "layout/background";
 @import "layout/footer";
 @import "layout/header";
 
 @import "pages/lobby";
 @import "pages/loginSignUp";
-@import "pages/trivia";
 @import "pages/welcomeScreen";
 
