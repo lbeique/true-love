@@ -1,8 +1,6 @@
 
-let socketUsers = {}; // wanna use Database instead later
+let socketUsers = {}; // wanna use Database instead later - maybe??
 let gameRoom = {};
-
-
 
 function handleJoin(client) {
 
@@ -41,7 +39,53 @@ function handleDisconnect(client) {
 
 
 
+// TRIVIA HANDLERS
+
+function handleTrivia(client, trivias) {
+    const connectedClient = socketUsers[client.id]
+
+    connectedClient.triviaQuestions = trivias
+    connectedClient.triviaProgressIndex = 0
+
+    return connectedClient.triviaQuestions[connectedClient.triviaProgressIndex]
+}
+
+function nextTrivia(client){
+    const connectedClient = socketUsers[client.id]
+    const questions = connectedClient.triviaQuestions
+    const index = connectedClient.triviaProgressIndex
+
+    const trivia = questions[index]
+    console.log("TRIVIA", trivia)
+
+    return trivia
+}
+
+function checkTriviaAnswer(client , correct_answer, userAnswer){
+    const connectedClient = socketUsers[client.id]
+    
+    if(userAnswer !== correct_answer){
+        return false
+    } else{
+        connectedClient.triviaProgressIndex++
+        return true
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 module.exports = {
     handleJoin,
-    handleDisconnect
+    handleDisconnect,
+    handleTrivia,
+    checkTriviaAnswer,
+    nextTrivia
 }

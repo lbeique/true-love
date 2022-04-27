@@ -39,12 +39,12 @@ const getAllUsers = async () => {
 
 const addUser = async (postBody) => {
     console.log('db adduser post body', postBody)
-    const newUser = new UserValidation(postBody.email, postBody.password)
-    console.log(newUser.validateEmail())
-    console.log(newUser.validatePassword())
-    if (!newUser.validateEmail() || newUser.validatePassword()) {
-        return
-    }
+    // const newUser = new UserValidation(postBody.email, postBody.password)
+    // console.log(newUser.validateEmail())
+    // console.log(newUser.validatePassword())
+    // if (!newUser.validateEmail() || newUser.validatePassword()) {
+    //     return
+    // }
     const password = postBody.password
     const encryptedPassword = await bcrypt.hash(password, 10)
     const params = {
