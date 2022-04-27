@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
         res.status(404).redirect('/')
         return
     }
-    res.status(200).render("lobby", { user_info })
+    res.status(200).render("mainmenu", { user_info })
     return
 })
 
