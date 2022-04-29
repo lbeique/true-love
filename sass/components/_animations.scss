@@ -35,3 +35,64 @@
         transform: translateY(-1em);
     }
 }
+
+@keyframes alienChatter{
+    from{
+        opacity: 0%;
+        transform: scale(130%) translateX(-10%);
+    }
+    to{
+        opacity: 100%;
+        transform: scale(130%) translateX(0%);
+    }
+}
+
+@keyframes revealTopLeftCorner{
+    from {
+        clip-path: polygon(0 0, 0 0, 0 0, 0 0)
+      }
+      to {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      }
+}
+
+@keyframes entryBottom--alien1{
+
+    0%{
+        transform: scale(130%) translateY(100%);
+    }
+
+    100%{
+        transform: scale(130%) translateY(0%);
+    }
+}
+
+@keyframes entryTop--alien2{
+
+    0%{
+        transform: scale(130%) translateY(-140%);
+    }
+
+    100%{
+        transform: scale(130%) translateY(0%);
+    }
+}
+
+@keyframes pulsate  {
+    0% { opacity: 0.0; }
+    50% { opacity: 1.0; }
+    100% { opacity: 0.0; }
+}
+
+@keyframes spinEntry {
+    from {
+        opacity: 0;
+        transform:rotateY(0deg);
+    }
+
+    to {
+        opacity: 100%;
+        transform:rotateY(360deg);
+    }
+}
+

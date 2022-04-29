@@ -8,23 +8,39 @@
     <title> Main Menu </title>
 </head>
 <body>
-    
-    <section class="section-header">
-        <h1 class="heading-primary"> TRIVIA GAME </h1>
-    </section>
 
 
-    <main>
-        <section class="section-main">
-            <a href="/lobby" class="link"> Play Game </a>
+        <section class="section-main"> 
+            
+            <img src="assets/menu/menu_spaceship.png" alt="menu_spaceship" class="menu menu__spaceship">
+            <img src="assets/menu/menu_spaceBeam.png" alt="menu_spaceBeam" class="menu menu__spaceBeam">
+            <img src="assets/menu/menu_title.png" alt="menu_title" class="menu menu__title">
+            <img src="assets/menu/menu_alien1.png" alt="menu_alien1" class="menu menu__alien1">
+            <img src="assets/menu/menu_alienChatter1.png" alt="menu_alienChatter1" class="menu menu__alienChatter1">
+            <img src="assets/menu/menu_alienChatter2.png" alt="menu_alienChatter2" class="menu menu__alienChatter2">
+            <img src="assets/menu/menu_alienChatter3.png" alt="menu_alienChatter3" class="menu menu__alienChatter3">
+            <img src="assets/menu/menu_alien2.png" alt="menu_alien2" class="menu menu__alien2">
+            <img src="assets/menu/menu_star1.png" alt="menu_star1" class="menu menu__star1">
+            <img src="assets/menu/menu_star2.png" alt="menu_star2" class="menu menu__star2">
+            <img src="assets/menu/menu_star3.png" alt="menu_star3" class="menu menu__star3">
+            <img src="assets/menu/menu_star2.png" alt="menu_star4" class="menu menu__star4">
+
+            <div class="menuIcons">
+                <img class="icon__btn" src="assets/menu/profile_icon.png" alt="profileIcon">
+            
+                <img class="icon__btn" src="assets/menu/leaderboard_icon.png" alt="leaderboardIcon">
+            </div>
+            
+            <div class="menuContainer">
+
+                <a href="/lobby" class="btn btn__menu btn--darkPurple"> PLAY GAME </a>
+                <a href="/leaderboard" class="btn btn__menu btn--darkPurple"> LEADERBOARD </a> 
+                 <!-- leadeboard would have to be load game button -->
+                <a href="/auth/logout" class="btn btn__menu btn--darkPurple"> LOGOUT </a>
+
+            </div>
         </section>
-        <section class="section-main">
-            <a href="/leaderboard" class="link"> Leaderboard </a>
-        </section>
-        <section class="section-main">
-            <a href="/auth/logout" class="link"> Logout </a>
-        </section>
-    </main>
-    
 </body>
+    <script src="../../client/mainMenu.js">
+    </script>
 </html>

@@ -32,8 +32,7 @@ io.on('connection', (client) => {  // client = socket
 
 
   // TIMER
-  client.on('timer', () => {
-    let counter = 30
+  client.on('timer', (counter) => {
 
     let timer = setInterval(function () { 
       io.sockets.emit('counter', counter);     
@@ -49,7 +48,7 @@ io.on('connection', (client) => {  // client = socket
 
   // TRIVIA
   client.on('trivia_question', (triviasArr) => {
-    io.emit('trivia_start', handlers.handleTrivia(client, triviasArr))
+    io.to(client.id).emit('trivia_start', handlers.handleTrivia(client, triviasArr))
   })
 
   client.on('trivia_check_answer', (data) => {

@@ -9,6 +9,14 @@
 
     @if $breakpoint == iPhone_SE {
         @media (max-width: 37.5em){ @content }; // apply to any width that is smaller than 600px
-    }   
-    
+    }  
+
+}
+
+@mixin animationDelay($class){
+    @for $i from 1 through 100 {
+        class {
+            animation-delay: #{$i * 0.5}s;
+        }
+    }
 }
