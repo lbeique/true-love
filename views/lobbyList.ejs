@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="styles/main.css">
+    <title> Lobby </title>
+    <style>
+        #lobbyList {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #lobbyCode {
+            width: 20em;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="section-header">
+        <h1 class="heading-primary"> Lobbby List </h1>
+    </section>
+
+
+    <main>
+        <section class="section-players">
+
+        </section>
+
+
+
+        <div id="lobbyList" class="h-100">
+            <div id="lobbyCode" class="d-flex flex-column align-items-center justify-content-center h-100">
+
+                <h1>Trivia Game</h1>
+
+                <form method="POST" action="/lobby/createLobby/">
+                    <button type="submit" class="btn btn-success" id="newGameButton">Create New Game</button>
+                </form>
+
+                <div>OR</div>
+
+                <form method="POST" action="/lobby/joinLobby/"></form>
+                <input type="text" placeholder="Enter Game Code" id="lobbyCodeInput" />
+                <button type="submit" class="btn btn-success" id="joinGameButton">Join Game</button>
+                </form>
+
+            </div>
+
+
+
+            <div id="lobbyCode" class="d-flex flex-column align-items-center justify-content-center h-100">
+
+                <h1>Lobbies</h1>
+
+
+                <form method="GET" action="/lobby/">
+                    <button type="submit" class="btn btn-success" id="lobbyJoinButton">
+                    </button>
+                </form>
+
+
+
+            </div>
+
+
+
+        </div>
+
+    </main>
+    <script src="../../client/lobbyClient.js"></script>
+</body>
+
+</html>

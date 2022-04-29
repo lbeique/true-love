@@ -1,8 +1,11 @@
-
 let socketUsers = {}; // wanna use Database instead later - maybe??
-let gameRoom = {};
+let lobbyRooms = {};
 
-function handleJoin(client) {
+
+
+// Server Handlers
+
+function handleServerJoin(client, user_name) {
 
     const randomAvatars = [`🧋`, `☕️`, `💩`, `💃`, `🦊`, `🦄`];
 
@@ -10,11 +13,11 @@ function handleJoin(client) {
 
     const player = {
         socketId: client.id,
-        username: 'chicken',
+        username: user_name,
         avatar: randomAvatars[avatarIndex]
     };
 
-    socketUsers[client.id] = player; // will need to insert into database
+    socketUsers[client.id] = player;
 
     // socket.join("gameRoom");
     // console.log(`${socket.id} is now in the room`);
@@ -22,19 +25,19 @@ function handleJoin(client) {
     // const clients = io.in('gameRoom').allSockets(); // RETURNS PROMISE
     // console.log('CLIENTS', clients);
 
-    console.log(`${player.socketId} has joined the game`);
-    return socketUsers
+    console.log(`${player.socketId} has joined the server`);
+    return
 
 }
 
 
 
-function handleDisconnect(client) {
-    console.log(client.id, ' has been disconnected :(((');
+function handleServerDisconnect(client) {
+    console.log(client.id, 'has been disconnected :(((');
 
     delete socketUsers[client.id];
 
-    return socketUsers;
+    return
 }
 
 
@@ -45,7 +48,7 @@ function handleTrivia(client, trivias) {
     const connectedClient = socketUsers[client.id]
 
     let answers;
-    for(let trivia of trivias){
+    for (let trivia of trivias) {
 
         answers = [...trivia.incorrect_answers]
         answers.push(trivia.correct_answer)
@@ -61,7 +64,7 @@ function handleTrivia(client, trivias) {
     return connectedClient.triviaQuestions[connectedClient.triviaProgressIndex]
 }
 
-function nextTrivia(client){
+function nextTrivia(client) {
     const connectedClient = socketUsers[client.id]
     const questions = connectedClient.triviaQuestions
     const index = connectedClient.triviaProgressIndex
@@ -71,19 +74,19 @@ function nextTrivia(client){
     return trivia
 }
 
-function checkTriviaAnswer(client , correct_answer, userAnswer){
+function checkTriviaAnswer(client, correct_answer, userAnswer) {
     const connectedClient = socketUsers[client.id]
     const currentTrivia = connectedClient.triviaQuestions[connectedClient.triviaProgressIndex]
-    
-    
-    if(userAnswer !== correct_answer){
+
+
+    if (userAnswer !== correct_answer) {
         currentTrivia.animated = 1
         const data = {
             points: connectedClient.triviaPts,
             result: false
         }
         return data
-    } else{
+    } else {
         connectedClient.triviaPts++
         connectedClient.triviaProgressIndex++
         const data = {
@@ -99,14 +102,9 @@ function checkTriviaAnswer(client , correct_answer, userAnswer){
 
 
 
-
-
-
-
-
 module.exports = {
-    handleJoin,
-    handleDisconnect,
+    handleServerJoin,
+    handleServerDisconnect,
     handleTrivia,
     checkTriviaAnswer,
     nextTrivia

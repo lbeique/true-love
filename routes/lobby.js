@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const bodyParser = require("body-parser")
+const { v4: uuidV4 } = require('uuid')
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
@@ -18,7 +19,40 @@ router.get("/", (req, res) => {
         res.status(404).redirect('/')
         return
     }
-    res.status(200).render("lobby", { user_info })
+    res.status(200).render("lobbyList", { user_info })
+    return
+})
+
+router.post("/createLobby", (req, res) => {
+    let user_info = getSession(req.session)
+    if (!user_info) {
+        res.status(404).redirect('/')
+        return
+    }
+    let roomId = uuidV4()
+    res.status(200).redirect(`/lobby/${roomId}`)
+    return
+})
+
+router.post("/joinLobby", (req, res) => {
+    let user_info = getSession(req.session)
+    let roomId = res.body.roomId
+    if (!user_info) {
+        res.status(404).redirect('/')
+        return
+    }
+    res.status(200).redirect(`/${roomId}`)
+    return
+})
+
+router.get("/:room", (req, res) => {
+    let user_info = getSession(req.session)
+    let roomId = req.params.room
+    if (!user_info) {
+        res.status(404).redirect('/')
+        return
+    }
+    res.status(200).render("lobbyRoom", { user_info, roomId })
     return
 })
 
