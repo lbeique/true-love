@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "npx jest",
-    "dev": "nodemon ./server/server.js & npm run scss",
-    "start": "node ./server/server.js",
+    "dev": "nodemon server.js & npm run scss",
+    "start": "node server.js",
     "scss": "sass --watch sass/main.scss public/styles/main.css"
   },
   "repository": {
