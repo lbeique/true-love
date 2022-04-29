@@ -69,6 +69,61 @@ body {
     transform: translateY(-1em);
   }
 }
+@keyframes alienChatter {
+  from {
+    opacity: 0%;
+    transform: scale(130%) translateX(-10%);
+  }
+  to {
+    opacity: 100%;
+    transform: scale(130%) translateX(0%);
+  }
+}
+@keyframes revealTopLeftCorner {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+@keyframes entryBottom--alien1 {
+  0% {
+    transform: scale(130%) translateY(100%);
+  }
+  100% {
+    transform: scale(130%) translateY(0%);
+  }
+}
+@keyframes entryTop--alien2 {
+  0% {
+    transform: scale(130%) translateY(-140%);
+  }
+  100% {
+    transform: scale(130%) translateY(0%);
+  }
+}
+@keyframes pulsate {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes spinEntry {
+  from {
+    opacity: 0;
+    transform: rotateY(0deg);
+  }
+  to {
+    opacity: 100%;
+    transform: rotateY(360deg);
+  }
+}
 .spaceShip_gametitle {
   position: absolute;
   width: 35%;
@@ -113,14 +168,27 @@ body {
   color: #19083c;
   background-color: #D7FF60;
 }
-.btn--green__auth {
-  animation: popUpCenter 1s ease 3s;
-  animation-fill-mode: backwards;
-}
 .btn--darkPurple {
   background-color: #19083c;
   color: #D7FF60;
   border: 5px solid #7366BD;
+  z-index: 50;
+}
+.btn--darkPurple:hover {
+  text-shadow: 0 0 20px #D7FF60;
+}
+.btn__menu {
+  width: 15em;
+  height: 2.5em;
+}
+.btn__menu--animated {
+  animation: popUpCenter 1s ease 10s backwards;
+}
+.btn__auth {
+  width: 15em;
+  height: 2.5em;
+  font-size: 20px;
+  animation: popUpCenter 1s ease 3s backwards;
 }
 
 .trivia__btn {
@@ -128,6 +196,26 @@ body {
   height: 5em;
   font-family: "Arial Rounded MT Bold";
   font-size: 25px;
+}
+.trivia__btn--animated {
+  animation: popUpCenter 0.8s ease backwards;
+}
+
+.icon__btn {
+  transition: all 0.2s;
+  border-radius: 45px;
+  box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.2);
+}
+.icon__btn--animated {
+  animation: popUpCenter 1s ease 10s backwards;
+}
+.icon__btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5em 0 rgba(0, 0, 0, 0.2);
+}
+.icon__btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.2);
 }
 
 body {
@@ -162,6 +250,7 @@ tr:nth-child(even) {
   font-size: 80px;
   bottom: 10%;
   right: 15%;
+  z-index: 100;
 }
 
 .trivia__container {
@@ -173,7 +262,7 @@ tr:nth-child(even) {
   flex-direction: column;
   align-items: center;
 }
-.trivia__questionContainer {
+.trivia__question {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -187,6 +276,9 @@ tr:nth-child(even) {
   color: #D7FF60;
   margin-bottom: 2em;
 }
+.trivia__question--animated {
+  animation: popUpCenter 1s ease backwards;
+}
 .trivia__answerContainer {
   display: flex;
   flex-direction: column;
@@ -196,15 +288,50 @@ tr:nth-child(even) {
   height: 10em;
 }
 
-.wrongAnswer--hide {
-  display: none;
+.inGameExit__icon {
+  position: absolute;
+  top: 2em;
+  right: 17%;
 }
 
-.section-main--bg1 {
+.cross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 50%;
+  /* this can be anything */
+  width: 50%;
+  /* ...but maintain 1:1 aspect ratio */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 100;
+}
+.cross::before, .cross::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 40px;
+  /* cross thickness */
+  border-radius: 20px;
+  background-color: red;
+}
+.cross:before {
+  transform: rotate(45deg);
+}
+.cross:after {
+  transform: rotate(-45deg);
+}
+
+.section-main {
   position: relative;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  background-color: #19083c;
+}
+.section-main--bg1 {
   background: url(../assets/welcomeScreen_bg.png) no-repeat center center fixed;
   background-size: contain;
   background-color: #19083c;
@@ -216,6 +343,158 @@ tr:nth-child(even) {
     background-color: #19083c;
   }
 }
+.section-main--purpleOverlay {
+  background-color: rgba(98, 80, 172, 0.5);
+  background-size: contain;
+  z-index: 100;
+}
+
+.menuContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+  left: 20%;
+  bottom: 15%;
+  font-size: 25px;
+}
+
+.menuIcons {
+  display: flex;
+  column-gap: 1em;
+  position: absolute;
+  top: 2em;
+  right: 18%;
+  z-index: 40;
+}
+
+.menu {
+  position: absolute;
+  transition: all 2s;
+}
+.menu__spaceship {
+  top: 2em;
+  left: 7em;
+  transform: scale(110%);
+  z-index: 40;
+}
+.menu__spaceship--animated {
+  animation: fadingIn 1s ease 1s backwards;
+}
+.menu__spaceBeam {
+  left: 12em;
+  top: 4em;
+  transform: scale(120%);
+}
+.menu__spaceBeam--animated {
+  animation: revealTopLeftCorner 3s ease 2s backwards;
+}
+.menu__title {
+  top: 3em;
+  left: 5.5em;
+  transform-origin: top left;
+}
+.menu__title--animated {
+  animation: popUpCenter 1.5s ease 5s backwards;
+}
+.menu__alien1 {
+  bottom: 0;
+  right: 20%;
+  transform: scale(130%);
+  z-index: 2;
+  width: 20em;
+  height: 20em;
+}
+.menu__alien1--animated {
+  animation: entryBottom--alien1 1s ease 7s backwards;
+}
+.menu__alien2 {
+  bottom: 40%;
+  right: 12.5em;
+  transform: scale(130%);
+}
+.menu__alien2--animated {
+  animation: entryTop--alien2 2s ease 8s backwards;
+}
+.menu__alienChatter1 {
+  bottom: 35%;
+  right: 17%;
+  transform: scale(130%);
+  z-index: 2;
+}
+.menu__alienChatter1--animated {
+  animation: alienChatter 2s ease 8s infinite backwards;
+}
+.menu__alienChatter1--skipAnimated {
+  animation: alienChatter 2s ease infinite backwards;
+}
+.menu__alienChatter2 {
+  bottom: 10%;
+  right: 15%;
+  transform: scale(130%);
+  z-index: 2;
+}
+.menu__alienChatter2--animated {
+  animation: alienChatter 2s ease 8s infinite backwards;
+}
+.menu__alienChatter2--skipAnimated {
+  animation: alienChatter 2s ease infinite backwards;
+}
+.menu__alienChatter3 {
+  bottom: 8%;
+  right: 15%;
+  transform: scale(130%);
+  z-index: 2;
+}
+.menu__alienChatter3--animated {
+  animation: alienChatter 2s ease 8s infinite backwards;
+}
+.menu__alienChatter3--skipAnimated {
+  animation: alienChatter 2s ease infinite backwards;
+}
+.menu__star1 {
+  top: 15em;
+  left: 8em;
+  transform: scale(120%);
+}
+.menu__star1--animated {
+  animation: pulsate 2s linear 8.5s infinite backwards;
+}
+.menu__star1--skipAnimated {
+  animation: pulsate 2s linear 1s infinite backwards;
+}
+.menu__star2 {
+  top: 2em;
+  left: 20em;
+}
+.menu__star2--animated {
+  animation: pulsate 2s linear 7.5s infinite backwards;
+}
+.menu__star2--skipAnimated {
+  animation: pulsate 2s linear infinite backwards;
+}
+.menu__star3 {
+  top: 3em;
+  left: 50%;
+  transform: scale(140%);
+}
+.menu__star3--animated {
+  animation: pulsate 2s linear 9.5s infinite backwards;
+}
+.menu__star3--skipAnimated {
+  animation: pulsate 2s linear 2s infinite backwards;
+}
+.menu__star4 {
+  top: 40%;
+  left: 40%;
+  transform: scale(140%);
+}
+.menu__star4--animated {
+  animation: pulsate 2s linear 9s infinite backwards;
+}
+.menu__star4--skipAnimated {
+  animation: pulsate 2s linear 1.5s infinite backwards;
+}
 
 .auth__content {
   position: absolute;
@@ -225,6 +504,7 @@ tr:nth-child(even) {
   top: 70%;
   display: flex;
   flex-direction: column;
+  row-gap: 2em;
   justify-content: center;
 }
 

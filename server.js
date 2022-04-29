@@ -32,8 +32,7 @@ io.on('connection', (client) => {  // client = socket
 
 
   // TIMER
-  client.on('timer', () => {
-    let counter = 30
+  client.on('timer', (counter) => {
 
     let timer = setInterval(function () { 
       io.sockets.emit('counter', counter);     

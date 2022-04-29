@@ -10,33 +10,19 @@
 
 <body>
 
-    <!-- <img class="welcomeScreen__bgImg" src="assets/welcomeScreen_bg.png"> -->
-    <section class="section-main--bg1">
-
-    <!-- <h3 class="heading-tertiary"> We recommend to play with sounds on &9834;</h3> -->
+    <section class="section-main section-main--bg1">
 
    
     <img class="spaceShip_gametitle" src="assets/spaceship_gameTitle.png">
 
-       
-       
-
-        <!-- <h1 class="heading-primary">
-            <span class="heading-primary--subTitle">Welcome to </span>
-            <span class="heading-primary--gameTitle"> Love is War </span>
-        </h1> -->
 
         <div class="auth__content">
             <% if (!user_info) { %>
-                <a href="auth/login" class="btn btn--green btn--green__auth"> Log In </a>
-                <br>
-                <br>
-                <a href="auth/signup" class="btn btn--green btn--green__auth"> Sign Up </a>
+                <a href="auth/login" class="btn btn__auth btn--green"> LOG IN </a>
+                <a href="auth/signup" class="btn btn__auth btn--green"> SIGN UP </a>
                 <% } else if (user_info) { %>
-                    <a href="mainmenu" class="btn btn--green btn--green__auth"> Go to Main Menu </a>
-                    <br>
-                    <br>
-                    <a href="auth/logout" class="btn btn--green btn--green__auth"> Logout </a>
+                    <a href="mainmenu" class="btn btn__auth btn--green"> GO TO MAIN MENU </a>
+                    <a href="auth/logout" class="btn btn__auth btn--green"> LOGOUT </a>
                 <% } %>
         </div>
     </section>

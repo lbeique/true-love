@@ -1,0 +1,188 @@
+.menuContainer{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+    left: 20%;
+    bottom: 15%;
+    font-size: 25px;
+}
+
+.menuIcons{
+    display: flex;
+    column-gap: 1em;
+    position: absolute;
+    top: 2em;
+    right: 18%;
+    z-index: 40;
+}
+
+.menu{
+    position: absolute;
+    transition: all 2s;
+
+    &__spaceship{
+        top: 2em;
+        left: 7em;
+        transform: scale(110%);
+        z-index: 40;
+
+        &--animated{
+            animation: fadingIn 1s ease 1s backwards;
+        }
+    }
+
+    &__spaceBeam{
+        left: 12em;
+        top: 4em;
+        transform: scale(120%);
+
+        &--animated{
+            animation: revealTopLeftCorner 3s ease 2s backwards;
+        }
+    }
+
+    &__title{
+        top: 3em;
+        left: 5.5em;
+        transform-origin: top left;
+
+        &--animated{
+            animation: popUpCenter 1.5s ease 5s backwards;
+        }
+    }
+
+    &__alien1{
+        bottom: 0;
+        right: 20%;
+        transform: scale(130%);
+        z-index: 2;
+        width: 20em;
+        height: 20em;
+
+        &--animated{
+            animation: entryBottom--alien1 1s ease 7s backwards;
+        }
+    }
+
+    &__alien2{
+        bottom: 40%;
+        right: 12.5em;
+        transform: scale(130%);
+
+        &--animated{
+            animation: entryTop--alien2 2s ease 8s backwards;
+        }
+
+        
+    }
+
+    &__alienChatter1{
+        bottom: 35%;
+        right: 17%;
+        transform: scale(130%);
+        z-index: 2;
+
+        &--animated{
+            animation: alienChatter 2s ease 8s infinite backwards;
+        }
+
+        &--skipAnimated{
+            animation: alienChatter 2s ease infinite backwards;
+        }
+    }
+
+    &__alienChatter2{
+        bottom: 10%;
+        right: 15%;
+        transform: scale(130%);
+        z-index: 2;
+
+        &--animated{
+            animation: alienChatter 2s ease 8s infinite backwards;
+        }
+
+        &--skipAnimated{
+            animation: alienChatter 2s ease infinite backwards;
+        }
+    }
+
+    &__alienChatter3{
+        bottom: 8%;
+        right: 15%;
+        transform: scale(130%);
+        z-index: 2;
+
+        &--animated{
+            animation: alienChatter 2s ease 8s infinite backwards;
+        }
+
+        &--skipAnimated{
+            animation: alienChatter 2s ease infinite backwards;
+        }
+    }
+
+
+    &__star1{
+        top: 15em;
+        left: 8em;
+        transform: scale(120%);
+
+        &--animated{
+            animation: pulsate 2s linear 8.5s infinite backwards;
+        }
+
+        &--skipAnimated{
+            animation: pulsate 2s linear 1s infinite backwards;
+        }
+
+    }
+
+    &__star2{
+        top: 2em;
+        left: 20em;
+
+        &--animated{
+            animation: pulsate 2s linear 7.5s infinite backwards;
+        }
+
+        &--skipAnimated{
+            animation: pulsate 2s linear infinite backwards;
+        }
+    }
+
+    &__star3{
+        top: 3em;
+        left: 50%;
+        transform: scale(140%);
+
+        &--animated{
+            animation: pulsate 2s linear 9.5s infinite backwards;
+        }
+
+        &--skipAnimated{
+            animation: pulsate 2s linear 2s infinite backwards;
+        }
+    }
+
+    &__star4{
+        top: 40%;
+        left: 40%;
+        transform: scale(140%);
+
+        &--animated{
+            animation: pulsate 2s linear 9s infinite backwards;
+        }
+
+        &--skipAnimated{
+            animation: pulsate 2s linear 1.5s infinite backwards;
+        }
+
+    }
+
+}
+
+
+
+
+

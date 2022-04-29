@@ -44,8 +44,19 @@ function handleDisconnect(client) {
 function handleTrivia(client, trivias) {
     const connectedClient = socketUsers[client.id]
 
+    let answers;
+    for(let trivia of trivias){
+
+        answers = [...trivia.incorrect_answers]
+        answers.push(trivia.correct_answer)
+        answers.sort(() => 0.5 - Math.random()) // shuffle the multiple choices
+        trivia.shuffledAnswers = answers
+        trivia.animated = 0
+    }
+
     connectedClient.triviaQuestions = trivias
     connectedClient.triviaProgressIndex = 0
+    connectedClient.triviaPts = 0
 
     return connectedClient.triviaQuestions[connectedClient.triviaProgressIndex]
 }
@@ -56,19 +67,30 @@ function nextTrivia(client){
     const index = connectedClient.triviaProgressIndex
 
     const trivia = questions[index]
-    console.log("TRIVIA", trivia)
 
     return trivia
 }
 
 function checkTriviaAnswer(client , correct_answer, userAnswer){
     const connectedClient = socketUsers[client.id]
+    const currentTrivia = connectedClient.triviaQuestions[connectedClient.triviaProgressIndex]
+    
     
     if(userAnswer !== correct_answer){
-        return false
+        currentTrivia.animated = 1
+        const data = {
+            points: connectedClient.triviaPts,
+            result: false
+        }
+        return data
     } else{
+        connectedClient.triviaPts++
         connectedClient.triviaProgressIndex++
-        return true
+        const data = {
+            points: connectedClient.triviaPts,
+            result: true
+        }
+        return data
     }
 }
 
