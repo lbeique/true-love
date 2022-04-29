@@ -13,14 +13,29 @@ const getSession = (session) => {
   return session.user_info
 }
 
+function makeid(length) {
+  let result = ""
+  let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  let charactersLength = characters.length
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+  }
+  return result
+}
+
 router.get("/login", (req, res) => {
+  req.session.authenticated = true;
+  req.session.user_info = {}
+  req.session.user_info.user_name = makeid(3)
+  req.session.user_info.user_id = Math.floor(Math.random() * 10)
+  req.session.user_info.total_points = Math.floor(Math.random() * 2)
   const user_session = getSession(req.session)
   console.log('get login session', user_session)
   if (!user_session) {
     res.status(200).render('loginForm')
     return
   }
-  res.status(200).redirect('/lobby')
+  res.status(200).redirect('/mainmenu')
   return
 })
 
