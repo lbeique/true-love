@@ -1,11 +1,17 @@
-const socket = io.connect();
+socket.on('trivia-game-start', () => {
+    console.log('timer start')
+    socket.emit('timer', 60)
+    axios.get(`/lobby/${ROOM_ID}`)
+        .then(() => axios.get("https://opentdb.com/api.php?amount=10&category=20&difficulty=easy&type=multiple"))
+        .then(result => {
+            console.log('axios get')
+            socket.emit('trivia_question', result.data.results)
+        })
+})
 
-
-socket.emit('timer', 60)
-
-socket.on('counter', async function(count){
+socket.on('counter', async function (count) {
     const timerText = document.querySelector(".timer--darkPurple");
-  
+
     timerText.innerHTML = count + "s";
 })
 
@@ -15,7 +21,7 @@ socket.on('counter-finish', () => {
 
 
 socket.on('trivia_reset_state', (data) => {
-    if(data.result === false){
+    if (data.result === false) {
         const cross = document.createElement('div')
         const section__main = document.querySelector('.section-main--bg1')
         cross.classList.add('cross')
@@ -28,14 +34,14 @@ socket.on('trivia_reset_state', (data) => {
     }
 
     const scoreText = document.querySelector('.trivia__scoreText')
-        
+
     scoreText.innerText = `Your score: ${data.points}`
 
     // reset part
-    const trivia__container = document.querySelector(".trivia__container") 
+    const trivia__container = document.querySelector(".trivia__container")
     trivia__container.remove()
 
-    socket.emit('trivia_next_question') 
+    socket.emit('trivia_next_question')
 })
 
 socket.on('trivia_start', (trivia) => {
@@ -44,11 +50,11 @@ socket.on('trivia_start', (trivia) => {
     const trivia__container = document.createElement('div')
     const question = document.createElement('div')
     const answerContainer = document.createElement('div')
-    
+
     //const answers = [...trivia.incorrect_answers] // copy
     const answers = trivia.shuffledAnswers
 
-    for(let i = 0; i < answers.length; i++){
+    for (let i = 0; i < answers.length; i++) {
         const answerBtn = document.createElement('button')
         answerBtn.classList.add('btn', 'btn--darkPurple', 'trivia__btn')
         answerBtn.innerText = answers[i]
@@ -65,7 +71,7 @@ socket.on('trivia_start', (trivia) => {
 
     trivia__container.classList.add('trivia__container')
     question.classList.add('trivia__question')
-    if(trivia.animated === 0){
+    if (trivia.animated === 0) {
         question.classList.add('trivia__question--animated')
     }
     answerContainer.classList.add('trivia__answerContainer')
@@ -73,16 +79,7 @@ socket.on('trivia_start', (trivia) => {
     question.innerHTML = trivia.question
 
     trivia__container.appendChild(question)
-    trivia__container.appendChild(answerContainer)    
+    trivia__container.appendChild(answerContainer)
     section__main.appendChild(trivia__container)
 
 })
-
-
-
-
-axios.get("/trivia/")
-    .then(() => axios.get("https://opentdb.com/api.php?amount=10&category=20&difficulty=easy&type=multiple"))
-    .then(result => {
-        socket.emit('trivia_question', result.data.results)
-    })

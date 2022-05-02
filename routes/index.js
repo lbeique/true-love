@@ -6,15 +6,21 @@ router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
 
 const getSession = (session) => {
-  if (!session.user_info) {
+  if (!session.authenticated) {
     return null
   }
-  return session.user_info
+  return session
 }
 
 router.get("/", (req, res) => {
   console.log("SESSION", req.session)
-  let user_info = getSession(req.session)
+  let session = getSession(req.session)
+  let user_info
+  if (!session) {
+    user_info = null
+  } else {
+    user_info = session.user_info
+  }
   res.render('welcomeScreen', { user_info })
   return
 })

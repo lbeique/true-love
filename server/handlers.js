@@ -1,21 +1,26 @@
-
 let socketUsers = {}; // wanna use Database instead later - maybe??
-let gameRoom = {};
+let lobbyRooms = {};
+
 const randomWords = require('random-words');
 
-function handleJoin(client) {
+
+// Server Handlers
+
+function handleServerJoin(client, user_id, user_name) {
 
     const randomAvatars = [`🧋`, `☕️`, `💩`, `💃`, `🦊`, `🦄`];
 
     const avatarIndex = Math.floor(Math.random() * randomAvatars.length);
 
-    const player = {
+    const user = {
         socketId: client.id,
-        username: 'chicken',
-        avatar: randomAvatars[avatarIndex]
+        username: user_name,
+        userId: user_id,
+        avatar: randomAvatars[avatarIndex],
+        roomId: null // Foreign Key for DB ?
     };
 
-    socketUsers[client.id] = player; // will need to insert into database
+    socketUsers[client.id] = user;
 
     // socket.join("gameRoom");
     // console.log(`${socket.id} is now in the room`);
@@ -23,20 +28,104 @@ function handleJoin(client) {
     // const clients = io.in('gameRoom').allSockets(); // RETURNS PROMISE
     // console.log('CLIENTS', clients);
 
-    console.log(`${player.socketId} has joined the game`);
+    console.log(`${user.socketId} has joined the server`);
+    return socketUsers[client.id]
+
+}
+
+function handleGetAllUsers() {
     return socketUsers
-
 }
 
+function handleGetUserFromClientId(client) {
+    return socketUsers[client.id]
+}
 
-
-function handleDisconnect(client) {
-    console.log(client.id, ' has been disconnected :(((');
-
+function handleServerDisconnect(client) {
+    console.log(`${client.id} has been disconnected from the server`);
     delete socketUsers[client.id];
-
-    return socketUsers;
+    return
 }
+
+
+
+// LOBBY HANDLER FUNCTIONS
+
+function makeCode(length) {
+    let code = ""
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    for (let i = 0; i < length; i++) {
+        code += characters.charAt(Math.floor(Math.random() * characters.length))
+    }
+    return code
+}
+
+function handleCreateLobby(roomId, roomName, roomCode, user_info) {
+
+    if (!lobbyRooms[roomId]) {
+        let lobby = {
+            creator_id: user_info.user_id,
+            creator_name: user_info.user_name,
+            room_name: roomName,
+            room_id: roomId,
+            room_code: roomCode,
+            game_active: false,
+            clients: {}
+        }
+        lobbyRooms[roomId] = lobby
+        return lobbyRooms[roomId]
+    }
+    return
+}
+
+function handleGetAllLobbies() {
+    return lobbyRooms
+}
+
+function handleGetLobbyFromId(roomId) {
+    return lobbyRooms[roomId]
+}
+
+function handleGetLobbyFromCode(roomCode) {
+    for (const lobby in lobbyRooms) {
+        if (lobbyRooms[lobby].room_code === roomCode) {
+            console.log('get lobby from code lobbyRooms[lobby]', lobbyRooms[lobby])
+            return lobbyRooms[lobby]
+        }
+    }
+    return
+}
+
+function handleLobbyJoin(roomId, client) {
+    console.log('handle lobby join room Id', roomId)
+    socketUsers[client.id].roomId = roomId
+    console.log(socketUsers[client.id])
+    const connectedClient = socketUsers[client.id]
+    lobbyRooms[roomId].clients[connectedClient.socketId] = connectedClient
+    console.log('handle lobby join room', lobbyRooms[roomId])
+    return lobbyRooms[roomId]
+}
+
+function handleDeleteLobby(roomId) {
+    for (const client in socketUsers) {
+        if (client.roomId === roomId) {
+            client.roomId = null
+        }
+    }
+    delete lobbyRooms[roomId]
+    return
+}
+
+function handleLobbyDisconnect(roomId, client) {
+    socketUsers[client.id].roomId = null
+    const connectedClient = socketUsers[client.id]
+    delete lobbyRooms[roomId].clients[connectedClient.socketId]
+    if (Object.keys(lobbyRooms[roomId].clients).length === 0) {
+        handleDeleteLobby(roomId)
+    }
+    return
+}
+
 
 
 
@@ -46,7 +135,7 @@ function handleTrivia(client, trivias) {
     const connectedClient = socketUsers[client.id]
 
     let answers;
-    for(let trivia of trivias){
+    for (let trivia of trivias) {
 
         answers = [...trivia.incorrect_answers]
         answers.push(trivia.correct_answer)
@@ -62,7 +151,7 @@ function handleTrivia(client, trivias) {
     return connectedClient.triviaQuestions[connectedClient.triviaProgressIndex]
 }
 
-function nextTrivia(client){
+function nextTrivia(client) {
     const connectedClient = socketUsers[client.id]
     const questions = connectedClient.triviaQuestions
     const index = connectedClient.triviaProgressIndex
@@ -72,19 +161,19 @@ function nextTrivia(client){
     return trivia
 }
 
-function checkTriviaAnswer(client , correct_answer, userAnswer){
+function checkTriviaAnswer(client, correct_answer, userAnswer) {
     const connectedClient = socketUsers[client.id]
     const currentTrivia = connectedClient.triviaQuestions[connectedClient.triviaProgressIndex]
-    
-    
-    if(userAnswer !== correct_answer){
+
+
+    if (userAnswer !== correct_answer) {
         currentTrivia.animated = 1
         const data = {
             points: connectedClient.triviaPts,
             result: false
         }
         return data
-    } else{
+    } else {
         connectedClient.triviaPts++
         connectedClient.triviaProgressIndex++
         const data = {
@@ -107,17 +196,21 @@ function getWords(client){
 }
 
 
-
-
-
-
-
-
-
 module.exports = {
-    handleJoin,
-    handleDisconnect,
+    handleServerJoin,
+    handleServerDisconnect,
+    handleGetAllUsers,
+    handleGetUserFromClientId,
     handleTrivia,
     checkTriviaAnswer,
-    nextTrivia
+    nextTrivia,
+
+    makeCode,
+    handleCreateLobby,
+    handleGetAllLobbies,
+    handleGetLobbyFromId,
+    handleGetLobbyFromCode,
+    handleLobbyJoin,
+    handleLobbyDisconnect,
+    handleDeleteLobby
 }

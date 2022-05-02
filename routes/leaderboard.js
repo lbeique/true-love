@@ -7,14 +7,18 @@ router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
 
 const getSession = (session) => {
-  if (!session.user_info) {
+  if (!session.authenticated) {
     return null
   }
-  return session.user_info
+  return session
 }
 
 router.get("/", async (req, res) => {
-  const user_info = getSession(req.session)
+  const session = getSession(req.session)
+  if (!session) {
+    res.status(404).redirect('/')
+    return
+}
   const all_users = await database.getAllUsers()
   console.log(all_users)
   if (!all_users) {
@@ -22,6 +26,7 @@ router.get("/", async (req, res) => {
     res.status(404).redirect('/lobby')
     return
   }
+  const user_info = session.user_info
   res.render('leaderboard', { user_info, all_users })
   return
 })

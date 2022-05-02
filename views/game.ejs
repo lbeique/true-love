@@ -5,29 +5,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const ROOM_ID = '<%= room.room_id %>'
+        const USER_NAME = '<%= user_info.user_name %>'
+        const USER_ID = '<%= user_info.user_id %>'
+    </script>
+    <script src="/socket.io/socket.io.js" defer></script>
     <link rel="stylesheet" href="styles/main.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <title>Trivia Phase</title>
+    <title>Love is War</title>
 </head>
 
 <body>
 
-    <section class= "exitMenu hide"> &nbsp; </section>
-    
+    <section class="exitMenu hide"> &nbsp; </section>
+
 
     <section class="section-main section-main--bg1 section-trivia">
         <h1 class="heading-primary trivia__scoreText"> Your Score: 0 </h1>
 
         <span class="timer--darkPurple"></span>
-        
+
         <img class="icon__btn exitMenu__icon" src="assets/menu/inGameExit_icon.png" alt="inGameExit_icon">
     </section>
 
-       
+
 </body>
-<script src="../../client/exitMenu.js"></script>
-<script src="../../client/triviaClient.js"></script>
-<script src="../../client/wordScramble.js"></script>
+<script src="../../client/lobbyClient.js" defer></script>
+<script src="../../client/exitMenu.js" defer></script>
+<script src="../../client/triviaClient.js" defer></script>
+<script src="../../client/wordScramble.js" defer></script>
 
 </html>

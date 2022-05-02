@@ -2,36 +2,28 @@ const express = require('express')
 const router = express.Router()
 const bodyParser = require("body-parser")
 const database = require("../databaseAccess")
+const { makeCode } = require('../server/handlers')
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
 
 const getSession = (session) => {
-  if (!session.user_info) {
+  if (!session.authenticated) {
     return null
   }
-  return session.user_info
+  return session
 }
 
-function makeid(length) {
-  let result = ""
-  let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-  let charactersLength = characters.length
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength))
-  }
-  return result
-}
 
 router.get("/login", (req, res) => {
   req.session.authenticated = true;
   req.session.user_info = {}
-  req.session.user_info.user_name = makeid(3)
+  req.session.user_info.user_name = makeCode(3)
   req.session.user_info.user_id = Math.floor(Math.random() * 10)
   req.session.user_info.total_points = Math.floor(Math.random() * 2)
-  const user_session = getSession(req.session)
-  console.log('get login session', user_session)
-  if (!user_session) {
+  const session = getSession(req.session)
+  console.log('get login session', session)
+  if (!session) {
     res.status(200).render('loginForm')
     return
   }
@@ -40,9 +32,9 @@ router.get("/login", (req, res) => {
 })
 
 router.post("/login", async (req, res) => {
-  const user_session = getSession(req.session)
-  console.log('post login session', user_session)
-  if (!user_session) {
+  const session = getSession(req.session)
+  console.log('post login session', session)
+  if (!session) {
     const user_info = await database.getUserByLogin(req.body)
     console.log('route', user_info)
     if (!user_info) {
@@ -63,9 +55,9 @@ router.post("/login", async (req, res) => {
 })
 
 router.get("/signup", (req, res) => {
-  const user_session = getSession(req.session)
-  console.log('get signup session', user_session)
-  if (!user_session) {
+  const session = getSession(req.session)
+  console.log('get signup session', session)
+  if (!session) {
     res.status(200).render('signUpForm')
     return
   }
@@ -74,9 +66,9 @@ router.get("/signup", (req, res) => {
 })
 
 router.post("/signup", async (req, res) => {
-  const user_session = getSession(req.session)
-  console.log('post signup session', user_session)
-  if (!user_session) {
+  const session = getSession(req.session)
+  console.log('post signup session', session)
+  if (!session) {
     if (!req.body) {
       console.log('Signup form is empty')
       res.status(400).redirect('/auth/signup')

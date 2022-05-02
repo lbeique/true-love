@@ -1,5 +1,3 @@
-
-
 const exitMenu = document.querySelector('.exitMenu')
 const exit_icon = document.querySelector('.exitMenu__icon')
 

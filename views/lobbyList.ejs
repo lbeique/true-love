@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="styles/main.css">
+    <title> Lobby </title>
+</head>
+
+<body>
+
+    <section class="section-header">
+        <h1 class="heading-primary"> Lobbby List </h1>
+    </section>
+
+    <section class="section-main section-main--bg1">
+        <div id="lobbyCode" class="lobbyInput">
+
+            <h1>Trivia Game</h1>
+
+            <form method="POST" action="/lobby/createLobby/">
+                <input type="text" placeholder="Enter Lobby Name" name="room_name" />
+                <button type="submit" class="btn btn-success" id="newGameButton">Create New Game</button>
+            </form>
+
+            <div>OR</div>
+
+            <form method="POST" action="/lobby/joinLobby/">
+                <input type="text" placeholder="Enter Game Code" name="room_code" />
+                <button type="submit" class="btn btn-success" id="joinGameButton">Join Game</button>
+            </form>
+
+        </div>
+
+
+
+        <div id="lobbyList" class="lobby__list">
+
+            <h1>Lobbies</h1>
+            <button type="button" class="btn btn-success" id="refresh">Refresh Lobbies</button>
+
+            <!-- TEMP CODE FOR THE LOBBy LIST -->
+            <!-- <form method="POST" action="/lobby/joinLobby/">
+                    <button type="submit" class="btn btn-success" name="room_code" value="">Lobby Name</button>
+                </form> -->
+
+        </div>
+    </section>
+
+</body>
+<script src="../../client/lobbyListClient.js"></script>
+
+</html>

@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "npx jest",
-    "dev": "nodemon server.js & npm run scss",
-    "start": "node server.js",
+    "dev": "nodemon app.js & npm run scss",
+    "start": "node app.js",
     "scss": "sass --watch sass/main.scss public/styles/main.css"
   },
   "repository": {
@@ -28,13 +28,15 @@
     "dotenv": "^16.0.0",
     "ejs": "^3.1.7",
     "express": "^5.0.0-beta.1",
+    "express-session": "^1.17.2",
     "http": "0.0.1-security",
     "mysql2": "^2.3.3",
     "put-selector": "^0.3.6",
     "random-words": "^1.1.2",
     "sass": "^1.49.11",
     "socket.io": "^4.4.1",
-    "socket.io-client": "^4.4.1"
+    "socket.io-client": "^4.4.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "jest": "^27.5.1",
