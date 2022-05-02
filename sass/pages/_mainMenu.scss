@@ -38,7 +38,11 @@
         transform: scale(120%);
 
         &--animated{
-            animation: revealTopLeftCorner 3s ease 2s backwards;
+            // #2 clip-path: polygon(9% 13%, 62% 60%, 100% 95%, 100% 100%, 93% 100%, 4% 15%)
+            // #3 clip-path: polygon(9% 13%,62% 30%, 100% 42%, 100% 100%, 63% 100%, 4% 15%);
+            // clip-path: polygon(9% 13%, 62% 0%, 100% 0%, 100% 100%, 23% 100%, 4% 15%);
+            // #4 clip-path: polygon(9% 13%, 32% 0%, 100% 0%, 100% 100%, 0% 100%, 4% 15%);
+            animation: beam 3s ease 2s backwards;
         }
     }
 
@@ -48,7 +52,7 @@
         transform-origin: top left;
 
         &--animated{
-            animation: popUpCenter 1.5s ease 5s backwards;
+            animation: popUpCenter 1.5s ease 7s backwards;
         }
     }
 
@@ -61,7 +65,7 @@
         height: 20em;
 
         &--animated{
-            animation: entryBottom--alien1 1s ease 7s backwards;
+            animation: entryBottom--alien1 1s ease 9s backwards;
         }
     }
 
@@ -71,7 +75,7 @@
         transform: scale(130%);
 
         &--animated{
-            animation: entryTop--alien2 2s ease 8s backwards;
+            animation: entryTop--alien2 2s ease 10s backwards;
         }
 
         
@@ -84,7 +88,7 @@
         z-index: 2;
 
         &--animated{
-            animation: alienChatter 2s ease 8s infinite backwards;
+            animation: alienChatter 2s ease 10s infinite backwards;
         }
 
         &--skipAnimated{
@@ -99,7 +103,7 @@
         z-index: 2;
 
         &--animated{
-            animation: alienChatter 2s ease 8s infinite backwards;
+            animation: alienChatter 2s ease 10s infinite backwards;
         }
 
         &--skipAnimated{
@@ -114,7 +118,7 @@
         z-index: 2;
 
         &--animated{
-            animation: alienChatter 2s ease 8s infinite backwards;
+            animation: alienChatter 2s ease 10s infinite backwards;
         }
 
         &--skipAnimated{

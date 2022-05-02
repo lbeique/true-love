@@ -51,7 +51,7 @@
         height: 2.5em;
 
         &--animated{
-            animation: popUpCenter 1s ease 10s backwards;
+            animation: popUpCenter 1s ease 12s backwards;
         }
     }
 
@@ -70,9 +70,9 @@
     font-family: 'Arial Rounded MT Bold';
     font-size: 25px;
 
-    &--animated{
-        animation: popUpCenter .8s ease backwards;
-    }
+    
+    animation: popUpCenter .8s ease backwards;
+
     
 }
 
@@ -83,7 +83,7 @@
     box-shadow: 0 .3em 0 rgba($color-black, .2);
     
     &--animated{
-        animation: popUpCenter 1s ease 10s backwards; 
+        animation: popUpCenter 1s ease 12s backwards; 
     }
 
     &:hover{ // note: mobile devices do not have a hover function- only works on desktop
