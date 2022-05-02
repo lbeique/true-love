@@ -9,7 +9,7 @@ socket.on('counter', async function(count){
 })
 
 socket.on('counter-finish', () => {
-    window.location = '/lobby/' // automatically go back to lobby once the timer is up
+    //window.location = '/lobby/' // automatically go back to lobby once the timer is up
 })
 
 
@@ -23,13 +23,12 @@ socket.on('trivia_reset_state', (data) => {
 
         setTimeout(() => {
             cross.remove()
-        }, 2000)
+        }, 1000)
     }
 
     const scoreText = document.querySelector('.trivia__scoreText')
         
     scoreText.innerText = `Your score: ${data.points}`
-        
 
     // reset part
     const trivia__container = document.querySelector(".trivia__container") 
@@ -51,10 +50,6 @@ socket.on('trivia_start', (trivia) => {
     for(let i = 0; i < answers.length; i++){
         const answerBtn = document.createElement('button')
         answerBtn.classList.add('btn', 'btn--darkPurple', 'trivia__btn')
-        if(trivia.animated === 0){
-            answerBtn.classList.add('trivia__btn--animated')
-            answerBtn.style.animationDelay = (i + 1) + 's';
-        }
         answerBtn.innerText = answers[i]
         answerBtn.addEventListener('click', (event) => {
             event.preventDefault();

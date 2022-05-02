@@ -118,11 +118,11 @@ io.on('connection', client => {
   client.on('timer', () => {
 
     let timer = setInterval(function (counter) {
-      io.sockets.emit('counter', counter);
+      io.to(client.id).emit('counter', counter);   //  temporary change - should be io.sockets.emit later
       counter--;
 
       if (counter <= 0) {
-        io.sockets.emit('counter-finish', 'game finish');
+        io.to(client.id).emit('counter-finish', 'game finish');  // temporary change - should be io.sockets.emit  later
         clearInterval(timer);
       }
     }, 1000);
@@ -135,7 +135,7 @@ io.on('connection', client => {
   })
 
   client.on('trivia_check_answer', (data) => {
-    io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(client, data.correct_answer, data.userAnswer)) // return true/false
+    io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(client, data.correct_answer, data.userAnswer))
   })
 
   client.on('trivia_next_question', () => {
@@ -145,17 +145,6 @@ io.on('connection', client => {
 
 
 })
-
-// io.on('new-room', (roomName, roomId, user_id) => {
-//     let room = {
-//         creator: user_id,
-//         roomName: roomName,
-//         roomId: roomId,
-//         players: {}
-//     }
-//     activeRooms[roomId] = room
-//     console.log(activeRooms)
-// })
 
 const PORT = process.env.PORT || 8000;
 
