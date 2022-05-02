@@ -35,11 +35,11 @@ io.on('connection', (client) => {  // client = socket
   client.on('timer', (counter) => {
 
     let timer = setInterval(function () { 
-      io.sockets.emit('counter', counter);     
+      io.to(client.id).emit('counter', counter);   //  temporary change - should be io.sockets.emit later
       counter--;
   
       if (counter <= 0) {
-        io.sockets.emit('counter-finish', 'game finish');
+        io.to(client.id).emit('counter-finish', 'game finish');  // temporary change - should be io.sockets.emit  later
         clearInterval(timer);
       }
     }, 1000);
@@ -52,7 +52,7 @@ io.on('connection', (client) => {  // client = socket
   })
 
   client.on('trivia_check_answer', (data) => {
-    io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(client, data.correct_answer, data.userAnswer)) // return true/false
+    io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(client, data.correct_answer, data.userAnswer))
   })
 
   client.on('trivia_next_question', () => {

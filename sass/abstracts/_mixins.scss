@@ -13,10 +13,4 @@
 
 }
 
-@mixin animationDelay($class){
-    @for $i from 1 through 100 {
-        class {
-            animation-delay: #{$i * 0.5}s;
-        }
-    }
-}
+.hide{ display: none }

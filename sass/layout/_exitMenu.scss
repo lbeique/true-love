@@ -1,0 +1,45 @@
+.exitMenu{
+    position: absolute;
+    margin: 0;
+    background-color: rgba($secondary-color, 0.8);
+    width: 100%;
+    height: 100%;
+    z-index: 89;
+    transition: all .2s;
+
+    &__text{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1em;
+        width: 20em;
+        height: 10em;
+        border: 10px solid $tertiary-color;
+        border-radius: 2em;
+        background-color: $secondary-variant;
+        font-size: 30px;
+        color: $tertiary-color;
+        margin-bottom: 1em;
+
+        animation: popUpCenter 1s ease backwards;
+        
+    }
+
+    &__nav{
+        @include absCenter;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: .5em;
+        width: 40em;
+        height: 10em;
+    }
+
+    &__btn{
+        width: 20em;
+        font-size: 20px;
+
+        animation: popUpCenter 1s ease backwards;
+    }
+
+}

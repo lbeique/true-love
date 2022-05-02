@@ -1,6 +1,7 @@
 
 let socketUsers = {}; // wanna use Database instead later - maybe??
 let gameRoom = {};
+const randomWords = require('random-words');
 
 function handleJoin(client) {
 
@@ -94,7 +95,16 @@ function checkTriviaAnswer(client , correct_answer, userAnswer){
     }
 }
 
+// word scrambler
 
+function getWords(client){
+
+    const connectedClient = socketUsers[client.id]
+    connectedClient.listOfWords = {} 
+
+    return randomWords({ exactly: 10, maxLength: 5 }) 
+
+}
 
 
 
