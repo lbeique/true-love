@@ -1,6 +1,5 @@
 const socket = io.connect();
 
-
 socket.emit('timer', 60)
 
 socket.on('counter', async function(count){

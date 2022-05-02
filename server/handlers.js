@@ -5,19 +5,21 @@ let lobbyRooms = {};
 
 // Server Handlers
 
-function handleServerJoin(client, user_name) {
+function handleServerJoin(client, user_id, user_name) {
 
     const randomAvatars = [`🧋`, `☕️`, `💩`, `💃`, `🦊`, `🦄`];
 
     const avatarIndex = Math.floor(Math.random() * randomAvatars.length);
 
-    const player = {
+    const user = {
         socketId: client.id,
         username: user_name,
-        avatar: randomAvatars[avatarIndex]
+        userId: user_id,
+        avatar: randomAvatars[avatarIndex],
+        roomId: null // Foreign Key for DB ?
     };
 
-    socketUsers[client.id] = player;
+    socketUsers[client.id] = user;
 
     // socket.join("gameRoom");
     // console.log(`${socket.id} is now in the room`);
@@ -25,20 +27,103 @@ function handleServerJoin(client, user_name) {
     // const clients = io.in('gameRoom').allSockets(); // RETURNS PROMISE
     // console.log('CLIENTS', clients);
 
-    console.log(`${player.socketId} has joined the server`);
-    return
+    console.log(`${user.socketId} has joined the server`);
+    return socketUsers[client.id]
 
 }
 
+function handleGetAllUsers() {
+    return socketUsers
+}
 
+function handleGetUserFromClientId(client) {
+    return socketUsers[client.id]
+}
 
 function handleServerDisconnect(client) {
-    console.log(client.id, 'has been disconnected :(((');
-
+    console.log(`${client.id} has been disconnected from the server`);
     delete socketUsers[client.id];
-
     return
 }
+
+
+
+// LOBBY HANDLER FUNCTIONS
+
+function makeCode(length) {
+    let code = ""
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    for (let i = 0; i < length; i++) {
+        code += characters.charAt(Math.floor(Math.random() * characters.length))
+    }
+    return code
+}
+
+function handleCreateLobby(roomId, roomName, roomCode, user_info) {
+
+    if (!lobbyRooms[roomId]) {
+        let lobby = {
+            creator_id: user_info.user_id,
+            creator_name: user_info.user_name,
+            room_name: roomName,
+            room_id: roomId,
+            room_code: roomCode,
+            clients: {}
+        }
+        lobbyRooms[roomId] = lobby
+        return lobbyRooms[roomId]
+    }
+    return
+}
+
+function handleGetAllLobbies() {
+    return lobbyRooms
+}
+
+function handleGetLobbyFromId(roomId) {
+    return lobbyRooms[roomId]
+}
+
+function handleGetLobbyFromCode(roomCode) {
+    for (const lobby in lobbyRooms) {
+        if (lobbyRooms[lobby].room_code === roomCode) {
+            console.log('get lobby from code lobbyRooms[lobby]', lobbyRooms[lobby])
+            return lobbyRooms[lobby]
+        }
+    }
+    return
+}
+
+function handleLobbyJoin(roomId, client) {
+    console.log('handle lobby join room Id', roomId)
+    socketUsers[client.id].roomId = roomId
+    console.log(socketUsers[client.id])
+    const connectedClient = socketUsers[client.id]
+    lobbyRooms[roomId].clients[connectedClient.socketId] = connectedClient
+    console.log('handle lobby join room', lobbyRooms[roomId])
+    return lobbyRooms[roomId]
+}
+
+function handleDeleteLobby(roomId) {
+    for (const client in socketUsers) {
+        if (client.roomId === roomId) {
+            client.roomId = null
+        }
+    }
+    delete lobbyRooms[roomId]
+    return
+}
+
+function handleLobbyDisconnect(roomId, client) {
+    socketUsers[client.id].roomId = null
+    const connectedClient = socketUsers[client.id]
+    delete lobbyRooms[roomId].clients[connectedClient.socketId]
+    if (Object.keys(lobbyRooms[roomId].clients).length === 0) {
+        handleDeleteLobby(roomId)
+    }
+    return
+}
+
 
 
 
@@ -100,12 +185,21 @@ function checkTriviaAnswer(client, correct_answer, userAnswer) {
 
 
 
-
-
 module.exports = {
     handleServerJoin,
     handleServerDisconnect,
+    handleGetAllUsers,
+    handleGetUserFromClientId,
     handleTrivia,
     checkTriviaAnswer,
-    nextTrivia
+    nextTrivia,
+
+    makeCode,
+    handleCreateLobby,
+    handleGetAllLobbies,
+    handleGetLobbyFromId,
+    handleGetLobbyFromCode,
+    handleLobbyJoin,
+    handleLobbyDisconnect,
+    handleDeleteLobby
 }

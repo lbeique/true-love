@@ -1,6 +1,9 @@
 const socket = io.connect();
 
 
+socket.emit('join-room', ROOM_ID, ROOM_NAME, ROOM_CODE, USER_ID, USER_NAME)
+
+
 // ERROR
 
 socket.on('error', function (err) {
@@ -9,25 +12,15 @@ socket.on('error', function (err) {
 
 // JOIN
 
-socket.on('join', (users) => {
-
+socket.on('user-joined', user => {
     
+    console.log('user joined', user)
 })
-
 
 
 // LEAVE
 
-socket.on('leave', (users) => {
-
+socket.on('user-disconnected', user => {
     
+    console.log('user disconnected', user)
 })
-
-
-
-
-
-
-
-
-
