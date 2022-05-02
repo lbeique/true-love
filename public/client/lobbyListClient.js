@@ -3,6 +3,7 @@ const socket = io.connect()
 const lobby_list = document.querySelector('.lobby__list')
 const lobbyContainer = document.createElement('div')
 const refreshBtn = document.querySelector('#refresh')
+const section__main = document.querySelector('.section-main--bg1')
 
 refreshBtn.addEventListener('click', (event) => {
     event.preventDefault()
@@ -30,8 +31,10 @@ socket.on('lobby-list', (lobbyRooms) => {
         lobbyButton.name = "room_code"
         lobbyButton.value = lobbyRooms[lobby].room_code
         lobbyButton.innerText = lobbyRooms[lobby].room_name
+
         lobbyForm.appendChild(lobbyButton)
         lobbyContainer.appendChild(lobbyForm)
+        section__main.appendChild(lobbyContainer)
     }
     lobbyContainer.classList.add('lobby__container')
     lobby_list.appendChild(lobbyContainer)

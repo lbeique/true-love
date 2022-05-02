@@ -7,63 +7,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         const ROOM_ID = '<%= room.room_id %>'
-        const ROOM_NAME = '<%= room.room_name %>'
-        const ROOM_CODE = '<%= room.room_code %>'
         const USER_NAME = '<%= user_info.user_name %>'
         const USER_ID = '<%= user_info.user_id %>'
     </script>
     <script src="/socket.io/socket.io.js" defer></script>
-    <script src="../../client/lobbyClient.js" defer></script>
     <link rel="stylesheet" href="styles/main.css">
-    <title> Lobby </title>
-
-    
-    <style>
-        #lobbyList {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        #lobbyCode {
-            width: 20em;
-            text-align: center;
-        }
-    </style>
-   
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Love is War</title>
 </head>
 
 <body>
 
-    <section class="section-header">
-        <h1 class="heading-primary"></h1>
+    <section class="exitMenu hide"> &nbsp; </section>
+
+
+    <section class="section-main section-main--bg1 section-trivia">
+        <h1 class="heading-primary trivia__scoreText"> Your Score: 0 </h1>
+
+        <span class="timer--darkPurple"></span>
+
+        <img class="icon__btn exitMenu__icon" src="assets/menu/inGameExit_icon.png" alt="inGameExit_icon">
     </section>
 
 
-    <main>
-        <section class="section-players">
-
-        </section>
-
-
-        <div id="lobbyScreen" class="h-100">
-            <div class="d-flex flex-column align-items-center justify-content-center h-100">
-
-                <h1>Your lobby code is: <span id="lobbyCodeDisplay"></span></h1>
-
-                <button type="submit" class="btn btn-success" id="startGameButton">Start Game</button>
-
-                <section class="section-main">
-                    <a href="/trivia/?newGame=0" class="link"> Play Game </a>
-                </section>
-
-                <section class="section-main">
-                    <a href="/mainmenu/" class="link"> Go to Main Menu</a>
-                </section>
-
-            </div>
-        </div>
-
-    </main>
 </body>
+<script src="../../client/lobbyClient.js" defer></script>
+<script src="../../client/exitMenu.js" defer></script>
+<script src="../../client/triviaClient.js" defer></script>
+<script src="../../client/wordScramble.js" defer></script>
 
 </html>

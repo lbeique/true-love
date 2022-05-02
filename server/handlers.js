@@ -69,6 +69,7 @@ function handleCreateLobby(roomId, roomName, roomCode, user_info) {
             room_name: roomName,
             room_id: roomId,
             room_code: roomCode,
+            game_active: false,
             clients: {}
         }
         lobbyRooms[roomId] = lobby
