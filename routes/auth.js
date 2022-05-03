@@ -18,8 +18,8 @@ const getSession = (session) => {
 router.get("/login", (req, res) => {
   req.session.authenticated = true;
   req.session.user_info = {}
-  req.session.user_info.user_name = makeCode(3)
-  req.session.user_info.user_id = Math.floor(Math.random() * 10)
+  req.session.user_info.user_name = makeCode(8)
+  req.session.user_info.user_id = Math.floor(Math.random() * 1000)
   req.session.user_info.total_points = Math.floor(Math.random() * 2)
   const session = getSession(req.session)
   console.log('get login session', session)

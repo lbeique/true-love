@@ -98,18 +98,21 @@ function handleGetLobbyFromCode(roomCode) {
 
 function handleLobbyJoin(roomId, client) {
     console.log('handle lobby join room Id', roomId)
+
     socketUsers[client.id].roomId = roomId
     console.log(socketUsers[client.id])
+
     const connectedClient = socketUsers[client.id]
     lobbyRooms[roomId].clients[connectedClient.socketId] = connectedClient
+
     console.log('handle lobby join room', lobbyRooms[roomId])
     return lobbyRooms[roomId]
 }
 
 function handleDeleteLobby(roomId) {
     for (const client in socketUsers) {
-        if (client.roomId === roomId) {
-            client.roomId = null
+        if (socketUsers[client].roomId === roomId) {
+            socketUsers[client].roomId = null
         }
     }
     delete lobbyRooms[roomId]
@@ -120,6 +123,7 @@ function handleLobbyDisconnect(roomId, client) {
     socketUsers[client.id].roomId = null
     const connectedClient = socketUsers[client.id]
     delete lobbyRooms[roomId].clients[connectedClient.socketId]
+    console.log(lobbyRooms[roomId].clients)
     if (Object.keys(lobbyRooms[roomId].clients).length === 0) {
         handleDeleteLobby(roomId)
     }

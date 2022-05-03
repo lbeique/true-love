@@ -15,7 +15,6 @@ const handlers = require('./server/handlers')
 // Routes
 const indexRouter = require('./routes/index')
 const authRouter = require('./routes/auth')
-// const triviaRouter = require('./routes/trivia')
 const mainMenuRouter = require('./routes/mainmenu')
 const lobbyRouter = require('./routes/lobby')
 const leaderboardRouter = require('./routes/leaderboard')
@@ -56,7 +55,6 @@ io.use((socket, next) => {
 // SUPER IMPORTANT TO PUT THESE AT THE END OF APP.USE
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
-// app.use('/trivia', triviaRouter)
 app.use('/leaderboard', leaderboardRouter)
 app.use('/mainmenu', mainMenuRouter)
 app.use('/lobby', lobbyRouter)
@@ -74,33 +72,45 @@ io.on('connection', client => {
     console.log('active-lobbies', lobbies)
     let users = handlers.handleGetAllUsers()
     console.log('users-in-lobbies', users)
-    client.emit('lobby-list', lobbies)
+    io.to(client.id).emit('lobby-list', lobbies)
   })
 
   client.on('join-room', (roomId, userId, userName) => {
+
     let user = handlers.handleServerJoin(client, userId, userName)
     console.log('join-room user: ', user)
     if (!user) {
       return
     }
+
     let room = handlers.handleGetLobbyFromId(roomId)
     if (!room) {
       return
     } else if (room.game_active === true) {
       return
     }
+
+    let clients = room.clients
+
+    for (const client in clients) {
+      if (clients[client].userId === user.userId) {
+        return
+      }
+    }
+
     client.emit('create-lobby', room)
     handlers.handleLobbyJoin(roomId, client)
     console.log('join-room room: ', room)
-    
+
     client.join(room.room_id)
-    client.to(room.room_id).emit('user-joined', user)
+    io.to(room.room_id).emit('user-joined', user, room)
     console.log(`on-join-room, user ${user.username} connected to room ${room.room_id} with clientid: ${user.socketId}`)
+
 
     client.on('disconnect', () => {
       handlers.handleLobbyDisconnect(room.room_id, client)
-      client.to(room.room_id).emit(`user-disconnected`, client.id)
       handlers.handleServerDisconnect(client)
+      io.to(room.room_id).emit(`user-disconnected`, user, room)
     })
 
     client.on('error', (err) => {
