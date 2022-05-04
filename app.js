@@ -100,7 +100,7 @@ io.on('connection', client => {
 
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
-        window.location = '/lobby/'
+        // window.location = '/lobby/'
         return
       }
     }
@@ -136,7 +136,7 @@ io.on('connection', client => {
       console.log('lobby remove')
       io.to(room.room_id).emit('remove-lobby')
       console.log('game start emit')
-      io.to(room.room_id).emit('trivia-game-start')
+      io.to(room.room_id).emit('game-start')
     })
 
     client.on('return-to-lobby', () => {
@@ -146,6 +146,16 @@ io.on('connection', client => {
       io.to(room.room_id).emit('create-lobby', room)
     })
 
+
+    // CRUSHES
+    client.on('request_crushes', () => {
+      console.log("RUN SERVER")
+      io.to(room.room_id).emit('set_crushes-carousel', handlers.handleCrushes(room, user))
+    })
+
+    client.on('room_clients', () => {
+      io.to(room.room_id).emit('receive room_clients', room)
+    })
 
     // TIMER
     client.on('timer', (counter) => {
