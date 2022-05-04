@@ -8,7 +8,7 @@ function userList(room) {
     const user__list = document.querySelector('.user__list')
 
     user__list.innerHTML = ''
-
+    
     let clients = room.clients
     console.log(clients)
 
@@ -79,14 +79,16 @@ socket.on('create-lobby', (room) => {
     lobby__container.appendChild(lobby__header)
     lobby__container.appendChild(lobby__code)
     lobby__container.appendChild(gameStart__btn)
+    lobby__container.appendChild(user__list)
     section__main.appendChild(lobby__container)
-    section__main.appendChild(user__list)
+   
 
     gameStart__btn.addEventListener('click', (event) => {
         event.preventDefault();
         socket.emit('game-start')
     })
-
+    
+    userList(room)
 })
 
 socket.on('remove-lobby', () => {

@@ -1,6 +1,6 @@
 socket.on('trivia-game-start', () => {
     console.log('timer start')
-    socket.emit('timer', 60)
+    socket.emit('timer', 15)
     axios.get(`/lobby/${ROOM_ID}`)
         .then(() => axios.get("https://opentdb.com/api.php?amount=10&category=20&difficulty=easy&type=multiple"))
         .then(result => {
@@ -16,7 +16,12 @@ socket.on('counter', async function (count) {
 })
 
 socket.on('counter-finish', () => {
-    //window.location = '/lobby/' // automatically go back to lobby once the timer is up
+    console.log('trivia client timer finish')
+    const trivia__container = document.querySelector(".trivia__container")
+    const timerText = document.querySelector(".timer--darkPurple");
+    trivia__container.remove()
+    timerText.remove()
+    socket.emit('announce-victory')
 })
 
 

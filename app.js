@@ -67,6 +67,7 @@ io.on('connection', client => {
 
   console.log(`on-connection, connected with clientid: ${client.id}`)
 
+  // LOBBY USER REFRESH
   client.on('lobby-refresh', () => {
     let lobbies = handlers.handleGetAllLobbies()
     console.log('active-lobbies', lobbies)
@@ -75,18 +76,23 @@ io.on('connection', client => {
     io.to(client.id).emit('lobby-list', lobbies)
   })
 
+
+  // SERVER JOIN
   client.on('join-room', (roomId, userId, userName) => {
 
     let user = handlers.handleServerJoin(client, userId, userName)
     console.log('join-room user: ', user)
     if (!user) {
+      window.location = '/lobby/'
       return
     }
 
     let room = handlers.handleGetLobbyFromId(roomId)
     if (!room) {
+      window.location = '/lobby/'
       return
-    } else if (room.game_active === true) {
+    } else if (room.gameState.game_active === true) {
+      window.location = '/lobby/'
       return
     }
 
@@ -94,11 +100,14 @@ io.on('connection', client => {
 
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
+        window.location = '/lobby/'
         return
       }
     }
 
-    client.emit('create-lobby', room)
+
+    // CREATE LOBBY
+    io.to(client.id).emit('create-lobby', room)
     handlers.handleLobbyJoin(roomId, client)
     console.log('join-room room: ', room)
 
@@ -107,12 +116,15 @@ io.on('connection', client => {
     console.log(`on-join-room, user ${user.username} connected to room ${room.room_id} with clientid: ${user.socketId}`)
 
 
+    // SERVER DISCONNECT
     client.on('disconnect', () => {
       handlers.handleLobbyDisconnect(room.room_id, client)
       handlers.handleServerDisconnect(client)
       io.to(room.room_id).emit(`user-disconnected`, user, room)
     })
 
+
+    // SERVER ERROR
     client.on('error', (err) => {
       console.log('received error from client', client.id)
       console.log(err)
@@ -125,6 +137,13 @@ io.on('connection', client => {
       io.to(room.room_id).emit('remove-lobby')
       console.log('game start emit')
       io.to(room.room_id).emit('trivia-game-start')
+    })
+
+    client.on('return-to-lobby', () => {
+      console.log('return to lobby')
+      io.to(room.room_id).emit('remove-victory')
+      console.log('lobby return')
+      io.to(room.room_id).emit('create-lobby', room)
     })
 
 
@@ -154,6 +173,15 @@ io.on('connection', client => {
 
     client.on('trivia_next_question', () => {
       io.to(client.id).emit('trivia_start', handlers.nextTrivia(client))
+    })
+
+
+    // VICTORY
+    client.on('announce-victory', () => {
+      console.log('announcing victory')
+      let players = handlers.handleGetLobbyPlayers(room.room_id)
+      console.log('players', players)
+      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players), room)
     })
 
   })

@@ -69,8 +69,16 @@ function handleCreateLobby(roomId, roomName, roomCode, user_info) {
             room_name: roomName,
             room_id: roomId,
             room_code: roomCode,
-            game_active: false,
-            clients: {}
+            clients: {},
+            gameState: {
+                game_active: false,
+                crushes: {},
+                gameStages: [],
+                currentStage: null,
+                timer: null,
+                votes: [],
+                voteResult: null,
+            }
         }
         lobbyRooms[roomId] = lobby
         return lobbyRooms[roomId]
@@ -130,6 +138,9 @@ function handleLobbyDisconnect(roomId, client) {
     return
 }
 
+function handleGetLobbyPlayers(roomId) {
+    return lobbyRooms[roomId].clients
+}
 
 
 
@@ -199,6 +210,29 @@ function getWords(client){
 
 }
 
+// Victory
+
+function handleGetVictory(players) {
+    let topPlayerPoints = null
+    let topPlayers = []
+    let winningPlayer = null
+    for (const player in players) {
+        if (players[player].triviaPts > topPlayerPoints) {
+            topPlayerPoints = players[player].total_points
+            topPlayers.push(players[player])
+        } else if (players[player].triviaPts > topPlayerPoints) {
+            topPlayers.push(players[player])
+        }
+    }
+    if (topPlayers.length > 1) {
+        winningPlayer = topPlayers[Math.floor(Math.random() * topPlayers.length)]
+    } else {
+        winningPlayer = topPlayers[0]
+    }
+    console.log('winning player', winningPlayer)
+    return winningPlayer
+}
+
 
 module.exports = {
     handleServerJoin,
@@ -216,5 +250,8 @@ module.exports = {
     handleGetLobbyFromCode,
     handleLobbyJoin,
     handleLobbyDisconnect,
-    handleDeleteLobby
+    handleDeleteLobby,
+    handleGetLobbyPlayers,
+
+    handleGetVictory
 }
