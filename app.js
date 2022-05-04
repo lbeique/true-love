@@ -70,9 +70,9 @@ io.on('connection', client => {
   // LOBBY USER REFRESH
   client.on('lobby-refresh', () => {
     let lobbies = handlers.handleGetAllLobbies()
-    console.log('active-lobbies', lobbies)
+    console.log('handle-get-all-lobbies', lobbies)
     let users = handlers.handleGetAllUsers()
-    console.log('users-in-lobbies', users)
+    console.log('handle-get-all-users', users)
     io.to(client.id).emit('lobby-list', lobbies)
   })
 
@@ -108,10 +108,11 @@ io.on('connection', client => {
 
     // CREATE LOBBY
     io.to(client.id).emit('create-lobby', room)
+    console.log(`${client.id} emit create-lobby -> handle lobby-join`, room)
     handlers.handleLobbyJoin(roomId, client)
-    console.log('join-room room: ', room)
-
+    console.log(`${client.id} handle-lobby-join -> client.join-room`, room)
     client.join(room.room_id)
+    console.log(`${client.id} client.join-room -> emit user-joined`, room)
     io.to(room.room_id).emit('user-joined', user, room)
     console.log(`on-join-room, user ${user.username} connected to room ${room.room_id} with clientid: ${user.socketId}`)
 
@@ -133,16 +134,16 @@ io.on('connection', client => {
 
     // GAME TRANSITION
     client.on('game-start', () => {
-      console.log('lobby remove')
+      console.log(`${client.id} emit game-start -> emit remove-lobby`)
       io.to(room.room_id).emit('remove-lobby')
-      console.log('game start emit')
+      console.log(`${client.id} emit remove-lobby -> emit crush-start`)
       io.to(room.room_id).emit('crush-start')
     })
 
     client.on('return-to-lobby', () => {
-      console.log('return to lobby')
+      console.log(`${client.id} emit return-to-lobby -> emit remove-victory`)
       io.to(room.room_id).emit('remove-victory')
-      console.log('lobby return')
+      console.log(`${client.id} emit remove-victory -> emit create-lobby`)
       io.to(room.room_id).emit('create-lobby', room)
     })
 
@@ -188,7 +189,7 @@ io.on('connection', client => {
 
     // VICTORY
     client.on('announce-victory', () => {
-      console.log('announcing victory')
+      console.log('clien announcing-victory')
       let players = handlers.handleGetLobbyPlayers(room.room_id)
       console.log('players', players)
       io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players), room)
