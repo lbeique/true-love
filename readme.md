@@ -1,3 +1,9 @@
 ## Heroku App
 
 https://idsp-true-love.herokuapp.com/
+
+## IDSP Game Project
+
+# Love is War
+
+A multiplayer party game featuring a group of Aliens fighting for the love of a Human! Load up the lobby and compete against other players in quick games of skill and wit. When it comes to dating... Love is War!
