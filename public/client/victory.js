@@ -6,10 +6,10 @@ socket.on('create-victory', (winner, room) => {
     victory__container.classList.add('victory__container')
 
     const victory__header = document.createElement('h1')
-    victory__header.innerText = `Welcome to the Victory Screen`
+    victory__header.innerText = `Victory Screen`
 
     const victory__winner = document.createElement('p')
-    victory__winner.innerText = `The Winner is: ${winner.username} with ${winner.triviaPts}`
+    victory__winner.innerText = `The Winner is: ${winner.username} with ${winner.triviaPts} pts`
 
     const returnLobby__btn = document.createElement('button')
     returnLobby__btn.classList.add('btn', 'btn-success')
