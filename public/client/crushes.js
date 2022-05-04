@@ -1,11 +1,8 @@
-socket.on('game-start', () => {
-    console.log('RUN')
+socket.on('crush-start', () => {
     socket.emit('request_crushes')
 })
 
 socket.on('set_crushes-carousel', (crushes) => {
-    console.log('RUNNN', crushes)
-
     const section__crushes = document.querySelector('.section-crushes')
     const carousel = document.createElement('div')
     const carousel__btnLeft = document.createElement('img')

@@ -136,7 +136,7 @@ io.on('connection', client => {
       console.log('lobby remove')
       io.to(room.room_id).emit('remove-lobby')
       console.log('game start emit')
-      io.to(room.room_id).emit('game-start')
+      io.to(room.room_id).emit('crush-start')
     })
 
     client.on('return-to-lobby', () => {
