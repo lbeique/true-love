@@ -14,9 +14,8 @@ socket.emit('lobby-refresh')
 
 // CREATES LOBBY LIST
 socket.on('lobby-list', (lobbyRooms) => {
-    lobbyContainer.childNodes.forEach(node => {
-        node.remove()
-    })
+    lobbyContainer.innerHTML = ''
+    
     if (!Object.keys(lobbyRooms).length) {
         return
     }

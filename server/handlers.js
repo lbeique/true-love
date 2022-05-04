@@ -69,8 +69,16 @@ function handleCreateLobby(roomId, roomName, roomCode, user_info) {
             room_name: roomName,
             room_id: roomId,
             room_code: roomCode,
-            game_active: false,
-            clients: {}
+            clients: {},
+            gameState: {
+                game_active: false,
+                crushes: {},
+                gameStages: [],
+                currentStage: null,
+                timer: null,
+                votes: [],
+                voteResult: null,
+            }
         }
         lobbyRooms[roomId] = lobby
         return lobbyRooms[roomId]
@@ -98,18 +106,21 @@ function handleGetLobbyFromCode(roomCode) {
 
 function handleLobbyJoin(roomId, client) {
     console.log('handle lobby join room Id', roomId)
+
     socketUsers[client.id].roomId = roomId
     console.log(socketUsers[client.id])
+
     const connectedClient = socketUsers[client.id]
     lobbyRooms[roomId].clients[connectedClient.socketId] = connectedClient
+
     console.log('handle lobby join room', lobbyRooms[roomId])
     return lobbyRooms[roomId]
 }
 
 function handleDeleteLobby(roomId) {
     for (const client in socketUsers) {
-        if (client.roomId === roomId) {
-            client.roomId = null
+        if (socketUsers[client].roomId === roomId) {
+            socketUsers[client].roomId = null
         }
     }
     delete lobbyRooms[roomId]
@@ -120,12 +131,16 @@ function handleLobbyDisconnect(roomId, client) {
     socketUsers[client.id].roomId = null
     const connectedClient = socketUsers[client.id]
     delete lobbyRooms[roomId].clients[connectedClient.socketId]
+    console.log(lobbyRooms[roomId].clients)
     if (Object.keys(lobbyRooms[roomId].clients).length === 0) {
         handleDeleteLobby(roomId)
     }
     return
 }
 
+function handleGetLobbyPlayers(roomId) {
+    return lobbyRooms[roomId].clients
+}
 
 
 
@@ -195,6 +210,29 @@ function getWords(client){
 
 }
 
+// Victory
+
+function handleGetVictory(players) {
+    let topPlayerPoints = null
+    let topPlayers = []
+    let winningPlayer = null
+    for (const player in players) {
+        if (players[player].triviaPts > topPlayerPoints) {
+            topPlayerPoints = players[player].total_points
+            topPlayers.push(players[player])
+        } else if (players[player].triviaPts > topPlayerPoints) {
+            topPlayers.push(players[player])
+        }
+    }
+    if (topPlayers.length > 1) {
+        winningPlayer = topPlayers[Math.floor(Math.random() * topPlayers.length)]
+    } else {
+        winningPlayer = topPlayers[0]
+    }
+    console.log('winning player', winningPlayer)
+    return winningPlayer
+}
+
 
 module.exports = {
     handleServerJoin,
@@ -212,5 +250,8 @@ module.exports = {
     handleGetLobbyFromCode,
     handleLobbyJoin,
     handleLobbyDisconnect,
-    handleDeleteLobby
+    handleDeleteLobby,
+    handleGetLobbyPlayers,
+
+    handleGetVictory
 }
