@@ -1,6 +1,40 @@
 let socketUsers = {}; // wanna use Database instead later - maybe??
 let lobbyRooms = {};
 
+let crushes = [
+    {
+        name: 'Nerdman Enerd',
+        nickname: 'nerdyBoy',
+        description: '20' // 20 for mythology - this is for the trivia api categorizing
+    },
+    {
+        name: 'Emoman Elmo',
+        nickname: 'emoBoy',
+        description: '20'
+    },
+    {
+        name: 'Sportman Bill',
+        nickname: 'sportyBoy',
+        description: '20'
+    },
+    {
+        name: 'Nerdwoman Enerdy',
+        nickname: 'nerdyGirl',
+        description: '20'
+    },
+    {
+        name: 'Emowoman Elmody',
+        nickname: 'emoGirl',
+        description: '20'
+    },
+    {
+        name: 'Sportwoman Billie',
+        nickname: 'sportyGirl',
+        description: '20'
+    }
+]
+
+
 const randomWords = require('random-words');
 
 
@@ -46,6 +80,7 @@ function handleServerDisconnect(client) {
     delete socketUsers[client.id];
     return
 }
+
 
 
 
@@ -140,6 +175,28 @@ function handleLobbyDisconnect(roomId, client) {
 
 function handleGetLobbyPlayers(roomId) {
     return lobbyRooms[roomId].clients
+}
+
+// CRUSHES
+
+function handleCrushes(room){
+    const crushesClone = [...crushes] // copy
+    const randomizedCrushes = []
+
+    while(randomizedCrushes.length !== 3){
+        const randomIndex = Math.floor(Math.random()* crushesClone.length)
+        const selectedCrush = crushesClone[randomIndex]
+        crushesClone.splice(randomIndex, 1) // remove so there will be no duplicates served to the players
+
+        randomizedCrushes.push(selectedCrush)
+    }
+
+    room.randomizedCrushes = randomizedCrushes
+
+    console.log('RANDOM', room.randomizedCrushes)
+
+    return room.randomizedCrushes
+    
 }
 
 
@@ -239,6 +296,9 @@ module.exports = {
     handleServerDisconnect,
     handleGetAllUsers,
     handleGetUserFromClientId,
+
+    handleCrushes,
+
     handleTrivia,
     checkTriviaAnswer,
     nextTrivia,

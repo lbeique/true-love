@@ -1,0 +1,108 @@
+.players{
+
+    &__container{
+        position: absolute;
+        display: grid;
+        grid-template-columns: .5fr 2fr .5fr;
+        height: 20vh;
+        width: 80vw;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        background-color: $primary-color;
+        padding: 20px;
+    }
+
+
+    &__btn{
+        width: 4em;
+        height: 4em;
+        transition: all .2s;
+        object-fit: contain;
+
+        &--left{
+            grid-column-start: 1 ;
+            justify-self: center;
+            align-self: center;
+
+            &:hover{
+                transform: translateY(-4px)
+            }
+
+            &:active{
+                transform: translateY(-2px)
+            }
+
+        }
+
+        &--right{
+            grid-column-start: 3 ;
+            justify-self: center;
+            align-self: center;
+
+            &:hover{
+                transform: translateY(-4px)
+            }
+
+            &:active{
+                transform: translateY(-2px)
+            }
+         
+        }
+
+    }
+
+    &__listContainer{
+        grid-column-start: 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        list-style-type: none;
+
+        &--animated{
+            animation: fadingIn 1s ease;
+        }
+    }
+
+}
+
+.client{
+    color: $tertiary-color;
+    display: grid;
+    grid-template-rows: 30% 70%;
+    font-size: 20px;
+
+    &__topBar{
+        display: flex;
+        column-gap: .5em;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__bottomBar{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__avatar{
+        grid-row-start: 1;
+        width: 2em;
+        height: 2em;
+        border: 2px solid $secondary-color;
+        border-radius: 20px;
+
+        &--green{
+            border: 2px solid $tertiary-color
+        }
+    }
+
+    &__name{
+        grid-row-start: 1;
+    }
+
+    &__vote{
+        grid-row-start: 2;
+    }
+
+
+}

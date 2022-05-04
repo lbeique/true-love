@@ -1,0 +1,87 @@
+
+.carousel{
+    @include absCenter;
+    height: 75vh;
+    width: 80vw;
+    background:linear-gradient(to top, $secondary-variant, transparent 30%);
+
+    &__btn{
+        position: absolute;
+        top: 50%;
+        transition: all .2s;
+        transform: translateY(-50px);
+
+        &--left{
+            top: 50%;
+            left: 20%;
+            width: 7em;
+            height: 7em;
+            object-position: contain;
+            
+            
+            &:hover{
+                transform: translateY(-54px)
+            }
+
+            &:active{
+                transform: translateY(-52px)
+            }
+        }
+
+        &--right{
+            top: 50%;
+            right: 20%;
+            width: 7em;
+            height: 7em;
+            object-position: contain;
+
+            &:hover{
+                transform: translateY(-54px)
+            }
+
+            &:active{
+                transform: translateY(-52px)
+            }
+
+        }
+    }
+
+    &__slideContainer{
+        @include absCenter
+    }
+
+    &__slide{
+        object-fit: contain;
+
+        &--animated{
+            animation: fadingIn 1s ease;
+        }
+    }
+
+    &__slideText{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        color: $tertiary-color;
+        font-size: 40px;
+        
+
+        &--animated{
+            animation: fadingIn 1s ease;
+        }
+    }
+
+    &__voteButton{
+        position: absolute;
+        bottom: 15%;
+        left: 40%;
+        width: 10em;
+        height: 3em;
+        font-size: 25px;
+        font-weight: bold;
+        
+    }
+
+    
+
+}
