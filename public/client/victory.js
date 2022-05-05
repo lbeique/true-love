@@ -1,6 +1,6 @@
 socket.on('create-victory', (winner, room) => {
     console.log('create victory', winner)
-    const section__main = document.querySelector('.section-main--bg1')
+    const section__main = document.querySelector('.section-victory')
 
     const victory__container = document.createElement('div')
     victory__container.classList.add('victory__container')
@@ -25,6 +25,8 @@ socket.on('create-victory', (winner, room) => {
         event.preventDefault();
         socket.emit('return-to-lobby')
     })
+
+    section__main.classList.remove('hide')
 })
 
 socket.on('remove-victory', () => {

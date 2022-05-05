@@ -1,8 +1,8 @@
-socket.on('crush-start', () => {
-    socket.emit('request_crushes')
-})
+socket.on('crush-start', (crushes) => {
+   
+    const section__lobbyClient = document.querySelector('.section__lobbyClient')
+    section__lobbyClient.classList.add('hide')
 
-socket.on('set_crushes-carousel', (crushes) => {
     const section__crushes = document.querySelector('.section-crushes')
     const carousel = document.createElement('div')
     const carousel__btnLeft = document.createElement('img')
@@ -55,6 +55,20 @@ socket.on('set_crushes-carousel', (crushes) => {
 
     }, false)
 
+    carousel__voteButton.addEventListener('click', (event) => {
+        event.preventDefault()
+
+
+        
+        
+        const votedCrush = crushes[1]
+        socket.emit(`voted_crush`, {
+            votedCrush : votedCrush,
+            userID: USER_ID,
+            roomID: ROOM_ID
+        })
+    })
+
 
     slide__text.innerText = `${crushes[1].name}`
     slide.src = `assets/character-fullbody/${crushes[1].nickname}.png`
@@ -83,38 +97,6 @@ socket.on('set_crushes-carousel', (crushes) => {
 socket.on('receive room_clients', (room) => {
 
     const clients = room.clients
-
-    // const clients = {
-    //     emo1:{
-    //         avatar: '🦄',
-    //         username: '1 BOB'
-    //     },
-    //     emo2:{
-    //         avatar: '🦄',
-    //         username: '2 BOB'
-    //     },
-    //     emo3:{
-    //         avatar: '🦄',
-    //         username: '3 BOB'
-    //     },
-    //     emo4:{
-    //         avatar: '🦄',
-    //         username: '4 BOB'
-    //     },
-    //     emo5:{
-    //         avatar: '🦄',
-    //         username: '5 BOB'
-    //     },
-    //     emo6:{
-    //         avatar: '🦄',
-    //         username: '6 BOB'
-    //     },
-    //     emo7:{
-    //         avatar: '🦄',
-    //         username: '7 BOB'
-    //     }
-
-    // }
 
     const section__crushes = document.querySelector('.section-crushes')
     const players__container = document.createElement('div')
@@ -181,7 +163,9 @@ socket.on('receive room_clients', (room) => {
     })
 
 
-    for(let i = 0; i < 3; i++){
+    console.log("clientInArr", clientsInArr)
+
+    for(let i = 0; i < clientsInArr.length; i++){
         players__ul.appendChild(displayUsers(clientsInArr[i]))
         startingIndex++ // 1, 2, 3
     }
@@ -196,34 +180,123 @@ socket.on('receive room_clients', (room) => {
 function displayUsers(client){
     console.log('client', client)
     
-        const client__li = document.createElement('li')
-        const client__avatar = document.createElement('img')
-        const client__name = document.createElement('span')
-        const client__vote = document.createElement('span')
-        const client__topBar = document.createElement('div')
-        const client__bottomBar = document.createElement('div')
+    const client__li = document.createElement('li')
+    const client__avatar = document.createElement('img')
+    const client__name = document.createElement('span')
+    const client__vote = document.createElement('span')
+    const client__topBar = document.createElement('div')
+    const client__bottomBar = document.createElement('div')
 
-        client__li.classList.add('client')
-        client__avatar.classList.add('client__avatar')
-        client__name.classList.add('client__name')
-        client__vote.classList.add('client__vote')
-        client__topBar.classList.add('client__topBar')
-        client__bottomBar.classList.add('client__bottomBar')
+    client__li.classList.add(`client`, `client-${client.userId}`)
+    client__avatar.classList.add('client__avatar')
+    client__name.classList.add('client__name')
+    client__vote.classList.add('client__vote')
+    client__topBar.classList.add('client__topBar')
+    client__bottomBar.classList.add('client__bottomBar')
 
-        client__avatar.innerText = `${client.avatar}`
-        client__name.innerText = `${client.username}`
-        client__vote.innerHTML = `thinking <span class="dots"> ... </span>`
+    client__avatar.innerText = `${client.avatar}`
+    client__name.innerText = `${client.username}`
+    client__vote.innerHTML = `thinking <span class="dots"> ... </span>`
 
-        client__topBar.appendChild(client__avatar)
-        client__topBar.appendChild(client__name)
-        client__bottomBar.appendChild(client__vote)
-        client__li.appendChild(client__topBar)
-        client__li.appendChild(client__bottomBar)
-        return client__li
-
+    client__topBar.appendChild(client__avatar)
+    client__topBar.appendChild(client__name)
+    client__bottomBar.appendChild(client__vote)
+    client__li.appendChild(client__topBar)
+    client__li.appendChild(client__bottomBar)
+    return client__li
 
 }
 
+socket.on('client_voted', (clientID) => {
+    
+    const client__votedAvatar = document.querySelector(`.client-${clientID}  .client__avatar`) 
+    const client__votedText = document.querySelector(`.client-${clientID} .client__vote`)
+
+    client__votedAvatar.classList.add('client__avatar--green')
+    client__votedText.classList.add('client__vote--green')
+    client__votedText.innerText = 'VOTED!'
+
+    if(USER_ID === clientID){
+
+       const userVoteButton = document.querySelector('.carousel__voteButton')
+       const crush__btnLeft = document.querySelector('.carousel__btn--left')
+       const crush__btnRight = document.querySelector('.carousel__btn--right')
+
+       userVoteButton.style.display = 'none'
+       crush__btnLeft.classList.add('hide')
+       crush__btnRight.classList.add('hide')
+
+    }
 
 
+})
+
+socket.on('crush_voting_result', (topVotedCrush) => {
+
+    const revealOverlay = document.querySelector('.overlay')
+    const reveal__container = document.createElement('div')
+    const reveal__containerLeft = document.createElement('div')
+    const reveal__containerRight = document.createElement('div')
+    const reveal__crush = document.createElement('img')
+    const reveal__text = document.createElement('span')
+    const reveal__triviaCountdown = document.createElement('span')
+
+    reveal__text.classList.add('overlay__text')
+    reveal__crush.classList.add('overlay__crush')
+    reveal__container.classList.add('overlay__container')
+    reveal__containerLeft.classList.add('overlay__container--left')
+    reveal__containerRight.classList.add('overlay__container--right')
+    reveal__triviaCountdown.classList.add('timer')
+    
+
+    reveal__text.classList.remove('overlay__text--pulsate')
+    setTimeout(() => {
+        reveal__text.classList.add('overlay__text--pulsate')
+        reveal__text.innerText = `Calculating votes...`
+    }, 1000);
+
+    reveal__text.classList.remove('overlay__text--fromCenterToTop')
+    setTimeout(() => {
+        reveal__text.classList.add('overlay__text--fromCenterToTop')
+        reveal__text.innerText = `Your target is...`
+    }, 4000);
+
+    setTimeout(() => {
+        reveal__text.classList.add('overlay__text--revealName')
+        reveal__text.innerText = `Your target is ${topVotedCrush.name}!!!`
+        reveal__crush.src = `assets/character-fullbody/${topVotedCrush.nickname}.png`
+    }, 6000);
+
+    setTimeout(() => {
+        socket.emit('timer', 5) // this is where you check phase at the back
+    }, 10000);
+
+
+    reveal__containerLeft.appendChild(reveal__text)
+    reveal__containerLeft.appendChild(reveal__triviaCountdown)
+    reveal__containerRight.appendChild(reveal__crush)
+    reveal__container.appendChild(reveal__containerLeft)
+    reveal__container.appendChild(reveal__containerRight)
+    revealOverlay.appendChild(reveal__container)
+
+    revealOverlay.classList.remove('hide')
+
+}, false)
+
+socket.on('counter', async function (count) {
+    const timerText = document.querySelector(".timer");
+
+    timerText.innerHTML = 'Trivia in: ' + count + "s";
+})
+
+
+socket.on('counter-finish', () => {
+    const overlay = document.querySelector('.overlay')
+    const section__crushes = document.querySelector('.section-crushes')
+
+    overlay.classList.add('hide')
+    section__crushes.classList.add('hide')
+
+    socket.emit('game-start')
+})
 
