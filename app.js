@@ -205,14 +205,14 @@ io.on('connection', client => {
 
     function trivia() {
       io.to(room.room_id).emit('trivia-game-start')
-      dumbTimer('counter2', 'counter-finish2', 'victory', 15)
+      dumbTimer('counter2', 'counter-finish2', 'victory', 60)
     }
 
     function victory() {
-      console.log('clien announcing-victory')
+      console.log('client announcing-victory')
       let players = handlers.handleGetLobbyPlayers(room.room_id)
       console.log('players', players)
-      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players), room)
+      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players, room))
     }
 
 

@@ -222,7 +222,7 @@ function handleVote(votedCrush, client, room){
 
     console.log("PASSED CLIENT", client)
  
-    client.game.crushVote = votedCrush.id // !! saves to socketUser -- not saving - come back to this
+    // client.game.crushVote = votedCrush.id // !! saves to socketUser -- not saving - come back to this
     room.gameState.votes.push(votedCrush.id)
 
     console.log('gameStateVotes track', room.gameState.votes) // basically trackVoteArr
@@ -353,25 +353,47 @@ function getWords(client){
 
 }
 
+// Reset Game
+
+function gameReset(room) {
+    room.gameState = {
+        game_active: false,
+        topVotedCrush: {},
+        gameStages: [],
+        currentStage: null,
+        timer: null,
+        votes: [],
+        voteResult: null,
+    }
+    let clients = room.clients
+    for (const client in clients) {
+        clients[client].triviaPts = 0,
+        clients[client].triviaQuestions = null,
+        clients[client].triviaProgressIndex = 0
+    }
+}
+
 // Victory
 
-function handleGetVictory(players) {
+function handleGetVictory(players, room) {
     let topPlayerPoints = 0
     let topPlayers = []
     let winningPlayer = null
     for (const player in players) {
+        console.log('player trivia points', players[player].triviaPts)
         if (players[player].triviaPts >= topPlayerPoints) {
             topPlayerPoints = players[player].triviaPts
         }
     }
 
+    console.log('topPlayerPoints', topPlayerPoints)
     for (const player in players) {
         if (players[player].triviaPts === topPlayerPoints) {
             topPlayers.push(players[player])
         }
     }
 
-    console.log(players)
+    console.log('topPlayers', topPlayers)
 
     if (topPlayers.length > 1) {
         winningPlayer = topPlayers[Math.floor(Math.random() * topPlayers.length)]
@@ -379,7 +401,16 @@ function handleGetVictory(players) {
         winningPlayer = topPlayers[0]
     }
     console.log('winning player', winningPlayer)
-    return winningPlayer
+
+    let returnPlayer = {
+        name: winningPlayer.username,
+        points: winningPlayer.triviaPts
+    }
+    
+    // GAME RESET
+    gameReset(room)
+
+    return returnPlayer
 }
 
 
