@@ -259,17 +259,17 @@ socket.on('crush_voting_result', (topVotedCrush) => {
     setTimeout(() => {
         reveal__text.classList.add('overlay__text--fromCenterToTop')
         reveal__text.innerText = `Your target is...`
-    }, 6000);
+    }, 4000);
 
     setTimeout(() => {
         reveal__text.classList.add('overlay__text--revealName')
         reveal__text.innerText = `Your target is ${topVotedCrush.name}!!!`
         reveal__crush.src = `assets/character-fullbody/${topVotedCrush.nickname}.png`
-    }, 10000);
+    }, 6000);
 
     setTimeout(() => {
-        socket.emit('timer', 15) // this is where you check phase at the back
-    }, 11000);
+        socket.emit('timer', 5) // this is where you check phase at the back
+    }, 10000);
 
 
     reveal__containerLeft.appendChild(reveal__text)
