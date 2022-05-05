@@ -142,7 +142,7 @@ io.on('connection', client => {
       console.log('crush start emit')
       io.to(room.room_id).emit('crush-start', handlers.handleCrushes(room, user))
 
-   // client.on('game-start', () => {
+      // client.on('game-start', () => {
       // console.log(`${client.id} emit game-start -> emit remove-lobby`)
       // io.to(room.room_id).emit('remove-lobby')
       // console.log(`${client.id} emit remove-lobby -> emit crush-start`)
@@ -152,9 +152,9 @@ io.on('connection', client => {
 
     client.on('return-to-lobby', () => {
       console.log(`${client.id} emit return-to-lobby -> emit remove-victory`)
-      io.to(room.room_id).emit('remove-victory')
+      io.to(client.id).emit('remove-victory')
       console.log(`${client.id} emit remove-victory -> emit create-lobby`)
-      io.to(room.room_id).emit('create-lobby', room)
+      io.to(client.id).emit('create-lobby', room)
     })
 
 
@@ -163,30 +163,89 @@ io.on('connection', client => {
       io.to(client.id).emit('receive room_clients', room)
     })
 
+
+    // SKATEBOARD OMG DONT LOOOK
     client.on('voted_crush', (data) => {
       const checkVotingState = handlers.handleVote(data.votedCrush, user, room)
-      if(typeof checkVotingState === "string"){
+      if (typeof checkVotingState === "string") {
         io.to(room.room_id).emit('client_voted', checkVotingState)
       } else {
         io.to(room.room_id).emit('client_voted', checkVotingState.clientId)
         io.to(room.room_id).emit('crush_voting_result', checkVotingState.topVotedCrush)
+        setTimeout(() => {
+          console.log('settimeout timer1')
+          dumbTimer('counter1', 'counter-finish1', 'trivia', 5)
+
+        }, 11000);
       }
     })
 
 
-    // TIMER
-    client.on('timer', (counter) => {
-
+    // SKATEBOARD HELP FUNCTIONS
+    function dumbTimer(emit1, emit2, phase, counter) {
       let timer = setInterval(function () {
-        io.to(room.room_id).emit('counter', counter)   //  temporary change - should be io.sockets.emit later
+        io.to(room.room_id).emit(emit1, counter) // start phase
         counter--
 
         if (counter <= 0) {
-          io.to(room.room_id).emit('counter-finish', 'game finish')  // temporary change - should be io.sockets.emit  later
+          io.to(room.room_id).emit(emit2) // clean up
+          phaseTracker(phase) // next phase
           clearInterval(timer)
         }
       }, 1000)
-    })
+    }
+
+    function phaseTracker(phase) {
+      if (phase === 'trivia') {
+        trivia()
+      } else if (phase === 'victory') {
+        victory()
+      }
+    }
+
+    function trivia() {
+      io.to(room.room_id).emit('trivia-game-start')
+      dumbTimer('counter2', 'counter-finish2', 'victory', 15)
+    }
+
+    function victory() {
+      console.log('clien announcing-victory')
+      let players = handlers.handleGetLobbyPlayers(room.room_id)
+      console.log('players', players)
+      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players), room)
+    }
+
+
+    // // TIMER 1   // skateboard baby
+    // client.on('timer1', (counter) => {
+    // let counter = 5
+    // let timer = setInterval(function () {
+    //   io.to(room.room_id).emit('counter1', counter)   //  temporary change - should be io.sockets.emit later
+    //   counter--
+
+    //   if (counter <= 0) {
+    //     io.to(room.room_id).emit('counter-finish1')  // temporary change - should be io.sockets.emit  later
+    //     io.to(room.room_id).emit('trivia-game-start')
+    //     clearInterval(timer)
+    //   }
+    // }, 1000)
+
+    // })
+
+    // TIMER 2   // skateboard baby
+    // client.on('timer2', (counter) => {
+
+    //   let timer = setInterval(function () {
+    //     io.to(room.room_id).emit('counter2', counter)   //  temporary change - should be io.sockets.emit later
+    //     counter--
+
+    //     if (counter <= 0) {
+    //       io.to(room.room_id).emit('counter-finish2')  // temporary change - should be io.sockets.emit  later
+    //       io.to(room.room_id).emit('announce-victory')
+    //       clearInterval(timer)
+    //     }
+    //   }, 1000)
+    // })
 
 
     // TRIVIA
@@ -208,12 +267,13 @@ io.on('connection', client => {
 
 
     // VICTORY
-    client.on('announce-victory', () => {
-      console.log('clien announcing-victory')
-      let players = handlers.handleGetLobbyPlayers(room.room_id)
-      console.log('players', players)
-      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players), room)
-    })
+    // client.on('announce-victory', () => {
+    //   console.log('clien announcing-victory')
+    //   let players = handlers.handleGetLobbyPlayers(room.room_id)
+    //   console.log('players', players)
+    //   io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players), room)
+    // })
+
 
   })
 

@@ -258,17 +258,13 @@ socket.on('crush_voting_result', (topVotedCrush) => {
     reveal__text.classList.remove('overlay__text--fromCenterToTop')
     setTimeout(() => {
         reveal__text.classList.add('overlay__text--fromCenterToTop')
-        reveal__text.innerText = `Your target is...`
-    }, 4000);
-
-    setTimeout(() => {
-        reveal__text.classList.add('overlay__text--revealName')
-        reveal__text.innerText = `Your target is ${topVotedCrush.name}!!!`
-        reveal__crush.src = `assets/character-fullbody/${topVotedCrush.nickname}.png`
+        reveal__text.innerText = `Your choice is...`
     }, 6000);
 
     setTimeout(() => {
-        socket.emit('timer', 5) // this is where you check phase at the back
+        reveal__text.classList.add('overlay__text--revealName')
+        reveal__text.innerText = `${topVotedCrush.name}!!!`
+        reveal__crush.src = `assets/character-fullbody/${topVotedCrush.nickname}.png`
     }, 10000);
 
 
@@ -283,20 +279,21 @@ socket.on('crush_voting_result', (topVotedCrush) => {
 
 }, false)
 
-socket.on('counter', async function (count) {
+
+socket.on('counter1', async function (count) {
     const timerText = document.querySelector(".timer");
 
     timerText.innerHTML = 'Trivia in: ' + count + "s";
 })
 
 
-socket.on('counter-finish', () => {
+socket.on('counter-finish1', () => {
     const overlay = document.querySelector('.overlay')
     const section__crushes = document.querySelector('.section-crushes')
 
     overlay.classList.add('hide')
     section__crushes.classList.add('hide')
 
-    socket.emit('game-start')
+    
 })
 
