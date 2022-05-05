@@ -1,6 +1,6 @@
 socket.on('trivia-game-start', () => {
-    console.log('timer start')
-    socket.emit('timer', 15)
+    //console.log('timer start')
+    //socket.emit('timer', 15)
     axios.get(`/lobby/${ROOM_ID}`)
         .then(() => axios.get("https://opentdb.com/api.php?amount=10&category=20&difficulty=easy&type=multiple"))
         .then(result => {
@@ -9,18 +9,16 @@ socket.on('trivia-game-start', () => {
         })
 })
 
-socket.on('counter', async function (count) {
+socket.on('counter2', async function (count) {
     const timerText = document.querySelector(".timer__trivia");
 
     timerText.innerHTML = count + "s";
 })
 
-socket.on('counter-finish', () => {
+socket.on('counter-finish2', () => {
     console.log('trivia client timer finish')
     const section__main = document.querySelector('.section-trivia')
     section__main.classList.add('hide')
-    
-    socket.emit('announce-victory')
 })
 
 

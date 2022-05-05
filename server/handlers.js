@@ -231,6 +231,7 @@ function handleVote(votedCrush, client, room){
         const resultCalculation = {}
         let mostVotedCrushId = 0;
         let highestVotes = 0;
+        let topPicks = []
 
         for (const votedID of room.gameState.votes) {
             if (resultCalculation[votedID]) {
@@ -239,17 +240,35 @@ function handleVote(votedCrush, client, room){
                 resultCalculation[votedID] = 1;
             }
 
-            console.log("RESULT CALCULATION", resultCalculation)
+        }
 
-            if (resultCalculation[votedID] > highestVotes) {
-                mostVotedCrushId = votedID;
-                highestVotes = resultCalculation[votedID];
+        console.log("RESULT CALCULATION", resultCalculation)
+
+        for (let result in resultCalculation){
+            if (resultCalculation[result] >= highestVotes) {
+                highestVotes = resultCalculation[result]
             }
         }
 
+        for (const result in resultCalculation) {
+            if (resultCalculation[result] === highestVotes) {
+                topPicks.push(result)
+            }
+        }
+
+        if (topPicks.length > 1) {
+            mostVotedCrushId = topPicks[Math.floor(Math.random() * topPicks.length)]
+        } else {
+            mostVotedCrushId = topPicks[0]
+        }
+
         const gameState = room.gameState
+
+        console.log('VOTED CRUSH ID', mostVotedCrushId)
         
-        gameState.topVotedCrush = crushes.filter( crush => crush.id === mostVotedCrushId)[0]
+        gameState.topVotedCrush = crushes.filter(crush => crush.id === +mostVotedCrushId)[0]
+
+        console.log('Vtop', gameState.topVotedCrush)
 
         const data = {
             topVotedCrush:  gameState.topVotedCrush,
@@ -337,17 +356,23 @@ function getWords(client){
 // Victory
 
 function handleGetVictory(players) {
-    let topPlayerPoints = null
+    let topPlayerPoints = 0
     let topPlayers = []
     let winningPlayer = null
     for (const player in players) {
-        if (players[player].triviaPts > topPlayerPoints) {
-            topPlayerPoints = players[player].total_points
-            topPlayers.push(players[player])
-        } else if (players[player].triviaPts > topPlayerPoints) {
+        if (players[player].triviaPts >= topPlayerPoints) {
+            topPlayerPoints = players[player].triviaPts
+        }
+    }
+
+    for (const player in players) {
+        if (players[player].triviaPts === topPlayerPoints) {
             topPlayers.push(players[player])
         }
     }
+
+    console.log(players)
+
     if (topPlayers.length > 1) {
         winningPlayer = topPlayers[Math.floor(Math.random() * topPlayers.length)]
     } else {

@@ -88,6 +88,8 @@ socket.on('create-lobby', (room) => {
         socket.emit('voting-start')
     })
     
+    section__lobbyClient.classList.remove('hide')
+    
     userList(room)
 })
 
