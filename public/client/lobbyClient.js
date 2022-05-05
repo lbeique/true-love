@@ -58,7 +58,7 @@ socket.on('user-disconnected', (user, room) => {
 })
 
 socket.on('create-lobby', (room) => {
-    const section__main = document.querySelector('.section-main--bg1')
+    const section__lobbyClient = document.querySelector('.section__lobbyClient')
 
     const lobby__container = document.createElement('div')
     lobby__container.classList.add('lobby__container')
@@ -80,11 +80,12 @@ socket.on('create-lobby', (room) => {
     lobby__container.appendChild(lobby__code)
     lobby__container.appendChild(gameStart__btn)
     lobby__container.appendChild(user__list)
-    section__main.appendChild(lobby__container)
+    section__lobbyClient.appendChild(lobby__container)
    
 
     gameStart__btn.addEventListener('click', (event) => {
         event.preventDefault();
+        section__lobbyClient.classList.add('hide')
         socket.emit('game-start')
     })
     

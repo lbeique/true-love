@@ -4,10 +4,9 @@
     &, 
     &:link, 
     &:visited{
-        display: inline-block;
-        padding: 10px;
-        text-align: center;
-        margin-bottom: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         text-decoration: none;
         border-radius: 2em;
         transition: all .2s;
@@ -31,6 +30,7 @@
         font-family: 'Arial Rounded MT Bold';
         color: $primary-color;
         background-color: $tertiary-color;
+        border: 10px solid $secondary-variant;
 
     }
 
@@ -57,8 +57,8 @@
 
     &__auth{
         width: 15em;
-        height: 2.5em;
-        font-size: 20px;
+        height: 3em;
+        font-size: 25px;
         animation: popUpCenter 1s ease 3s backwards;
     }
 
