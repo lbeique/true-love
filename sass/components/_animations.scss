@@ -126,3 +126,12 @@
     100% { opacity: 0.0; }
 }
 
+@keyframes fromCenterToTop{
+    from{
+        top: 40%
+    }
+    to {
+        top: 20%
+    }
+}
+

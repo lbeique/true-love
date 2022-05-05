@@ -83,16 +83,16 @@ io.on('connection', client => {
     let user = handlers.handleServerJoin(client, userId, userName)
     console.log('join-room user: ', user)
     if (!user) {
-      window.location = '/lobby/'
+      // window.location = '/lobby/'
       return
     }
 
     let room = handlers.handleGetLobbyFromId(roomId)
     if (!room) {
-      window.location = '/lobby/'
+      // window.location = '/lobby/'
       return
     } else if (room.gameState.game_active === true) {
-      window.location = '/lobby/'
+      // window.location = '/lobby/'
       return
     }
 
@@ -100,7 +100,7 @@ io.on('connection', client => {
 
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
-        // window.location = '/lobby/'
+        // window.location = '/lobby/' // ! DON'T FORGET TO MENTION THIS AGAIN
         return
       }
     }
@@ -132,11 +132,13 @@ io.on('connection', client => {
 
 
     // GAME TRANSITION
-    client.on('game-start', () => {
+    client.on('voting-start', () => {
       console.log('lobby remove')
       io.to(room.room_id).emit('remove-lobby')
-      console.log('game start emit')
-      io.to(room.room_id).emit('crush-start')
+      console.log('gameState update, number of players fixed update')
+      handlers.handleGameState(room)
+      console.log('crush start emit')
+      io.to(room.room_id).emit('crush-start', handlers.handleCrushes(room, user))
     })
 
     client.on('return-to-lobby', () => {
@@ -148,14 +150,20 @@ io.on('connection', client => {
 
 
     // CRUSHES
-    client.on('request_crushes', () => {
-      console.log("RUN SERVER")
-      io.to(room.room_id).emit('set_crushes-carousel', handlers.handleCrushes(room, user))
+    client.on('room_clients', () => {
+      io.to(client.id).emit('receive room_clients', room)
     })
 
-    client.on('room_clients', () => {
-      io.to(room.room_id).emit('receive room_clients', room)
+    client.on('voted_crush', (data) => {
+      const checkVotingState = handlers.handleVote(data.votedCrush, user, room)
+      if(typeof checkVotingState === "string"){
+        io.to(room.room_id).emit('client_voted', checkVotingState)
+      } else {
+        io.to(room.room_id).emit('client_voted', checkVotingState.clientId)
+        io.to(room.room_id).emit('crush_voting_result', checkVotingState.topVotedCrush)
+      }
     })
+
 
     // TIMER
     client.on('timer', (counter) => {
@@ -173,6 +181,10 @@ io.on('connection', client => {
 
 
     // TRIVIA
+    client.on('game-start', () => {
+      io.to(client.id).emit('trivia-game-start')
+    })
+
     client.on('trivia_question', (triviasArr) => {
       io.to(client.id).emit('trivia_start', handlers.handleTrivia(client, triviasArr))
     })

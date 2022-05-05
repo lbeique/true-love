@@ -10,17 +10,16 @@ socket.on('trivia-game-start', () => {
 })
 
 socket.on('counter', async function (count) {
-    const timerText = document.querySelector(".timer--darkPurple");
+    const timerText = document.querySelector(".timer__trivia");
 
     timerText.innerHTML = count + "s";
 })
 
 socket.on('counter-finish', () => {
     console.log('trivia client timer finish')
-    const trivia__container = document.querySelector(".trivia__container")
-    const timerText = document.querySelector(".timer--darkPurple");
-    trivia__container.remove()
-    timerText.remove()
+    const section__main = document.querySelector('.section-trivia')
+    section__main.classList.add('hide')
+    
     socket.emit('announce-victory')
 })
 
@@ -28,7 +27,7 @@ socket.on('counter-finish', () => {
 socket.on('trivia_reset_state', (data) => {
     if (data.result === false) {
         const cross = document.createElement('div')
-        const section__main = document.querySelector('.section-main--bg1')
+        const section__main = document.querySelector('.section-trivia')
         cross.classList.add('cross')
 
         section__main.appendChild(cross)
@@ -51,7 +50,7 @@ socket.on('trivia_reset_state', (data) => {
 
 socket.on('trivia_start', (trivia) => {
 
-    const section__main = document.querySelector('.section-main--bg1')
+    const section__main = document.querySelector('.section-trivia')
     const trivia__container = document.createElement('div')
     const question = document.createElement('div')
     const answerContainer = document.createElement('div')
@@ -86,5 +85,7 @@ socket.on('trivia_start', (trivia) => {
     trivia__container.appendChild(question)
     trivia__container.appendChild(answerContainer)
     section__main.appendChild(trivia__container)
+
+    section__main.classList.remove('hide')
 
 })
