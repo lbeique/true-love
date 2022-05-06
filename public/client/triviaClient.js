@@ -1,34 +1,31 @@
 socket.on('trivia-game-start', () => {
-    console.log('timer start')
-    socket.emit('timer', 15)
+    //console.log('timer start')
+    //socket.emit('timer', 15)
     axios.get(`/lobby/${ROOM_ID}`)
-        .then(() => axios.get("https://opentdb.com/api.php?amount=10&category=20&difficulty=easy&type=multiple"))
+        .then(() => axios.get("https://opentdb.com/api.php?amount=30&category=11&difficulty=easy&type=multiple"))
         .then(result => {
             console.log('axios get')
             socket.emit('trivia_question', result.data.results)
         })
 })
 
-socket.on('counter', async function (count) {
-    const timerText = document.querySelector(".timer--darkPurple");
+socket.on('counter2', async function (count) {
+    const timerText = document.querySelector(".timer__trivia");
 
     timerText.innerHTML = count + "s";
 })
 
-socket.on('counter-finish', () => {
+socket.on('counter-finish2', () => {
     console.log('trivia client timer finish')
-    const trivia__container = document.querySelector(".trivia__container")
-    const timerText = document.querySelector(".timer--darkPurple");
-    trivia__container.remove()
-    timerText.remove()
-    socket.emit('announce-victory')
+    const section__main = document.querySelector('.section-trivia')
+    section__main.classList.add('hide')
 })
 
 
 socket.on('trivia_reset_state', (data) => {
     if (data.result === false) {
         const cross = document.createElement('div')
-        const section__main = document.querySelector('.section-main--bg1')
+        const section__main = document.querySelector('.section-trivia')
         cross.classList.add('cross')
 
         section__main.appendChild(cross)
@@ -51,7 +48,7 @@ socket.on('trivia_reset_state', (data) => {
 
 socket.on('trivia_start', (trivia) => {
 
-    const section__main = document.querySelector('.section-main--bg1')
+    const section__main = document.querySelector('.section-trivia')
     const trivia__container = document.createElement('div')
     const question = document.createElement('div')
     const answerContainer = document.createElement('div')
@@ -86,5 +83,7 @@ socket.on('trivia_start', (trivia) => {
     trivia__container.appendChild(question)
     trivia__container.appendChild(answerContainer)
     section__main.appendChild(trivia__container)
+
+    section__main.classList.remove('hide')
 
 })

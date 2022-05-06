@@ -3,31 +3,37 @@ let lobbyRooms = {};
 
 let crushes = [
     {
+        id: 1,
         name: 'Nerdman Enerd',
         nickname: 'nerdyBoy',
         description: '20' // 20 for mythology - this is for the trivia api categorizing
     },
     {
+        id: 2,
         name: 'Emoman Elmo',
         nickname: 'emoBoy',
         description: '20'
     },
     {
+        id: 3,
         name: 'Sportman Bill',
         nickname: 'sportyBoy',
         description: '20'
     },
     {
+        id: 4,
         name: 'Nerdwoman Enerdy',
         nickname: 'nerdyGirl',
         description: '20'
     },
     {
+        id: 5,
         name: 'Emowoman Elmody',
         nickname: 'emoGirl',
         description: '20'
     },
     {
+        id: 6,
         name: 'Sportwoman Billie',
         nickname: 'sportyGirl',
         description: '20'
@@ -51,7 +57,10 @@ function handleServerJoin(client, user_id, user_name) {
         username: user_name,
         userId: user_id,
         avatar: randomAvatars[avatarIndex],
-        roomId: null // Foreign Key for DB ?
+        roomId: null, // Foreign Key for DB ?
+        game: {
+            crushVote: null
+        }
     };
 
     socketUsers[client.id] = user;
@@ -104,10 +113,11 @@ function handleCreateLobby(roomId, roomName, roomCode, user_info) {
             room_name: roomName,
             room_id: roomId,
             room_code: roomCode,
+            num_clientInRoom: 0,
             clients: {},
             gameState: {
                 game_active: false,
-                crushes: {},
+                topVotedCrush: {},
                 gameStages: [],
                 currentStage: null,
                 timer: null,
@@ -177,8 +187,19 @@ function handleGetLobbyPlayers(roomId) {
     return lobbyRooms[roomId].clients
 }
 
-// CRUSHES
 
+// GAME STATE HANDLER
+function handleGameState(room){
+    room.gameState.game_active = true
+    room.num_clientInRoom = Object.keys(room.clients).length
+
+    console.log("UPDATED GAME STATE", room)
+
+    return 
+}
+
+
+// CRUSHES
 function handleCrushes(room){
     const crushesClone = [...crushes] // copy
     const randomizedCrushes = []
@@ -193,10 +214,75 @@ function handleCrushes(room){
 
     room.randomizedCrushes = randomizedCrushes
 
-    console.log('RANDOM', room.randomizedCrushes)
-
     return room.randomizedCrushes
     
+}
+
+function handleVote(votedCrush, client, room){
+
+    console.log("PASSED CLIENT", client)
+ 
+    // client.game.crushVote = votedCrush.id // !! saves to socketUser -- not saving - come back to this
+    room.gameState.votes.push(votedCrush.id)
+
+    console.log('gameStateVotes track', room.gameState.votes) // basically trackVoteArr
+
+    if(room.gameState.votes.length === room.num_clientInRoom){
+        const resultCalculation = {}
+        let mostVotedCrushId = 0;
+        let highestVotes = 0;
+        let topPicks = []
+
+        for (const votedID of room.gameState.votes) {
+            if (resultCalculation[votedID]) {
+                resultCalculation[votedID] += 1;
+            } else {
+                resultCalculation[votedID] = 1;
+            }
+
+        }
+
+        console.log("RESULT CALCULATION", resultCalculation)
+
+        for (let result in resultCalculation){
+            if (resultCalculation[result] >= highestVotes) {
+                highestVotes = resultCalculation[result]
+            }
+        }
+
+        for (const result in resultCalculation) {
+            if (resultCalculation[result] === highestVotes) {
+                topPicks.push(result)
+            }
+        }
+
+        if (topPicks.length > 1) {
+            mostVotedCrushId = topPicks[Math.floor(Math.random() * topPicks.length)]
+        } else {
+            mostVotedCrushId = topPicks[0]
+        }
+
+        const gameState = room.gameState
+
+        console.log('VOTED CRUSH ID', mostVotedCrushId)
+        
+        gameState.topVotedCrush = crushes.filter(crush => crush.id === +mostVotedCrushId)[0]
+
+        console.log('Vtop', gameState.topVotedCrush)
+
+        const data = {
+            topVotedCrush:  gameState.topVotedCrush,
+            clientId: client.userId
+        }
+
+        return data // returns an object
+
+    } else {
+
+        return client.userId // returns a string
+
+    }
+
 }
 
 
@@ -267,27 +353,64 @@ function getWords(client){
 
 }
 
+// Reset Game
+
+function gameReset(room) {
+    room.gameState = {
+        game_active: false,
+        topVotedCrush: {},
+        gameStages: [],
+        currentStage: null,
+        timer: null,
+        votes: [],
+        voteResult: null,
+    }
+    let clients = room.clients
+    for (const client in clients) {
+        clients[client].triviaPts = 0,
+        clients[client].triviaQuestions = null,
+        clients[client].triviaProgressIndex = 0
+    }
+}
+
 // Victory
 
-function handleGetVictory(players) {
-    let topPlayerPoints = null
+function handleGetVictory(players, room) {
+    let topPlayerPoints = 0
     let topPlayers = []
     let winningPlayer = null
     for (const player in players) {
-        if (players[player].triviaPts > topPlayerPoints) {
-            topPlayerPoints = players[player].total_points
-            topPlayers.push(players[player])
-        } else if (players[player].triviaPts > topPlayerPoints) {
+        console.log('player trivia points', players[player].triviaPts)
+        if (players[player].triviaPts >= topPlayerPoints) {
+            topPlayerPoints = players[player].triviaPts
+        }
+    }
+
+    console.log('topPlayerPoints', topPlayerPoints)
+    for (const player in players) {
+        if (players[player].triviaPts === topPlayerPoints) {
             topPlayers.push(players[player])
         }
     }
+
+    console.log('topPlayers', topPlayers)
+
     if (topPlayers.length > 1) {
         winningPlayer = topPlayers[Math.floor(Math.random() * topPlayers.length)]
     } else {
         winningPlayer = topPlayers[0]
     }
     console.log('winning player', winningPlayer)
-    return winningPlayer
+
+    let returnPlayer = {
+        name: winningPlayer.username,
+        points: winningPlayer.triviaPts
+    }
+    
+    // GAME RESET
+    gameReset(room)
+
+    return returnPlayer
 }
 
 
@@ -297,7 +420,10 @@ module.exports = {
     handleGetAllUsers,
     handleGetUserFromClientId,
 
+    handleGameState,
+
     handleCrushes,
+    handleVote,
 
     handleTrivia,
     checkTriviaAnswer,

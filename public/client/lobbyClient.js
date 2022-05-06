@@ -85,9 +85,10 @@ socket.on('create-lobby', (room) => {
 
     gameStart__btn.addEventListener('click', (event) => {
         event.preventDefault();
-        section__lobbyClient.classList.add('hide')
-        socket.emit('game-start')
+        socket.emit('voting-start')
     })
+    
+    section__lobbyClient.classList.remove('hide')
     
     userList(room)
 })

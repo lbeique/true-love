@@ -51,6 +51,7 @@
     }
 
     &__slide{
+        z-index: -1;
         object-fit: contain;
 
         &--animated{

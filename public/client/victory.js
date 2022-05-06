@@ -1,6 +1,6 @@
 socket.on('create-victory', (winner, room) => {
     console.log('create victory', winner)
-    const section__main = document.querySelector('.section-main--bg1')
+    const section__main = document.querySelector('.section-victory')
 
     const victory__container = document.createElement('div')
     victory__container.classList.add('victory__container')
@@ -9,7 +9,7 @@ socket.on('create-victory', (winner, room) => {
     victory__header.innerText = `Victory Screen`
 
     const victory__winner = document.createElement('p')
-    victory__winner.innerText = `The Winner is: ${winner.username} with ${winner.triviaPts} pts`
+    victory__winner.innerText = `The Winner is: ${winner.name} with ${winner.points} pts`
 
     const returnLobby__btn = document.createElement('button')
     returnLobby__btn.classList.add('btn', 'btn-success')
@@ -25,6 +25,8 @@ socket.on('create-victory', (winner, room) => {
         event.preventDefault();
         socket.emit('return-to-lobby')
     })
+
+    section__main.classList.remove('hide')
 })
 
 socket.on('remove-victory', () => {

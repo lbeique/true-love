@@ -14,11 +14,16 @@ const getSession = (session) => {
   return session
 }
 
+function makeUsername () {
+  let usernames = ['TheRealSam', 'TheFakeSam', 'TwoBunniesOneBasket', 'Domo', 'Tesla', 'HawkRavenEagleBird', 'xxXx_Panther_XxxxXx', 'AlienLover42', 'Douglas', 'DaddyDhanji', 'AimeeMommy', 'Mr.X', 'PigeonessMan', 'Ilia', 'BubbleTeaManiac', 'Chicken', 'StephenHawkins', 'ItsNotGonnaBeFunnyThough', 'Janor', 'Mr.Plum', 'EarlGrey', 'Shrooms', 'AtMostCamera32', 'Jaremy Holeman']
+  return usernames[Math.floor(Math.random() * usernames.length)]
+}
+
 
 router.get("/login", (req, res) => {
   req.session.authenticated = true;
   req.session.user_info = {}
-  req.session.user_info.user_name = makeCode(8)
+  req.session.user_info.user_name = makeUsername()
   req.session.user_info.user_id = Math.floor(Math.random() * 1000)
   req.session.user_info.total_points = Math.floor(Math.random() * 2)
   const session = getSession(req.session)

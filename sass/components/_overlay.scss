@@ -1,0 +1,66 @@
+.overlay{
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 40;
+    transition: all .2s;
+
+    &--black{
+        background-color: rgba(black, 0.8);
+        animation: fadingIn 1s ease;
+    }
+
+    &__container{
+        @include absCenter;
+        display: flex;
+
+        &--left{
+            display: flex;
+            flex-direction: column;
+            row-gap: 1em;
+            width: 70%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &--right{
+            display: flex;
+            width: 30%;
+        }    
+        
+    }
+
+    &__text{
+        color: $tertiary-color;
+        text-align: center;
+        width: 15em;
+        height: 2.5em;
+        font-size: 30px;
+
+        &--pulsate{
+            animation: pulsate 2s ease infinite
+        }
+
+        &--fromCenterToTop{
+            animation: popUpCenter 2s ease 
+        }
+
+    }
+
+    &__crush{
+        object-fit: contain;
+
+        animation: popUpCenter 1s ease 10s backwards;
+    }
+
+}
+
+.triviaStart{
+
+    &__btn{
+        width: 30%;
+        height: 10%;
+        animation: popUpCenter 1s ease 10s backwards;
+    }
+}
