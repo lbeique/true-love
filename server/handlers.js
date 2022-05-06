@@ -16,7 +16,7 @@ let crushes = [
     },
     {
         id: 3,
-        name: 'Chardick "The Chad" Jonhson',
+        name: 'Chadwick "The Chad" Jonhson',
         nickname: 'sportyBoy',
         description: '20'
     },
