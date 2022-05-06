@@ -1,7 +1,5 @@
 const socket = io.connect();
 
-
-
 // user list helper function
 
 function userList(room) {
@@ -89,11 +87,14 @@ socket.on('create-lobby', (room) => {
     })
     
     section__lobbyClient.classList.remove('hide')
-    
     userList(room)
 })
 
+
 socket.on('remove-lobby', () => {
     const lobby__container = document.querySelector('.lobby__container')
+    const section__lobbyClient = document.querySelector('.section__lobbyClient')
+
     lobby__container.remove()
+    section__lobbyClient.classList.add('hide')
 })

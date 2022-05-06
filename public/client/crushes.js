@@ -1,8 +1,5 @@
 socket.on('crush-start', (crushes) => {
    
-    const section__lobbyClient = document.querySelector('.section__lobbyClient')
-    section__lobbyClient.classList.add('hide')
-
     const section__crushes = document.querySelector('.section-crushes')
     const carousel = document.createElement('div')
     const carousel__btnLeft = document.createElement('img')
@@ -58,9 +55,6 @@ socket.on('crush-start', (crushes) => {
     carousel__voteButton.addEventListener('click', (event) => {
         event.preventDefault()
 
-
-        
-        
         const votedCrush = crushes[1]
         socket.emit(`voted_crush`, {
             votedCrush : votedCrush,
@@ -280,20 +274,24 @@ socket.on('crush_voting_result', (topVotedCrush) => {
 }, false)
 
 
-socket.on('counter1', async function (count) {
+socket.on('start-crush-timer', async function (count) {
     const timerText = document.querySelector(".timer");
 
     timerText.innerHTML = 'Trivia in: ' + count + "s";
 })
 
 
-socket.on('counter-finish1', () => {
-    const overlay = document.querySelector('.overlay')
+socket.on('remove-crush', () => {
+    console.log('remove-crush')
     const section__crushes = document.querySelector('.section-crushes')
+    const players__container = document.querySelector('.players__container')
+    const carousel = document.querySelector('.carousel')
+    const reveal__container = document.querySelector('.overlay__container')
+    const revealOverlay = document.querySelector('.overlay')
 
-    overlay.classList.add('hide')
+    players__container.remove()
+    reveal__container.remove()
+    carousel.remove()
     section__crushes.classList.add('hide')
-
-    
+    revealOverlay.classList.add('hide')
 })
-

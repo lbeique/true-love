@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const bodyParser = require("body-parser")
 const database = require("../databaseAccess")
-const { makeCode } = require('../server/handlers')
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
@@ -15,7 +14,7 @@ const getSession = (session) => {
 }
 
 function makeUsername () {
-  let usernames = ['TheRealSam', 'TheFakeSam', 'TwoBunniesOneBasket', 'Domo', 'Tesla', 'HawkRavenEagleBird', 'xxXx_Panther_XxxxXx', 'AlienLover42', 'Douglas', 'DaddyDhanji', 'AimeeMommy', 'Mr.X', 'PigeonessMan', 'Ilia', 'BubbleTeaManiac', 'Chicken', 'StephenHawkins', 'ItsNotGonnaBeFunnyThough', 'Janor', 'Mr.Plum', 'EarlGrey', 'Shrooms', 'AtMostCamera32', 'Jaremy Holeman']
+  let usernames = ['TheRealSam', 'TheFakeSam', 'TwoBunniesOneBasket', 'Domo', 'Tesla', 'Hawkman', 'EagleBird', 'xxXx_Panther_XxxxXx', 'AlienLover42', 'Douglas', 'DaddyDhanji', 'AimeeMommy', 'Mr.X', 'PigeonessMan', 'Ilia', 'MilkTeaBubbleTea', 'Chicken', 'Dostoevsky', 'ItsNotGonnaBeFunny', '', 'Janor', 'Mr.Plum', 'EarlGrey', 'Shrooms', 'AtMostCamera32', 'Jaremy Holeman', 'WestCoast4Life', 'Kendrick Lamar']
   return usernames[Math.floor(Math.random() * usernames.length)]
 }
 

@@ -1,6 +1,6 @@
 socket.on('create-victory', (winner, room) => {
     console.log('create victory', winner)
-    const section__main = document.querySelector('.section-victory')
+    const section__victory = document.querySelector('.section-victory')
 
     const victory__container = document.createElement('div')
     victory__container.classList.add('victory__container')
@@ -19,17 +19,19 @@ socket.on('create-victory', (winner, room) => {
     victory__container.appendChild(victory__winner)
     victory__container.appendChild(returnLobby__btn)
    
-    section__main.appendChild(victory__container)
+    section__victory.appendChild(victory__container)
 
     returnLobby__btn.addEventListener('click', (event) => {
         event.preventDefault();
         socket.emit('return-to-lobby')
     })
 
-    section__main.classList.remove('hide')
+    section__victory.classList.remove('hide')
 })
 
 socket.on('remove-victory', () => {
+    const section__victory = document.querySelector('.section-victory')
     const victory__container = document.querySelector('.victory__container')
     victory__container.remove()
+    section__victory.classList.add('hide')
 })
