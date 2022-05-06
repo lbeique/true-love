@@ -12,7 +12,7 @@
         justify-content: center;
         align-items: center;
         padding: 1em;
-        width: 40em;
+        width: 35em;
         height: 10em;
         border: .5em solid $tertiary-color;
         border-radius: 2em;
@@ -20,6 +20,7 @@
         font-size: 20px;
         color: $tertiary-color;
         margin-bottom: 2em;
+        text-align: center;
 
         &--animated{
             animation: popUpCenter 1s ease backwards;
@@ -30,9 +31,23 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        row-gap: .5em;
+        row-gap: 1em;
         width: 40em;
         height: 10em;
+
+        &--animated{
+            animation: popUpCenter .8s ease backwards;
+        }
+
+    }
+
+    &__btn{
+        width: 100%;
+        height: 4em;
+        padding: 10px;
+        font-family: 'Arial Rounded MT Bold';
+        font-size: 23px;
+    
     }
 }
 
@@ -48,30 +63,9 @@
 
 .cross {
     @include absCenter;
-    height: 50%; /* this can be anything */
-    width: 50%;  /* ...but maintain 1:1 aspect ratio */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    height: 100%; /* this can be anything */
+    width: 100%;  /* ...but maintain 1:1 aspect ratio */
+    object-fit: contain;
     z-index: 100;
-
-    &::before,
-    &::after{
-        position: absolute;
-        content: '';
-        width: 100%;
-        height: 40px; /* cross thickness */
-        border-radius: 20px;
-        background-color: red;
-        // animation: popUpCenter .5s ease;
-    }
-
-    &:before{
-        transform: rotate(45deg);
-    }
-
-    &:after{
-        transform: rotate(-45deg);
-    }
 }
 

@@ -26,15 +26,21 @@ socket.on('remove-trivia', () => {
 
 socket.on('trivia_reset_state', (data) => {
     if (data.result === false) {
-        const cross = document.createElement('div')
+        const answer__container = document.querySelector('.trivia__answerContainer')
+        const cross = document.createElement('img')
         const section__main = document.querySelector('.section-trivia')
         cross.classList.add('cross')
 
+        cross.src = 'assets/X.png'
+
         section__main.appendChild(cross)
 
+        answer__container.classList.remove('trivia__answerContainer--unclickable')
         setTimeout(() => {
+            answer__container.classList.add('trivia__answerContainer--unclickable')
             cross.remove()
         }, 1000)
+
     }
 
     const scoreText = document.querySelector('.trivia__scoreText')
@@ -55,7 +61,6 @@ socket.on('trivia_start', (trivia) => {
     const question = document.createElement('div')
     const answerContainer = document.createElement('div')
 
-    //const answers = [...trivia.incorrect_answers] // copy
     const answers = trivia.shuffledAnswers
 
     for (let i = 0; i < answers.length; i++) {
@@ -77,6 +82,7 @@ socket.on('trivia_start', (trivia) => {
     question.classList.add('trivia__question')
     if (trivia.animated === 0) {
         question.classList.add('trivia__question--animated')
+        answerContainer.classList.add('trivia__answerContainer--animated')
     }
     answerContainer.classList.add('trivia__answerContainer')
 

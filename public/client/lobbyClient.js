@@ -56,6 +56,8 @@ socket.on('user-disconnected', (user, room) => {
 })
 
 socket.on('create-lobby', (room) => {
+    const hostID = room.creator_id
+    
     const section__lobbyClient = document.querySelector('.section__lobbyClient')
 
     const lobby__container = document.createElement('div')
@@ -80,11 +82,15 @@ socket.on('create-lobby', (room) => {
     lobby__container.appendChild(user__list)
     section__lobbyClient.appendChild(lobby__container)
    
-
     gameStart__btn.addEventListener('click', (event) => {
         event.preventDefault();
         socket.emit('voting-start')
     })
+
+    console.log("USER ID", USER_ID, "HOST ID", hostID)
+    if(+USER_ID !== hostID){ // if client is not the host, don't see this button
+        gameStart__btn.remove()
+    }
     
     section__lobbyClient.classList.remove('hide')
     userList(room)

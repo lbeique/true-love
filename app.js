@@ -169,7 +169,7 @@ io.on('connection', client => {
           console.log('settimeout timer1')
           gameTimer('start-crush-timer', 'remove-crush', 'trivia', 5)
 
-        }, 11000);
+        }, 3000);
       }
     })
 

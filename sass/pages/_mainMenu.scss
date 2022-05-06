@@ -19,7 +19,20 @@
 
 .menu{
     position: absolute;
-    transition: all 2s;
+
+    &__skip-btn{
+        position: absolute;
+        padding-bottom: 13px;
+        padding-left: 3px;
+        right: 15%;
+        bottom: 5%;
+        width: 1.2em;
+        height: 1.2em;
+        border-radius: 2em;
+        border-width: 8px;
+        font-size: 70px;
+        z-index: 100;
+    }
 
     &__spaceship{
         top: 2em;
