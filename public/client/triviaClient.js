@@ -2,7 +2,7 @@ socket.on('trivia-game-start', () => {
     //console.log('timer start')
     //socket.emit('timer', 15)
     axios.get(`/lobby/${ROOM_ID}`)
-        .then(() => axios.get("https://opentdb.com/api.php?amount=30&category=11&difficulty=easy&type=multiple"))
+        .then(() => axios.get("https://opentdb.com/api.php?amount=30&category=18&difficulty=easy&type=multiple"))
         .then(result => {
             console.log('axios get')
             socket.emit('trivia_question', result.data.results)
