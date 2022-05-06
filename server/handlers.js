@@ -4,37 +4,37 @@ let lobbyRooms = {};
 let crushes = [
     {
         id: 1,
-        name: 'Nerdman Enerd',
+        name: 'Rocco Moses',
         nickname: 'nerdyBoy',
         description: '20' // 20 for mythology - this is for the trivia api categorizing
     },
     {
         id: 2,
-        name: 'Emoman Elmo',
+        name: 'Julius Raven',
         nickname: 'emoBoy',
         description: '20'
     },
     {
         id: 3,
-        name: 'Sportman Bill',
+        name: 'Chadwick "The Chad" Jonhson',
         nickname: 'sportyBoy',
         description: '20'
     },
     {
         id: 4,
-        name: 'Nerdwoman Enerdy',
+        name: 'Willow Whitlock',
         nickname: 'nerdyGirl',
         description: '20'
     },
     {
         id: 5,
-        name: 'Emowoman Elmody',
+        name: 'Faye Midnight',
         nickname: 'emoGirl',
         description: '20'
     },
     {
         id: 6,
-        name: 'Sportwoman Billie',
+        name: 'Billie Hale',
         nickname: 'sportyGirl',
         description: '20'
     }
@@ -291,6 +291,12 @@ function handleVote(votedCrush, client, room){
 
 function handleTrivia(client, trivias) {
     const connectedClient = socketUsers[client.id]
+    console.log('trivia', trivias, trivias.length)
+
+    for (let i = trivias.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [trivias[i], trivias[j]] = [trivias[j], trivias[i]];
+    }
 
     let answers;
     for (let trivia of trivias) {
