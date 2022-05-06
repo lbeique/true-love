@@ -9,18 +9,20 @@ socket.on('trivia-game-start', () => {
         })
 })
 
-socket.on('counter2', async function (count) {
+socket.on('start-trivia-timer', async function (count) {
     const timerText = document.querySelector(".timer__trivia");
 
     timerText.innerHTML = count + "s";
 })
 
-socket.on('counter-finish2', () => {
-    console.log('trivia client timer finish')
+socket.on('remove-trivia', () => {
+    console.log('trivia assets removed')
     const section__main = document.querySelector('.section-trivia')
+    const trivia__container = document.querySelector('.trivia__container')
+    
+    trivia__container.remove()
     section__main.classList.add('hide')
 })
-
 
 socket.on('trivia_reset_state', (data) => {
     if (data.result === false) {
