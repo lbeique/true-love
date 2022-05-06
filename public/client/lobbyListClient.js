@@ -3,7 +3,7 @@ const socket = io.connect()
 const lobby_list = document.querySelector('.lobby__list')
 const lobbyContainer = document.createElement('div')
 const refreshBtn = document.querySelector('#refresh')
-const section__main = document.querySelector('.section-main--bg1')
+const section__main = document.querySelector('.section-main--bg')
 
 refreshBtn.addEventListener('click', (event) => {
     event.preventDefault()
