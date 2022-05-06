@@ -132,24 +132,17 @@ io.on('connection', client => {
     })
 
 
-    // GAME TRANSITION
-
+    // VOTING TRANSITION
     client.on('voting-start', () => {
-      console.log('lobby remove')
+      console.log('emit voting-start -> emit remove-lobby')
       io.to(room.room_id).emit('remove-lobby')
       console.log('gameState update, number of players fixed update')
       handlers.handleGameState(room)
       console.log('crush start emit')
       io.to(room.room_id).emit('crush-start', handlers.handleCrushes(room, user))
-
-      // client.on('game-start', () => {
-      // console.log(`${client.id} emit game-start -> emit remove-lobby`)
-      // io.to(room.room_id).emit('remove-lobby')
-      // console.log(`${client.id} emit remove-lobby -> emit crush-start`)
-      // io.to(room.room_id).emit('crush-start')
-
     })
 
+    // RETURN TO LOBBY TRANSITION
     client.on('return-to-lobby', () => {
       console.log(`${client.id} emit return-to-lobby -> emit remove-victory`)
       io.to(client.id).emit('remove-victory')
@@ -164,7 +157,7 @@ io.on('connection', client => {
     })
 
 
-    // SKATEBOARD OMG DONT LOOOK
+    // CRUSHES TRANSITION
     client.on('voted_crush', (data) => {
       const checkVotingState = handlers.handleVote(data.votedCrush, user, room)
       if (typeof checkVotingState === "string") {
@@ -174,28 +167,30 @@ io.on('connection', client => {
         io.to(room.room_id).emit('crush_voting_result', checkVotingState.topVotedCrush)
         setTimeout(() => {
           console.log('settimeout timer1')
-          dumbTimer('counter1', 'counter-finish1', 'trivia', 5)
+          gameTimer('start-crush-timer', 'remove-crush', 'trivia', 5)
 
         }, 3000);
       }
     })
 
 
-    // SKATEBOARD HELP FUNCTIONS
-    function dumbTimer(emit1, emit2, phase, counter) {
+    // SKATEBOARD HELPER FUNCTIONS
+    function gameTimer(startEmit, cleanEmit, nextPhase, counter) {
       let timer = setInterval(function () {
-        io.to(room.room_id).emit(emit1, counter) // start phase
+        io.to(room.room_id).emit(startEmit, counter) // start phase
         counter--
 
         if (counter <= 0) {
-          io.to(room.room_id).emit(emit2) // clean up
-          phaseTracker(phase) // next phase
+          io.to(room.room_id).emit(cleanEmit) // clean up
+          phaseAdvance(nextPhase) // next phase
           clearInterval(timer)
         }
       }, 1000)
     }
 
-    function phaseTracker(phase) {
+
+    // PHASE ADVANCER
+    function phaseAdvance(phase) {
       if (phase === 'trivia') {
         trivia()
       } else if (phase === 'victory') {
@@ -205,7 +200,7 @@ io.on('connection', client => {
 
     function trivia() {
       io.to(room.room_id).emit('trivia-game-start')
-      dumbTimer('counter2', 'counter-finish2', 'victory', 60)
+      gameTimer('start-trivia-timer', 'remove-trivia', 'victory', 60)
     }
 
     function victory() {

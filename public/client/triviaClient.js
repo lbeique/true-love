@@ -2,25 +2,27 @@ socket.on('trivia-game-start', () => {
     //console.log('timer start')
     //socket.emit('timer', 15)
     axios.get(`/lobby/${ROOM_ID}`)
-        .then(() => axios.get("https://opentdb.com/api.php?amount=30&category=11&difficulty=easy&type=multiple"))
+        .then(() => axios.get("https://opentdb.com/api.php?amount=30&category=18&difficulty=easy&type=multiple"))
         .then(result => {
             console.log('axios get')
             socket.emit('trivia_question', result.data.results)
         })
 })
 
-socket.on('counter2', async function (count) {
+socket.on('start-trivia-timer', async function (count) {
     const timerText = document.querySelector(".timer__trivia");
 
     timerText.innerHTML = count + "s";
 })
 
-socket.on('counter-finish2', () => {
-    console.log('trivia client timer finish')
+socket.on('remove-trivia', () => {
+    console.log('trivia assets removed')
     const section__main = document.querySelector('.section-trivia')
+    const trivia__container = document.querySelector('.trivia__container')
+    
+    trivia__container.remove()
     section__main.classList.add('hide')
 })
-
 
 socket.on('trivia_reset_state', (data) => {
     if (data.result === false) {
