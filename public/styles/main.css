@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Neucha&display=swap");
 .hide {
   display: none;
 }
@@ -19,8 +20,8 @@ body {
   }
 }
 
-body {
-  font-family: "Arial Rounded MT Bold";
+* {
+  font-family: "Fredoka One", cursive, "Arial Rounded MT Bold", "Arial";
   color: beige;
 }
 
@@ -189,18 +190,17 @@ body {
   text-decoration: none;
   border-radius: 2em;
   transition: all 0.2s;
-  box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.1em 0 rgba(0, 0, 0, 0.2);
 }
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0.5em 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.2em 0 rgba(0, 0, 0, 0.2);
 }
 .btn:active {
   transform: translateY(1px);
-  box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.2);
 }
 .btn--green {
-  font-family: "Arial Rounded MT Bold";
   color: #19083c;
   background-color: #D7FF60;
   border: 10px solid #7366BD;
@@ -228,14 +228,6 @@ body {
   animation: popUpCenter 1s ease 3s backwards;
 }
 
-.trivia__btn {
-  width: 100%;
-  height: 5em;
-  font-family: "Arial Rounded MT Bold";
-  font-size: 25px;
-  animation: popUpCenter 0.8s ease backwards;
-}
-
 .icon__btn {
   transition: all 0.2s;
   border-radius: 45px;
@@ -251,6 +243,10 @@ body {
 .icon__btn:active {
   transform: translateY(1px);
   box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-success {
+  color: black;
 }
 
 .carousel {
@@ -350,13 +346,13 @@ body {
   display: flex;
   flex-direction: column;
   row-gap: 1em;
-  width: 70%;
+  width: 60%;
   justify-content: center;
   align-items: center;
 }
 .overlay__container--right {
   display: flex;
-  width: 30%;
+  width: 40%;
 }
 .overlay__text {
   color: #D7FF60;
@@ -365,15 +361,12 @@ body {
   height: 2.5em;
   font-size: 30px;
 }
-.overlay__text--pulsate {
-  animation: pulsate 2s ease infinite;
-}
 .overlay__text--fromCenterToTop {
   animation: popUpCenter 2s ease;
 }
 .overlay__crush {
   object-fit: contain;
-  animation: popUpCenter 1s ease 10s backwards;
+  animation: popUpCenter 1s ease 3s backwards;
 }
 
 .triviaStart__btn {
@@ -410,13 +403,16 @@ tr:nth-child(even) {
 
 .timer {
   color: #D7FF60;
-  font-size: 80px;
   z-index: 50;
 }
 .timer__trivia {
+  font-size: 80px;
   position: absolute;
   bottom: 10%;
   right: 15%;
+}
+.timer__startTrivia {
+  font-size: 30px;
 }
 
 .trivia__container {
@@ -433,7 +429,7 @@ tr:nth-child(even) {
   justify-content: center;
   align-items: center;
   padding: 1em;
-  width: 40em;
+  width: 35em;
   height: 10em;
   border: 0.5em solid #D7FF60;
   border-radius: 2em;
@@ -441,6 +437,7 @@ tr:nth-child(even) {
   font-size: 20px;
   color: #D7FF60;
   margin-bottom: 2em;
+  text-align: center;
 }
 .trivia__question--animated {
   animation: popUpCenter 1s ease backwards;
@@ -449,9 +446,19 @@ tr:nth-child(even) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  row-gap: 0.5em;
+  row-gap: 1em;
   width: 40em;
   height: 10em;
+}
+.trivia__answerContainer--animated {
+  animation: popUpCenter 0.8s ease backwards;
+}
+.trivia__btn {
+  width: 100%;
+  height: 4em;
+  padding: 10px;
+  font-family: "Arial Rounded MT Bold";
+  font-size: 23px;
 }
 
 .exitMenu__icon {
@@ -466,29 +473,12 @@ tr:nth-child(even) {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 50%;
+  height: 100%;
   /* this can be anything */
-  width: 50%;
-  /* ...but maintain 1:1 aspect ratio */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 100;
-}
-.cross::before, .cross::after {
-  position: absolute;
-  content: "";
   width: 100%;
-  height: 40px;
-  /* cross thickness */
-  border-radius: 20px;
-  background-color: red;
-}
-.cross:before {
-  transform: rotate(45deg);
-}
-.cross:after {
-  transform: rotate(-45deg);
+  /* ...but maintain 1:1 aspect ratio */
+  object-fit: contain;
+  z-index: 100;
 }
 
 .section-main {
@@ -498,14 +488,26 @@ tr:nth-child(even) {
   overflow: hidden;
   background-color: #19083c;
 }
-.section-main--bg1 {
-  background: url(../assets/welcomeScreen_bg.png) no-repeat center center fixed;
+.section-main--bg {
+  background: url(../assets/background-revised.png) no-repeat center center fixed;
   background-size: contain;
   background-color: #19083c;
 }
 @media (max-width: 37.5em) {
-  .section-main--bg1 {
-    background: url(../assets/welcomeScreen_bg.png) no-repeat center center fixed;
+  .section-main--bg {
+    background: url(../assets/background-revised.png) no-repeat center center fixed;
+    background-size: 26.6em 47em;
+    background-color: #19083c;
+  }
+}
+.section-main--bg-trivia {
+  background: url(../assets/background-trivia.png) no-repeat center center fixed;
+  background-size: contain;
+  background-color: #19083c;
+}
+@media (max-width: 37.5em) {
+  .section-main--bg-trivia {
+    background: url(../assets/background-trivia.png) no-repeat center center fixed;
     background-size: 26.6em 47em;
     background-color: #19083c;
   }
@@ -663,7 +665,19 @@ tr:nth-child(even) {
 
 .menu {
   position: absolute;
-  transition: all 2s;
+}
+.menu__skip-btn {
+  position: absolute;
+  padding-bottom: 13px;
+  padding-left: 3px;
+  right: 15%;
+  bottom: 5%;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 2em;
+  border-width: 8px;
+  font-size: 70px;
+  z-index: 100;
 }
 .menu__spaceship {
   top: 2em;

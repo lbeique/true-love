@@ -246,26 +246,20 @@ socket.on('crush_voting_result', (topVotedCrush) => {
     reveal__container.classList.add('overlay__container')
     reveal__containerLeft.classList.add('overlay__container--left')
     reveal__containerRight.classList.add('overlay__container--right')
-    reveal__triviaCountdown.classList.add('timer')
+    reveal__triviaCountdown.classList.add('timer', 'timer__startTrivia')
     
-
-    reveal__text.classList.remove('overlay__text--pulsate')
-    setTimeout(() => {
-        reveal__text.classList.add('overlay__text--pulsate')
-        reveal__text.innerText = `Calculating votes...`
-    }, 1000);
 
     reveal__text.classList.remove('overlay__text--fromCenterToTop')
     setTimeout(() => {
         reveal__text.classList.add('overlay__text--fromCenterToTop')
         reveal__text.innerText = `Your choice is...`
-    }, 6000);
+    }, 1000);
 
     setTimeout(() => {
         reveal__text.classList.add('overlay__text--revealName')
         reveal__text.innerText = `${topVotedCrush.name}!!!`
         reveal__crush.src = `assets/character-fullbody/${topVotedCrush.nickname}.png`
-    }, 10000);
+    }, 4000);
 
 
     reveal__containerLeft.appendChild(reveal__text)
@@ -281,7 +275,7 @@ socket.on('crush_voting_result', (topVotedCrush) => {
 
 
 socket.on('counter1', async function (count) {
-    const timerText = document.querySelector(".timer");
+    const timerText = document.querySelector(".timer__startTrivia");
 
     timerText.innerHTML = 'Trivia in: ' + count + "s";
 })

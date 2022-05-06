@@ -1,12 +1,16 @@
 .timer{
     color: $tertiary-color;
-    font-size: 80px;
     z-index: 50;
 
     &__trivia{
+        font-size: 80px;
         position: absolute;
         bottom: 10%;
         right: 15%;
+    }
+
+    &__startTrivia{
+        font-size: 30px;
     }
 
 }

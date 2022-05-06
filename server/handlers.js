@@ -294,7 +294,6 @@ function handleTrivia(client, trivias) {
 
     let answers;
     for (let trivia of trivias) {
-
         answers = [...trivia.incorrect_answers]
         answers.push(trivia.correct_answer)
         answers.sort(() => 0.5 - Math.random()) // shuffle the multiple choices

@@ -176,7 +176,7 @@ io.on('connection', client => {
           console.log('settimeout timer1')
           dumbTimer('counter1', 'counter-finish1', 'trivia', 5)
 
-        }, 11000);
+        }, 3000);
       }
     })
 
