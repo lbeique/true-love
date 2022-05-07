@@ -10,7 +10,7 @@ let crushes = [
     },
     {
         id: 2,
-        name: 'Julius Raven',
+        name: 'Julien Raven',
         nickname: 'emoBoy',
         description: '20'
     },
@@ -59,7 +59,11 @@ function handleServerJoin(client, user_id, user_name) {
         avatar: randomAvatars[avatarIndex],
         roomId: null, // Foreign Key for DB ?
         game: {
-            crushVote: null
+            crushVote: null,
+            allTrivaGames: [],
+            currentTriviaGame: {
+
+            }
         }
     };
 
@@ -94,16 +98,6 @@ function handleServerDisconnect(client) {
 
 
 // LOBBY HANDLER FUNCTIONS
-
-function makeCode(length) {
-    let code = ""
-    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    for (let i = 0; i < length; i++) {
-        code += characters.charAt(Math.floor(Math.random() * characters.length))
-    }
-    return code
-}
-
 function handleCreateLobby(roomId, roomName, roomCode, user_info) {
 
     if (!lobbyRooms[roomId]) {
@@ -117,6 +111,7 @@ function handleCreateLobby(roomId, roomName, roomCode, user_info) {
             clients: {},
             gameState: {
                 game_active: false,
+                randomizedCrushes: [],
                 topVotedCrush: {},
                 gameStages: [],
                 currentStage: null,
@@ -212,9 +207,9 @@ function handleCrushes(room){
         randomizedCrushes.push(selectedCrush)
     }
 
-    room.randomizedCrushes = randomizedCrushes
+    room.gameState.randomizedCrushes = randomizedCrushes
 
-    return room.randomizedCrushes
+    return room.gameState.randomizedCrushes
     
 }
 
@@ -222,7 +217,12 @@ function handleVote(votedCrush, client, room){
 
     console.log("PASSED CLIENT", client)
  
-    // client.game.crushVote = votedCrush.id // !! saves to socketUser -- not saving - come back to this
+    client.game.crushVote = votedCrush.id 
+    
+    console.log('THE FOLLOWING 2 ARE AFTER HANDLE VOTE')
+    console.log(client)
+    console.log(socketUsers[client.socketId])
+
     room.gameState.votes.push(votedCrush.id)
 
     console.log('gameStateVotes track', room.gameState.votes) // basically trackVoteArr
@@ -285,6 +285,19 @@ function handleVote(votedCrush, client, room){
 
 }
 
+
+TRIVIA
+client.on('trivia_question', (triviasArr) => {
+    io.to(client.id).emit('trivia_start', handlers.handleTrivia(client, triviasArr))
+  })
+
+  client.on('trivia_check_answer', (data) => {
+    io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(client, data.correct_answer, data.userAnswer))
+  })
+
+  client.on('trivia_next_question', () => {
+    io.to(client.id).emit('trivia_start', handlers.nextTrivia(client))
+  })
 
 
 // TRIVIA HANDLERS
@@ -378,6 +391,8 @@ function gameReset(room) {
     }
 }
 
+// Reset Player (If player leave)
+
 // Victory
 
 function handleGetVictory(players, room) {
@@ -434,7 +449,6 @@ module.exports = {
     checkTriviaAnswer,
     nextTrivia,
 
-    makeCode,
     handleCreateLobby,
     handleGetAllLobbies,
     handleGetLobbyFromId,

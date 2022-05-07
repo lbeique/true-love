@@ -3,7 +3,7 @@ const router = express.Router()
 const bodyParser = require("body-parser")
 const { v4: uuidV4 } = require('uuid')
 const handlers = require('../server/handlers')
-
+const { makeCode } = require('../utils/utilities')
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
@@ -45,7 +45,7 @@ router.post("/createLobby", async (req, res) => {
         res.status(404).redirect('/lobby')
         return
     }
-    const roomCode = handlers.makeCode(5)
+    const roomCode = makeCode(5)
     const room = await handlers.handleCreateLobby(roomId, roomName, roomCode, session.user_info)
     res.status(200).redirect(`/lobby/${room.room_id}`)
     return

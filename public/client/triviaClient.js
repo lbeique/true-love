@@ -1,6 +1,4 @@
 socket.on('trivia-game-start', () => {
-    //console.log('timer start')
-    //socket.emit('timer', 15)
     axios.get(`/lobby/${ROOM_ID}`)
         .then(() => axios.get("https://opentdb.com/api.php?amount=30&category=18&difficulty=easy&type=multiple"))
         .then(result => {
@@ -13,45 +11,6 @@ socket.on('start-trivia-timer', async function (count) {
     const timerText = document.querySelector(".timer__trivia");
 
     timerText.innerHTML = count + "s";
-})
-
-socket.on('remove-trivia', () => {
-    console.log('trivia assets removed')
-    const section__main = document.querySelector('.section-trivia')
-    const trivia__container = document.querySelector('.trivia__container')
-    
-    trivia__container.remove()
-    section__main.classList.add('hide')
-})
-
-socket.on('trivia_reset_state', (data) => {
-    if (data.result === false) {
-        const answer__container = document.querySelector('.trivia__answerContainer')
-        const cross = document.createElement('img')
-        const section__main = document.querySelector('.section-trivia')
-        cross.classList.add('cross')
-
-        cross.src = 'assets/X.png'
-
-        section__main.appendChild(cross)
-
-        answer__container.classList.remove('trivia__answerContainer--unclickable')
-        setTimeout(() => {
-            answer__container.classList.add('trivia__answerContainer--unclickable')
-            cross.remove()
-        }, 1000)
-
-    }
-
-    const scoreText = document.querySelector('.trivia__scoreText')
-
-    scoreText.innerText = `Your score: ${data.points}`
-
-    // reset part
-    const trivia__container = document.querySelector(".trivia__container")
-    trivia__container.remove()
-
-    socket.emit('trivia_next_question')
 })
 
 socket.on('trivia_start', (trivia) => {
@@ -94,4 +53,44 @@ socket.on('trivia_start', (trivia) => {
 
     section__main.classList.remove('hide')
 
+})
+
+socket.on('trivia_reset_state', (data) => {
+    if (data.result === false) {
+        const answer__container = document.querySelector('.trivia__answerContainer')
+        const cross = document.createElement('img')
+        const section__main = document.querySelector('.section-trivia')
+        cross.classList.add('cross')
+
+        cross.src = 'assets/X.png'
+
+        section__main.appendChild(cross)
+
+        answer__container.classList.remove('trivia__answerContainer--unclickable')
+        setTimeout(() => {
+            answer__container.classList.add('trivia__answerContainer--unclickable')
+            cross.remove()
+        }, 1000)
+
+    }
+
+    const scoreText = document.querySelector('.trivia__scoreText')
+
+    scoreText.innerText = `Your score: ${data.points}`
+
+    // reset part
+    const trivia__container = document.querySelector(".trivia__container")
+    trivia__container.remove()
+
+    socket.emit('trivia_next_question')
+})
+
+
+socket.on('remove-trivia', () => {
+    const section__main = document.querySelector('.section-trivia')
+    const trivia__container = document.querySelector('.trivia__container')
+    
+    trivia__container.remove()
+    section__main.classList.add('hide')
+    console.log('trivia assets removed')
 })

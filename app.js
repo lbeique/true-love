@@ -10,6 +10,7 @@ const socket = require('socket.io')
 const io = socket(server)
 
 
+
 const handlers = require('./server/handlers')
 
 // Routes
@@ -142,6 +143,7 @@ io.on('connection', client => {
       io.to(room.room_id).emit('crush-start', handlers.handleCrushes(room, user))
     })
 
+    
     // RETURN TO LOBBY TRANSITION
     client.on('return-to-lobby', () => {
       console.log(`${client.id} emit return-to-lobby -> emit remove-victory`)
@@ -189,6 +191,22 @@ io.on('connection', client => {
     }
 
 
+    // PHASE TRIVIA
+    function trivia() {
+      console.log('trivia phase start')
+      io.to(room.room_id).emit('trivia-game-start')
+      gameTimer('start-trivia-timer', 'remove-trivia', 'victory', 60)
+    }
+
+    // PHASE VICTORY
+    function victory() {
+      console.log('victory phase start')
+      let players = handlers.handleGetLobbyPlayers(room.room_id)
+      console.log('players', players)
+      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players, room))
+    }
+
+
     // PHASE ADVANCER
     function phaseAdvance(phase) {
       if (phase === 'trivia') {
@@ -198,56 +216,8 @@ io.on('connection', client => {
       }
     }
 
-    function trivia() {
-      io.to(room.room_id).emit('trivia-game-start')
-      gameTimer('start-trivia-timer', 'remove-trivia', 'victory', 60)
-    }
-
-    function victory() {
-      console.log('client announcing-victory')
-      let players = handlers.handleGetLobbyPlayers(room.room_id)
-      console.log('players', players)
-      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players, room))
-    }
-
-
-    // // TIMER 1   // skateboard baby
-    // client.on('timer1', (counter) => {
-    // let counter = 5
-    // let timer = setInterval(function () {
-    //   io.to(room.room_id).emit('counter1', counter)   //  temporary change - should be io.sockets.emit later
-    //   counter--
-
-    //   if (counter <= 0) {
-    //     io.to(room.room_id).emit('counter-finish1')  // temporary change - should be io.sockets.emit  later
-    //     io.to(room.room_id).emit('trivia-game-start')
-    //     clearInterval(timer)
-    //   }
-    // }, 1000)
-
-    // })
-
-    // TIMER 2   // skateboard baby
-    // client.on('timer2', (counter) => {
-
-    //   let timer = setInterval(function () {
-    //     io.to(room.room_id).emit('counter2', counter)   //  temporary change - should be io.sockets.emit later
-    //     counter--
-
-    //     if (counter <= 0) {
-    //       io.to(room.room_id).emit('counter-finish2')  // temporary change - should be io.sockets.emit  later
-    //       io.to(room.room_id).emit('announce-victory')
-    //       clearInterval(timer)
-    //     }
-    //   }, 1000)
-    // })
-
 
     // TRIVIA
-    client.on('game-start', () => {
-      io.to(client.id).emit('trivia-game-start')
-    })
-
     client.on('trivia_question', (triviasArr) => {
       io.to(client.id).emit('trivia_start', handlers.handleTrivia(client, triviasArr))
     })
@@ -261,13 +231,27 @@ io.on('connection', client => {
     })
 
 
-    // VICTORY
-    // client.on('announce-victory', () => {
-    //   console.log('clien announcing-victory')
-    //   let players = handlers.handleGetLobbyPlayers(room.room_id)
-    //   console.log('players', players)
-    //   io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players), room)
-    // })
+    ////////////////////////////////////////////////////////
+    /////// THIS IS TEMPORARY
+
+    // THIS SECTION IS TO POPULATE THE SERVER IT IS GAME BREAKING
+    // THERE ARE 3 THINGS HAPPENING HERE. USERS ARE CREATED, USERS VOTE, USERS PLAY TRIVIA.
+
+    const { makeUsername } = require('./utils/utilities')
+
+    client.on('I-Want-Friends', () => {
+      for (let index = 0; index < 20; index++) {
+        let fakeClient = {}
+        client.id = `${index}0000000000`
+        let fakeUserId = `10${index}`
+        let fakeUsername = makeUsername()
+        handlers.handleServerJoin(fakeClient, fakeUserId, fakeUsername)
+        handlers.handleGetLobbyFromId(roomId)
+      }
+    })
+
+
+    ////////////////////////////////////////////////////////
 
 
   })
