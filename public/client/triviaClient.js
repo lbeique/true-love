@@ -31,9 +31,7 @@ socket.on('start-trivia-phase', (trivia, errors) => {
         answerBtn.innerText = answers[i]
         answerBtn.addEventListener('click', (event) => {
             event.preventDefault();
-            socket.emit('trivia_check_answer', {
-                userAnswer: answers[i]
-            })
+            socket.emit('trivia_check_answer', answers[i])
         })
 
         answerContainer.appendChild(answerBtn)
@@ -41,7 +39,7 @@ socket.on('start-trivia-phase', (trivia, errors) => {
 
     trivia__container.classList.add('trivia__container')
     question.classList.add('trivia__question')
-    if (errors === 0) {
+    if (+errors === 0) {
         question.classList.add('trivia__question--animated')
         answerContainer.classList.add('trivia__answerContainer--animated')
     }

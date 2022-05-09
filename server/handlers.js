@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { arrayClone } = require('../utils/utilities')
 
 let socketUsers = {}; // wanna use Database instead later - maybe??
 let lobbyRooms = {};
@@ -147,8 +148,8 @@ function handleServerJoin(client, user_id, user_name) {
                     points: 0,
                 }
             },
-            finalPoints: 0,
-            finalPosition: null,
+            totalPoints: 0,
+            position: null,
         }
     };
 
@@ -309,8 +310,9 @@ function handleGameState(room) {
 
 // CRUSHES
 function handleCrushes(room) {
-    const crushesClone = [...crushes] // copy
-    const categoriesClone = [...categories]
+    
+    const crushesClone = arrayClone(crushes) // copy
+    const categoriesClone = arrayClone(categories)
     const randomizedCrushes = []
 
     while (randomizedCrushes.length !== 3) {
@@ -362,8 +364,8 @@ function handleVote(votedCrush, client, room) {
     console.log('gameStateVotes track', room.gameState.votes) // basically trackVoteArr
 
 
-    // This will need to change slightly, add a check to make sure everyone present in lobby has voted as well - Laurent
-    if (room.gameState.votes.length === room.num_clientInRoom) {
+    // This will need to change slightly, need to add a check to make sure everyone present in lobby has voted as well - Laurent
+    if (room.gameState.votes.length >= room.num_clientInRoom) {
         const resultCalculation = {}
         let mostVotedCrushId = 0;
         let highestVotes = 0;
@@ -418,105 +420,48 @@ function handleVote(votedCrush, client, room) {
         return client.userId // returns a string
 
     }
-
 }
-
-
-// TRIVIA
-// client.on('trivia_question', (triviasArr) => {
-//     io.to(client.id).emit('trivia_start', handlers.handleTrivia(client, triviasArr))
-//   })
-
-//   client.on('trivia_check_answer', (data) => {
-//     io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(client, data.correct_answer, data.userAnswer))
-//   })
-
-//   client.on('trivia_next_question', () => {
-//     io.to(client.id).emit('trivia_start', handlers.nextTrivia(client))
-//   })
 
 
 // TRIVIA HANDLERS
 
 function handleTrivia(trivias, room) {
 
-    // NOTE FOR LAURENT ----
-
-    // LAST THING YOU DID WAS CALL API
-
-    // DONT NEED CLIENT INFO HERE, (maybe)
-
-    // STORE THE TRIVIA ANSWERS IN A BETTER WAY!
-
-    // START HERE!!!!!!!!!!!!!!!!!!!!!
-
-    console.log('trivia', trivias, trivias.length)
 
     for (let i = trivias.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [trivias[i], trivias[j]] = [trivias[j], trivias[i]];
     }
 
-
     let clientTriviaQuestions = []
     let correctTriviaAnswers = []
     for (let i = 0; i < trivias.length; i++) {
         let shuffledAnswers = []
         let triviaQuestion = {}
-        shuffledAnswers = [...trivias[i].incorrect_answers]
+        shuffledAnswers = arrayClone(trivias[i].incorrect_answers)
         shuffledAnswers.push(trivias[i].correct_answer)
         shuffledAnswers.sort(() => 0.5 - Math.random()) // shuffle the multiple choices
         triviaQuestion.difficulty = trivias[i].difficulty
         triviaQuestion.category = trivias[i].category
         triviaQuestion.shuffledAnswers = shuffledAnswers
-        triviaQuestion.animated = 0
-        triviaQuestion.index = i
         triviaQuestion.question = trivias[i].question
 
         clientTriviaQuestions.push(triviaQuestion)
         correctTriviaAnswers.push(trivias[i].correct_answer)
-        // trivias[i].shuffledAnswers = answers
-        // trivias[i].animated = 0
-        // trivias[i].index = i
     }
-    // for (let trivia of trivias) {
-    //     answers = [...trivia.incorrect_answers]
-    //     answers.push(trivia.correct_answer)
-    //     answers.sort(() => 0.5 - Math.random()) // shuffle the multiple choices
-    //     trivia.shuffledAnswers = answers
-    //     trivia.animated = 0
-    // }
-
+    
     if (room.gameState.triviaIndex === 0) {
         room.gameState.triviaGames.easyClient.push(clientTriviaQuestions)
-        room.gameState.triviaGames.easyAnswers.push(correctTriviaAnswers)
-        // user.game.trivia.easy.questions.push(clientTriviaQuestions[0])
-        // user.game.trivia.easy.progressIndex = 0
-        // user.game.trivia.easy.points = 0
-        // user.game.trivia.easy.errors.push(0)
+        room.gameState.triviaGames.easyAnswers = correctTriviaAnswers
     } else if (room.gameState.triviaIndex === 1) {
         room.gameState.triviaGames.mediumClient.push(clientTriviaQuestions)
-        room.gameState.triviaGames.mediumAnswers.push(correctTriviaAnswers)
-        // user.game.trivia.medium.questions.push(clientTriviaQuestions[0])
-        // user.game.trivia.medium.progressIndex = 0
-        // user.game.trivia.medium.points = 0
-        // user.game.trivia.medium.errors.push(0)
+        room.gameState.triviaGames.mediumAnswers = correctTriviaAnswers 
     } else if (room.gameState.triviaIndex === 2) {
         room.gameState.triviaGames.hardClient.push(clientTriviaQuestions)
-        room.gameState.triviaGames.hardAnswers.push(correctTriviaAnswers)
-        // user.game.trivia.hard.questions.push(clientTriviaQuestions[0])
-        // user.game.trivia.hard.progressIndex = 0
-        // user.game.trivia.hard.points = 0
-        // user.game.trivia.hard.errors.push(0)
+        room.gameState.triviaGames.hardAnswers = correctTriviaAnswers
     }
 
     return clientTriviaQuestions
-
-    // connectedClient.triviaQuestions = trivias
-    // connectedClient.triviaProgressIndex = 0
-    // connectedClient.triviaPts = 0
-
-    // return connectedClient.triviaQuestions[connectedClient.triviaProgressIndex]
 }
 
 function handleUserTriviaStart(room, clientTriviaQuestions) {
@@ -555,10 +500,12 @@ function nextTrivia(user, room) {
         userProgressIndex = user.game.trivia.easy.progressIndex
         nextTrivia = user.game.trivia.easy.questions[userProgressIndex]
         errors = user.game.trivia.easy.errors[userProgressIndex]
+
     } else if (room.gameState.triviaIndex === 1) {
         userProgressIndex = user.game.trivia.medium.progressIndex
         nextTrivia = user.game.trivia.medium.questions[userProgressIndex]
         errors = user.game.trivia.medium.errors[userProgressIndex]
+
     } else if (room.gameState.triviaIndex === 2) {
         userProgressIndex = user.game.trivia.hard.progressIndex
         nextTrivia = user.game.trivia.hard.questions[userProgressIndex]
@@ -572,53 +519,68 @@ function checkTriviaAnswer(user, room, answer) {
 
 
     let userProgressIndex = null
-    let currentTrivia = null
     let errors = null
     let points = null
+    let correctAnswer = null
 
     if (room.gameState.triviaIndex === 0) {
         userProgressIndex = user.game.trivia.easy.progressIndex
         points = user.game.trivia.easy.points
         correctAnswer = room.gameState.triviaGames.easyAnswers[userProgressIndex]
-        currentTrivia = user.game.trivia.easy.questions[userProgressIndex]
         errors = user.game.trivia.easy.errors[userProgressIndex]
+
     } else if (room.gameState.triviaIndex === 1) {
         userProgressIndex = user.game.trivia.medium.progressIndex
         points = user.game.trivia.medium.points
         correctAnswer = room.gameState.triviaGames.mediumAnswers[userProgressIndex]
-        currentTrivia = user.game.trivia.medium.questions[userProgressIndex]
         errors = user.game.trivia.medium.errors[userProgressIndex]
+
     } else if (room.gameState.triviaIndex === 2) {
         userProgressIndex = user.game.trivia.hard.progressIndex
         points = user.game.trivia.hard.points
         correctAnswer = room.gameState.triviaGames.hardAnswers[userProgressIndex]
-        currentTrivia = user.game.trivia.hard.questions[userProgressIndex]
         errors = user.game.trivia.hard.errors[userProgressIndex]
     }
 
-
     if (answer !== correctAnswer) {
-        errors++
+        if (room.gameState.triviaIndex === 0) {
+            user.game.trivia.easy.errors[userProgressIndex]++
+
+        } else if (room.gameState.triviaIndex === 1) {
+            user.game.trivia.medium.errors[userProgressIndex]++
+
+        } else if (room.gameState.triviaIndex === 2) {
+            user.game.trivia.hard.errors[userProgressIndex]++
+        }
         const data = {
             points: points,
             result: false,
             errors: errors,
         }
         return data
+
     } else {
         if (errors === 0) {
             points = points + 5
         } else if (errors === 1) {
-            points = points + 2
+            points = points + 3
         } else if (errors >= 2) {
             points = points + 1
         }
-        userProgressIndex++
+        user.game.trivia.totalPoints = user.game.trivia.totalPoints + points
         if (room.gameState.triviaIndex === 0) {
+            user.game.trivia.easy.points = points
+            user.game.trivia.easy.progressIndex++
             user.game.trivia.easy.errors.push(0)
+
         } else if (room.gameState.triviaIndex === 1) {
+            user.game.trivia.medium.points = points
+            user.game.trivia.medium.progressIndex++
             user.game.trivia.medium.errors.push(0)
+            
         } else if (room.gameState.triviaIndex === 2) {
+            user.game.trivia.hard.points = points
+            user.game.trivia.hard.progressIndex++
             user.game.trivia.hard.errors.push(0)
         }
         const data = {
@@ -644,18 +606,29 @@ function checkTriviaAnswer(user, room, answer) {
 // Reset Game
 
 function gameReset(room) {
+
+    // MUST ALWAYS KEEP UP TO DATE -- Laurent
     room.gameState = {
+        game_active: false,
         triviaIndex: 0,
         randomizedCrushes: [],
         topVotedCrush: {},
         votes: [],
-        triviaGames: []
+        triviaGames: {
+            easyClient: [],
+            easyAnswers: [],
+            mediumClient: [],
+            mediumAnswers: [],
+            hardClient: [],
+            hardAnswers: [],
+        },
+        leaderboard: []
     }
 
-    // NEEDS TO CHANGE -- Laurent
+    // MUST ALWAYS KEEP UP TO DATE -- Laurent
     let clients = room.clients
     for (const client in clients) {
-        let game = {
+        clients[client].game = {
             crushVote: null,
             trivia: {
                 easy: {
@@ -677,10 +650,9 @@ function gameReset(room) {
                     points: 0,
                 }
             },
-            finalPoints: 0,
-            finalPosition: null,
+            totalPoints: 0,
+            position: null,
         }
-        clients[client].game = game
     }
 }
 
@@ -692,36 +664,36 @@ function handleGetVictory(players, room) {
     // NEEDS TO CHANGE TO GIVE USERS MORE INFORMATION Laurent
 
 
-    let topPlayerPoints = 0
-    let topPlayers = []
-    let winningPlayer = null
-    for (const player in players) {
-        console.log('player trivia points', players[player].triviaPts)
-        if (players[player].triviaPts >= topPlayerPoints) {
-            topPlayerPoints = players[player].triviaPts
-        }
-    }
+    // let topPlayerPoints = 0
+    // let topPlayers = []
+    // let winningPlayer = null
+    // for (const player in players) {
+    //     console.log('player trivia points', players[player].triviaPts)
+    //     if (players[player].triviaPts >= topPlayerPoints) {
+    //         topPlayerPoints = players[player].triviaPts
+    //     }
+    // }
 
-    console.log('topPlayerPoints', topPlayerPoints)
-    for (const player in players) {
-        if (players[player].triviaPts === topPlayerPoints) {
-            topPlayers.push(players[player])
-        }
-    }
+    // console.log('topPlayerPoints', topPlayerPoints)
+    // for (const player in players) {
+    //     if (players[player].triviaPts === topPlayerPoints) {
+    //         topPlayers.push(players[player])
+    //     }
+    // }
 
-    console.log('topPlayers', topPlayers)
+    // console.log('topPlayers', topPlayers)
 
-    if (topPlayers.length > 1) {
-        winningPlayer = topPlayers[Math.floor(Math.random() * topPlayers.length)]
-    } else {
-        winningPlayer = topPlayers[0]
-    }
-    console.log('winning player', winningPlayer)
+    // if (topPlayers.length > 1) {
+    //     winningPlayer = topPlayers[Math.floor(Math.random() * topPlayers.length)]
+    // } else {
+    //     winningPlayer = topPlayers[0]
+    // }
+    // console.log('winning player', winningPlayer)
 
-    let returnPlayer = {
-        name: winningPlayer.username,
-        points: winningPlayer.triviaPts
-    }
+    // let returnPlayer = {
+    //     name: winningPlayer.username,
+    //     points: winningPlayer.triviaPts
+    // }
 
     // GAME RESET
     gameReset(room)

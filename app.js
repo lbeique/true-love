@@ -204,12 +204,11 @@ io.on('connection', client => {
       } else if (room.gameState.triviaIndex === 2) {
         nextPhase = 'victory'
       }
-      console.log('trivia stuff', amount, id, difficulty)
       console.log('trivia phase start')
       const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
       const data = await response.json()
       
-      console.log(data.results)
+      // console.log(data.results)
 
       if (data.response_code === 4) {
         await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
@@ -290,11 +289,12 @@ io.on('connection', client => {
 
     // TRIVIA
     client.on('trivia_check_answer', (answer) => {
-      io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(user, room,answer))
+      io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(user, room, answer))
     })
 
     client.on('trivia_next_question', () => {
       const { nextTrivia, errors } = handlers.nextTrivia(user, room)
+      console.log(nextTrivia, errors)
       io.to(client.id).emit('start-trivia-phase', nextTrivia, errors)
     })
 

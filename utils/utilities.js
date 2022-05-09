@@ -12,4 +12,8 @@ function makeCode(length) {
     return code
 }
 
-module.exports = { makeUsername, makeCode }
+function arrayClone(array) {
+    return array.map(item => Array.isArray(item) ? clone(item) : item)
+}
+
+module.exports = { makeUsername, makeCode, arrayClone }
