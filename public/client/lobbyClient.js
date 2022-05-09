@@ -55,7 +55,7 @@ socket.on('user-disconnected', (user, room) => {
     userList(room)
 })
 
-socket.on('create-lobby', (room) => {
+socket.on('create-lobby', (room, userId) => {
     const hostID = room.creator_id
     
     const section__lobbyClient = document.querySelector('.section__lobbyClient')
@@ -73,26 +73,12 @@ socket.on('create-lobby', (room) => {
     gameStart__btn.classList.add('btn', 'btn-success')
     gameStart__btn.innerText = 'Start Game'
 
-    ////////////////////////////////////////////////////////
-    // THIS IS TEMPORARY - I WANT FRIENDS
-    const addFriends__btn = document.createElement('button')
-    addFriends__btn.classList.add('btn', 'btn-success')
-    addFriends__btn.innerText = 'I WANT FRIENDS'
-    // 
-    ////////////////////////////////////////////////////////
-
     const user__list = document.createElement('div')
     user__list.classList.add('user__list')
    
     lobby__container.appendChild(lobby__header)
     lobby__container.appendChild(lobby__code)
     lobby__container.appendChild(gameStart__btn)
-
-    ////////////////////////////////////////////////////////
-    // THIS BUTTON IS TEMPORARY - I WANT FRIENDS
-    lobby__container.appendChild(addFriends__btn)
-    //
-    ////////////////////////////////////////////////////////
 
     lobby__container.appendChild(user__list)
     section__lobbyClient.appendChild(lobby__container)
@@ -102,19 +88,10 @@ socket.on('create-lobby', (room) => {
         socket.emit('voting-start')
     })
 
-    console.log("USER ID", USER_ID, "HOST ID", hostID)
-    if(+USER_ID !== hostID){ // if client is not the host, don't see this button
+    console.log("USER ID", userId, "HOST ID", hostID)
+    if(+userId !== hostID){ // if client is not the host, don't see this button
         gameStart__btn.remove()
     }
-    
-    ////////////////////////////////////////////////////////
-    // THIS IS TEMPORARY - I WANT FRIENDS
-    addFriends__btn.addEventListener('click', (event) => {
-        event.preventDefault();
-        socket.emit('I-Want-Friends')
-    })
-    //   
-    //////////////////////////////////////////////////////// 
 
     section__lobbyClient.classList.remove('hide')
     userList(room)
@@ -127,4 +104,17 @@ socket.on('remove-lobby', () => {
 
     lobby__container.remove()
     section__lobbyClient.classList.add('hide')
+})
+
+
+// WILL WAIT ON NEW EJS
+socket.on('host-transfer', (hostName) => {
+    console.log('host transfered to', hostName)
+    const gameStart__btn = document.createElement('button')
+    gameStart__btn.classList.add('btn', 'btn-success')
+    gameStart__btn.innerText = 'Start Game'
+    gameStart__btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        socket.emit('voting-start')
+    })
 })

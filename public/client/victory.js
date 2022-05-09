@@ -1,4 +1,4 @@
-socket.on('create-victory', (winner, room) => {
+socket.on('create-victory', (winner) => {
     console.log('create victory', winner)
     const section__victory = document.querySelector('.section-victory')
 

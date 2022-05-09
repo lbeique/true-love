@@ -1,19 +1,22 @@
-socket.on('trivia-game-start', () => {
-    axios.get(`/lobby/${ROOM_ID}`)
-        .then(() => axios.get("https://opentdb.com/api.php?amount=30&category=18&difficulty=easy&type=multiple"))
-        .then(result => {
-            console.log('axios get')
-            socket.emit('trivia_question', result.data.results)
-        })
-})
-
 socket.on('start-trivia-timer', async function (count) {
     const timerText = document.querySelector(".timer__trivia");
 
     timerText.innerHTML = count + "s";
 })
 
-socket.on('trivia_start', (trivia) => {
+socket.on('start-trivia-phase', (trivia, errors) => {
+
+    // trivia object for the client looks like this
+    // {
+    //     difficult: 'easy',
+    //     category: 'Science',
+    //     shuffledAnswers: ['Black', 'Blue', 'Red', 'Yellow'],
+    //     animated: 0,
+    //     index: 0,
+    //     question: 'What is my favourite colour?'
+    // }
+    // Trying to limit the amount of information the client has access to
+
 
     const section__main = document.querySelector('.section-trivia')
     const trivia__container = document.createElement('div')
@@ -29,7 +32,6 @@ socket.on('trivia_start', (trivia) => {
         answerBtn.addEventListener('click', (event) => {
             event.preventDefault();
             socket.emit('trivia_check_answer', {
-                correct_answer: trivia.correct_answer,
                 userAnswer: answers[i]
             })
         })
@@ -39,7 +41,7 @@ socket.on('trivia_start', (trivia) => {
 
     trivia__container.classList.add('trivia__container')
     question.classList.add('trivia__question')
-    if (trivia.animated === 0) {
+    if (errors === 0) {
         question.classList.add('trivia__question--animated')
         answerContainer.classList.add('trivia__answerContainer--animated')
     }

@@ -1,5 +1,15 @@
 socket.on('crush-start', (crushes) => {
-   
+
+    // The client 'crush' objects passed in this array look something like this
+    //    {
+    //        id: '1',
+    //        name: 'Albert',
+    //        nickname: 'emoBoy',
+    //        categoryEasy: 'History',
+    //        categoryMedium: 'Television',
+    //    }
+    // The hard category is purposefully hidden and will be show as ??? to client
+
     const section__crushes = document.querySelector('.section-crushes')
     const carousel = document.createElement('div')
     const carousel__btnLeft = document.createElement('img')
@@ -11,7 +21,7 @@ socket.on('crush-start', (crushes) => {
     const carousel__voteButton = document.createElement('btn')
 
     carousel.classList.add('carousel')
-    carousel__btnLeft.classList.add('carousel__btn','carousel__btn--left')
+    carousel__btnLeft.classList.add('carousel__btn', 'carousel__btn--left')
     carousel__btnRight.classList.add('carousel__btn', 'carousel__btn--right')
 
     slide__container.classList.add('carousel__slideContainer')
@@ -30,7 +40,7 @@ socket.on('crush-start', (crushes) => {
 
         slide.classList.remove("carousel__slide--animated");
         setTimeout(() => slide.classList.add("carousel__slide--animated"), 0);
-        
+
         slide__text.classList.remove("carousel__slideText--animated");
         setTimeout(() => slide__text.classList.add("carousel__slideText--animated"), 0);
 
@@ -43,7 +53,7 @@ socket.on('crush-start', (crushes) => {
         crushes.unshift(shiftedCrush)
         slide__text.innerText = `${crushes[1].name}`
         slide.src = `assets/character-fullbody/${crushes[1].nickname}.png`
-        
+
         slide.classList.remove("carousel__slide--animated");
         setTimeout(() => slide.classList.add("carousel__slide--animated"), 0);
 
@@ -56,11 +66,7 @@ socket.on('crush-start', (crushes) => {
         event.preventDefault()
 
         const votedCrush = crushes[1]
-        socket.emit(`voted_crush`, {
-            votedCrush : votedCrush,
-            userID: USER_ID,
-            roomID: ROOM_ID
-        })
+        socket.emit(`voted_crush`, votedCrush)
     })
 
 
@@ -71,7 +77,7 @@ socket.on('crush-start', (crushes) => {
 
     carousel__voteButton.innerText = "SELECT!"
 
-    
+
     slide__container.appendChild(slide)
 
     carousel.appendChild(slide__text)
@@ -100,7 +106,7 @@ socket.on('receive room_clients', (room) => {
 
     players__container.classList.add('players__container')
     players__ul.classList.add('players__listContainer')
-    players__btnLeft.classList.add('players__btn','players__btn--left')
+    players__btnLeft.classList.add('players__btn', 'players__btn--left')
     players__btnRight.classList.add('players__btn', 'players__btn--right')
 
     players__btnLeft.src = 'assets/arrows/smallArrowLeft.png'
@@ -108,7 +114,7 @@ socket.on('receive room_clients', (room) => {
 
     const clientsInArr = [];
 
-    for(let client in clients){
+    for (let client in clients) {
         clientsInArr.push(clients[client])
     }
 
@@ -119,14 +125,14 @@ socket.on('receive room_clients', (room) => {
     players__btnLeft.addEventListener('click', (event) => {
         event.preventDefault()
         console.log(startingIndex)
-        if(startingIndex >= 3){ // 6
+        if (startingIndex >= 3) { // 6
             players__ul.innerHTML = ''
-            for(let i = 0; i < 3; i++){
+            for (let i = 0; i < 3; i++) {
                 players__ul.prepend(displayUsers(clientsInArr[startingIndex - 1])) // 6 - 5 - 4
                 startingIndex--
             }
         }
-        
+
         players__ul.classList.remove("players__listContainer--animated");
         setTimeout(() => players__ul.classList.add("players__listContainer--animated"), 0);
 
@@ -138,20 +144,20 @@ socket.on('receive room_clients', (room) => {
     players__btnRight.addEventListener('click', (event) => {
         event.preventDefault()
 
-        if(startingIndex <= clientsInArr.length - 1){
+        if (startingIndex <= clientsInArr.length - 1) {
             players__ul.innerHTML = ''
-            for(let i = 0; i < 3; i++){
+            for (let i = 0; i < 3; i++) {
                 console.log(startingIndex)
-                if(startingIndex === clientsInArr.length -1){
+                if (startingIndex === clientsInArr.length - 1) {
                     i = 3
-                } 
+                }
                 players__ul.appendChild(displayUsers(clientsInArr[startingIndex]))
-                if(startingIndex < clientsInArr.length - 1){ // 7 does not exist
+                if (startingIndex < clientsInArr.length - 1) { // 7 does not exist
                     startingIndex++
                 }
             }
         }
- 
+
         players__ul.classList.remove("players__listContainer--animated");
         setTimeout(() => players__ul.classList.add("players__listContainer--animated"), 0);
     })
@@ -159,7 +165,7 @@ socket.on('receive room_clients', (room) => {
 
     console.log("clientInArr", clientsInArr)
 
-    for(let i = 0; i < clientsInArr.length; i++){
+    for (let i = 0; i < clientsInArr.length; i++) {
         players__ul.appendChild(displayUsers(clientsInArr[i]))
         startingIndex++ // 1, 2, 3
     }
@@ -171,9 +177,9 @@ socket.on('receive room_clients', (room) => {
 
 })
 
-function displayUsers(client){
+function displayUsers(client) {
     console.log('client', client)
-    
+
     const client__li = document.createElement('li')
     const client__avatar = document.createElement('img')
     const client__name = document.createElement('span')
@@ -202,23 +208,25 @@ function displayUsers(client){
 }
 
 socket.on('client_voted', (clientID) => {
-    
-    const client__votedAvatar = document.querySelector(`.client-${clientID}  .client__avatar`) 
+    // Typo?? Laurent
+    const client__votedAvatar = document.querySelector(`.client-${clientID}  .client__avatar`)
     const client__votedText = document.querySelector(`.client-${clientID} .client__vote`)
 
     client__votedAvatar.classList.add('client__avatar--green')
     client__votedText.classList.add('client__vote--green')
     client__votedText.innerText = 'VOTED!'
 
-    if(USER_ID === clientID){
 
-       const userVoteButton = document.querySelector('.carousel__voteButton')
-       const crush__btnLeft = document.querySelector('.carousel__btn--left')
-       const crush__btnRight = document.querySelector('.carousel__btn--right')
+    // This part could happen on the button click? Laurent
+    if (USER_ID === clientID) {
 
-       userVoteButton.style.display = 'none'
-       crush__btnLeft.classList.add('hide')
-       crush__btnRight.classList.add('hide')
+        const userVoteButton = document.querySelector('.carousel__voteButton')
+        const crush__btnLeft = document.querySelector('.carousel__btn--left')
+        const crush__btnRight = document.querySelector('.carousel__btn--right')
+
+        userVoteButton.style.display = 'none'
+        crush__btnLeft.classList.add('hide')
+        crush__btnRight.classList.add('hide')
 
     }
 
@@ -241,7 +249,7 @@ socket.on('crush_voting_result', (topVotedCrush) => {
     reveal__containerLeft.classList.add('overlay__container--left')
     reveal__containerRight.classList.add('overlay__container--right')
     reveal__triviaCountdown.classList.add('timer', 'timer__startTrivia')
-    
+
 
     reveal__text.classList.remove('overlay__text--fromCenterToTop')
     setTimeout(() => {
@@ -269,10 +277,10 @@ socket.on('crush_voting_result', (topVotedCrush) => {
 
 
 
-socket.on('start-crush-timer', async function (count) {
+socket.on('start-crush-timer', async function (count, triviaCategory) {
     const timerText = document.querySelector(".timer__startTrivia");
 
-    timerText.innerHTML = 'Trivia in: ' + count + "s";
+    timerText.innerHTML = `${triviaCategory} trivia in: ${count}s`;
 })
 
 

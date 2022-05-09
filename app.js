@@ -9,7 +9,7 @@ const server = require('http').createServer(app)
 const socket = require('socket.io')
 const io = socket(server)
 
-
+const fetch = require('node-fetch')
 
 const handlers = require('./server/handlers')
 
@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 
 
-// socket router stuff
+// some socket router stuff
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 
 io.use(wrap(sessionMiddleware))
@@ -53,7 +53,7 @@ io.use((socket, next) => {
   }
 })
 
-// SUPER IMPORTANT TO PUT THESE AT THE END OF APP.USE
+// app use Routes
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/leaderboard', leaderboardRouter)
@@ -62,8 +62,7 @@ app.use('/lobby', lobbyRouter)
 
 
 
-// const handlers = require('./handlers')
-
+// THE REAL SOCKETS STUFF BEGINS HERE
 io.on('connection', client => {
 
   console.log(`on-connection, connected with clientid: ${client.id}`)
@@ -77,23 +76,22 @@ io.on('connection', client => {
     io.to(client.id).emit('lobby-list', lobbies)
   })
 
-
   // SERVER JOIN
   client.on('join-room', (roomId, userId, userName) => {
 
     let user = handlers.handleServerJoin(client, userId, userName)
     console.log('join-room user: ', user)
     if (!user) {
-      // window.location = '/lobby/'
+      // NEED TO DEAL WITH USERS HERE (handler failed to join user) - Laurent
       return
     }
 
     let room = handlers.handleGetLobbyFromId(roomId)
     if (!room) {
-      // window.location = '/lobby/'
+      // NEED TO DEAL WITH USERS HERE (handler failed to get room) - Laurent
       return
     } else if (room.gameState.game_active === true) {
-      // window.location = '/lobby/'
+      // NEED TO DEAL WITH USERS HERE (game is currently active) - Laurent
       return
     }
 
@@ -101,14 +99,14 @@ io.on('connection', client => {
 
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
-        // window.location = '/lobby/' // ! DON'T FORGET TO MENTION THIS AGAIN
+        // NEED TO DEAL WITH USERS HERE (user is already in the game) - Laurent
         return
       }
     }
 
 
     // CREATE LOBBY
-    io.to(client.id).emit('create-lobby', room)
+    io.to(client.id).emit('create-lobby', room, user.userId)
     console.log(`${client.id} emit create-lobby -> handle lobby-join`, room)
     handlers.handleLobbyJoin(roomId, client)
     console.log(`${client.id} handle-lobby-join -> client.join-room`, room)
@@ -120,7 +118,15 @@ io.on('connection', client => {
 
     // SERVER DISCONNECT
     client.on('disconnect', () => {
-      handlers.handleLobbyDisconnect(room.room_id, client)
+      if (room.creator_id === user.userId) {
+        handlers.handleLobbyDisconnect(room.room_id, client)
+        if (room.gameState.game_active === false) {
+          let newHost = handlers.handleGetUserFromUserId(room.creator_id)
+          io.to(newHost.socketId).emit('host-transfer', newHost.username)
+        }
+      } else {
+        handlers.handleLobbyDisconnect(room.room_id, client)
+      }
       handlers.handleServerDisconnect(client)
       io.to(room.room_id).emit(`user-disconnected`, user, room)
     })
@@ -138,20 +144,10 @@ io.on('connection', client => {
       console.log('emit voting-start -> emit remove-lobby')
       io.to(room.room_id).emit('remove-lobby')
       console.log('gameState update, number of players fixed update')
-      handlers.handleGameState(room)
+      handlers.handleGameState(room) // sets game_active to true
       console.log('crush start emit')
-      io.to(room.room_id).emit('crush-start', handlers.handleCrushes(room, user))
+      io.to(room.room_id).emit('crush-start', handlers.handleCrushes(room))
     })
-
-    
-    // RETURN TO LOBBY TRANSITION
-    client.on('return-to-lobby', () => {
-      console.log(`${client.id} emit return-to-lobby -> emit remove-victory`)
-      io.to(client.id).emit('remove-victory')
-      console.log(`${client.id} emit remove-victory -> emit create-lobby`)
-      io.to(client.id).emit('create-lobby', room)
-    })
-
 
     // CRUSHES
     client.on('room_clients', () => {
@@ -160,26 +156,34 @@ io.on('connection', client => {
 
 
     // CRUSHES TRANSITION
-    client.on('voted_crush', (data) => {
-      const checkVotingState = handlers.handleVote(data.votedCrush, user, room)
+    client.on('voted_crush', (votedCrush) => {
+      const checkVotingState = handlers.handleVote(votedCrush, user, room)
+      console.log(checkVotingState)
       if (typeof checkVotingState === "string") {
         io.to(room.room_id).emit('client_voted', checkVotingState)
       } else {
         io.to(room.room_id).emit('client_voted', checkVotingState.clientId)
-        io.to(room.room_id).emit('crush_voting_result', checkVotingState.topVotedCrush)
+        console.log('crush id', checkVotingState.topVotedCrush.id)
+        let crush = handlers.handleGetCrushFromId(checkVotingState.topVotedCrush.id)
+        let tempCrush = { ...crush }
+        delete tempCrush.categoryHard
+        console.log('tempCrush', tempCrush)
+        io.to(room.room_id).emit('crush_voting_result', tempCrush)
         setTimeout(() => {
-          console.log('settimeout timer1')
-          gameTimer('start-crush-timer', 'remove-crush', 'trivia', 5)
-
+          console.log('set timeout voted_crush')
+          gameTimer('start-crush-timer', 'remove-crush', 'trivia', 5, tempCrush.categoryEasy.name)
         }, 3000);
       }
     })
 
 
-    // SKATEBOARD HELPER FUNCTIONS
-    function gameTimer(startEmit, cleanEmit, nextPhase, counter) {
+    ////////////////// SKATEBOARD HELPER FUNCTIONS /////////////////
+
+    // GAME TIMER (used to advance phase)
+    function gameTimer(startEmit, cleanEmit, nextPhase, counter, triviaInfo) {
+      // trivia info alternates between category info and result info
       let timer = setInterval(function () {
-        io.to(room.room_id).emit(startEmit, counter) // start phase
+        io.to(room.room_id).emit(startEmit, counter, triviaInfo) // start phase
         counter--
 
         if (counter <= 0) {
@@ -192,14 +196,56 @@ io.on('connection', client => {
 
 
     // PHASE TRIVIA
-    function trivia() {
+    async function trivia(triviaInfo) {
+      let { amount, id, difficulty } = triviaInfo
+      let nextPhase = null
+      if (room.gameState.triviaIndex < 2) {
+        nextPhase = 'lounge'
+      } else if (room.gameState.triviaIndex === 2) {
+        nextPhase = 'victory'
+      }
+      console.log('trivia stuff', amount, id, difficulty)
       console.log('trivia phase start')
-      io.to(room.room_id).emit('trivia-game-start')
-      gameTimer('start-trivia-timer', 'remove-trivia', 'victory', 60)
+      const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
+      const data = await response.json()
+      
+      console.log(data.results)
+
+      if (data.response_code === 4) {
+        await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
+        response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
+        data = await response.json()
+      }
+
+      let clientTriviaQuestions = handlers.handleTrivia(data.results, room)
+
+      handlers.handleUserTriviaStart(room, clientTriviaQuestions)
+      console.log('clientTriviaQuestions', clientTriviaQuestions)
+      io.to(room.room_id).emit('start-trivia-phase', clientTriviaQuestions[0], 0)
+
+      gameTimer('start-trivia-timer', 'remove-trivia', nextPhase, 60)
     }
+
+
+    // PHASE LOUNGE
+    function lounge(lastTriviaInfo) {
+      let nextTrivia = null
+      if (room.gameState.triviaIndex === 0) {
+        room.gameState.triviaIndex++
+        nextTrivia = room.gameState.topVotedCrush.categoryMedium
+      } else if (room.gameState.triviaIndex === 1) {
+        room.gameState.triviaIndex++
+        nextTrivia = room.gameState.topVotedCrush.categoryHard
+      }
+
+      io.to(room.room_id).emit('start-lounge', lastTriviaInfo)
+      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 10, nextTrivia.name)
+    }
+
 
     // PHASE VICTORY
     function victory() {
+      room.gameState.triviaIndex = 0
       console.log('victory phase start')
       let players = handlers.handleGetLobbyPlayers(room.room_id)
       console.log('players', players)
@@ -209,53 +255,60 @@ io.on('connection', client => {
 
     // PHASE ADVANCER
     function phaseAdvance(phase) {
+      let triviaInfo = null
       if (phase === 'trivia') {
-        trivia()
+        if (room.gameState.triviaIndex === 0) {
+          triviaInfo = room.gameState.topVotedCrush.categoryEasy
+          triviaInfo.difficulty = 'easy'
+          triviaInfo.amount = '20'
+        } else if (room.gameState.triviaIndex === 1) {
+          triviaInfo = room.gameState.topVotedCrush.categoryMedium
+          triviaInfo.difficulty = 'medium'
+          triviaInfo.amount = '15'
+        } else if (room.gameState.triviaIndex === 2) {
+          triviaInfo = room.gameState.topVotedCrush.categoryHard
+          triviaInfo.difficulty = 'hard'
+          triviaInfo.amount = '10'
+        }
+        trivia(triviaInfo)
+        return
+      } else if (phase === 'lounge') {
+        if (room.gameState.triviaIndex === 0) {
+          // NEED INFO
+        } else if (room.gameState.triviaIndex === 1) {
+          // NEED INFO
+        }
+        lounge(triviaInfo)
+        return
       } else if (phase === 'victory') {
-        victory()
+        // NEED INFO
+        victory(triviaInfo)
+        return
       }
     }
 
 
     // TRIVIA
-    client.on('trivia_question', (triviasArr) => {
-      io.to(client.id).emit('trivia_start', handlers.handleTrivia(client, triviasArr))
-    })
-
-    client.on('trivia_check_answer', (data) => {
-      io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(client, data.correct_answer, data.userAnswer))
+    client.on('trivia_check_answer', (answer) => {
+      io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(user, room,answer))
     })
 
     client.on('trivia_next_question', () => {
-      io.to(client.id).emit('trivia_start', handlers.nextTrivia(client))
+      const { nextTrivia, errors } = handlers.nextTrivia(user, room)
+      io.to(client.id).emit('start-trivia-phase', nextTrivia, errors)
     })
 
 
-    ////////////////////////////////////////////////////////
-    /////// THIS IS TEMPORARY
-
-    // THIS SECTION IS TO POPULATE THE SERVER IT IS GAME BREAKING
-    // THERE ARE 3 THINGS HAPPENING HERE. USERS ARE CREATED, USERS VOTE, USERS PLAY TRIVIA.
-
-    const { makeUsername } = require('./utils/utilities')
-
-    client.on('I-Want-Friends', () => {
-      for (let index = 0; index < 20; index++) {
-        let fakeClient = {}
-        client.id = `${index}0000000000`
-        let fakeUserId = `10${index}`
-        let fakeUsername = makeUsername()
-        handlers.handleServerJoin(fakeClient, fakeUserId, fakeUsername)
-        handlers.handleGetLobbyFromId(roomId)
-      }
+    // RETURN TO LOBBY TRANSITION
+    client.on('return-to-lobby', () => {
+      console.log(`${client.id} emit return-to-lobby -> emit remove-victory`)
+      io.to(client.id).emit('remove-victory')
+      console.log(`${client.id} emit remove-victory -> emit create-lobby`)
+      io.to(client.id).emit('create-lobby', room, user.userId)
     })
-
-
-    ////////////////////////////////////////////////////////
-
 
   })
-
+  
 })
 
 const PORT = process.env.PORT || 8000
