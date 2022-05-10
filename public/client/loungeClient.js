@@ -5,6 +5,7 @@ socket.on('create-lounge', (gameInfo) => {
     //     name: 'Albert',
     //     nickname: 'emoBoy',
     //     nextCategory: 'History',
+    //     leaderboard: [{userId: 324, 'Bob', avatar: 'unicorn', points: 17}, {}]
     //     dialogue: ['User 1 has the most consecutive answers', 'User 3 is falling behind']
     // }
     // all player facts should be handled in the backend
@@ -13,6 +14,7 @@ socket.on('create-lounge', (gameInfo) => {
     const crush__container = document.createElement('div')
     const crush__text = document.createElement('span')
     const crush = document.createElement('img')
+    const game_text = document.createElement('p')
 
 
     crush__container.classList.add('crush__container')
@@ -20,10 +22,15 @@ socket.on('create-lounge', (gameInfo) => {
     crush.classList.add('crush')
 
 
+    
+
     crush__container.appendChild(crush__text)
     crush__container.appendChild(crush)
 
     section__lounge.appendChild(crush__container)
+
+    crush__container.appendChild(game_text)
+    game_text.innerHTML = `${gameInfo.leaderboard[0]} and also ${gameInfo.dialogue[0]} and ${gameInfo.dialogue[2]}`
 
 
     const crush__timerCountdown = document.createElement('span')

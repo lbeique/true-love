@@ -310,7 +310,7 @@ function handleGameState(room) {
 
 // CRUSHES
 function handleCrushes(room) {
-    
+
     const crushesClone = arrayClone(crushes) // copy
     const categoriesClone = arrayClone(categories)
     const randomizedCrushes = []
@@ -449,13 +449,13 @@ function handleTrivia(trivias, room) {
         clientTriviaQuestions.push(triviaQuestion)
         correctTriviaAnswers.push(trivias[i].correct_answer)
     }
-    
+
     if (room.gameState.triviaIndex === 0) {
         room.gameState.triviaGames.easyClient.push(clientTriviaQuestions)
         room.gameState.triviaGames.easyAnswers = correctTriviaAnswers
     } else if (room.gameState.triviaIndex === 1) {
         room.gameState.triviaGames.mediumClient.push(clientTriviaQuestions)
-        room.gameState.triviaGames.mediumAnswers = correctTriviaAnswers 
+        room.gameState.triviaGames.mediumAnswers = correctTriviaAnswers
     } else if (room.gameState.triviaIndex === 2) {
         room.gameState.triviaGames.hardClient.push(clientTriviaQuestions)
         room.gameState.triviaGames.hardAnswers = correctTriviaAnswers
@@ -567,7 +567,7 @@ function checkTriviaAnswer(user, room, answer) {
         } else if (errors >= 2) {
             points = points + 1
         }
-        user.game.trivia.totalPoints = user.game.trivia.totalPoints + points
+        user.game.totalPoints = user.game.totalPoints + points
         if (room.gameState.triviaIndex === 0) {
             user.game.trivia.easy.points = points
             user.game.trivia.easy.progressIndex++
@@ -577,7 +577,7 @@ function checkTriviaAnswer(user, room, answer) {
             user.game.trivia.medium.points = points
             user.game.trivia.medium.progressIndex++
             user.game.trivia.medium.errors.push(0)
-            
+
         } else if (room.gameState.triviaIndex === 2) {
             user.game.trivia.hard.points = points
             user.game.trivia.hard.progressIndex++
@@ -592,19 +592,8 @@ function checkTriviaAnswer(user, room, answer) {
     }
 }
 
-// // word scrambler
-
-// function getWords(client) {
-
-//     const connectedClient = socketUsers[client.id]
-//     connectedClient.listOfWords = {}
-
-//     return randomWords({ exactly: 10, maxLength: 5 })
-
-// }
 
 // Reset Game
-
 function gameReset(room) {
 
     // MUST ALWAYS KEEP UP TO DATE -- Laurent
@@ -656,69 +645,93 @@ function gameReset(room) {
     }
 }
 
-// Reset Player (If player leave)
+// Reset User
+function userReset(user) {
 
-// Victory
-function handleGetVictory(players, room) {
-
-    // NEEDS TO CHANGE TO GIVE USERS MORE INFORMATION -- Laurent
-
-
-    let topPlayerPoints = 0
-    let topPlayers = []
-    let winningPlayer = null
-    for (const player in players) {
-        console.log('player trivia points', players[player].triviaPts)
-        if (players[player].triviaPts >= topPlayerPoints) {
-            topPlayerPoints = players[player].triviaPts
-        }
+    // MUST ALWAYS KEEP UP TO DATE -- Laurent
+    user.game = {
+        crushVote: null,
+        trivia: {
+            easy: {
+                questions: [],
+                errors: [],
+                progressIndex: 0,
+                points: 0,
+            },
+            medium: {
+                questions: [],
+                errors: [],
+                progressIndex: 0,
+                points: 0,
+            },
+            hard: {
+                questions: [],
+                errors: [],
+                progressIndex: 0,
+                points: 0,
+            }
+        },
+        totalPoints: 0,
+        position: null,
     }
 
-    // console.log('topPlayerPoints', topPlayerPoints)
-    // for (const player in players) {
-    //     if (players[player].triviaPts === topPlayerPoints) {
-    //         topPlayers.push(players[player])
-    //     }
-    // }
+}
 
-    // console.log('topPlayers', topPlayers)
 
-    // if (topPlayers.length > 1) {
-    //     winningPlayer = topPlayers[Math.floor(Math.random() * topPlayers.length)]
-    // } else {
-    //     winningPlayer = topPlayers[0]
-    // }
-    // console.log('winning player', winningPlayer)
+// Victory
+function handleGetVictory(room, leaderboard) {
 
-    // let returnPlayer = {
-    //     name: winningPlayer.username,
-    //     points: winningPlayer.triviaPts
-    // }
+    // NEEDS TO CHANGE -- Laurent
+    let winner = leaderboard[0]
+
+    // SAVE GAME TO DATABASE HERE
+
+
+
 
     // GAME RESET
     gameReset(room)
 
-    return returnPlayer
+    return { winner, leaderboard }
+}
+
+function handleSortLeaderboard(leaderboard) {
+    leaderboard.sort((b, a) => (a.points > b.points) ? 1 : ((b.points > a.points) ? -1 : 0))
+    console.log('sort leaderboard', leaderboard)
+    return leaderboard
 }
 
 function handleLeaderboard(room) {
     let players = room.clients
     let leaderboard = []
     for (const player in players) {
-        let score = {
-            userId: player.userId,
-            username: player.username,
-            avatar: player.avatar,
-            points: player.game.totalPoints
+
+        /////////// PLAYER OBJECT USED IN ANALYTICS /////////
+        let playerObject = {
+            userId: players[player].userId,
+            username: players[player].username,
+            avatar: players[player].avatar,
+            points: players[player].game.totalPoints,
         }
-        leaderboard.push(score)
+        leaderboard.push(playerObject)
     }
-    leaderboard.sort((b,a) => (a.points > b.points) ? 1 : ((b.points > a.points) ? -1 : 0))
-    console.log('leaderboard', leaderboard)
+    leaderboard = handleSortLeaderboard(leaderboard)
+    for (const player in players) {
+        for (let i = 0; i < leaderboard.length; i++) {
+            if (leaderboard[i].userId === players[player].userId) {
+                players[player].game.position = i
+            }
+        }
+    }
+    console.log(room.clients)
+    for (const client in room.clients) {
+        console.log(room.clients[client].game)
+        console.log(room.clients[client].game.trivia)
+    }
     return leaderboard
 }
 
-function handleLoungePhase(room, leaderboard, dialogue, nextTrivia) {
+function handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia) {
     let gameInfo = {
         name: room.gameState.topVotedCrush.name,
         nickname: room.gameState.topVotedCrush.nickname,
@@ -741,6 +754,7 @@ module.exports = {
     handleGetUserFromUserId,
 
     handleGameState,
+    handleSortLeaderboard,
     handleLeaderboard,
 
     handleCrushes,
@@ -752,7 +766,7 @@ module.exports = {
     checkTriviaAnswer,
     nextTrivia,
 
-    handleLoungePhase,
+    handleLoungeGameInfo,
 
     handleCreateLobby,
     handleGetAllLobbies,
