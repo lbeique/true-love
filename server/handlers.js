@@ -661,18 +661,18 @@ function gameReset(room) {
 // Victory
 function handleGetVictory(players, room) {
 
-    // NEEDS TO CHANGE TO GIVE USERS MORE INFORMATION Laurent
+    // NEEDS TO CHANGE TO GIVE USERS MORE INFORMATION -- Laurent
 
 
-    // let topPlayerPoints = 0
-    // let topPlayers = []
-    // let winningPlayer = null
-    // for (const player in players) {
-    //     console.log('player trivia points', players[player].triviaPts)
-    //     if (players[player].triviaPts >= topPlayerPoints) {
-    //         topPlayerPoints = players[player].triviaPts
-    //     }
-    // }
+    let topPlayerPoints = 0
+    let topPlayers = []
+    let winningPlayer = null
+    for (const player in players) {
+        console.log('player trivia points', players[player].triviaPts)
+        if (players[player].triviaPts >= topPlayerPoints) {
+            topPlayerPoints = players[player].triviaPts
+        }
+    }
 
     // console.log('topPlayerPoints', topPlayerPoints)
     // for (const player in players) {
@@ -701,6 +701,37 @@ function handleGetVictory(players, room) {
     return returnPlayer
 }
 
+function handleLeaderboard(room) {
+    let players = room.clients
+    let leaderboard = []
+    for (const player in players) {
+        let score = {
+            userId: player.userId,
+            username: player.username,
+            avatar: player.avatar,
+            points: player.game.totalPoints
+        }
+        leaderboard.push(score)
+    }
+    leaderboard.sort((b,a) => (a.points > b.points) ? 1 : ((b.points > a.points) ? -1 : 0))
+    console.log('leaderboard', leaderboard)
+    return leaderboard
+}
+
+function handleLoungePhase(room, leaderboard, dialogue, nextTrivia) {
+    let gameInfo = {
+        name: room.gameState.topVotedCrush.name,
+        nickname: room.gameState.topVotedCrush.nickname,
+        nextTrivia: nextTrivia,
+        leaderboard: leaderboard,
+        dialogue: dialogue,
+    }
+    return gameInfo
+}
+
+
+
+
 
 module.exports = {
     handleServerJoin,
@@ -710,6 +741,7 @@ module.exports = {
     handleGetUserFromUserId,
 
     handleGameState,
+    handleLeaderboard,
 
     handleCrushes,
     handleGetCrushFromId,
@@ -719,6 +751,8 @@ module.exports = {
     handleUserTriviaStart,
     checkTriviaAnswer,
     nextTrivia,
+
+    handleLoungePhase,
 
     handleCreateLobby,
     handleGetAllLobbies,

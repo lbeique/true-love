@@ -5,7 +5,7 @@ socket.on('create-lounge', (gameInfo) => {
     //     name: 'Albert',
     //     nickname: 'emoBoy',
     //     nextCategory: 'History',
-    //     playerFacts: ['User 1 has the most consecutive answers', 'User 3 is falling behind']
+    //     dialogue: ['User 1 has the most consecutive answers', 'User 3 is falling behind']
     // }
     // all player facts should be handled in the backend
 

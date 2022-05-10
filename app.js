@@ -12,6 +12,7 @@ const io = socket(server)
 const fetch = require('node-fetch')
 
 const handlers = require('./server/handlers')
+const { analytics } = require('./server/analytics')
 
 // Routes
 const indexRouter = require('./routes/index')
@@ -207,7 +208,7 @@ io.on('connection', client => {
       console.log('trivia phase start')
       const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
       const data = await response.json()
-      
+
       // console.log(data.results)
 
       if (data.response_code === 4) {
@@ -227,34 +228,27 @@ io.on('connection', client => {
 
 
     // PHASE LOUNGE
-    function lounge(lastTriviaInfo) {
-      let nextTrivia = null
-      if (room.gameState.triviaIndex === 0) {
-        room.gameState.triviaIndex++
-        nextTrivia = room.gameState.topVotedCrush.categoryMedium
-      } else if (room.gameState.triviaIndex === 1) {
-        room.gameState.triviaIndex++
-        nextTrivia = room.gameState.topVotedCrush.categoryHard
-      }
-
-      io.to(room.room_id).emit('start-lounge', lastTriviaInfo)
-      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 10, nextTrivia.name)
+    function lounge(gameInfo) {
+      let nextTrivia = gameInfo.nextTrivia
+      room.gameState.triviaIndex++
+      io.to(room.room_id).emit('start-lounge', gameInfo)
+      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 10, nextTrivia)
     }
 
 
     // PHASE VICTORY
     function victory() {
-      room.gameState.triviaIndex = 0
+      // room.gameState.triviaIndex = 0
       console.log('victory phase start')
-      let players = handlers.handleGetLobbyPlayers(room.room_id)
-      console.log('players', players)
-      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(players, room))
+      let leaderboard = handlers.handleLeaderboard(room)
+      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(room, leaderboard))
     }
 
 
     // PHASE ADVANCER
     function phaseAdvance(phase) {
       let triviaInfo = null
+      let gameInfo = null
       if (phase === 'trivia') {
         if (room.gameState.triviaIndex === 0) {
           triviaInfo = room.gameState.topVotedCrush.categoryEasy
@@ -273,15 +267,23 @@ io.on('connection', client => {
         return
       } else if (phase === 'lounge') {
         if (room.gameState.triviaIndex === 0) {
-          // NEED INFO
+
+          let leaderboard = handlers.handleLeaderboard(room)
+          let dialogue = analytics(room, leaderboard)
+          let nextTrivia = room.gameState.topVotedCrush.categoryMedium.name
+          gameInfo = handlers.handleLoungePhase(room, leaderboard, dialogue, nextTrivia)
+
         } else if (room.gameState.triviaIndex === 1) {
-          // NEED INFO
+
+          let leaderboard = handlers.handleLeaderboard(room)
+          let dialogue = analytics(room, leaderboard)
+          let nextTrivia = room.gameState.topVotedCrush.categoryHard.name
+          gameInfo = handlers.handleLoungePhase(room, leaderboard, dialogue, nextTrivia)
         }
-        lounge(triviaInfo)
+        lounge(gameInfo)
         return
       } else if (phase === 'victory') {
-        // NEED INFO
-        victory(triviaInfo)
+        victory()
         return
       }
     }
@@ -308,7 +310,7 @@ io.on('connection', client => {
     })
 
   })
-  
+
 })
 
 const PORT = process.env.PORT || 8000
