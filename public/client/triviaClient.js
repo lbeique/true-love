@@ -31,7 +31,7 @@ socket.on('trivia_reset_state', (data) => {
         const section__main = document.querySelector('.section-trivia')
         cross.classList.add('cross')
 
-        cross.src = 'assets/X.png'
+        cross.src = 'assets/others/X.png'
 
         section__main.appendChild(cross)
 

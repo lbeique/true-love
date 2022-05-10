@@ -33,7 +33,8 @@ document.querySelector('.menu__skip-btn').addEventListener('click', (event) => {
     document.querySelector('.menu__star3').classList.add('menu__star3--skipAnimated');
     document.querySelector('.menu__star4').classList.add('menu__star4--skipAnimated');
 
-    document.querySelector('.menu__skip-btn').remove()
+    event.target.classList.add('hide')
+    // document.querySelector('.menu__skip-btn').remove()
     
 })
 
@@ -56,6 +57,10 @@ if (window.sessionStorage.getItem('animated') === null) {
     document.querySelectorAll('.btn__menu').forEach(node => node.classList.add('btn__menu--animated'));
     document.querySelectorAll('.icon__btn').forEach(node => node.classList.add('icon__btn--animated'));
 
+    setTimeout(() => {
+        document.querySelector('.menu__skip-btn').classList.add('hide')
+    }, 11000)
+
     window.sessionStorage.setItem('animated' ,1);
 
 } else{
@@ -69,6 +74,6 @@ if (window.sessionStorage.getItem('animated') === null) {
     document.querySelector('.menu__star3').classList.add('menu__star3--skipAnimated');
     document.querySelector('.menu__star4').classList.add('menu__star4--skipAnimated');
 
-    document.querySelector('.menu__skip-btn').remove()
+    document.querySelector('.menu__skip-btn').classList.add('hide')
 
 }

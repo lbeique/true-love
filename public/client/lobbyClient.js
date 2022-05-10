@@ -2,10 +2,10 @@ const socket = io.connect();
 
 // user list helper function
 
-function userList(room) {
-    const user__list = document.querySelector('.user__list')
+function userList(room) { // USER LIST
+    const user__listContainer = document.querySelector('.lobby__userListContainer')
 
-    user__list.innerHTML = ''
+    user__listContainer.innerHTML = ''
     
     let clients = room.clients
     console.log(clients)
@@ -13,21 +13,25 @@ function userList(room) {
     for (const client in clients) {
         console.log(clients[client].username)
 
-        const user = document.createElement('div')
-        user.classList.add('user')
+        const userContainer = document.createElement('div')
+        const user__name = document.createElement('div')
+        const user__avatarContainer = document.createElement('div')
+        const user__avatar = document.createElement('img')
 
-        const userName__PTag = document.createElement('p')
-        userName__PTag.innerText = clients[client].username
+        userContainer.classList.add('user__container')
+        user__name.classList.add('user__name', 'btn--darkPurple')
+        user__avatarContainer.classList.add('user__avatarContainer')
+        user__avatar.classList.add('user__avatar')
 
-        const userAvatar = document.createElement('div')
-        const userAvatar__PTag = document.createElement('p')
-        userAvatar__PTag.innerText = clients[client].avatar
 
-        userAvatar.appendChild(userAvatar__PTag)
+        user__name.innerText = clients[client].username
+        user__avatar.innerText = clients[client].avatar
 
-        user.appendChild(userName__PTag)
-        user__list.appendChild(user)
-        user__list.appendChild(userAvatar)
+
+        user__avatarContainer.appendChild(user__avatar)
+        userContainer.appendChild(user__avatarContainer)
+        userContainer.appendChild(user__name)
+        user__listContainer.appendChild(userContainer)
 
     }
 }
@@ -58,37 +62,58 @@ socket.on('user-disconnected', (user, room) => {
 socket.on('create-lobby', (room) => {
     const hostID = room.creator_id
     
-    const section__lobbyClient = document.querySelector('.section__lobbyClient')
+    const section__lobbyClient = document.querySelector('.section-lobbyClient')
 
     const lobby__container = document.createElement('div')
-    lobby__container.classList.add('lobby__container')
-
+    const lobby__leftContainer = document.createElement('div')
+    const lobby__rightContainer = document.createElement('div')
     const lobby__header = document.createElement('h1')
-    lobby__header.innerText = `Welcome to the Lobby: ${room.room_name}`
-
-    const lobby__code = document.createElement('p')
-    lobby__code.innerText = `The Lobby Code is: ${room.room_code}`
-
+    const lobby__code = document.createElement('div')
+    const gameStart__header = document.createElement('h2')
     const gameStart__btn = document.createElement('button')
-    gameStart__btn.classList.add('btn', 'btn-success')
-    gameStart__btn.innerText = 'Start Game'
+    const lobby__userListContainer = document.createElement('div')
+    const lobby__backBtn = document.createElement('a')
 
-    const user__list = document.createElement('div')
-    user__list.classList.add('user__list')
+
+    lobby__container.classList.add('lobby__container')
+    lobby__leftContainer .classList.add('lobby__leftContainer')
+    lobby__rightContainer .classList.add('lobby__rightContainer')
+    lobby__header.classList.add('heading-primary', 'lobby__header')
+    lobby__code.classList.add('lobby__code')
+    gameStart__header.classList.add('heading-tertiary','lobby__startBtn-Header')
+    gameStart__btn.classList.add('btn', 'lobby__startBtn')
+    lobby__userListContainer.classList.add('lobby__userListContainer')
+    lobby__backBtn.classList.add('btn', 'lobby__backButton', 'btn--darkPurple')
+    
+
+    lobby__header.innerText = `Welcome to the Lobby: ${room.room_name}`
+    lobby__code.innerHTML = `The Lobby Code is: <span>${room.room_code} </span>`
+    gameStart__header.innerText = 'Ready?'
+    gameStart__btn.innerHTML= '<i class="fa-solid fa-play"></i>'
+    lobby__backBtn.innerHTML= '<span>&#8618;</span>'
+    lobby__backBtn.href = '/lobby'
+
    
-    lobby__container.appendChild(lobby__header)
-    lobby__container.appendChild(lobby__code)
-    lobby__container.appendChild(gameStart__btn)
-    lobby__container.appendChild(user__list)
+    lobby__leftContainer.appendChild(lobby__code)
+    lobby__leftContainer.appendChild(gameStart__header)
+    lobby__leftContainer.appendChild(gameStart__btn)
+    lobby__rightContainer.appendChild(lobby__header)
+    lobby__rightContainer.appendChild(lobby__userListContainer)
+    lobby__container.appendChild(lobby__leftContainer)
+    lobby__container.appendChild(lobby__rightContainer)
+    lobby__container.appendChild(lobby__backBtn)
+
+
     section__lobbyClient.appendChild(lobby__container)
    
+
     gameStart__btn.addEventListener('click', (event) => {
         event.preventDefault();
         socket.emit('voting-start')
     })
 
     console.log("USER ID", USER_ID, "HOST ID", hostID)
-    if(+USER_ID !== hostID){ // if client is not the host, don't see this button
+    if(+USER_ID !== hostID){ // Stef: if client is not the host, don't see this button, will have to change logiv
         gameStart__btn.remove()
     }
     

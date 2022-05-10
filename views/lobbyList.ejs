@@ -6,49 +6,112 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://kit.fontawesome.com/ddb639785c.js"></script>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" crossorigin="anonymous"/> -->
     <link rel="stylesheet" href="styles/main.css">
     <title> Lobby </title>
 </head>
 
 <body>
 
-
     <section class="section-main section-main--bg">
-        <h1 class="heading-primary"> Lobbby List </h1>
-        <div id="lobbyCode" class="lobbyInput">
 
-            <h1>Trivia Game</h1>
+        <section class="section-introductory"></section>
 
-            <form method="POST" action="/lobby/createLobby/">
-                <input type="text" placeholder="Enter Lobby Name" name="room_name" />
-                <button type="submit" class="btn btn-success" id="newGameButton">Create New Game</button>
-            </form>
+        <section class="section-lobbies hide">
 
-            <div>OR</div>
+            <!-- <img class="icon__btn lobby-list__backButton" src="assets/backButton.png" alt="backButtonIcon"> -->
 
-            <form method="POST" action="/lobby/joinLobby/">
-                <input type="text" placeholder="Enter Game Code" name="room_code" />
-                <button type="submit" class="btn btn-success" id="joinGameButton">Join Game</button>
-            </form>
+            <a href="/mainmenu" class="btn lobby-list__backButton btn--darkPurple"> <span>&#8618;</span>	</a>
+            <button type="button" class="btn lobby-list__refreshBtn btn--darkPurple">&#8634;</button>
 
-        </div>
+            <div class="lobby-list__leftContainer">
+
+                <div class="lobby-list__createContainer">
+
+                    <h2 class="heading-secondary createLobby__header">
+                        Create Lobby
+                    </h2>
+
+                    <form method="POST" action="/lobby/createLobby/" class="createLobby__form">
+                        <input type="text"  name="room_name" placeholder='Enter name' class="createLobby__input" />
+                        <button type="submit" class="btn lobby-list__btn btn--darkPurple" id="newGameButton">Create New Game</button>
+                    </form>
+
+                </div>
+
+                <div class="lobby-list__joinContainer">
+
+                    <h3 class="heading-tertiary joinLobby__header">
+                    Enter a lobby code:
+                    </h3>
+
+                    <form method="POST" action="/lobby/joinLobby/" class="joinLobby__form">
+                        <input type="text" name="room_code"  placeholder='Enter code' class="joinLobby__input" />
+                        <button type="submit" class="btn lobby-list__btn  btn--darkPurple" id="joinGameButton">Join Game</button>
+                    </form>
+
+                </div>
+
+            </div>
 
 
+            <div class="lobby-list__rightContainer">
 
-        <div id="lobbyList" class="lobby__list">
+                <h1 class="heading-primary lobby-list__header">
+                    LOBBY LIST
+                </h1>
+                
+                <div class="lobby-list__listContainer"> 
+                <!-- * ^^ where it will list all the available rooms -->
 
-            <h1>Lobbies</h1>
-            <button type="button" class="btn btn-success" id="refresh">Refresh Lobbies</button>
+                    <div class="lobby-list__list"></div>
 
-            <!-- TEMP CODE FOR THE LOBBy LIST -->
-            <!-- <form method="POST" action="/lobby/joinLobby/">
-                    <button type="submit" class="btn btn-success" name="room_code" value="">Lobby Name</button>
-                </form> -->
+                    <!-- <div class="lobby-list__nav">
+                        <div class="lobby-list__nav--top">
+                            <img src="assets/arrows/arrowDown_green.png" alt="green-arrow_up" class="green-arrow-up">
+                        </div>
 
-        </div>
+                        <div class="lobby-list__nav--bottom">
+                            <img src="assets/arrows/arrowDown_green.png" alt="green-arrow_down" class="green-arrow-down">
+                        </div>
+                    </div> -->
+        
+                </div>
+
+            </div>
+
+        </section>
+
+
     </section>
 
 </body>
+<!-- <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js" crossorigin="anonymous"></script>
+<script>
+    const swiper = new Swiper('.lobby-list__listContainer', {
+    // Optional parameters
+    // calculateHeight:true,
+    // autoHeight: true,
+    direction: 'vertical',
+    loop: false,
+    slidesPerView: 1,
+    spaceBetween: 10,
+    slidesPerGroup: 1,
+    loop: true,
+    loopFillGroupWithBlank: true,
+  
+    // Navigation arrows
+    navigation: {
+      nextEl: '.green-arrow-up',
+      prevEl: '.green-arrow-down',
+    },
+  
+});
+
+console.log('SWIPER', swiper)
+</script> -->
+<script src="../../client/introductory.js"></script>
 <script src="../../client/lobbyListClient.js"></script>
 
 </html>
