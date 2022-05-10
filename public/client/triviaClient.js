@@ -4,7 +4,7 @@ socket.on('start-trivia-timer', async function (count) {
     timerText.innerHTML = count + "s";
 })
 
-socket.on('start-trivia-phase', (trivia, errors) => {
+socket.on('start-trivia-phase', (trivia, animate) => {
 
     // trivia object for the client looks like this
     // {
@@ -39,7 +39,7 @@ socket.on('start-trivia-phase', (trivia, errors) => {
 
     trivia__container.classList.add('trivia__container')
     question.classList.add('trivia__question')
-    if (+errors === 0) {
+    if (+animate === 0) {
         question.classList.add('trivia__question--animated')
         answerContainer.classList.add('trivia__answerContainer--animated')
     }

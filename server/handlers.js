@@ -134,18 +134,21 @@ function handleServerJoin(client, user_id, user_name) {
                     errors: [],
                     progressIndex: 0,
                     points: 0,
+                    animate: [],
                 },
                 medium: {
                     questions: [],
                     errors: [],
                     progressIndex: 0,
                     points: 0,
+                    animate: [],
                 },
                 hard: {
                     questions: [],
                     errors: [],
                     progressIndex: 0,
                     points: 0,
+                    animate: [],
                 }
             },
             totalPoints: 0,
@@ -212,6 +215,7 @@ async function handleCreateLobby(roomId, roomName, roomCode, user_info) {
             clients: {},
             gameState: {
                 game_active: false,
+                usersVoted: false,
                 triviaIndex: 0,
                 randomizedCrushes: [],
                 topVotedCrush: {},
@@ -219,10 +223,8 @@ async function handleCreateLobby(roomId, roomName, roomCode, user_info) {
                 triviaGames: {
                     easyClient: [],
                     easyAnswers: [],
-
                     mediumClient: [],
                     mediumAnswers: [],
-
                     hardClient: [],
                     hardAnswers: [],
                 },
@@ -353,20 +355,20 @@ function handleGetCrushFromId(crushId) {
     }
 }
 
-function handleVote(votedCrush, client, room) {
+function handleVote(votedCrush, user, room) {
 
-    console.log("PASSED CLIENT", client)
+    console.log("PASSED user", user)
 
-    client.game.crushVote = votedCrush.id
+    user.game.crushVote = votedCrush.id
 
     room.gameState.votes.push(votedCrush.id)
 
     console.log('gameStateVotes track', room.gameState.votes) // basically trackVoteArr
 
-
     // This will need to change slightly, need to add a check to make sure everyone present in lobby has voted as well - Laurent
-    if (room.gameState.votes.length >= room.num_clientInRoom) {
+    if (room.gameState.votes.length >= room.num_clientInRoom && !room.gameState.usersVoted) {
         const resultCalculation = {}
+        room.gameState.usersVoted = true
         let mostVotedCrushId = 0;
         let highestVotes = 0;
         let topPicks = []
@@ -410,7 +412,7 @@ function handleVote(votedCrush, client, room) {
 
         const data = {
             topVotedCrush: gameState.topVotedCrush,
-            clientId: client.userId
+            clientId: user.userId
         }
 
         return data // returns an object
@@ -451,13 +453,13 @@ function handleTrivia(trivias, room) {
     }
 
     if (room.gameState.triviaIndex === 0) {
-        room.gameState.triviaGames.easyClient.push(clientTriviaQuestions)
+        room.gameState.triviaGames.easyClient = clientTriviaQuestions
         room.gameState.triviaGames.easyAnswers = correctTriviaAnswers
     } else if (room.gameState.triviaIndex === 1) {
-        room.gameState.triviaGames.mediumClient.push(clientTriviaQuestions)
+        room.gameState.triviaGames.mediumClient = clientTriviaQuestions
         room.gameState.triviaGames.mediumAnswers = correctTriviaAnswers
     } else if (room.gameState.triviaIndex === 2) {
-        room.gameState.triviaGames.hardClient.push(clientTriviaQuestions)
+        room.gameState.triviaGames.hardClient = clientTriviaQuestions
         room.gameState.triviaGames.hardAnswers = correctTriviaAnswers
     }
 
@@ -467,25 +469,19 @@ function handleTrivia(trivias, room) {
 function handleUserTriviaStart(room, clientTriviaQuestions) {
     let clients = room.clients
     if (room.gameState.triviaIndex === 0) {
-        for (const triviaQuestion of clientTriviaQuestions) {
-            for (const client in clients) {
-                clients[client].game.trivia.easy.questions.push(triviaQuestion)
-                clients[client].game.trivia.easy.errors.push(0)
-            }
+        for (const client in clients) {
+            clients[client].game.trivia.easy.questions.push(clientTriviaQuestions[0])
+            clients[client].game.trivia.easy.animate.push(0)
         }
     } else if (room.gameState.triviaIndex === 1) {
-        for (const triviaQuestion of clientTriviaQuestions) {
-            for (const client in clients) {
-                clients[client].game.trivia.medium.questions.push(triviaQuestion)
-                clients[client].game.trivia.medium.errors.push(0)
-            }
+        for (const client in clients) {
+            clients[client].game.trivia.medium.questions.push(clientTriviaQuestions[0])
+            clients[client].game.trivia.medium.animate.push(0)
         }
     } else if (room.gameState.triviaIndex === 2) {
-        for (const triviaQuestion of clientTriviaQuestions) {
-            for (const client in clients) {
-                clients[client].game.trivia.hard.questions.push(triviaQuestion)
-                clients[client].game.trivia.hard.errors.push(0)
-            }
+        for (const client in clients) {
+            clients[client].game.trivia.hard.questions.push(clientTriviaQuestions[0])
+            clients[client].game.trivia.hard.animate.push(0)
         }
     }
 }
@@ -494,29 +490,26 @@ function nextTrivia(user, room) {
 
     let userProgressIndex = null
     let nextTrivia = null
-    let errors = null
+    let animate = null
 
     if (room.gameState.triviaIndex === 0) {
         userProgressIndex = user.game.trivia.easy.progressIndex
-        nextTrivia = user.game.trivia.easy.questions[userProgressIndex]
-        errors = user.game.trivia.easy.errors[userProgressIndex]
-
+        nextTrivia = room.gameState.triviaGames.easyClient[userProgressIndex]
+        animate = user.game.trivia.easy.animate[userProgressIndex]
     } else if (room.gameState.triviaIndex === 1) {
         userProgressIndex = user.game.trivia.medium.progressIndex
-        nextTrivia = user.game.trivia.medium.questions[userProgressIndex]
-        errors = user.game.trivia.medium.errors[userProgressIndex]
-
+        nextTrivia = room.gameState.triviaGames.mediumClient[userProgressIndex]
+        animate = user.game.trivia.medium.animate[userProgressIndex]
     } else if (room.gameState.triviaIndex === 2) {
         userProgressIndex = user.game.trivia.hard.progressIndex
-        nextTrivia = user.game.trivia.hard.questions[userProgressIndex]
-        errors = user.game.trivia.hard.errors[userProgressIndex]
+        nextTrivia = room.gameState.triviaGames.hardClient[userProgressIndex]
+        animate = user.game.trivia.hard.animate[userProgressIndex]
     }
 
-    return { nextTrivia, errors }
+    return { nextTrivia, animate }
 }
 
 function checkTriviaAnswer(user, room, answer) {
-
 
     let userProgressIndex = null
     let errors = null
@@ -544,13 +537,26 @@ function checkTriviaAnswer(user, room, answer) {
 
     if (answer !== correctAnswer) {
         if (room.gameState.triviaIndex === 0) {
-            user.game.trivia.easy.errors[userProgressIndex]++
-
+            user.game.trivia.easy.animate[userProgressIndex] = 1
+            if (!errors) {
+                user.game.trivia.easy.errors.push(1)
+            } else {
+                user.game.trivia.easy.errors[userProgressIndex]++
+            }
         } else if (room.gameState.triviaIndex === 1) {
-            user.game.trivia.medium.errors[userProgressIndex]++
-
+            user.game.trivia.medium.animate[userProgressIndex] = 1
+            if (!errors) {
+                user.game.trivia.medium.errors.push(1)
+            } else {
+                user.game.trivia.medium.errors[userProgressIndex]++
+            }
         } else if (room.gameState.triviaIndex === 2) {
-            user.game.trivia.hard.errors[userProgressIndex]++
+            user.game.trivia.hard.animate[userProgressIndex] = 1
+            if (!errors) {
+                user.game.trivia.hard.errors.push(1)
+            } else {
+                user.game.trivia.hard.errors[userProgressIndex]++
+            }
         }
         const data = {
             points: points,
@@ -558,30 +564,39 @@ function checkTriviaAnswer(user, room, answer) {
             errors: errors,
         }
         return data
-
     } else {
-        if (errors === 0) {
+        if (!errors) {
+            if (room.gameState.triviaIndex === 0) {
+                user.game.trivia.easy.errors.push(0)
+            } else if (room.gameState.triviaIndex === 1) {
+                user.game.trivia.medium.errors.push(0)
+            } else if (room.gameState.triviaIndex === 2) {
+                user.game.trivia.hard.errors.push(0)
+            }
             points = points + 5
+            user.game.totalPoints = user.game.totalPoints + 5
         } else if (errors === 1) {
             points = points + 3
+            user.game.totalPoints = user.game.totalPoints + 3
         } else if (errors >= 2) {
             points = points + 1
+            user.game.totalPoints = user.game.totalPoints + 1
         }
-        user.game.totalPoints = user.game.totalPoints + points
         if (room.gameState.triviaIndex === 0) {
             user.game.trivia.easy.points = points
+            user.game.trivia.easy.questions.push(room.gameState.triviaGames.easyClient[user.game.trivia.easy.progressIndex])
             user.game.trivia.easy.progressIndex++
-            user.game.trivia.easy.errors.push(0)
 
         } else if (room.gameState.triviaIndex === 1) {
             user.game.trivia.medium.points = points
+            user.game.trivia.medium.questions.push(room.gameState.triviaGames.mediumClient[user.game.trivia.medium.progressIndex])
             user.game.trivia.medium.progressIndex++
-            user.game.trivia.medium.errors.push(0)
 
         } else if (room.gameState.triviaIndex === 2) {
             user.game.trivia.hard.points = points
+            user.game.trivia.hard.questions.push(room.gameState.triviaGames.hardClient[user.game.trivia.hard.progressIndex])
             user.game.trivia.hard.progressIndex++
-            user.game.trivia.hard.errors.push(0)
+
         }
         const data = {
             points: points,
@@ -695,15 +710,9 @@ function handleGetVictory(room, leaderboard) {
     return { winner, leaderboard }
 }
 
-function handleSortLeaderboard(leaderboard) {
-    leaderboard.sort((b, a) => (a.points > b.points) ? 1 : ((b.points > a.points) ? -1 : 0))
-    console.log('sort leaderboard', leaderboard)
-    return leaderboard
-}
 
-function handleLeaderboard(room) {
+function handleCreateLeaderboard(room) {
     let players = room.clients
-    let leaderboard = []
     for (const player in players) {
 
         /////////// PLAYER OBJECT USED IN ANALYTICS /////////
@@ -713,9 +722,22 @@ function handleLeaderboard(room) {
             avatar: players[player].avatar,
             points: players[player].game.totalPoints,
         }
-        leaderboard.push(playerObject)
+        room.gameState.leaderboard.push(playerObject)
     }
-    leaderboard = handleSortLeaderboard(leaderboard)
+}
+
+
+function handleUpdateLeaderboard(room) {
+    let players = room.clients
+    let leaderboard = room.gameState.leaderboard
+    for (const entry of leaderboard) {
+        for (const player in players) {
+            if (entry.userId === players[player].userId) {
+                entry.points = players[player].game.totalPoints
+            }
+        }
+    }
+    leaderboard.sort((b, a) => (a.points > b.points) ? 1 : ((b.points > a.points) ? -1 : 0))
     for (const player in players) {
         for (let i = 0; i < leaderboard.length; i++) {
             if (leaderboard[i].userId === players[player].userId) {
@@ -723,13 +745,9 @@ function handleLeaderboard(room) {
             }
         }
     }
-    console.log(room.clients)
-    for (const client in room.clients) {
-        console.log(room.clients[client].game)
-        console.log(room.clients[client].game.trivia)
-    }
     return leaderboard
 }
+
 
 function handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia) {
     let gameInfo = {
@@ -754,8 +772,9 @@ module.exports = {
     handleGetUserFromUserId,
 
     handleGameState,
-    handleSortLeaderboard,
-    handleLeaderboard,
+
+    handleCreateLeaderboard,
+    handleUpdateLeaderboard,
 
     handleCrushes,
     handleGetCrushFromId,
