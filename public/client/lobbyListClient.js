@@ -48,7 +48,7 @@ socket.on('lobby-list', (lobbyRooms) => {
         lobby_room.appendChild(lobbyForm) 
 
 
-        lobby_room.classList.add('lobby-list__room', 'swiper-slide')
+        lobby_room.classList.add('lobby-list__room')
         lobby_listContainer.appendChild(lobby_room) // lobbyList
     }
 })
