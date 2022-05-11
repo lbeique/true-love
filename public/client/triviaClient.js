@@ -76,7 +76,7 @@ socket.on('trivia_reset_state', (data) => {
 
     const scoreText = document.querySelector('.trivia__scoreText')
 
-    scoreText.innerText = `Your score: ${data.points}`
+    scoreText.innerText = `Current Trivia Score: ${data.points}`
 
     // reset part
     const trivia__container = document.querySelector(".trivia__container")
@@ -89,6 +89,9 @@ socket.on('trivia_reset_state', (data) => {
 socket.on('remove-trivia', () => {
     const section__main = document.querySelector('.section-trivia')
     const trivia__container = document.querySelector('.trivia__container')
+    const scoreText = document.querySelector('.trivia__scoreText')
+
+    scoreText.innerText = `Current Trivia Score: 0`
     
     trivia__container.remove()
     section__main.classList.add('hide')

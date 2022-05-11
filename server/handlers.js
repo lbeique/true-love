@@ -1,3 +1,4 @@
+require('dotenv').config()
 const fetch = require('node-fetch')
 const { arrayClone } = require('../utils/utilities')
 
@@ -133,26 +134,24 @@ function handleServerJoin(client, user_id, user_name) {
                     questions: [],
                     errors: [],
                     progressIndex: 0,
-                    points: 0,
-                    animate: [],
+                    points: 0
                 },
                 medium: {
                     questions: [],
                     errors: [],
                     progressIndex: 0,
-                    points: 0,
-                    animate: [],
+                    points: 0
                 },
                 hard: {
                     questions: [],
                     errors: [],
                     progressIndex: 0,
-                    points: 0,
-                    animate: [],
+                    points: 0
                 }
             },
             totalPoints: 0,
             position: null,
+            animate: 0,
         }
     };
 
@@ -419,7 +418,7 @@ function handleVote(votedCrush, user, room) {
 
     } else {
 
-        return client.userId // returns a string
+        return user.userId // returns a string
 
     }
 }
@@ -428,7 +427,10 @@ function handleVote(votedCrush, user, room) {
 // TRIVIA HANDLERS
 
 function handleTrivia(trivias, room) {
-
+    let users = room.clients
+    for (const user in users) {
+        users[user].game.animate = 0
+    }
 
     for (let i = trivias.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -466,44 +468,22 @@ function handleTrivia(trivias, room) {
     return clientTriviaQuestions
 }
 
-function handleUserTriviaStart(room, clientTriviaQuestions) {
-    let clients = room.clients
-    if (room.gameState.triviaIndex === 0) {
-        for (const client in clients) {
-            clients[client].game.trivia.easy.questions.push(clientTriviaQuestions[0])
-            clients[client].game.trivia.easy.animate.push(0)
-        }
-    } else if (room.gameState.triviaIndex === 1) {
-        for (const client in clients) {
-            clients[client].game.trivia.medium.questions.push(clientTriviaQuestions[0])
-            clients[client].game.trivia.medium.animate.push(0)
-        }
-    } else if (room.gameState.triviaIndex === 2) {
-        for (const client in clients) {
-            clients[client].game.trivia.hard.questions.push(clientTriviaQuestions[0])
-            clients[client].game.trivia.hard.animate.push(0)
-        }
-    }
-}
 
 function nextTrivia(user, room) {
 
     let userProgressIndex = null
     let nextTrivia = null
-    let animate = null
+    let animate = user.game.trivia.animate
 
     if (room.gameState.triviaIndex === 0) {
         userProgressIndex = user.game.trivia.easy.progressIndex
         nextTrivia = room.gameState.triviaGames.easyClient[userProgressIndex]
-        animate = user.game.trivia.easy.animate[userProgressIndex]
     } else if (room.gameState.triviaIndex === 1) {
         userProgressIndex = user.game.trivia.medium.progressIndex
         nextTrivia = room.gameState.triviaGames.mediumClient[userProgressIndex]
-        animate = user.game.trivia.medium.animate[userProgressIndex]
     } else if (room.gameState.triviaIndex === 2) {
         userProgressIndex = user.game.trivia.hard.progressIndex
         nextTrivia = room.gameState.triviaGames.hardClient[userProgressIndex]
-        animate = user.game.trivia.hard.animate[userProgressIndex]
     }
 
     return { nextTrivia, animate }
@@ -536,22 +516,20 @@ function checkTriviaAnswer(user, room, answer) {
     }
 
     if (answer !== correctAnswer) {
+        user.game.trivia.animate = 1
         if (room.gameState.triviaIndex === 0) {
-            user.game.trivia.easy.animate[userProgressIndex] = 1
             if (!errors) {
                 user.game.trivia.easy.errors.push(1)
             } else {
                 user.game.trivia.easy.errors[userProgressIndex]++
             }
         } else if (room.gameState.triviaIndex === 1) {
-            user.game.trivia.medium.animate[userProgressIndex] = 1
             if (!errors) {
                 user.game.trivia.medium.errors.push(1)
             } else {
                 user.game.trivia.medium.errors[userProgressIndex]++
             }
         } else if (room.gameState.triviaIndex === 2) {
-            user.game.trivia.hard.animate[userProgressIndex] = 1
             if (!errors) {
                 user.game.trivia.hard.errors.push(1)
             } else {
@@ -565,6 +543,7 @@ function checkTriviaAnswer(user, room, answer) {
         }
         return data
     } else {
+        user.game.trivia.animate = 0
         if (!errors) {
             if (room.gameState.triviaIndex === 0) {
                 user.game.trivia.easy.errors.push(0)
@@ -614,6 +593,7 @@ function gameReset(room) {
     // MUST ALWAYS KEEP UP TO DATE -- Laurent
     room.gameState = {
         game_active: false,
+        usersVoted: false,
         triviaIndex: 0,
         randomizedCrushes: [],
         topVotedCrush: {},
@@ -639,23 +619,24 @@ function gameReset(room) {
                     questions: [],
                     errors: [],
                     progressIndex: 0,
-                    points: 0,
+                    points: 0
                 },
                 medium: {
                     questions: [],
                     errors: [],
                     progressIndex: 0,
-                    points: 0,
+                    points: 0
                 },
                 hard: {
                     questions: [],
                     errors: [],
                     progressIndex: 0,
-                    points: 0,
+                    points: 0
                 }
             },
             totalPoints: 0,
             position: null,
+            animate: 0,
         }
     }
 }
@@ -671,23 +652,24 @@ function userReset(user) {
                 questions: [],
                 errors: [],
                 progressIndex: 0,
-                points: 0,
+                points: 0
             },
             medium: {
                 questions: [],
                 errors: [],
                 progressIndex: 0,
-                points: 0,
+                points: 0
             },
             hard: {
                 questions: [],
                 errors: [],
                 progressIndex: 0,
-                points: 0,
+                points: 0
             }
         },
         totalPoints: 0,
         position: null,
+        animate: 0,
     }
 
 }
@@ -724,6 +706,7 @@ function handleCreateLeaderboard(room) {
         }
         room.gameState.leaderboard.push(playerObject)
     }
+    return room.gameState.leaderboard
 }
 
 
@@ -781,7 +764,6 @@ module.exports = {
     handleVote,
 
     handleTrivia,
-    handleUserTriviaStart,
     checkTriviaAnswer,
     nextTrivia,
 

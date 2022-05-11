@@ -220,11 +220,10 @@ io.on('connection', client => {
 
       let clientTriviaQuestions = handlers.handleTrivia(data.results, room)
 
-      handlers.handleUserTriviaStart(room, clientTriviaQuestions)
       console.log('clientTriviaQuestions', clientTriviaQuestions)
       io.to(room.room_id).emit('start-trivia-phase', clientTriviaQuestions[0], 0)
 
-      gameTimer('start-trivia-timer', 'remove-trivia', nextPhase, 15)
+      gameTimer('start-trivia-timer', 'remove-trivia', nextPhase, +process.env.TRIVIA_COUNT)
     }
 
 
@@ -232,8 +231,8 @@ io.on('connection', client => {
     function lounge(gameInfo) {
       let nextTrivia = gameInfo.nextTrivia
       room.gameState.triviaIndex++
-      io.to(room.room_id).emit('start-lounge', gameInfo)
-      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 10, nextTrivia)
+      io.to(room.room_id).emit('create-lounge', gameInfo)
+      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 20, nextTrivia)
     }
 
 
@@ -282,15 +281,15 @@ io.on('connection', client => {
       } else if (phase === 'lounge') {
         if (room.gameState.triviaIndex === 0) {
           let leaderboard = handlers.handleUpdateLeaderboard(room)
-          let dialogue = analytics(room, leaderboard)
+          let dialogue = analytics(room, leaderboard, null)
           let nextTrivia = room.gameState.topVotedCrush.categoryMedium.name
-          gameInfo = handlers.handleLoungeGameInfo(room, leaderboard, dialogue(), nextTrivia)
+          gameInfo = handlers.handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia)
 
         } else if (room.gameState.triviaIndex === 1) {
           let leaderboard = handlers.handleUpdateLeaderboard(room)
-          let dialogue = analytics(room, leaderboard)
+          let dialogue = analytics(room, null, leaderboard)
           let nextTrivia = room.gameState.topVotedCrush.categoryHard.name
-          gameInfo = handlers.handleLoungeGameInfo(room, leaderboard, dialogue(), nextTrivia)
+          gameInfo = handlers.handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia)
         }
         lounge(gameInfo)
         return
