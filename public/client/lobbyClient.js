@@ -125,7 +125,7 @@ socket.on('create-lobby', (room, userId) => {
 
 socket.on('remove-lobby', () => {
     const lobby__container = document.querySelector('.lobby__container')
-    const section__lobbyClient = document.querySelector('.section__lobbyClient')
+    const section__lobbyClient = document.querySelector('.section-lobbyClient')
 
     lobby__container.remove()
     section__lobbyClient.classList.add('hide')
