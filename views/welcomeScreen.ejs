@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css">
+    <title>Love is War</title>
 </head>
 
 <body>
@@ -18,11 +19,13 @@
 
         <div class="auth__content">
             <% if (!user_info) { %>
-                <a href="auth/login" class="btn btn__auth btn--green"> LOG IN </a>
+
+                <!-- Following what Ilia recommended. Hiding paths until feature is ready. ALSO RENAMED LOG IN TO MAIN MENU  -->
+                <a href="auth/login" class="btn btn__auth btn--green"> MAIN MENU </a>
                 <!-- <a href="auth/signup" class="btn btn__auth btn--green"> SIGN UP </a> -->
                 <% } else if (user_info) { %>
-                    <a href="mainmenu" class="btn btn__auth btn--green"> GO TO MAIN MENU </a>
-                    <a href="auth/logout" class="btn btn__auth btn--green"> LOGOUT </a>
+                    <a href="mainmenu" class="btn btn__auth btn--green"> MAIN MENU </a>
+                    <!-- <a href="auth/logout" class="btn btn__auth btn--green"> LOGOUT </a> -->
                 <% } %>
         </div>
     </section>

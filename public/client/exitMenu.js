@@ -25,6 +25,7 @@ exit_icon.addEventListener('click', (event) => {
 
 let confirm = 0;
 exitMenu__btn.addEventListener('click', (event) => { // should have a socket emit that will let everybody know that somebody quit
+    // I think this happens when the disconnect emiter is triggered - Laurent
     event.preventDefault()
     if(confirm == 0){
         exitMenu__text.innerText = "Are you sure?"

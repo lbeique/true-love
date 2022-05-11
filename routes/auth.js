@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const bodyParser = require("body-parser")
 const database = require("../databaseAccess")
+const { makeUsername } = require('../utils/utilities')
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
@@ -13,18 +14,19 @@ const getSession = (session) => {
   return session
 }
 
-function makeUsername () {
-  let usernames = ['TheRealSam', 'TheFakeSam', 'TwoBunniesOneBasket', 'Domo', 'Tesla', 'Hawkman', 'EagleBird', 'xxXx_Panther_XxxxXx', 'AlienLover42', 'Douglas', 'DaddyDhanji', 'AimeeMommy', 'Mr.X', 'PigeonessMan', 'Ilia', 'MilkTeaBubbleTea', 'Chicken', 'Dostoevsky', 'ItsNotGonnaBeFunny', '', 'Janor', 'Mr.Plum', 'EarlGrey', 'Shrooms', 'AtMostCamera32', 'Jaremy Holeman', 'WestCoast4Life', 'Kendrick Lamar']
-  return usernames[Math.floor(Math.random() * usernames.length)]
-}
-
 
 router.get("/login", (req, res) => {
+
+  ////////////////////////////////////////////////////////
+  // THIS IS TEMPORARY => (
   req.session.authenticated = true;
   req.session.user_info = {}
   req.session.user_info.user_name = makeUsername()
   req.session.user_info.user_id = Math.floor(Math.random() * 1000)
   req.session.user_info.total_points = Math.floor(Math.random() * 2)
+  // )
+  ///////////////////////////////////////////////////////
+
   const session = getSession(req.session)
   console.log('get login session', session)
   if (!session) {

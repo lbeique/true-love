@@ -31,6 +31,7 @@
     "express-session": "^1.17.2",
     "http": "0.0.1-security",
     "mysql2": "^2.3.3",
+    "node-fetch": "^2.6.7",
     "put-selector": "^0.3.6",
     "random-words": "^1.1.2",
     "sass": "^1.49.11",
