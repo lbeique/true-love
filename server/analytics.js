@@ -43,7 +43,7 @@ function firstTriviaStreakCalculator(players) {
         if (currentStreak > highestStreak) {
             highestStreak = currentStreak
         }
-        maxStreaks.push({ username: player.username, streak: highestStreak })
+        maxStreaks.push({ username: players[player].username, streak: highestStreak })
     }
     maxStreaks.sort((b, a) => (a.streak > b.streak) ? 1 : ((b.streak > a.streak) ? -1 : 0))
     return maxStreaks[0]
@@ -53,11 +53,14 @@ function firstTriviaStreakCalculator(players) {
 function secondTriviaStreakCalculator(players) {
     let maxStreaks = []
     for (const player in players) {
-        let errors = players[player].game.trivia.easy.errors
-        errors.push(players[player].game.trivia.medium.errors)
+        let totalErrors = players[player].game.trivia.easy.errors
+        let mediumTriviaErrors = players[player].game.trivia.medium.errors
+        for (const error of mediumTriviaErrors) {
+            totalErrors.push(error)
+        }
         let currentStreak = 0
         let highestStreak = 0
-        for (const error of errors) {
+        for (const error of totalErrors) {
             if (error === 0) {
                 currentStreak++
             } else {
