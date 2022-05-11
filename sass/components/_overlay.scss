@@ -11,6 +11,12 @@
         animation: fadingIn 1s ease;
     }
 
+    &--purple{
+        background-color: rgba($secondary-color, .5);
+        background-size: contain;
+        z-index: 100;
+    }
+
     &__container{
         @include absCenter;
         display: flex;

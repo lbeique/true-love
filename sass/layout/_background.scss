@@ -7,12 +7,12 @@
     background-color: $primary-color;
 
     &--bg{
-        background: url(../assets/background-revised.png) no-repeat center center fixed;
+        background: url(../assets/others/background-revised.png) no-repeat center center fixed;
         background-size: contain;
         background-color: $primary-color;
     
         @include respond(iPhone_SE) { // width < 600
-            background: url(../assets/background-revised.png) no-repeat center center fixed;
+            background: url(../assets/others/background-revised.png) no-repeat center center fixed;
             background-size: 26.6em 47em;
             
             background-color: $primary-color;
@@ -20,22 +20,16 @@
     }
 
     &--bg-trivia{
-        background: url(../assets/background-trivia.png) no-repeat center center fixed;
+        background: url(../assets/others/background-trivia.png) no-repeat center center fixed;
         background-size: contain;
         background-color: $primary-color;
     
         @include respond(iPhone_SE) { // width < 600
-            background: url(../assets/background-trivia.png) no-repeat center center fixed;
+            background: url(../assets/others/background-trivia.png) no-repeat center center fixed;
             background-size: 26.6em 47em;
             
             background-color: $primary-color;
         } 
-    }
-
-    &--purpleOverlay{
-        background-color: rgba($secondary-color, .5);
-        background-size: contain;
-        z-index: 100;
     }
 
     // &--bg2{
