@@ -40,28 +40,16 @@ if (window.sessionStorage.getItem('introductory') === null) {
             case 1:
                 introductory__storySituation.innerHTML = 'Impress the humans with your “Earth Knowledge” which should obviously make them love you'
                 introductory__button.innerHTML = 'Of Course!'
-                introductory__storyContainer.classList.remove('introductory__storyContainer--animated')
-                setTimeout(() => {
-                    introductory__storyContainer.classList.add('introductory__storyContainer--animated')
-                }, 0)
                 break;
         
             case 2:
                 introductory__storySituation.innerHTML = 'There is only space for one human at a time on your ship... '
                 introductory__button.innerHTML = 'Meaning?'
-                introductory__storyContainer.classList.remove('introductory__storyContainer--animated')
-                setTimeout(() => {
-                    introductory__storyContainer.classList.add('introductory__storyContainer--animated')
-                }, 0)
                 break;
         
             case 3:
                 introductory__storySituation.innerHTML = 'ONLY ONE OF YOU GETS THE DATE!! LOVE IS WAR !!'
                 introductory__button.innerHTML = 'BRING IT'
-                introductory__storyContainer.classList.remove('introductory__storyContainer--animated')
-                setTimeout(() => {
-                    introductory__storyContainer.classList.add('introductory__storyContainer--animated')
-                }, 0)
                 break;
 
             default: 
