@@ -50,6 +50,7 @@ if (window.sessionStorage.getItem('introductory') === null) {
             case 3:
                 introductory__storySituation.innerHTML = 'ONLY ONE OF YOU GETS THE DATE!! LOVE IS WAR !!'
                 introductory__button.innerHTML = 'BRING IT'
+                introductory__skipButton.classList.add('hide')
                 break;
 
             default: 
