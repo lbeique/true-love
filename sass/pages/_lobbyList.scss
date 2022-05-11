@@ -1,0 +1,253 @@
+.section-lobbies{
+    background-color: rgba($secondary-variant, 0.5);
+    margin: 0 8.5%;
+    display: flex;
+
+}
+
+.lobby-list{
+
+    &__leftContainer{
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 2.5em;
+        width: 40vw;
+        height: 100vh;
+
+    }
+
+    &__rightContainer{
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2em;
+        width: 60vw;
+        height: 100vh;
+
+    }
+
+    &__createContainer{
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 1em;
+        width: 25vw;
+        height: 30vh;
+        border: 15px solid $secondary-variant;
+        border-radius: 5em;
+        background-color: $tertiary-color;
+        color: $primary-color;
+
+    }
+
+    &__btn{
+
+        width: 100%;
+        height: 50%;
+        padding: 10px;
+        font-size: 15px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+
+    }
+
+    &__joinContainer{
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 1em;
+        width: 25vw;
+        height: 30vh;
+        border: 15px solid $tertiary-color;
+        border-radius: 5em;
+        background-color: $secondary-color;
+        color: $primary-color;
+        
+    }
+
+    &__header{
+        font-size: 40px;
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px $tertiary-color;
+        height: 10px;
+    }
+
+    &__backButton{
+
+        position: absolute;
+        padding-left: 3px;
+        top: 2%;
+        left: 13%;
+        width: 1.3em;
+        height: 1.3em;
+        border-radius: 2em;
+        border-width: 8px;
+        font-size: 65px;
+        z-index: 100;
+
+        & span{
+            transform: rotateZ(180deg);
+            color: $tertiary-color;
+            padding-top: 12px;
+        }
+
+    }
+
+    &__refreshBtn{
+
+        position: absolute;
+        padding-bottom: 13px;
+        padding-left: 3px;
+        right: 13%;
+        top: 2%;
+        width: 1.2em;
+        height: 1.2em;
+        border-radius: 2em;
+        border-width: 8px;
+        font-size: 70px;
+        z-index: 100;
+
+    }
+
+    &__listContainer{
+
+        display: flex;
+        column-gap: 10px;
+        width: 95%;
+        height: 80%;
+        
+    }
+
+    &__list{
+
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        row-gap: 1em;
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            width: 12px;               /* width of the entire scrollbar */
+          }
+
+        &::-webkit-scrollbar-track {
+        background: transparent;        /* color of the tracking area */
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: $tertiary-color ;
+            border-radius: 20px;       /* roundness of the scroll thumb */
+            border: 3px solid $tertiary-color; 
+        }
+
+    }
+
+    &__room{
+
+        width: 100%;
+        max-height: 20%;
+
+    }
+
+    &__roomBtn{
+
+        width: 100%;
+        height: 100%;
+        font-size: 30px;
+        padding: 10px 20px;
+        justify-content: space-between;
+
+        &--name{
+            text-align: left;
+            letter-spacing: 2px;
+            color: $tertiary-color;
+        }
+
+        &--info{
+            letter-spacing: 3px;
+            text-align: right;
+            color: $tertiary-color;
+
+            & i{
+                color: $tertiary-color;
+            }
+        }
+        
+    }
+
+}
+
+
+.createLobby{
+
+    &__header{
+        color: $primary-color;
+        text-transform: uppercase;
+        font-size: 32px;
+    }
+
+    &__form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 1em;
+    }
+
+    &__input{
+        padding-left: 4px;
+        background-color: $secondary-variant;
+        border-radius: 10px;
+        height: 36px;
+        border: 2px solid $primary-color;
+        color: $tertiary-color;
+        letter-spacing: 2px;
+
+        &::placeholder{
+            color: $tertiary-color
+        }
+    }
+
+}
+
+.joinLobby{
+
+    &__header{
+        color: $tertiary-color;
+        font-size: 25px;
+        font-weight: lighter;
+    }
+
+    &__form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 1em;
+    }
+
+    &__input{
+        padding-left: 4px;
+        background-color: $tertiary-color;
+        border-radius: 10px;
+        height: 36px;
+        border: 2px solid $primary-color;
+        color: $primary-color;
+        letter-spacing: 2px;
+
+        &::placeholder{
+            color: $primary-color
+        }
+
+    }
+
+
+
+}
