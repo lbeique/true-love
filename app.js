@@ -293,7 +293,7 @@ io.on('connection', client => {
         }
         lounge(gameInfo)
         return
-        
+
       } else if (phase === 'victory') {
         victory()
         return

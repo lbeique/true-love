@@ -132,7 +132,7 @@ socket.on('remove-lobby', () => {
 })
 
 
-// WILL WAIT ON NEW EJS
+// WILL WAIT ON NEW EJS - Laurent
 socket.on('host-transfer', (hostName) => {
     console.log('host transfered to', hostName)
     const gameStart__btn = document.createElement('button')

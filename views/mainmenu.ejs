@@ -1,52 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js"
+        integrity="sha512-dMiBqqEV5i3KqpAdsgQSSZ72DnNib7otY0X+b/Tnn1EmLym1dxuZ19csdZqBnfDniKd9bmNtzStQzuMrIa5Ngw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Love is War</title>
 </head>
+
 <body>
-    
-        <section class="section-main"> 
-            
-            <img src="assets/menu/menu_spaceship.png" alt="menu_spaceship" class="menu menu__spaceship">
-            <img src="assets/menu/menu_spaceBeam.png" alt="menu_spaceBeam" class="menu menu__spaceBeam">
-            <img src="assets/menu/menu_title.png" alt="menu_title" class="menu menu__title">
-            <img src="assets/menu/menu_alien1.png" alt="menu_alien1" class="menu menu__alien1">
-            <img src="assets/menu/menu_alienChatter1.png" alt="menu_alienChatter1" class="menu menu__alienChatter1">
-            <img src="assets/menu/menu_alienChatter2.png" alt="menu_alienChatter2" class="menu menu__alienChatter2">
-            <img src="assets/menu/menu_alienChatter3.png" alt="menu_alienChatter3" class="menu menu__alienChatter3">
-            <img src="assets/menu/menu_alien2.png" alt="menu_alien2" class="menu menu__alien2">
-            <img src="assets/menu/menu_star1.png" alt="menu_star1" class="menu menu__star1">
-            <img src="assets/menu/menu_star2.png" alt="menu_star2" class="menu menu__star2">
-            <img src="assets/menu/menu_star3.png" alt="menu_star3" class="menu menu__star3">
-            <img src="assets/menu/menu_star2.png" alt="menu_star4" class="menu menu__star4">
+
+  
+    <section class="section-main">
+
+        <img src="assets/menu/menu_spaceship.png" alt="menu_spaceship" class="menu menu__spaceship">
+        <img src="assets/menu/menu_spaceBeam.png" alt="menu_spaceBeam" class="menu menu__spaceBeam">
+        <img src="assets/menu/menu_title.png" alt="menu_title" class="menu menu__title">
+        <img src="assets/menu/menu_alien1.png" alt="menu_alien1" class="menu menu__alien1">
+        <img src="assets/menu/menu_alienChatter1.png" alt="menu_alienChatter1" class="menu menu__alienChatter1">
+        <img src="assets/menu/menu_alienChatter2.png" alt="menu_alienChatter2" class="menu menu__alienChatter2">
+        <img src="assets/menu/menu_alienChatter3.png" alt="menu_alienChatter3" class="menu menu__alienChatter3">
+        <img src="assets/menu/menu_alien2.png" alt="menu_alien2" class="menu menu__alien2">
+        <img src="assets/menu/menu_star1.png" alt="menu_star1" class="menu menu__star1">
+        <img src="assets/menu/menu_star2.png" alt="menu_star2" class="menu menu__star2">
+        <img src="assets/menu/menu_star3.png" alt="menu_star3" class="menu menu__star3">
+        <img src="assets/menu/menu_star2.png" alt="menu_star4" class="menu menu__star4">
+
+        <!-- Following what Ilia recommended. Hiding paths until feature is ready  -->
+        <div class="menuIcons">
+            <img class="icon__btn" src="assets/menu/profile_icon.png" alt="profileIcon">
+
+            <img class="icon__btn" src="assets/menu/leaderboard_icon.png" alt="leaderboardIcon">
+        </div>
+
+        <div class="btn menu__skip-btn btn--darkPurple">
+            &#187;
+        </div>
+
+        <div class="menuContainer">
+
+            <a href="/lobby" class="btn btn__menu btn--darkPurple"> PLAY GAME </a>
 
             <!-- Following what Ilia recommended. Hiding paths until feature is ready  -->
-            <!-- <div class="menuIcons">
-                <img class="icon__btn" src="assets/menu/profile_icon.png" alt="profileIcon">
-            
-                <img class="icon__btn" src="assets/menu/leaderboard_icon.png" alt="leaderboardIcon">
-            </div> -->
 
-            <div class="btn menu__skip-btn btn--darkPurple">
-                &#187;
-            </div>
-            
-            <div class="menuContainer">
+            <!-- <a href="/leaderboard" class="btn btn__menu btn--darkPurple"> LEADERBOARD </a>  -->
+            <!-- <a href="/auth/logout" class="btn btn__menu btn--darkPurple"> LOGOUT </a> -->
 
-                <a href="/lobby" class="btn btn__menu btn--darkPurple"> PLAY GAME </a>
-
-                <!-- Following what Ilia recommended. Hiding paths until feature is ready  -->
-
-                <!-- <a href="/leaderboard" class="btn btn__menu btn--darkPurple"> LEADERBOARD </a>  -->
-                <!-- <a href="/auth/logout" class="btn btn__menu btn--darkPurple"> LOGOUT </a> -->
-
-            </div>
-        </section>
+        </div>
+    </section>
 </body>
-    <script src="../../client/mainMenu.js">
-    </script>
+<script src="../../client/mainMenu.js"></script>
+
 </html>
