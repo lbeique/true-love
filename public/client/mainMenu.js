@@ -1,7 +1,37 @@
+// MUSIC 
+
+const menuMusic = {
+    menu1: new Howl({
+        src: ['../assets/sounds/music/Polkavant - Monsterpolka.mp3'],
+        html5: true,
+        onend: function() {
+            menuMusic.menu2.volume(0.5).seek(54).play()
+        }
+    }),
+    menu2: new Howl({
+        src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3'],
+        html5: true,
+        onend: function() {
+            menuMusic.menu1.volume(0.4).play()
+        }
+    })
+}
+
+const sfx = {
+    positive: new Howl({
+        src: ['../assets/sounds/sfx/close.mp3']
+    })
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    menuMusic.menu1.volume(0.4).play()
+})
+
 // WHAT A MESS LMAO AAAAAAA
 
 document.querySelector('.menu__skip-btn').addEventListener('click', (event) => {
     event.preventDefault()
+    sfx.positive.volume(0.3).play()
 
     document.querySelector('.menu__spaceship').classList.remove('menu__spaceship--animated');
     document.querySelector('.menu__spaceBeam').classList.remove('menu__spaceBeam--animated');
@@ -35,12 +65,12 @@ document.querySelector('.menu__skip-btn').addEventListener('click', (event) => {
 
     event.target.classList.add('hide')
     // document.querySelector('.menu__skip-btn').remove()
-    
+
 })
 
 
 
-if (window.sessionStorage.getItem('animated') === null) { 
+if (window.sessionStorage.getItem('animated') === null) {
     document.querySelector('.menu__spaceship').classList.add('menu__spaceship--animated');
     document.querySelector('.menu__spaceBeam').classList.add('menu__spaceBeam--animated');
     document.querySelector('.menu__title').classList.add('menu__title--animated');
@@ -61,9 +91,9 @@ if (window.sessionStorage.getItem('animated') === null) {
         document.querySelector('.menu__skip-btn').classList.add('hide')
     }, 11000)
 
-    window.sessionStorage.setItem('animated' ,1);
+    window.sessionStorage.setItem('animated', 1);
 
-} else{
+} else {
 
     document.querySelector('.menu__alienChatter1').classList.add('menu__alienChatter1--skipAnimated');
     document.querySelector('.menu__alienChatter2').classList.add('menu__alienChatter2--skipAnimated');

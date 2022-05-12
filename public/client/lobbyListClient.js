@@ -4,8 +4,15 @@ const lobby_listContainer = document.querySelector('.lobby-list__list')
 const refreshBtn = document.querySelector('.lobby-list__refreshBtn')
 const section__main = document.querySelector('.section-lobbies')
 
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    lobbyListMusic.lobby2.volume(0.5).seek(54).play()
+})
+
+
 refreshBtn.addEventListener('click', (event) => {
     event.preventDefault()
+    sfx.positive.volume(0.3).play()
     socket.emit('lobby-refresh')
 })
 
