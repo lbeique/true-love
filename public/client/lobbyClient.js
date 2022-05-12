@@ -7,7 +7,7 @@ const music = {
     lobby: new Howl({
         src: ['../assets/sounds/music/Jahzzar - Take Me Higher.mp3'],
         html5: true,
-        autoplay: true,
+        volume: 0.8,
         onfade: function () {
             music.lobby.stop()
             music.lobby.volume(0.8)
@@ -157,6 +157,7 @@ socket.on('user-disconnected', (user, room) => {
 
 socket.on('create-lobby', (room, userId) => {
     const hostID = room.creator_id
+    console.log('i fired')
     music.lobby.loop(true).play()
     setTriviaTrack()
     
