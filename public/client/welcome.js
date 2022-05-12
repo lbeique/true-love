@@ -1,13 +1,14 @@
 // MUSIC
 
-const music = {
+const welcomeMusic = {
     intro: new Howl({
-        src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3']
+        src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3'],
+        html5: true,
     })
 }
 
 const playMusicCallback = () => {
-    music.intro.volume(0.5).loop(true).seek(54).play()
+    welcomeMusic.intro.volume(0.5).loop(true).play()
     document.querySelector('body').removeEventListener('click', playMusicCallback)
 }
 

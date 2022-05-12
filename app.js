@@ -221,8 +221,9 @@ io.on('connection', client => {
       let clientTriviaQuestions = handlers.handleTrivia(data.results, room)
 
       console.log('clientTriviaQuestions', clientTriviaQuestions)
-      io.to(room.room_id).emit('start-trivia-phase', clientTriviaQuestions[0], 0)
 
+      io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
+      io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0)
       gameTimer('start-trivia-timer', 'remove-trivia', nextPhase, +process.env.TRIVIA_COUNT)
     }
 
@@ -232,7 +233,7 @@ io.on('connection', client => {
       let nextTrivia = gameInfo.nextTrivia
       room.gameState.triviaIndex++
       io.to(room.room_id).emit('create-lounge', gameInfo)
-      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 20, nextTrivia)
+      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 30, nextTrivia)
     }
 
 
@@ -309,7 +310,7 @@ io.on('connection', client => {
     client.on('trivia_next_question', () => {
       const { nextTrivia, animate } = handlers.nextTrivia(user, room)
       console.log(nextTrivia)
-      io.to(client.id).emit('start-trivia-phase', nextTrivia, animate)
+      io.to(client.id).emit('trivia-question', nextTrivia, animate)
     })
 
 

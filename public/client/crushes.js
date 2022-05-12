@@ -10,6 +10,8 @@ socket.on('crush-start', (crushes) => {
     //    }
     // The hard category is purposefully hidden and will be show as ??? to client
 
+    music.lounge.play()
+
     const section__crushes = document.querySelector('.section-crushes')
     const carousel = document.createElement('div')
     const carousel__btnLeft = document.createElement('img')
@@ -32,6 +34,7 @@ socket.on('crush-start', (crushes) => {
 
     carousel__btnLeft.addEventListener('click', (event) => {
         event.preventDefault()
+        sfx.positive.play()
 
         const shiftedCrush = crushes.shift()
         crushes.push(shiftedCrush)
@@ -48,6 +51,7 @@ socket.on('crush-start', (crushes) => {
 
     carousel__btnRight.addEventListener('click', (event) => {
         event.preventDefault()
+        sfx.positive.play()
 
         const shiftedCrush = crushes.pop()
         crushes.unshift(shiftedCrush)
@@ -64,6 +68,7 @@ socket.on('crush-start', (crushes) => {
 
     carousel__voteButton.addEventListener('click', (event) => {
         event.preventDefault()
+        sfx.positive.play()
 
         const votedCrush = crushes[1]
         socket.emit(`voted_crush`, votedCrush)
@@ -281,6 +286,9 @@ socket.on('start-crush-timer', async function (count, triviaCategory) {
     const timerText = document.querySelector(".timer__startTrivia");
 
     timerText.innerHTML = `${triviaCategory} trivia in: ${count}s`;
+    if (count === 5) {
+        music.lounge.fade(1, 0, 3000)
+    }
 })
 
 

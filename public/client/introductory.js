@@ -1,5 +1,28 @@
+const lobbyListMusic = {
+    lobby1: new Howl({
+        src: ['../assets/sounds/music/Polkavant - Monsterpolka.mp3'],
+        html5: true,
+        onend: function () {
+            introMusic.lobby2.volume(0.5).seek(54).play()
+        }
+    }),
+    lobby2: new Howl({
+        src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3'],
+        html5: true,
+        onend: function () {
+            introMusic.lobby1.volume(0.4).play()
+        }
+    })
+}
 
-if (window.sessionStorage.getItem('introductory') === null) { 
+const sfx = {
+    positive: new Howl({
+        src: ['../assets/sounds/sfx/close.mp3']
+    })
+}
+
+
+if (window.sessionStorage.getItem('introductory') === null) {
     const lobbies__section = document.querySelector('.section-lobbies')
     const introductory__section = document.querySelector('.section-introductory')
     const introductory__storyContainer = document.createElement('div')
@@ -26,44 +49,47 @@ if (window.sessionStorage.getItem('introductory') === null) {
 
     introductory__skipButton.addEventListener('click', (event) => {
         event.preventDefault()
+        sfx.positive.volume(0.3).play()
         introductory__section.classList.add('hide')
         lobbies__section.classList.remove('hide')
-        window.sessionStorage.setItem('introductory' ,1)
+        window.sessionStorage.setItem('introductory', 1)
 
     })
 
     introductory__button.addEventListener('click', (event) => {
         event.preventDefault();
+        sfx.positive.play()
         scriptPart++
 
-        switch(scriptPart){
+        switch (scriptPart) {
             case 1:
                 introductory__storySituation.innerHTML = 'Impress the humans with your “Earth Knowledge” which should obviously make them love you'
                 introductory__button.innerHTML = 'Of Course!'
                 break;
-        
+
             case 2:
                 introductory__storySituation.innerHTML = 'There is only space for one human at a time on your ship... '
                 introductory__button.innerHTML = 'Meaning?'
                 break;
-        
+
             case 3:
                 introductory__storySituation.innerHTML = 'ONLY ONE OF YOU GETS THE DATE!! LOVE IS WAR !!'
                 introductory__button.innerHTML = 'BRING IT'
                 introductory__skipButton.classList.add('hide')
                 break;
 
-            default: 
+            default:
                 introductory__section.classList.add('hide')
                 lobbies__section.classList.remove('hide')
-                window.sessionStorage.setItem('introductory' ,1)
-        
+                window.sessionStorage.setItem('introductory', 1)
+
         }
 
     })
-    
-} else{
 
+} else {
+
+    document.querySelector('.section-introductory').classList.add('hide')
     document.querySelector('.section-lobbies').classList.remove('hide')
 
 }

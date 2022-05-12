@@ -1,19 +1,37 @@
 // MUSIC 
 
-const music = {
-    menu: new Howl({
-        src: ['../assets/sounds/music/Polkavant - Monsterpolka.mp3']
+const menuMusic = {
+    menu1: new Howl({
+        src: ['../assets/sounds/music/Polkavant - Monsterpolka.mp3'],
+        html5: true,
+        onend: function() {
+            menuMusic.menu2.volume(0.5).seek(54).play()
+        }
+    }),
+    menu2: new Howl({
+        src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3'],
+        html5: true,
+        onend: function() {
+            menuMusic.menu1.volume(0.4).play()
+        }
+    })
+}
+
+const sfx = {
+    positive: new Howl({
+        src: ['../assets/sounds/sfx/close.mp3']
     })
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    music.menu.volume(0.4).loop(true).play()
+    menuMusic.menu1.volume(0.4).play()
 })
 
 // WHAT A MESS LMAO AAAAAAA
 
 document.querySelector('.menu__skip-btn').addEventListener('click', (event) => {
     event.preventDefault()
+    sfx.positive.volume(0.3).play()
 
     document.querySelector('.menu__spaceship').classList.remove('menu__spaceship--animated');
     document.querySelector('.menu__spaceBeam').classList.remove('menu__spaceBeam--animated');

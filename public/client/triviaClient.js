@@ -1,10 +1,55 @@
+// MUSIC HOLY FUCK IM SORRY
+socket.on('start-trivia-music', (triviaIndex) => {
+    
+    if (triviaIndex === 0) {
+        console.log('hi! 0', `${triviaTrack}`)
+        if (triviaTrack === music.trivia1) {
+            triviaTrack.play() // Gypsy
+        } else if (triviaTrack === music.trivia2) {
+            triviaTrack.play() // Dick
+        } else if (triviaTrack === music.trivia3) {
+            triviaTrack.play() // Polka
+        } else if (triviaTrack === music.trivia4) {
+            triviaTrack.play() // Propane
+        }
+    } else if (triviaIndex === 1) {
+        console.log('hi! 1', `${triviaTrack}`)
+        if (triviaTrack === music.trivia1) {
+            triviaTrack.seek(60).play()
+        } else if (triviaTrack === music.trivia2) {
+            triviaTrack.seek(56).play()
+        } else if (triviaTrack === music.trivia3) {
+            triviaTrack.seek(60).play()
+        } else if (triviaTrack === music.trivia4) {
+            triviaTrack.seek(64).play()
+        }
+    } else if (triviaIndex === 2) {
+        console.log('hi! 2', `${triviaTrack}`)
+        if (triviaTrack === music.trivia1) {
+            triviaTrack.seek(145).play()
+        } else if (triviaTrack === music.trivia2) {
+            triviaTrack.seek(121).play()
+        } else if (triviaTrack === music.trivia3) {
+            triviaTrack.seek(128).play()
+        } else if (triviaTrack === music.trivia4) {
+            triviaTrack.seek(156).play()
+        }
+    }
+})
+
 socket.on('start-trivia-timer', async function (count) {
     const timerText = document.querySelector(".timer__trivia");
 
     timerText.innerHTML = count + "s";
+    if (count === 7) {
+        sfx.timer.volume(0.6).play()
+    }
+    if (count === 5) {
+        triviaTrack.fade(0.8, 0, 3000)
+    }
 })
 
-socket.on('start-trivia-phase', (trivia, animate) => {
+socket.on('trivia-question', (trivia, animate) => {
 
     // trivia object for the client looks like this
     // {
@@ -16,7 +61,7 @@ socket.on('start-trivia-phase', (trivia, animate) => {
     //     question: 'What is my favourite colour?'
     // }
     // Trying to limit the amount of information the client has access to
-
+    
 
     const section__main = document.querySelector('.section-trivia')
     const trivia__container = document.createElement('div')
@@ -57,6 +102,7 @@ socket.on('start-trivia-phase', (trivia, animate) => {
 
 socket.on('trivia_reset_state', (data) => {
     if (data.result === false) {
+        sfx.error.play()
         const answer__container = document.querySelector('.trivia__answerContainer')
         const cross = document.createElement('img')
         const section__main = document.querySelector('.section-trivia')

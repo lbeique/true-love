@@ -11,7 +11,7 @@ socket.on('create-lounge', (gameInfo) => {
     // all player facts should be handled in the backend
 
     console.log(gameInfo)
-
+    music.lounge.play()
     const section__lounge = document.querySelector('.section-lounge')
     const crush__container = document.createElement('div')
     const crush__text = document.createElement('span')
@@ -73,6 +73,9 @@ socket.on('start-lounge-timer', async function (count, triviaCategory) {
     const timerText = document.querySelector(".timer__lounge");
 
     timerText.innerHTML = `${triviaCategory} trivia in: ${count}s`;
+    if (count === 5) {
+        music.lounge.fade(1, 0, 3000)
+    }
 })
 
 
