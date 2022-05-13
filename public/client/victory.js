@@ -17,7 +17,7 @@ socket.on('create-victory', (victoryObject) => {
     // }
     ////////////////////////////////////////////////////
 
-    music.victory.play()
+    music.victory.loop(true).play()
     const section__victory = document.querySelector('.section-victory')
 
     const victory__container = document.createElement('div')
@@ -63,7 +63,7 @@ socket.on('create-victory', (victoryObject) => {
 })
 
 socket.on('remove-victory', () => {
-    music.victory.fade(1, 0, 1000).stop()
+    music.victory.fade(1, 0, 3000).stop()
     const section__victory = document.querySelector('.section-victory')
     const victory__container = document.querySelector('.victory__container')
     victory__container.remove()

@@ -4,13 +4,13 @@ socket.on('start-trivia-music', (triviaIndex) => {
     if (triviaIndex === 0) {
         console.log('hi! 0', `${triviaTrack}`)
         if (triviaTrack === music.trivia1) {
-            triviaTrack.play() // Gypsy
+            triviaTrack.seek(0).play() // Gypsy
         } else if (triviaTrack === music.trivia2) {
-            triviaTrack.play() // Dick
+            triviaTrack.seek(0).play() // Dick
         } else if (triviaTrack === music.trivia3) {
-            triviaTrack.play() // Polka
+            triviaTrack.seek(0).play() // Polka
         } else if (triviaTrack === music.trivia4) {
-            triviaTrack.play() // Propane
+            triviaTrack.seek(0).play() // Propane
         }
     } else if (triviaIndex === 1) {
         console.log('hi! 1', `${triviaTrack}`)
@@ -28,7 +28,7 @@ socket.on('start-trivia-music', (triviaIndex) => {
         if (triviaTrack === music.trivia1) {
             triviaTrack.seek(145).play()
         } else if (triviaTrack === music.trivia2) {
-            triviaTrack.seek(121).play()
+            triviaTrack.seek(81).play()
         } else if (triviaTrack === music.trivia3) {
             triviaTrack.seek(128).play()
         } else if (triviaTrack === music.trivia4) {
@@ -62,7 +62,7 @@ socket.on('trivia-question', (trivia, animate) => {
     // }
     // Trying to limit the amount of information the client has access to
     
-
+    
     const section__main = document.querySelector('.section-trivia')
     const trivia__container = document.createElement('div')
     const question = document.createElement('div')
@@ -76,6 +76,7 @@ socket.on('trivia-question', (trivia, animate) => {
         answerBtn.innerText = answers[i]
         answerBtn.addEventListener('click', (event) => {
             event.preventDefault();
+            sfx.positive.play()
             socket.emit('trivia_check_answer', answers[i])
         })
 
