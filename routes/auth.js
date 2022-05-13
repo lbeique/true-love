@@ -14,7 +14,7 @@ const getSession = (session) => {
   return session
 }
 
-
+// TEMPORARY
 router.post("/login", (req, res) => {
 
   let username = req.body.username
