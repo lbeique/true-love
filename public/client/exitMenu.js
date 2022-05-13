@@ -20,6 +20,7 @@ exitMenu.appendChild(exitMenu__nav)
 
 exit_icon.addEventListener('click', (event) => {
     event.preventDefault()
+    sfx.positive.play()
     exitMenu.classList.toggle('hide')
 })
 
@@ -27,6 +28,7 @@ let confirm = 0;
 exitMenu__btn.addEventListener('click', (event) => { // should have a socket emit that will let everybody know that somebody quit
     // I think this happens when the disconnect emiter is triggered - Laurent
     event.preventDefault()
+    sfx.positive.play()
     if(confirm == 0){
         exitMenu__text.innerText = "Are you sure?"
         confirm = 1

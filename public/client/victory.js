@@ -56,6 +56,7 @@ socket.on('create-victory', (victoryObject) => {
 
     returnLobby__btn.addEventListener('click', (event) => {
         event.preventDefault();
+        sfx.join.play()
         socket.emit('return-to-lobby')
     })
 
