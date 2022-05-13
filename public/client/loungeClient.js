@@ -13,21 +13,30 @@ socket.on('create-lounge', (gameInfo) => {
     console.log(gameInfo)
     music.lounge.play()
     const section__lounge = document.querySelector('.section-lounge')
-    const crush__container = document.createElement('div')
+    const lounge__left = document.createElement('div')
+    const lounge__right = document.createElement('div')
+    const leaderboard__container = document.createElement('div')
+    const lounge__container = document.createElement('div')
     const crush__text = document.createElement('span')
     const crush = document.createElement('img')
 
-    crush__container.classList.add('crush__container')
+    lounge__left.classList.add('crush__containerLeft')
+    lounge__right.classList.add('crush__containerRight')
+    lounge__container.classList.add('lounge__container')
     crush__text.classList.add('crush__text')
     crush.classList.add('crush')
 
+    // crush__container.style.display = 'flex'
+    // crush.style.alignSelf = 'right'
     
     crush__text.innerText = `${gameInfo.name}`
     crush.src = `assets/character-fullbody/${gameInfo.nickname}.png`
 
 
+    
+
     const leaderboard__header = document.createElement('h1')
-    leaderboard__header.innerText = `............ THE LEADERBOARD ...........`
+    leaderboard__header.innerText = `............ THE LEADERBOARD ............`
     leaderboard__header.classList.add('leaderboard-header')
 
     const leaderboard = document.createElement('div')
@@ -53,17 +62,36 @@ socket.on('create-lounge', (gameInfo) => {
     const crush__timerCountdown = document.createElement('span')
     crush__timerCountdown.classList.add('timer', 'timer__lounge')
 
+
+    lounge__left.appendChild(leaderboard__header)
+    lounge__left.appendChild(leaderboard)
     
 
-    crush__container.appendChild(crush__text)
-    crush__container.appendChild(crush)
+    lounge__right.appendChild(crush)
+    lounge__right.appendChild(crush__text)
+    lounge__right.appendChild(dialogue__countainer)
 
-    crush__container.appendChild(leaderboard__header)
-    crush__container.appendChild(leaderboard)
-    crush__container.appendChild(dialogue__countainer)
+    section__lounge.appendChild(crush__timerCountdown)
+    lounge__container.appendChild(lounge__left)
+    lounge__container.appendChild(lounge__right)
 
-    crush__container.appendChild(crush__timerCountdown)
-    section__lounge.appendChild(crush__container)
+    section__lounge.appendChild(lounge__container)
+
+    // crush__container.appendChild(crush__text)
+    // crush__container.appendChild(crush)
+
+    // leaderboard__container.appendChild(leaderboard__header)
+    // leaderboard__container.appendChild(leaderboard)
+
+    // crush__container.appendChild(leaderboard__header)
+    // crush__container.appendChild(leaderboard)
+    // crush__container.appendChild(dialogue__countainer)
+
+    
+    // crush__container.appendChild(crush__timerCountdown)
+
+    // section__lounge.appendChild(leaderboard__container)
+    // section__lounge.appendChild(crush__container)
 
     section__lounge.classList.remove('hide')
 })

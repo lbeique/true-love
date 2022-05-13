@@ -14,12 +14,3 @@ const welcomeMusic = {
 }
 
 welcomeMusic.intro.volume(0.5).loop(true).play()
-
-
-
-// const playMusicCallback = () => {
-//     welcomeMusic.intro.volume(0.5).loop(true).play()
-//     document.querySelector('body').removeEventListener('click', playMusicCallback)
-// }
-
-// document.querySelector('body').addEventListener('click', playMusicCallback)
