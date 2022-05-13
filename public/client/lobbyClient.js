@@ -70,7 +70,8 @@ const music = {
 
 const sfx = {
     positive: new Howl({
-        src: ['../assets/sounds/sfx/close.mp3']
+        src: ['../assets/sounds/sfx/close.mp3'],
+        volume: 0.3,
     }),
     join: new Howl({
         src: ['../assets/sounds/sfx/join.mp3']
@@ -92,7 +93,7 @@ const sfx = {
 // music helper function
 
 function setTriviaTrack() {
-    let tracks = [music.trivia1, music.trivia2, music.trivia3, music.trivia4]
+    let tracks = [music.trivia1, music.trivia2, music.trivia3]
     triviaTrack = tracks[Math.floor(Math.random() * tracks.length)]
 }
 

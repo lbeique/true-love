@@ -3,21 +3,28 @@ const lobbyListMusic = {
         src: ['../assets/sounds/music/Polkavant - Monsterpolka.mp3'],
         html5: true,
         onend: function () {
-            introMusic.lobby2.volume(0.5).seek(54).play()
+            lobbyListMusic.lobby2.volume(0.5).seek(54).play()
         }
     }),
     lobby2: new Howl({
         src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3'],
         html5: true,
         onend: function () {
-            introMusic.lobby1.volume(0.4).play()
+            lobbyListMusic.lobby1.volume(0.4).play()
+        },
+        onplayerror: function() {
+            lobbyListMusic.lobby2.once('unlock', function() {
+                lobbyListMusic.lobby2.stop()
+                lobbyListMusic.lobby2.volume(0.5).seek(54).play()
+            })
         }
     })
 }
 
 const sfx = {
     positive: new Howl({
-        src: ['../assets/sounds/sfx/close.mp3']
+        src: ['../assets/sounds/sfx/close.mp3'],
+        volume: 0.3,
     })
 }
 
@@ -49,7 +56,7 @@ if (window.sessionStorage.getItem('introductory') === null) {
 
     introductory__skipButton.addEventListener('click', (event) => {
         event.preventDefault()
-        sfx.positive.volume(0.3).play()
+        sfx.positive.play()
         introductory__section.classList.add('hide')
         lobbies__section.classList.remove('hide')
         window.sessionStorage.setItem('introductory', 1)

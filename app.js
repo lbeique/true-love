@@ -270,11 +270,11 @@ io.on('connection', client => {
         } else if (room.gameState.triviaIndex === 1) {
           triviaInfo = room.gameState.topVotedCrush.categoryMedium
           triviaInfo.difficulty = 'medium'
-          triviaInfo.amount = '15'
+          triviaInfo.amount = '20'
         } else if (room.gameState.triviaIndex === 2) {
           triviaInfo = room.gameState.topVotedCrush.categoryHard
           triviaInfo.difficulty = 'hard'
-          triviaInfo.amount = '10'
+          triviaInfo.amount = '20'
         }
         trivia(triviaInfo)
         return

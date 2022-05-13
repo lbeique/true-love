@@ -4,14 +4,20 @@ const menuMusic = {
     menu1: new Howl({
         src: ['../assets/sounds/music/Polkavant - Monsterpolka.mp3'],
         html5: true,
-        onend: function() {
-            menuMusic.menu2.volume(0.5).seek(54).play()
+        onend: function () {
+            menuMusic.menu2.volume(0.5).play()
+        },
+        onplayerror: function () {
+            menuMusic.menu1.once('unlock', function () {
+                menuMusic.menu1.stop()
+                menuMusic.menu1.volume(0.4).play()
+            })
         }
     }),
     menu2: new Howl({
         src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3'],
         html5: true,
-        onend: function() {
+        onend: function () {
             menuMusic.menu1.volume(0.4).play()
         }
     })
@@ -19,19 +25,20 @@ const menuMusic = {
 
 const sfx = {
     positive: new Howl({
-        src: ['../assets/sounds/sfx/close.mp3']
+        src: ['../assets/sounds/sfx/close.mp3'],
+        volue: 0.8,
     })
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    menuMusic.menu1.volume(0.4).play()
-})
+
+menuMusic.menu1.volume(0.4).play()
+
 
 // WHAT A MESS LMAO AAAAAAA
 
 document.querySelector('.menu__skip-btn').addEventListener('click', (event) => {
     event.preventDefault()
-    sfx.positive.volume(0.3).play()
+    sfx.positive.play()
 
     document.querySelector('.menu__spaceship').classList.remove('menu__spaceship--animated');
     document.querySelector('.menu__spaceBeam').classList.remove('menu__spaceBeam--animated');
