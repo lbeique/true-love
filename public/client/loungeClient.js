@@ -15,7 +15,6 @@ socket.on('create-lounge', (gameInfo) => {
     const section__lounge = document.querySelector('.section-lounge')
     const lounge__left = document.createElement('div')
     const lounge__right = document.createElement('div')
-    const leaderboard__container = document.createElement('div')
     const lounge__container = document.createElement('div')
     const crush__text = document.createElement('span')
     const crush = document.createElement('img')
@@ -110,9 +109,9 @@ socket.on('start-lounge-timer', async function (count, triviaCategory) {
 socket.on('remove-lounge', () => {
     console.log('remove-lounge')
     const section__lounge = document.querySelector('.section-lounge')
-    const crush__container = document.querySelector('.crush__container')
+    const lounge__container = document.querySelector('.lounge__container')
 
-    crush__container.remove()
+    lounge__container.remove()
     section__lounge.classList.add('hide')
 })
 
