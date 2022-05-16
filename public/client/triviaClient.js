@@ -1,6 +1,6 @@
 // MUSIC HOLY FUCK IM SORRY
 socket.on('start-trivia-music', (triviaIndex) => {
-    
+
     if (triviaIndex === 0) {
         console.log('hi! 0', `${triviaTrack}`)
         if (triviaTrack === music.trivia1) {
@@ -9,7 +9,7 @@ socket.on('start-trivia-music', (triviaIndex) => {
             triviaTrack.seek(0).play() // Dick
         } else if (triviaTrack === music.trivia3) {
             triviaTrack.seek(0).play() // Polka
-        } 
+        }
         // else if (triviaTrack === music.trivia4) {
         //     triviaTrack.seek(0).play() // Propane
         // }
@@ -21,7 +21,7 @@ socket.on('start-trivia-music', (triviaIndex) => {
             triviaTrack.seek(56).play() // Dick
         } else if (triviaTrack === music.trivia3) {
             triviaTrack.seek(59).play() // Polka
-        } 
+        }
         // else if (triviaTrack === music.trivia4) {
         //     triviaTrack.seek(117).play() // Propane
         // }
@@ -33,7 +33,7 @@ socket.on('start-trivia-music', (triviaIndex) => {
             triviaTrack.seek(76).play() // Dick
         } else if (triviaTrack === music.trivia3) {
             triviaTrack.seek(88).play() // Polka
-        } 
+        }
         // else if (triviaTrack === music.trivia4) {
         //     triviaTrack.seek(156).play() // Propane
         // }
@@ -52,7 +52,7 @@ socket.on('start-trivia-timer', async function (count) {
     }
 })
 
-socket.on('trivia-question', (trivia, animate) => {
+socket.on('trivia-question', (trivia, animate, points) => {
 
     // trivia object for the client looks like this
     // {
@@ -64,89 +64,99 @@ socket.on('trivia-question', (trivia, animate) => {
     //     question: 'What is my favourite colour?'
     // }
     // Trying to limit the amount of information the client has access to
-    
-    
-    const section__trivia = document.querySelector('.section-trivia')
-    const section__sidebar = document.querySelector('.section-sidebar')
-    const trivia__container = document.createElement('div')
-    const question = document.createElement('div')
-    const answerContainer = document.createElement('div')
 
-    const answers = trivia.shuffledAnswers
-
-    for (let i = 0; i < answers.length; i++) {
-        const answerBtn = document.createElement('button')
-        answerBtn.classList.add('btn', 'btn--darkPurple', 'trivia__btn')
-        answerBtn.innerHTML = `${answers[i]}`
-        answerBtn.addEventListener('click', (event) => {
-            event.preventDefault();
-            sfx.positive.play()
-            socket.emit('trivia_check_answer', answers[i])
-        })
-
-        answerContainer.appendChild(answerBtn)
+    if (document.querySelector(".trivia__container")) {
+        document.querySelector(".trivia__container").remove()
+        document.querySelector('.trivia__scoreText').remove()
     }
 
-    trivia__container.classList.add('trivia__container')
-    question.classList.add('trivia__question')
-    if (+animate === 0) {
-        question.classList.add('trivia__question--animated')
-        answerContainer.classList.add('trivia__answerContainer--animated')
-    }
-    answerContainer.classList.add('trivia__answerContainer')
-
-    question.innerHTML = trivia.question
-
-    trivia__container.appendChild(question)
-    trivia__container.appendChild(answerContainer)
-    section__trivia.appendChild(trivia__container)
-
-    section__trivia.classList.remove('hide')
-
-    socket.emit('request-update-sidebar')
-
-})
-
-socket.on('trivia_reset_state', (data) => {
-    if (data.result === false) {
-        sfx.error.play()
-        const answer__container = document.querySelector('.trivia__answerContainer')
-        const cross = document.createElement('img')
+    if (!trivia) {
         const section__trivia = document.querySelector('.section-trivia')
-        cross.classList.add('cross')
+        const trivia__container = document.createElement('div')
+        trivia__container.classList.add('trivia__container')
 
-        cross.src = 'assets/others/X.png'
+        const scoreText = document.createElement('h1')
+        scoreText.classList.add('heading-primary', 'trivia__scoreText')
+        scoreText.innerText = `Current Trivia Score: ${points}`
 
-        section__trivia.appendChild(cross)
+        const outOfQuestions = document.createElement('p')
+        outOfQuestions.innerText = `You are out of Questions! You are too smart :)`
+        trivia__container.appendChild(outOfQuestions)
 
-        answer__container.classList.remove('trivia__answerContainer--unclickable')
-        setTimeout(() => {
-            answer__container.classList.add('trivia__answerContainer--unclickable')
-            cross.remove()
-        }, 1000)
+        section__trivia.appendChild(scoreText)
+        section__trivia.appendChild(trivia__container)
 
+    } else {
+
+        const section__trivia = document.querySelector('.section-trivia')
+        // const section__sidebar = document.querySelector('.section-sidebar')
+        const trivia__container = document.createElement('div')
+        const question = document.createElement('div')
+        const answerContainer = document.createElement('div')
+
+        const scoreText = document.createElement('h1')
+        scoreText.classList.add('heading-primary', 'trivia__scoreText')
+        scoreText.innerText = `Current Trivia Score: ${points}`
+
+        const answers = trivia.shuffledAnswers
+
+        for (let i = 0; i < answers.length; i++) {
+            const answerBtn = document.createElement('button')
+            answerBtn.classList.add('btn', 'btn--darkPurple', 'trivia__btn')
+            answerBtn.innerHTML = `${answers[i]}`
+            answerBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                sfx.positive.play()
+                socket.emit('trivia_check_answer', answers[i])
+            })
+
+            answerContainer.appendChild(answerBtn)
+        }
+
+        trivia__container.classList.add('trivia__container')
+        question.classList.add('trivia__question')
+        if (+animate === 0) {
+            question.classList.add('trivia__question--animated')
+            answerContainer.classList.add('trivia__answerContainer--animated')
+        }
+        answerContainer.classList.add('trivia__answerContainer')
+
+        question.innerHTML = trivia.question
+
+        trivia__container.appendChild(question)
+        trivia__container.appendChild(answerContainer)
+        section__trivia.appendChild(scoreText)
+        section__trivia.appendChild(trivia__container)
+
+        section__trivia.classList.remove('hide')
     }
-
-    const scoreText = document.querySelector('.trivia__scoreText')
-
-    scoreText.innerText = `Current Trivia Score: ${data.points}`
-
-    // reset part
-    const trivia__container = document.querySelector(".trivia__container")
-    trivia__container.remove()
-
-    socket.emit('trivia_next_question')
 })
 
+socket.on('trivia_false', () => {
+    sfx.error.play()
+    const answer__container = document.querySelector('.trivia__answerContainer')
+    const cross = document.createElement('img')
+    const section__main = document.querySelector('.section-trivia')
+    cross.classList.add('cross')
+
+    cross.src = 'assets/others/X.png'
+
+    section__main.appendChild(cross)
+
+    answer__container.classList.remove('trivia__answerContainer--unclickable')
+    setTimeout(() => {
+        answer__container.classList.add('trivia__answerContainer--unclickable')
+        cross.remove()
+    }, 1000)
+})
 
 socket.on('remove-trivia', () => {
     const section__trivia = document.querySelector('.section-trivia')
     const trivia__container = document.querySelector('.trivia__container')
     const scoreText = document.querySelector('.trivia__scoreText')
 
-    scoreText.innerText = `Current Trivia Score: 0`
-    
     trivia__container.remove()
+    scoreText.remove()
     section__trivia.classList.add('hide')
     console.log('trivia assets removed')
 })

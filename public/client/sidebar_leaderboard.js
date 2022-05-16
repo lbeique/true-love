@@ -170,6 +170,21 @@ socket.on('client_voted', (clientID) => {
 
 })
 
+socket.on('update-leaderboard', (leaderboard) => {
+    ///////////////////////////////////////////////////
+    // This is what the leaderboard looks like:
+    // leaderboard: [{
+    //     userId: 99,
+    //     username: 'Bob',
+    //     avatar: 'unicorn',
+    //     points: 30
+    // }, {}]
+    ////////////////////////////////////////////////////
+
+    // leaderboard stuff goes here?
+
+})
+
 
 // socket.on('setup-sidebar-trivia', () => { // ! Everything that was '--open' must be '--close'
 

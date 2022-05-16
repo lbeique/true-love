@@ -536,7 +536,6 @@ function checkTriviaAnswer(user, room, answer) {
         const data = {
             points: points,
             result: false,
-            errors: errors,
         }
         return data
     } else {
@@ -577,7 +576,6 @@ function checkTriviaAnswer(user, room, answer) {
         const data = {
             points: points,
             result: true,
-            errors: errors
         }
         return data
     }

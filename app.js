@@ -223,7 +223,7 @@ io.on('connection', client => {
       console.log('clientTriviaQuestions', clientTriviaQuestions)
       
       io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
-      io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0)
+      io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0, 0)
       gameTimer('start-trivia-timer', 'remove-trivia', nextPhase, +process.env.TRIVIA_COUNT)
     }
 
@@ -304,14 +304,27 @@ io.on('connection', client => {
 
     // TRIVIA
     client.on('trivia_check_answer', (answer) => {
-      io.to(client.id).emit('trivia_reset_state', handlers.checkTriviaAnswer(user, room, answer))
+      const data = handlers.checkTriviaAnswer(user, room, answer)
+      if (!data.result) {
+        // do a client emit to trigger RED X and sound
+        io.to(client.id).emit('trivia_false')
+      } else if (data.result) {
+        const { nextTrivia, animate } = handlers.nextTrivia(user, room)
+        // client emit for next question and game juice
+        io.to(client.id).emit('trivia-question', nextTrivia, animate, data.points)
+        // server emit for leaderboard placement
+        let leaderboard = handlers.handleUpdateLeaderboard(room)
+        io.to(room.room_id).emit("update-leaderboard", leaderboard)
+      }
     })
 
-    client.on('trivia_next_question', () => {
-      const { nextTrivia, animate } = handlers.nextTrivia(user, room)
-      console.log(nextTrivia)
-      io.to(client.id).emit('trivia-question', nextTrivia, animate)
-    })
+    // // io.to(client.id).emit('trivia_reset_state', data)
+
+    // client.on('trivia_next_question', () => {
+    //   const { nextTrivia, animate } = handlers.nextTrivia(user, room)
+    //   console.log(nextTrivia)
+    //   io.to(client.id).emit('trivia-question', nextTrivia, animate)
+    // })
 
 
     // RETURN TO LOBBY TRANSITION
@@ -321,9 +334,7 @@ io.on('connection', client => {
       console.log(`${client.id} emit remove-victory -> emit create-lobby`)
       io.to(client.id).emit('create-lobby', room, user.userId)
     })
-
   })
-
 })
 
 const PORT = process.env.PORT || 8000
