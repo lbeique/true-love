@@ -109,15 +109,11 @@ let categories = [ // easy // medium // hard
 
 
 
-
-const randomWords = require('random-words');
-
-
 // Server Handlers
 
 function handleServerJoin(client, user_id, user_name) {
 
-    const randomAvatars = [`🧋`, `☕️`, `💩`, `💃`, `🦊`, `🦄`];
+    const randomAvatars = [`sunglasses`, `hat`, `default`, `bow`];
 
     const avatarIndex = Math.floor(Math.random() * randomAvatars.length);
 
@@ -514,6 +510,7 @@ function checkTriviaAnswer(user, room, answer) {
         correctAnswer = room.gameState.triviaGames.hardAnswers[userProgressIndex]
         errors = user.game.trivia.hard.errors[userProgressIndex]
     }
+    
 
     if (answer !== correctAnswer) {
         user.game.trivia.animate = 1

@@ -149,7 +149,7 @@ socket.on('trivia_false', () => {
 })
 
 socket.on('remove-trivia', () => {
-    const section__main = document.querySelector('.section-trivia')
+    const section__trivia = document.querySelector('.section-trivia')
     const trivia__container = document.querySelector('.trivia__container')
     const scoreText = document.querySelector('.trivia__scoreText')
 
