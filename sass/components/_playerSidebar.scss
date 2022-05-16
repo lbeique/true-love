@@ -1,0 +1,298 @@
+
+.section-sidebar{
+
+    &--close{
+
+        position: absolute;
+        top: 0;
+        width: 30%;
+        height: 100%;
+        overflow-x: hidden;
+
+    }
+
+    &--open{
+
+        top: 0;
+        width: 50%;
+        height: 100%;
+        overflow-x: hidden;
+
+        &-votingLounge{
+            width: 100%;
+        }
+
+        &-trivia{
+            width: 50%;
+        }
+        
+    }
+    
+}
+
+.sidebar{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    transition: all .5s;
+
+    &__overlay{
+       
+        position: absolute;
+        width: 83%;
+        height: 100%;
+        z-index: 20;
+        background-color: rgba($secondary-color, 0.5);
+        animation: fadingIn 1s ease 
+    
+    }
+
+    &__container{
+
+        display: flex;
+        flex-direction: column;
+        row-gap: 1em;
+        height: 90%;
+        background-color: $primary-color;
+        border: 7px solid $tertiary-color;
+        border-radius: 40px;
+        z-index: 50;
+
+        &--close{
+
+            width: 27%;
+            padding: 1em 0em 1em 3em;
+            transform: translateX(-180%);
+            transition: transform .3s linear, width ;
+
+            &:hover{
+                transform: translateX(-175%);
+            }
+
+        }
+
+        &--open{
+
+            box-shadow: 0px 0px 30px 10px $secondary-color;
+            animation: slideFromLeft 1s ease;
+            padding: 2em 2em 2em 0;
+            width: 80%;
+
+            // &-trivia{
+            //     transform: translateX(5%);
+            //     width: 40%;
+            // }
+            
+            
+
+        }
+
+    }
+
+    &__header{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 10%;
+        color: $tertiary-color;
+        font-size: 30px;
+        text-transform: uppercase;
+        
+        & i{
+            color: $tertiary-color;
+            padding-right: 10px;
+        }
+
+        &-text{
+            color: $tertiary-color;
+        }
+
+    }
+
+
+
+    &__players{
+        @include disable-scrollbar;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        height: 100%;
+
+        &--open{
+            width: 125%;
+        }
+
+        &--close{
+            width: 250%;
+        }
+
+    }
+
+}
+
+.player{
+
+    &__container{
+        display: flex;
+        position: relative;
+        align-items: center;
+        flex-direction: row;
+        column-gap: 1em;
+        width: 100%;
+        height: 10%;
+        
+    }
+
+    &__position{
+        position:absolute;
+        place-self: center;
+        font-size: 30px;
+        color: $tertiary-color;
+        margin-left: 0.5em;
+
+    }
+
+    &__avatarContainer{
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 4px solid $secondary-variant;
+        border-radius: 40px;
+        background-color: $secondary-variant;
+
+        &--open{
+            width: 7%;
+            height: 70%;
+            margin-left: 4em;
+        }
+
+        &--close{
+            width: 35%;
+            height: 85%;
+        }
+
+        &--green{
+            border: 4px solid $tertiary-color;
+        }
+
+    }
+
+    &__avatar{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    &__info{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 60%;
+        height: 100%;
+    }
+
+    &__youContainer{
+
+        position: absolute;
+        height: 3em;
+        z-index: -30;
+        transition: all .2s;
+
+
+        &--open{
+
+            width: 0%;
+            left: 0%;
+            animation: youContainerOpen 1s ease forwards;
+
+        }
+
+        &--close{
+            width: 4em;
+            left: 1em;
+            animation: fadeFromLeft .5s backwards;
+        }
+    }
+
+    &__you{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding-left: 3em;
+        border: 3px solid $tertiary-color;
+        border-right: transparent;
+        background-color:black;
+        color: $tertiary-color;
+        letter-spacing: 2px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+
+        &::before{
+            content:"";
+            position: absolute;
+            width: 100%;
+            height: 0;
+            left: 3em;
+            border-top: 23px solid $tertiary-color;
+            border-bottom: 25px solid $tertiary-color; 
+            border-right: 24px solid transparent; 
+            border-left: 10px solid transparent;
+            z-index: -32;
+        }
+
+        &::after{
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 0;
+            top: 0;
+            left: 2.5em;
+            border-top: 20px solid black;
+            border-bottom: 22px solid black; 
+            border-right: 22px solid transparent; 
+            border-left: 10px solid transparent;
+            z-index: -31;
+            
+        }
+
+    }
+
+    &__youText{
+
+        color: $tertiary-color;
+
+    }
+
+}
+
+.info{
+
+    &__name{
+        text-align: left;
+        letter-spacing: 2px;
+        color: $secondary-variant;
+
+        &--green{
+            color: $tertiary-color;
+        }
+    }
+
+    &__note{
+        text-align: right;
+        letter-spacing: 2px;
+        color: $secondary-variant;
+
+        &--green{
+            color: $tertiary-color;
+        }
+    }
+
+}

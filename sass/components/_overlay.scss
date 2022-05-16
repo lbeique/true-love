@@ -1,20 +1,18 @@
 .overlay{
     position: absolute;
     margin: 0;
-    width: 100%;
     height: 100%;
-    z-index: 40;
-    transition: all .2s;
+    z-index: 100;
+    width: 100%;
+    animation: fadingIn 1s ease backwards;
+    
 
     &--black{
         background-color: rgba(black, 0.8);
-        animation: fadingIn 1s ease;
     }
 
     &--purple{
-        background-color: rgba($secondary-color, .5);
-        background-size: contain;
-        z-index: 100;
+        background-color: rgba($secondary-color, 0.5);
     }
 
     &__container{

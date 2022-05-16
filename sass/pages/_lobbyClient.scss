@@ -3,7 +3,6 @@
 
     &__container{
         background-color: rgba($secondary-variant, 0.5);
-        margin: 0 8.5%;
         display: flex;
     }
 
@@ -109,12 +108,13 @@
     }
 
     &__userListContainer{
-
+        @include scroll;
         display: flex;
         flex-direction: column;
         row-gap: 1em;
         width: 95%;
         height: 80%;
+        overflow: auto;
 
     }
 
@@ -141,11 +141,18 @@
         height: 100%;
         border: 10px solid $primary-color;
         border-radius: 50%;
+        background-color: $secondary-variant;
 
         &--readyGreen{
             border: 10px solid $tertiary-color;
         }
 
+    }
+
+    &__avatar{
+        object-fit: contain;
+        height: 100%;
+        width: 100%;
     }
 
     &__name{

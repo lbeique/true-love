@@ -1,6 +1,5 @@
 .section-introductory{
-    position: absolute;
-    width: 100vw;
+    position: relative;
     height: 100vh;
 }
 
@@ -13,7 +12,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 50%;
+        width: 70%;
         height: 50%;
 
         &--animated{
