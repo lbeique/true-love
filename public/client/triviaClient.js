@@ -154,25 +154,8 @@ socket.on('remove-trivia', () => {
     const trivia__container = document.querySelector('.trivia__container')
     const scoreText = document.querySelector('.trivia__scoreText')
 
-    // scoreText.innerText = `Current Trivia Score: 0`
-
     trivia__container.remove()
     scoreText.remove()
     section__trivia.classList.add('hide')
     console.log('trivia assets removed')
-})
-
-socket.on('update-leaderboard', (leaderboard) => {
-    ///////////////////////////////////////////////////
-    // This is what the leaderboard looks like:
-    // leaderboard: [{
-    //     userId: 99,
-    //     username: 'Bob',
-    //     avatar: 'unicorn',
-    //     points: 30
-    // }, {}]
-    ////////////////////////////////////////////////////
-
-    // leaderboard stuff goes here?
-
 })
