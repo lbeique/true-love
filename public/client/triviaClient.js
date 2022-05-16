@@ -71,7 +71,7 @@ socket.on('trivia-question', (trivia, animate, points) => {
     }
 
     if (!trivia) {
-        const section__main = document.querySelector('.section-trivia')
+        const section__trivia = document.querySelector('.section-trivia')
         const trivia__container = document.createElement('div')
         trivia__container.classList.add('trivia__container')
 
@@ -83,10 +83,13 @@ socket.on('trivia-question', (trivia, animate, points) => {
         outOfQuestions.innerText = `You are out of Questions! You are too smart :)`
         trivia__container.appendChild(outOfQuestions)
 
-        section__main.appendChild(scoreText)
-        section__main.appendChild(trivia__container)
+        section__trivia.appendChild(scoreText)
+        section__trivia.appendChild(trivia__container)
+
     } else {
-        const section__main = document.querySelector('.section-trivia')
+
+        const section__trivia = document.querySelector('.section-trivia')
+        const section__sidebar = document.querySelector('.section-sidebar')
         const trivia__container = document.createElement('div')
         const question = document.createElement('div')
         const answerContainer = document.createElement('div')
@@ -100,7 +103,7 @@ socket.on('trivia-question', (trivia, animate, points) => {
         for (let i = 0; i < answers.length; i++) {
             const answerBtn = document.createElement('button')
             answerBtn.classList.add('btn', 'btn--darkPurple', 'trivia__btn')
-            answerBtn.innerText = answers[i]
+            answerBtn.innerHTML = `${answers[i]}`
             answerBtn.addEventListener('click', (event) => {
                 event.preventDefault();
                 sfx.positive.play()
@@ -122,12 +125,10 @@ socket.on('trivia-question', (trivia, animate, points) => {
 
         trivia__container.appendChild(question)
         trivia__container.appendChild(answerContainer)
-        section__main.appendChild(scoreText)
-        section__main.appendChild(trivia__container)
+        section__trivia.appendChild(trivia__container)
 
-        section__main.classList.remove('hide')
+        section__trivia.classList.remove('hide')
     }
-
 })
 
 socket.on('trivia_false', () => {
@@ -149,7 +150,7 @@ socket.on('trivia_false', () => {
 })
 
 socket.on('remove-trivia', () => {
-    const section__main = document.querySelector('.section-trivia')
+    const section__trivia = document.querySelector('.section-trivia')
     const trivia__container = document.querySelector('.trivia__container')
     const scoreText = document.querySelector('.trivia__scoreText')
 
@@ -157,7 +158,7 @@ socket.on('remove-trivia', () => {
 
     trivia__container.remove()
     scoreText.remove()
-    section__main.classList.add('hide')
+    section__trivia.classList.add('hide')
     console.log('trivia assets removed')
 })
 
