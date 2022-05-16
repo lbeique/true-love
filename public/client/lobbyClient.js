@@ -122,8 +122,7 @@ function userList(room) { // USER LIST
 
 
         user__name.innerText = clients[client].username
-        user__avatar.innerText = clients[client].avatar
-
+        user__avatar.src = `assets/user-avatars/avatar_${clients[client].avatar}.png`
 
         user__avatarContainer.appendChild(user__avatar)
         userContainer.appendChild(user__avatarContainer)

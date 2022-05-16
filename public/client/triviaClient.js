@@ -66,7 +66,8 @@ socket.on('trivia-question', (trivia, animate) => {
     // Trying to limit the amount of information the client has access to
     
     
-    const section__main = document.querySelector('.section-trivia')
+    const section__trivia = document.querySelector('.section-trivia')
+    const section__sidebar = document.querySelector('.section-sidebar')
     const trivia__container = document.createElement('div')
     const question = document.createElement('div')
     const answerContainer = document.createElement('div')
@@ -76,7 +77,7 @@ socket.on('trivia-question', (trivia, animate) => {
     for (let i = 0; i < answers.length; i++) {
         const answerBtn = document.createElement('button')
         answerBtn.classList.add('btn', 'btn--darkPurple', 'trivia__btn')
-        answerBtn.innerText = answers[i]
+        answerBtn.innerHTML = `${answers[i]}`
         answerBtn.addEventListener('click', (event) => {
             event.preventDefault();
             sfx.positive.play()
@@ -98,9 +99,11 @@ socket.on('trivia-question', (trivia, animate) => {
 
     trivia__container.appendChild(question)
     trivia__container.appendChild(answerContainer)
-    section__main.appendChild(trivia__container)
+    section__trivia.appendChild(trivia__container)
 
-    section__main.classList.remove('hide')
+    section__trivia.classList.remove('hide')
+
+    socket.emit('request-update-sidebar')
 
 })
 
@@ -109,12 +112,12 @@ socket.on('trivia_reset_state', (data) => {
         sfx.error.play()
         const answer__container = document.querySelector('.trivia__answerContainer')
         const cross = document.createElement('img')
-        const section__main = document.querySelector('.section-trivia')
+        const section__trivia = document.querySelector('.section-trivia')
         cross.classList.add('cross')
 
         cross.src = 'assets/others/X.png'
 
-        section__main.appendChild(cross)
+        section__trivia.appendChild(cross)
 
         answer__container.classList.remove('trivia__answerContainer--unclickable')
         setTimeout(() => {
@@ -137,13 +140,13 @@ socket.on('trivia_reset_state', (data) => {
 
 
 socket.on('remove-trivia', () => {
-    const section__main = document.querySelector('.section-trivia')
+    const section__trivia = document.querySelector('.section-trivia')
     const trivia__container = document.querySelector('.trivia__container')
     const scoreText = document.querySelector('.trivia__scoreText')
 
     scoreText.innerText = `Current Trivia Score: 0`
     
     trivia__container.remove()
-    section__main.classList.add('hide')
+    section__trivia.classList.add('hide')
     console.log('trivia assets removed')
 })

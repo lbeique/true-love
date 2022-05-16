@@ -221,7 +221,7 @@ io.on('connection', client => {
       let clientTriviaQuestions = handlers.handleTrivia(data.results, room)
 
       console.log('clientTriviaQuestions', clientTriviaQuestions)
-
+      
       io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
       io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0)
       gameTimer('start-trivia-timer', 'remove-trivia', nextPhase, +process.env.TRIVIA_COUNT)

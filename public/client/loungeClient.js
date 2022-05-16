@@ -76,22 +76,6 @@ socket.on('create-lounge', (gameInfo) => {
 
     section__lounge.appendChild(lounge__container)
 
-    // crush__container.appendChild(crush__text)
-    // crush__container.appendChild(crush)
-
-    // leaderboard__container.appendChild(leaderboard__header)
-    // leaderboard__container.appendChild(leaderboard)
-
-    // crush__container.appendChild(leaderboard__header)
-    // crush__container.appendChild(leaderboard)
-    // crush__container.appendChild(dialogue__countainer)
-
-    
-    // crush__container.appendChild(crush__timerCountdown)
-
-    // section__lounge.appendChild(leaderboard__container)
-    // section__lounge.appendChild(crush__container)
-
     section__lounge.classList.remove('hide')
 })
 
