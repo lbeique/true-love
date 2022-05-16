@@ -89,7 +89,7 @@ socket.on('trivia-question', (trivia, animate, points) => {
     } else {
 
         const section__trivia = document.querySelector('.section-trivia')
-        const section__sidebar = document.querySelector('.section-sidebar')
+        // const section__sidebar = document.querySelector('.section-sidebar')
         const trivia__container = document.createElement('div')
         const question = document.createElement('div')
         const answerContainer = document.createElement('div')
@@ -125,6 +125,7 @@ socket.on('trivia-question', (trivia, animate, points) => {
 
         trivia__container.appendChild(question)
         trivia__container.appendChild(answerContainer)
+        section__trivia.appendChild(scoreText)
         section__trivia.appendChild(trivia__container)
 
         section__trivia.classList.remove('hide')
