@@ -222,8 +222,11 @@ io.on('connection', client => {
 
       console.log('clientTriviaQuestions', clientTriviaQuestions)
       
+      // THIS IS WHERE TRIVIA GETS INITILIAZED EVERY TIME
+
       io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
       io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0, 0)
+
       gameTimer('start-trivia-timer', 'remove-trivia', nextPhase, +process.env.TRIVIA_COUNT)
     }
 
