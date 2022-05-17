@@ -235,6 +235,7 @@ socket.on('remove-lobby', () => {
 
 
 socket.on('host-transfer', (host, phase) => {
+    console.log(phase)
     if (phase === 'lobby') {
         console.log('host transfered to', host.username)
         const lobby__leftContainer = document.querySelector('.lobby__leftContainer')

@@ -129,15 +129,16 @@ io.on('connection', client => {
         let transfer = false
 
         for (const player in players) {
-          if (transfer === false) {
+          if (!transfer) {
             if (players[player].userId !== user.userId) {
               console.log('new host', players[player].userId)
               handlers.handleLobbyTransfer(room.room_id, players[player])
-              io.to(players[player].socketId).emit('host-transfer', room.creator_name, room.phase)
+              io.to(players[player].socketId).emit('host-transfer', room.creator_name, room.gameState.phase)
               transfer = true
             }
           }
         }
+        transfer = false
       }
       if (room.gameState.game_active === false) {
         handlers.handleLobbyDisconnect(room.room_id, client)
