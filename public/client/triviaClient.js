@@ -49,7 +49,8 @@ socket.on('start-trivia-timer', async function (count) {
     }
     if (count === 5) {
         triviaTrack.fade(0.8, 0, 3000)
-    }
+    } 
+    
 })
 
 socket.on('trivia-question', (trivia, animate, points) => {
@@ -151,12 +152,21 @@ socket.on('trivia_false', () => {
 })
 
 socket.on('remove-trivia', () => {
+
     const section__trivia = document.querySelector('.section-trivia')
     const trivia__container = document.querySelector('.trivia__container')
     const scoreText = document.querySelector('.trivia__scoreText')
+
+    console.log("REMOVE LISTENER TRIVIA")
+    const sidebar__container = document.querySelector('.sidebar__container')
+    const eventListener = sidebar__container.getEventListeners()
+    console.log("EVENT TRIVIA", eventListener)
+    sidebar__container.removeEventListener('click', eventListener.listener, eventListener.useCapture)
+
 
     trivia__container.remove()
     scoreText.remove()
     section__trivia.classList.add('hide')
     console.log('trivia assets removed')
+
 })

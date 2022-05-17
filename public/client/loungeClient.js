@@ -12,42 +12,54 @@ socket.on('create-lounge', (gameInfo) => {
 
     console.log(gameInfo)
     music.lounge.play()
-    const section__lounge = document.querySelector('.section-lounge')
-    const lounge__left = document.createElement('div')
-    const lounge__right = document.createElement('div')
-    const lounge__container = document.createElement('div')
-    const crush__text = document.createElement('span')
-    const crush = document.createElement('img')
 
-    lounge__left.classList.add('crush__containerLeft')
-    lounge__right.classList.add('crush__containerRight')
-    lounge__container.classList.add('lounge__container')
-    crush__text.classList.add('crush__text')
-    crush.classList.add('crush')
+    const section__lounge = document.querySelector('.section-lounge')
+    const crush__carousel = document.querySelector('.carousel')
+
+    console.log(crush__carousel)
+
+    // const carousel__voteBtn = document.querySelector('.carousel__voteButton')
+    // const carousel__btn = document.querySelectorAll('.carousel__btn')
+    
+    // carousel__voteBtn.remove()
+    // carousel__btn.forEach((btn) => btn.remove())
+
+
+ 
+    // const section__lounge = document.querySelector('.section-lounge')
+    // const lounge__left = document.createElement('div')
+    // const lounge__right = document.createElement('div')
+    // const lounge__container = document.createElement('div')
+    // const crush__text = document.createElement('span')
+    // const crush = document.createElement('img')
+
+
+    // lounge__left.classList.add('crush__containerLeft')
+    // lounge__right.classList.add('crush__containerRight')
+    // lounge__container.classList.add('lounge__container')
+    // crush__text.classList.add('crush__text')
+    // crush.classList.add('crush')
 
     // crush__container.style.display = 'flex'
     // crush.style.alignSelf = 'right'
     
-    crush__text.innerText = `${gameInfo.name}`
-    crush.src = `assets/character-fullbody/${gameInfo.nickname}.png`
+    // crush__text.innerText = `${gameInfo.name}`
+    // crush.src = `assets/character-fullbody/${gameInfo.nickname}.png`
 
+    // const leaderboard__header = document.createElement('h1')
+    // leaderboard__header.innerText = `............ THE LEADERBOARD ............`
+    // leaderboard__header.classList.add('leaderboard-header')
 
-    
+    // const leaderboard = document.createElement('div')
+    // leaderboard.classList.add('leaderboard-list')
 
-    const leaderboard__header = document.createElement('h1')
-    leaderboard__header.innerText = `............ THE LEADERBOARD ............`
-    leaderboard__header.classList.add('leaderboard-header')
-
-    const leaderboard = document.createElement('div')
-    leaderboard.classList.add('leaderboard-list')
-
-    console.log(gameInfo.leaderboard.length)
-    for (let i = 0; i < gameInfo.leaderboard.length; i++) {
-        const entry = document.createElement('p')
-        entry.innerText = `#${i + 1}  --  ${gameInfo.leaderboard[i].username} with ${gameInfo.leaderboard[i].points} points`
-        entry.classList.add(`user${i + 1}`)
-        leaderboard.appendChild(entry)
-    }
+    // console.log(gameInfo.leaderboard.length)
+    // for (let i = 0; i < gameInfo.leaderboard.length; i++) {
+    //     const entry = document.createElement('p')
+    //     entry.innerText = `#${i + 1}  --  ${gameInfo.leaderboard[i].username} with ${gameInfo.leaderboard[i].points} points`
+    //     entry.classList.add(`user${i + 1}`)
+    //     leaderboard.appendChild(entry)
+    // }
 
     const dialogue__countainer = document.createElement('div')
     dialogue__countainer.classList.add('dialogue-list')
@@ -62,20 +74,22 @@ socket.on('create-lounge', (gameInfo) => {
     crush__timerCountdown.classList.add('timer', 'timer__lounge')
 
 
-    lounge__left.appendChild(leaderboard__header)
-    lounge__left.appendChild(leaderboard)
+    // lounge__left.appendChild(leaderboard__header)
+    // lounge__left.appendChild(leaderboard)
     
 
-    lounge__right.appendChild(crush)
-    lounge__right.appendChild(crush__text)
-    lounge__right.appendChild(dialogue__countainer)
+    // lounge__right.appendChild(crush)
+    // lounge__right.appendChild(crush__text)
+    // lounge__right.appendChild(dialogue__countainer)
 
-    section__lounge.appendChild(crush__timerCountdown)
-    lounge__container.appendChild(lounge__left)
-    lounge__container.appendChild(lounge__right)
+    // section__lounge.appendChild(crush__timerCountdown)
+    // lounge__container.appendChild(lounge__left)
+    // lounge__container.appendChild(lounge__right)
 
-    section__lounge.appendChild(lounge__container)
+    // section__lounge.appendChild(lounge__container)
+    section__lounge.appendChild(crush__carousel)
 
+    crush__carousel.classList.remove('hide')
     section__lounge.classList.remove('hide')
 })
 
@@ -93,9 +107,16 @@ socket.on('start-lounge-timer', async function (count, triviaCategory) {
 socket.on('remove-lounge', () => {
     console.log('remove-lounge')
     const section__lounge = document.querySelector('.section-lounge')
-    const lounge__container = document.querySelector('.lounge__container')
+    // const sidebar__container = document.querySelector('.sidebar__container')
+    // const lounge__container = document.querySelector('.lounge__container')
 
-    lounge__container.remove()
+    console.log("REMOVE LISTENER LOUNGE")
+    const sidebar__container = document.querySelector('.sidebar__container')
+    const eventListener = sidebar__container.getEventListeners()
+    sidebar__container.removeEventListener('click', eventListener.listener, eventListener.useCapture)
+
+
+    // lounge__container.remove()
     section__lounge.classList.add('hide')
 })
 

@@ -4,6 +4,10 @@
   display: none !important;
 }
 
+.margin-left-5 {
+  margin-left: 5em !important;
+}
+
 *,
 *::after,
 *::before {
@@ -196,6 +200,22 @@ body {
   100% {
     opacity: 100%;
     transform: translateX(0%);
+  }
+}
+@keyframes moveUp {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+@keyframes moveDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0%);
   }
 }
 .spaceShip_gametitle {
@@ -522,10 +542,18 @@ body {
   width: 100%;
   height: 10%;
 }
+.player__container--moveUp {
+  z-index: 100;
+  animation: moveUp 1s ease backwards;
+}
+.player__container--moveDown {
+  z-index: 100;
+  animation: moveDown 1s ease backwards;
+}
 .player__position {
   position: absolute;
   place-self: center;
-  font-size: 30px;
+  font-size: 25px;
   color: #D7FF60;
   margin-left: 0.5em;
 }
@@ -540,7 +568,7 @@ body {
 .player__avatarContainer--open {
   width: 7%;
   height: 70%;
-  margin-left: 4em;
+  margin-left: 2em;
 }
 .player__avatarContainer--close {
   width: 35%;
@@ -1270,36 +1298,15 @@ tr:nth-child(even) {
   color: #19083c;
 }
 
-.crush__containerLeft {
-  width: 50%;
-  height: 100%;
-  margin: 0;
-}
-.crush__containerRight {
+.section-lounge {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 50%;
-  height: 100%;
-  margin: 0;
-}
-.crush__containerRight img {
-  width: 100%;
-  height: 50%;
-  object-fit: contain;
-}
-
-.lounge__container {
-  display: flex;
-  width: 100%;
-  height: 90%;
 }
 
 .timer__lounge {
   display: flex;
   width: 100%;
   justify-content: center;
+  position: absolute;
 }
 
 .menuContainer {

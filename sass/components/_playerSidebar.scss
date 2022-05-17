@@ -144,13 +144,23 @@
         column-gap: 1em;
         width: 100%;
         height: 10%;
+
+        &--moveUp{
+            z-index: 100;
+            animation: moveUp 1s ease backwards
+        }
+
+        &--moveDown{
+            z-index: 100;
+            animation: moveDown 1s ease backwards
+        }
         
     }
 
     &__position{
         position:absolute;
         place-self: center;
-        font-size: 30px;
+        font-size: 25px;
         color: $tertiary-color;
         margin-left: 0.5em;
 
@@ -168,7 +178,7 @@
         &--open{
             width: 7%;
             height: 70%;
-            margin-left: 4em;
+            margin-left: 2em;
         }
 
         &--close{

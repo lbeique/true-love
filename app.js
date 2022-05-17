@@ -222,6 +222,7 @@ io.on('connection', client => {
 
       console.log('clientTriviaQuestions', clientTriviaQuestions)
       
+      io.to(room.room_id).emit('setup-sidebar-trivia', handlers.handleUpdateLeaderboard(room))
       io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
       io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0, 0)
       gameTimer('start-trivia-timer', 'remove-trivia', nextPhase, +process.env.TRIVIA_COUNT)
@@ -233,6 +234,7 @@ io.on('connection', client => {
       let nextTrivia = gameInfo.nextTrivia
       room.gameState.triviaIndex++
       io.to(room.room_id).emit('create-lounge', gameInfo)
+      io.to(room.room_id).emit('setup-sidebar-lounge')
       gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 30, nextTrivia)
     }
 
