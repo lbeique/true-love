@@ -178,7 +178,7 @@ function displayUsers(player){    // player DOM
     player__container.appendChild(player__avatarContainer)
     player__container.appendChild(player__info)
 
-    if(player.userId === USER_ID){
+    if(player.userId === +USER_ID){
         
         const player__YOUcontainer = document.createElement('div')
         const player__YOU = document.createElement('div')
@@ -198,7 +198,7 @@ function displayUsers(player){    // player DOM
 
 socket.on('client_voted', (clientID) => {
 
-    if(USER_ID === clientID){
+    if(+USER_ID === clientID){
 
         const carousel__voteBtn = document.querySelector('.carousel__voteButton')
         const carousel__btn = document.querySelectorAll('.carousel__btn')

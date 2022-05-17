@@ -103,7 +103,7 @@ function userList(room) { // USER LIST
     const user__listContainer = document.querySelector('.lobby__userListContainer')
 
     user__listContainer.innerHTML = ''
-    
+
     let clients = room.clients
     console.log(clients)
 
@@ -160,7 +160,7 @@ socket.on('create-lobby', (room, userId) => {
     console.log('i fired')
     music.lobby.loop(true).play()
     setTriviaTrack()
-    
+
     const section__lobbyClient = document.querySelector('.section-lobbyClient')
 
     const lobby__container = document.createElement('div')
@@ -175,24 +175,24 @@ socket.on('create-lobby', (room, userId) => {
 
 
     lobby__container.classList.add('lobby__container')
-    lobby__leftContainer .classList.add('lobby__leftContainer')
-    lobby__rightContainer .classList.add('lobby__rightContainer')
+    lobby__leftContainer.classList.add('lobby__leftContainer')
+    lobby__rightContainer.classList.add('lobby__rightContainer')
     lobby__header.classList.add('heading-primary', 'lobby__header')
     lobby__code.classList.add('lobby__code')
-    gameStart__header.classList.add('heading-tertiary','lobby__startBtn-Header')
+    gameStart__header.classList.add('heading-tertiary', 'lobby__startBtn-Header')
     gameStart__btn.classList.add('btn', 'lobby__startBtn')
     lobby__userListContainer.classList.add('lobby__userListContainer')
     lobby__backBtn.classList.add('btn', 'lobby__backButton', 'btn--darkPurple')
-    
+
 
     lobby__header.innerText = `Welcome to the Lobby: ${room.room_name}`
     lobby__code.innerHTML = `The Lobby Code is: <span>${room.room_code} </span>`
     gameStart__header.innerText = 'Ready?'
-    gameStart__btn.innerHTML= '<i class="fa-solid fa-play"></i>'
-    lobby__backBtn.innerHTML= '<span>&#8618;</span>'
+    gameStart__btn.innerHTML = '<i class="fa-solid fa-play"></i>'
+    lobby__backBtn.innerHTML = '<span>&#8618;</span>'
     lobby__backBtn.href = '/lobby'
 
-   
+
     lobby__leftContainer.appendChild(lobby__code)
     lobby__leftContainer.appendChild(gameStart__header)
     lobby__leftContainer.appendChild(gameStart__btn)
@@ -204,7 +204,7 @@ socket.on('create-lobby', (room, userId) => {
 
 
     section__lobbyClient.appendChild(lobby__container)
-   
+
 
     gameStart__btn.addEventListener('click', (event) => {
         event.preventDefault();
@@ -214,7 +214,7 @@ socket.on('create-lobby', (room, userId) => {
 
 
     console.log("USER ID", userId, "HOST ID", hostID)
-    if(+userId !== hostID){ // Stef: if client is not the host, don't see this button, will have to change logic
+    if (+userId !== hostID) { // Stef: if client is not the host, don't see this button, will have to change logic
         gameStart__btn.remove()
     }
 
@@ -233,14 +233,26 @@ socket.on('remove-lobby', () => {
 })
 
 
-// WILL WAIT ON NEW EJS - Laurent
-socket.on('host-transfer', (hostName) => {
-    console.log('host transfered to', hostName)
-    const gameStart__btn = document.createElement('button')
-    gameStart__btn.classList.add('btn', 'btn-success')
-    gameStart__btn.innerText = 'Start Game'
-    gameStart__btn.addEventListener('click', (event) => {
-        event.preventDefault();
-        socket.emit('voting-start')
-    })
+
+socket.on('host-transfer', (host, phase) => {
+    console.log(phase)
+    if (phase === 'lobby') {
+        console.log('host transfered to', host.username)
+        const lobby__leftContainer = document.querySelector('.lobby__leftContainer')
+        const gameStart__btn = document.createElement('button')
+        gameStart__btn.classList.add('btn', 'lobby__startBtn')
+        gameStart__btn.innerHTML = '<i class="fa-solid fa-play"></i>'
+        lobby__leftContainer.appendChild(gameStart__btn)
+        gameStart__btn.addEventListener('click', (event) => {
+            event.preventDefault();
+            sfx.join.play()
+            socket.emit('voting-start')
+        })
+    }
 })
+
+// REDIRECT
+socket.on('redirect-to-lobbylist', () => {
+    // redirect to new URL
+    window.location = "/lobby"
+});

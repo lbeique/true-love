@@ -29,7 +29,6 @@ const getUserByID = async (userId) => {
     return user_info[0][0]
 }
 
-// used for leaderboard -- NEEDS TO BE UPDATED
 // doesn't get user email, password, or delete status
 const getAllUsers = async () => {
     const sqlSelectUsers = "SELECT user_id, user_name, email, creation_date FROM user;"
@@ -66,16 +65,16 @@ const addUser = async (postBody) => {
 
 }
 
-// // Might change or remove entirely -- ask Patrick if it gets too complicated -- Laurent
-// const updateUserPoints = async (userId, points) => {
-//     const params = {
-//         user_id: userId,
-//         points: points
-//     }
-//     const sqlUpdatePoints = "UPDATE user SET total_points = total_points + :points WHERE user_id = :user_id;"
-//     await database.query(sqlUpdatePoints, params)
-//     return
-// }
+const updateUsername = async (userId, username) => {
+    const params = {
+        user_id: userId,
+        user_name: username
+    }
+    const sqlUpdateUsername = "UPDATE user SET user_name = : username WHERE user_id = :userId;"
+    await database.query(sqlUpdateUsername, params)
+    const user_info = await getUserByID(userId)
+    return user_info
+}
 
 const deleteUser = async (userId) => {
     const params = {
@@ -116,9 +115,9 @@ const updateUserAvatar = async (userId, avatarId) => {
         avatar_id: avatarId
     }
     const sqlUpdateUserAvatar = "UPDATE user SET avatar_id = :avatar_id WHERE user_id = :user_id;"
-    const user_avatar_info = await database.query(sqlUpdateUserAvatar, params)
-    console.log(user_avatar_info[0][0])
-    return user_avatar_info[0][0]
+    await database.query(sqlUpdateUserAvatar, params)
+    const user_avatar_info = await getUserAvatar(userId)
+    return user_avatar_info
 }
 
 // Need an access for retrieving a crush by its id
@@ -130,6 +129,7 @@ const getCrushByID = async (crushId) => {
     const sqlSelectCrushByID = "SELECT crush_id, category.category_id, category.category_api_id, category.category_name, crush_name, crush_nickname, crush_likes, crush_dislikes FROM crush JOIN category on category.category_id = crush.category_id WHERE crush_id = :crush_id;"
     const crush_info = await database.query(sqlSelectCrushByID, params)
     console.log(crush_info[0][0])
+    // {crush_id, category_id, category_api_id, category_name, crush_name, crush_nickname, crush_likes, crush_dislikes}
     return crush_info[0][0]
 }
 
@@ -162,7 +162,17 @@ const addUserAchievement = async (userId, crushId) => {
     }
 }
 
-// Need an access for retrieving global leaderboard information (user_name, avatar_id, Favourite Category, Top Points, Top Wins, Win/Loss Ratio)
+// An access that gives the winner and game information of the last 50 games played
+const getGlobalMatchHistory = async () => {
+    const sqlSelectGlobalMatchHistory = "SELECT winningscore_by_room.room_id, crush.crush_nickname, user.user_id, user.user_name, winningscore_by_room.total_score, winningscore_by_room.total_players, room.date FROM (SELECT room_id, MAX(easy_points+medium_points+hard_points) AS total_score, COUNT(user_id) AS total_players FROM user_room GROUP BY room_id) AS winningscore_by_room JOIN user_room ON winningscore_by_room.room_id = user_room.room_id AND winningscore_by_room.total_score = (easy_points+medium_points+hard_points) JOIN user ON user.user_id = user_room.user_id JOIN room ON room.room_id = user_room.room_id JOIN crush ON crush.crush_id = room.crush_id ORDER BY room.date DESC LIMIT 50;"
+    const global_match_history = await database.query(sqlSelectGlobalMatchHistory)
+    console.log(global_match_history[0])
+    // [{room_id, crush_nickname, user_id, user_name, avatar_id, total_score, total_players, date}]
+    return global_match_history[0]
+}
+
+
+// Need an access for retrieving global leaderboard information (user_name, avatar_id, Favourite Category, Total Points, Total Wins, Win/Loss Ratio)
 const getGlobalLeaderboard = async () => {
     const sqlSelectGlobalLeaderboard = ""
     const global_leaderboard = await database.query(sqlSelectGlobalLeaderboard)
@@ -173,14 +183,154 @@ const getGlobalLeaderboard = async () => {
 // Need an access for adding a new room - room table (room_name, crush_id, category_id_easy, category_id_medium, category_id_hard, date)
 // Need an access for adding a new room - user_room table ((all)user_id, (all)room_id, (all)easy_points), (all)easy_errors, (all)medium_points, (all)medium_errors, (all)hard_points, (all)easy_points)
 
+const addUsersToRoom = async (room, insertId) => {
+    const values = []
+    let players = room.clients
+    for (const player in players) {
+        values.push(
+            [
+                players[player].userId,
+                insertId,
+                players[player].position,
+                players[player].easy_points,
+                players[player].easy_errors,
+                players[player].medium_points,
+                players[player].medium_errors,
+                players[player].hard_points,
+                players[player].hard_errors
+            ])
+    }
+    const sqlInsertUsersInRoom = "INSERT INTO user_room (user_id, room_id, position, easy_points, easy_errors, medium_points, medium_errors, hard_points, hard_errors) VALUES ?;"
+    const result = await database.query(sqlInsertUsersInRoom, [values])
+    if (result[0]) {
+        console.log('users saved to room succesfully')
+    }
+    return
+}
+
+const addRoom = async (room) => {
+    const params = {
+        crush_id: room.gameState.topVotedCrush.id,
+        category_easy_id: room.gameState.topVotedCrush.categoryEasy.id,
+        category_medium_id: room.gameState.topVotedCrush.categoryMedium.id,
+        category_hard_id: room.gameState.topVotedCrush.categoryHard.id,
+        room_name: room.room_name
+    }
+    const sqlInsertRoom = "INSERT INTO room (crush_id, category_easy_id, category_medium_id, category_hard_id, date) VALUES (:crush_id, :category_easy_id, :category_medium_id, :category_hard_id, :room_name, CURRENT_TIMESTAMP);"
+    const room_result = await database.query(sqlInsertRoom, params)
+    console.log('db addroom result', room_result[0])
+    if (room_result[0]) {
+        await addUsersToRoom(room, room_result[0].insertId)
+        return
+    }
+
+}
+
 // Need an access for retrieving a room brief information (room_id, user_id, user_name, avatar_id, category_id_easy, easy_points, easy_errors, category_id_medium, medium_points, medium_errors, category_id_hard, hard_points, easy_points, date)
+
+const getUserMatchHistory = async (userId) => {
+    const params = {
+        user_id: userId,
+    }
+    const sqlSelectUserMatchHistory = "SELECT score_by_room.room_id, user_room.position, crush.crush_nickname, user.user_id, user.user_name, easy.category_id AS easy_category_id, easy.category_name AS easy_category_name, user_room.easy_points, user_room.easy_errors, medium.category_id AS medium_category_id, medium.category_name AS medium_category_name, user_room.medium_points, user_room.medium_errors, hard.category_id AS hard_category_id, hard.category_name AS hard_category_name, user_room.hard_points, user_room.hard_errors, score_by_room.score_by_room.total_points, score_by_room.total_errors, players_in_room.total_players, room.date FROM (SELECT room_id, (easy_points+medium_points+hard_points) AS total_points, (easy_errors+medium_errors+hard_errors) AS total_errors FROM user_room WHERE user_room.user_id = :user_id GROUP BY room_id) AS score_by_room JOIN (SELECT room_id, COUNT(user_id) AS total_players FROM user_room GROUP BY room_id) AS players_in_room ON players_in_room.room_id = score_by_room.room_id JOIN user_room ON score_by_room.room_id = user_room.room_id JOIN user ON user.user_id = user_room.user_id JOIN room ON room.room_id = user_room.room_id JOIN category AS easy ON easy.category_id = room.category_easy_id JOIN category AS medium ON medium.category_id = room.category_medium_id JOIN category AS hard ON hard.category_id = room.category_hard_id JOIN crush ON crush.crush_id = room.crush_id WHERE user.user_id = :user_id ORDER BY room.date DESC LIMIT 50;"
+    const user_match_history = await database.query(sqlSelectUserMatchHistory, params)
+    console.log(user_match_history[0])
+    // [
+    //     {
+    //         room_id,
+    //         position,
+    //         crush_nickname,
+    //         user_id,
+    //         user_name,
+    //         easy_category_id,
+    //         easy_category_name,
+    //         easy_points,
+    //         easy_errors,
+    //         medium_category_id,
+    //         medium_category_name,
+    //         medium_points,
+    //         medium_errors,
+    //         hard_category_id,
+    //         hard_category_name,
+    //         hard_points,
+    //         hard_errors,
+    //         total_points,
+    //         total_errors,
+    //         total_players,
+    //         date
+    //     }
+    // ]
+    return user_match_history[0]
+}
+
 
 // Need an access for retrieving a room full information (room_id, room_name, (all)user_id, (all)user_name, (all)avatar_id, category_id_easy, (all)easy_points), (all)easy_errors, category_id_medium, (all)medium_points, (all)medium_errors, category_id_hard, (all)hard_points, (all)easy_points, date)
 
+const getRoomInformationByRoomId = async (roomId) => {
+    const params = {
+        room_id: roomId
+    }
+    const sqlSelectRoomInformation = "SELECT room.room_id, room.room_name, crush.crush_name, crush.crush_nickname, user_room.position, user.user_id, user.user_name, user.avatar_id, easy.category_id AS easy_category_id, easy.category_name AS easy_category_name, user_room.easy_points, user_room.easy_errors, medium.category_id AS medium_category_id, medium.category_name AS medium_category_name, user_room.medium_points, user_room.medium_errors, hard.category_id AS hard_category_id, hard.category_name AS hard_category_name, user_room.hard_points, user_room.hard_errors, (easy_points + medium_points + hard_points) AS total_points, (easy_errors + medium_errors + hard_errors) AS total_errors, room.date FROM room JOIN user_room ON user_room.room_id = room.room_id JOIN user ON user.user_id = user_room.user_id JOIN crush ON crush.crush_id = room.crush_id JOIN category AS easy ON easy.category_id = room.category_easy_id JOIN category AS medium ON medium.category_id = room.category_medium_id JOIN category AS hard ON hard.category_id = room.category_hard_id WHERE room.room_id = :room_id ORDER BY total_points DESC;"
+    const room_information = await database.query(sqlSelectRoomInformation, params)
+    console.log(room_information[0])
+    // [
+    //     {
+    //         room_id,
+    //         room_name,
+    //         crush_name,
+    //         crush_nickname,
+    //         position,
+    //         user_id,
+    //         user_name,
+    //         avatar_id,
+    //         easy_category_id,
+    //         easy_category_name,
+    //         easy_points,
+    //         easy_errors,
+    //         medium_category_id,
+    //         medium_category_name,
+    //         medium_points,
+    //         medium_errors,
+    //         hard_category_id,
+    //         hard_category_name,
+    //         hard_points,
+    //         hard_errors,
+    //         total_points,
+    //         total_errors,
+    //         total_players,
+    //         date
+    //     }
+    // ]
+    return room_information[0]
+}
+
+
 // Need an access for retrieving category name from category id (category_name) --- Look at UNION for going through the table 3 times
 
-// Need an access for retrieving crush from crush id (crush_id, category_id, crush_name, crush_nickname, crush_likes, crush_dislikes)
+const getCategoryById = async (categoryId) => {
+    const params = {
+        category_id: categoryId
+    }
+    const sqlSelectCategoryById = "SELECT category_id, category_api_id, category_name FROM category WHERE category_id = :category_id;"
+    const category_information = await database.query(sqlSelectCategoryById, params)
+    console.log(category_information[0][0])
+    return category_information[0][0]
+}
 
+const getCategoriesById = async (categoryEasyId, categoryMediumId, categoryHardId) => {
+    const params = {
+        category_easy_id: categoryEasyId,
+        category_medium_id: categoryMediumId,
+        category_hard_id: categoryHardId,
+    }
+    const sqlSelectCategoriesById = "SELECT easy.category_id AS easy_category_id, easy.category_api_id AS easy_category_api_id, easy.category_name AS easy_category_name, medium.category_id AS medium_category_id, medium.category_api_id AS medium_category_api_id, medium.category_name AS medium_category_name, hard.category_id AS hard_category_id, hard.category_api_id AS hard_category_api_id, hard.category_name AS hard_category_name FROM (SELECT category_id, category_api_id, category_name FROM category WHERE category_id = :category_easy_id) AS easy JOIN (SELECT category_id, category_api_id, category_name FROM category WHERE category_id = :category_medium_id) AS medium JOIN (SELECT category_id, category_api_id, category_name FROM category WHERE category_id = :category_hard_id) AS hard;"
+    const categories_information = await database.query(sqlSelectCategoriesById, params)
+    console.log(categories_information[0][0])
+    // {easy_category_id, easy_category_api_id, easy_category_name, 
+    // medium_category_id, medium_category_api_id, medium_category_name,
+    // hard_category_id, hard_category_api_id, hard_category_name}
+    return categories_information[0][0]
+}
 
 
 module.exports = { addUser, getUserByLogin, getUserByID, getAllUsers, deleteUser }

@@ -22,14 +22,14 @@ socket.emit('lobby-refresh')
 socket.on('lobby-list', (lobbyRooms) => {
     lobby_listContainer.innerHTML = '' // ! MUST HAVE
 
-    if (!Object.keys(lobbyRooms).length) {
+    if (lobbyRooms.length === 0) {
         return
     }
 
-    for (const lobby in lobbyRooms) {
-        console.log("LOBBY", lobbyRooms[lobby])
-
-        const clientsInLobby = Object.keys(lobbyRooms[lobby].clients).length;
+    for (const lobby of lobbyRooms) {
+        console.log("LOBBY", lobby)
+        
+        const clientsInLobby = Object.keys(lobby.clients).length;
 
         const lobby_room = document.createElement('div')
         const lobbyForm = document.createElement('form')
@@ -41,10 +41,10 @@ socket.on('lobby-list', (lobbyRooms) => {
         lobbyButton.classList.add('btn', 'lobby-list__roomBtn', 'btn--darkPurple')
         lobbyButton.type = 'submit'
         lobbyButton.name = "room_code"
-        lobbyButton.value = lobbyRooms[lobby].room_code
+        lobbyButton.value = lobby.room_code
         lobbyButton.innerHTML = `
             <span class="lobby-list__roomBtn--name">
-                ${lobbyRooms[lobby].room_name}
+                ${lobby.room_name}
             </span> 
             <span class="lobby-list__roomBtn--info"> 
                 ${clientsInLobby} 
