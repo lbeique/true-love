@@ -84,15 +84,18 @@ io.on('connection', client => {
     console.log('join-room user: ', user)
     if (!user) {
       // NEED TO DEAL WITH USERS HERE (handler failed to join user) - Laurent
+      io.to(client.id).emit('redirect-to-lobbylist')
       return
     }
 
     let room = handlers.handleGetLobbyFromId(roomId)
     if (!room) {
       // NEED TO DEAL WITH USERS HERE (handler failed to get room) - Laurent
+      io.to(client.id).emit('redirect-to-lobbylist')
       return
     } else if (room.gameState.game_active === true) {
       // NEED TO DEAL WITH USERS HERE (game is currently active) - Laurent
+      io.to(client.id).emit('redirect-to-lobbylist')
       return
     }
 
@@ -101,6 +104,7 @@ io.on('connection', client => {
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
         // NEED TO DEAL WITH USERS HERE (user is already in the game) - Laurent
+        io.to(client.id).emit('redirect-to-lobbylist')
         return
       }
     }
@@ -108,28 +112,47 @@ io.on('connection', client => {
 
     // CREATE LOBBY
     io.to(client.id).emit('create-lobby', room, user.userId)
-    console.log(`${client.id} emit create-lobby -> handle lobby-join`, room)
+    // console.log(`${client.id} emit create-lobby -> handle lobby-join`)
     handlers.handleLobbyJoin(roomId, client)
-    console.log(`${client.id} handle-lobby-join -> client.join-room`, room)
+    // console.log(`${client.id} handle-lobby-join -> client.join-room`)
     client.join(room.room_id)
-    console.log(`${client.id} client.join-room -> emit user-joined`, room)
+    // console.log(`${client.id} client.join-room -> emit user-joined`)
     io.to(room.room_id).emit('user-joined', user, room)
     console.log(`on-join-room, user ${user.username} connected to room ${room.room_id} with clientid: ${user.socketId}`)
 
 
     // SERVER DISCONNECT
     client.on('disconnect', () => {
+      let players = room.clients
       if (room.creator_id === user.userId) {
-        handlers.handleLobbyDisconnect(room.room_id, client)
-        if (room.gameState.game_active === false) {
-          let newHost = handlers.handleGetUserFromUserId(room.creator_id)
-          io.to(newHost.socketId).emit('host-transfer', newHost.username)
+        console.log('host left the game')
+        let transfer = false
+
+        for (const player in players) {
+          if (transfer === false) {
+            if (players[player].userId !== user.userId) {
+              console.log('new host', players[player].userId)
+              handlers.handleLobbyTransfer(room.room_id, players[player])
+              io.to(players[player].socketId).emit('host-transfer', room.creator_name, room.phase)
+              transfer = true
+            }
+          }
         }
-      } else {
-        handlers.handleLobbyDisconnect(room.room_id, client)
       }
-      handlers.handleServerDisconnect(client)
-      io.to(room.room_id).emit(`user-disconnected`, user, room)
+      if (room.gameState.game_active === false) {
+        handlers.handleLobbyDisconnect(room.room_id, client)
+        io.to(room.room_id).emit(`user-disconnected`, user, room)
+      } else if (room.gameState.game_active === true) {
+        handlers.handleLeavingGameInProgress(room, client)
+        if (room.gameState.phase === 'voting') {
+          console.log(room.gameState.phase)
+          const checkVotingState = handlers.handleVote(null, user, room, 1)
+          voting(checkVotingState)
+        } else if (room.gameState.phase === 'lounge') {
+
+          // we might need a possible stop at lounge, need to address if a person leaves -- Laurent
+        }
+      }
     })
 
 
@@ -144,9 +167,9 @@ io.on('connection', client => {
     client.on('voting-start', () => {
       console.log('emit voting-start -> emit remove-lobby')
       io.to(room.room_id).emit('remove-lobby')
-      console.log('gameState update, number of players fixed update')
-      handlers.handleCreateLeaderboard(room) // sets game_active to true
-      handlers.handleCreateLobby
+      room.gameState.phase = 'voting'
+      //console.log('gameState update, number of players fixed update')
+      handlers.handleCreateLeaderboard(room) // also sets game_active to true
       console.log('crush start emit')
       io.to(room.room_id).emit('crush-start', handlers.handleCrushes(room))
     })
@@ -159,23 +182,9 @@ io.on('connection', client => {
 
     // CRUSHES TRANSITION
     client.on('voted_crush', (votedCrush) => {
-      const checkVotingState = handlers.handleVote(votedCrush, user, room)
+      const checkVotingState = handlers.handleVote(votedCrush, user, room, null)
       console.log(checkVotingState)
-      if (typeof checkVotingState === "string") {
-        io.to(room.room_id).emit('client_voted', checkVotingState)
-      } else {
-        io.to(room.room_id).emit('client_voted', checkVotingState.clientId)
-        console.log('crush id', checkVotingState.topVotedCrush.id)
-        let crush = handlers.handleGetCrushFromId(checkVotingState.topVotedCrush.id)
-        let tempCrush = { ...crush }
-        delete tempCrush.categoryHard
-        console.log('tempCrush', tempCrush)
-        io.to(room.room_id).emit('crush_voting_result', tempCrush)
-        setTimeout(() => {
-          console.log('set timeout voted_crush')
-          gameTimer('start-crush-timer', 'remove-crush', 'trivia', 5, tempCrush.categoryEasy.name)
-        }, 3000);
-      }
+      voting(checkVotingState)
     })
 
 
@@ -184,11 +193,12 @@ io.on('connection', client => {
     // GAME TIMER (used to advance phase)
     function gameTimer(startEmit, cleanEmit, nextPhase, counter, triviaInfo) {
       // trivia info alternates between category info and result info
+      room.phase = 'trivia'
       let timer = setInterval(function () {
         io.to(room.room_id).emit(startEmit, counter, triviaInfo) // start phase
         counter--
 
-        if (counter <= 0) {
+        if (counter < 0) {
           io.to(room.room_id).emit(cleanEmit) // clean up
           phaseAdvance(nextPhase) // next phase
           clearInterval(timer)
@@ -196,11 +206,31 @@ io.on('connection', client => {
       }, 1000)
     }
 
+    // PHASE VOTING
+    function voting(checkVotingState) {
+      if (typeof checkVotingState === "number") {
+        io.to(room.room_id).emit('client_voted', checkVotingState)
+      } else {
+        io.to(room.room_id).emit('client_voted', checkVotingState.clientId)
+        console.log('crush id', checkVotingState.topVotedCrush.id)
+        let crush = handlers.handleGetCrushFromId(checkVotingState.topVotedCrush.id)
+        let tempCrush = { ...crush }
+        delete tempCrush.categoryHard
+        //console.log('tempCrush', tempCrush)
+        io.to(room.room_id).emit('crush_voting_result', tempCrush)
+        setTimeout(() => {
+          //console.log('set timeout voted_crush')
+          gameTimer('start-crush-timer', 'remove-crush', 'trivia', 5, tempCrush.categoryEasy.name)
+        }, 3000)
+      }
+    }
+
 
     // PHASE TRIVIA
     async function trivia(triviaInfo) {
       let { amount, id, difficulty } = triviaInfo
       let nextPhase = null
+      room.gameState.phase = 'trivia'
       if (room.gameState.triviaIndex < 2) {
         nextPhase = 'lounge'
       } else if (room.gameState.triviaIndex === 2) {
@@ -220,8 +250,8 @@ io.on('connection', client => {
 
       let clientTriviaQuestions = handlers.handleTrivia(data.results, room)
 
-      console.log('clientTriviaQuestions', clientTriviaQuestions)
-      
+      //console.log('clientTriviaQuestions', clientTriviaQuestions)
+
       // THIS IS WHERE TRIVIA GETS INITILIAZED EVERY TIME
 
       io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
@@ -234,6 +264,7 @@ io.on('connection', client => {
     // PHASE LOUNGE
     function lounge(gameInfo) {
       let nextTrivia = gameInfo.nextTrivia
+      room.gameState.phase = 'lounge'
       room.gameState.triviaIndex++
       io.to(room.room_id).emit('create-lounge', gameInfo)
       gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 30, nextTrivia)
@@ -242,19 +273,24 @@ io.on('connection', client => {
 
     // PHASE VICTORY
     function victory() {
-      // room.gameState.triviaIndex = 0
+
       console.log('victory phase start')
+      room.gameState.phase = 'trivia'
       let leaderboard = handlers.handleUpdateLeaderboard(room)
       console.log('final room', room)
       console.log('final room', room.gameState)
+
       console.log('final user', user)
       console.log('final user', user.game)
+
       console.log('final leaderboard', leaderboard)
 
       console.log('easy error', user.game.trivia.easy.errors)
       console.log('completed easy', user.game.trivia.easy.questions)
+
       console.log('medium error', user.game.trivia.medium.errors)
       console.log('completed medium', user.game.trivia.medium.questions)
+
       console.log('hard error', user.game.trivia.hard.errors)
       console.log('completed hard', user.game.trivia.hard.questions)
       io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(room, leaderboard))
@@ -265,42 +301,43 @@ io.on('connection', client => {
     function phaseAdvance(phase) {
       let triviaInfo = null
       let gameInfo = null
-      if (phase === 'trivia') {
-        if (room.gameState.triviaIndex === 0) {
-          triviaInfo = room.gameState.topVotedCrush.categoryEasy
-          triviaInfo.difficulty = 'easy'
-          triviaInfo.amount = '20'
-        } else if (room.gameState.triviaIndex === 1) {
-          triviaInfo = room.gameState.topVotedCrush.categoryMedium
-          triviaInfo.difficulty = 'medium'
-          triviaInfo.amount = '20'
-        } else if (room.gameState.triviaIndex === 2) {
-          triviaInfo = room.gameState.topVotedCrush.categoryHard
-          triviaInfo.difficulty = 'hard'
-          triviaInfo.amount = '20'
-        }
-        trivia(triviaInfo)
-        return
+      if (Object.keys(room.clients).length) {
+        if (phase === 'trivia') {
+          if (room.gameState.triviaIndex === 0) {
+            triviaInfo = room.gameState.topVotedCrush.categoryEasy
+            triviaInfo.difficulty = 'easy'
+            triviaInfo.amount = '20'
+          } else if (room.gameState.triviaIndex === 1) {
+            triviaInfo = room.gameState.topVotedCrush.categoryMedium
+            triviaInfo.difficulty = 'medium'
+            triviaInfo.amount = '20'
+          } else if (room.gameState.triviaIndex === 2) {
+            triviaInfo = room.gameState.topVotedCrush.categoryHard
+            triviaInfo.difficulty = 'hard'
+            triviaInfo.amount = '20'
+          }
+          trivia(triviaInfo)
+          return
 
-      } else if (phase === 'lounge') {
-        if (room.gameState.triviaIndex === 0) {
+        } else if (phase === 'lounge') {
           let leaderboard = handlers.handleUpdateLeaderboard(room)
-          let dialogue = analytics(room, leaderboard, null)
-          let nextTrivia = room.gameState.topVotedCrush.categoryMedium.name
-          gameInfo = handlers.handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia)
+          if (room.gameState.triviaIndex === 0) {
+            let dialogue = analytics(room, leaderboard, null)
+            let nextTrivia = room.gameState.topVotedCrush.categoryMedium.name
+            gameInfo = handlers.handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia)
 
-        } else if (room.gameState.triviaIndex === 1) {
-          let leaderboard = handlers.handleUpdateLeaderboard(room)
-          let dialogue = analytics(room, null, leaderboard)
-          let nextTrivia = room.gameState.topVotedCrush.categoryHard.name
-          gameInfo = handlers.handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia)
+          } else if (room.gameState.triviaIndex === 1) {
+            let dialogue = analytics(room, null, leaderboard)
+            let nextTrivia = room.gameState.topVotedCrush.categoryHard.name
+            gameInfo = handlers.handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia)
+          }
+          lounge(gameInfo)
+          return
+
+        } else if (phase === 'victory') {
+          victory()
+          return
         }
-        lounge(gameInfo)
-        return
-
-      } else if (phase === 'victory') {
-        victory()
-        return
       }
     }
 
@@ -320,14 +357,6 @@ io.on('connection', client => {
         io.to(room.room_id).emit("update-leaderboard", leaderboard)
       }
     })
-
-    // // io.to(client.id).emit('trivia_reset_state', data)
-
-    // client.on('trivia_next_question', () => {
-    //   const { nextTrivia, animate } = handlers.nextTrivia(user, room)
-    //   console.log(nextTrivia)
-    //   io.to(client.id).emit('trivia-question', nextTrivia, animate)
-    // })
 
 
     // RETURN TO LOBBY TRANSITION

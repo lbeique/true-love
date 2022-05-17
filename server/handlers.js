@@ -120,9 +120,10 @@ function handleServerJoin(client, user_id, user_name) {
     const user = {
         socketId: client.id,
         username: user_name,
-        userId: user_id,
+        userId: +user_id,
         avatar: randomAvatars[avatarIndex],
         roomId: null, // Foreign Key for DB ?
+        active: true,
         game: {
             crushVote: null,
             trivia: {
@@ -181,12 +182,6 @@ function handleGetUserFromUserId(userId) {
     return
 }
 
-function handleServerDisconnect(client) {
-    console.log(`${client.id} has been disconnected from the server`);
-    delete socketUsers[client.id];
-    return
-}
-
 // API FETCH TOKEN
 async function fetchTriviaToken() {
     const response = await fetch(`https://opentdb.com/api_token.php?command=request`)
@@ -212,6 +207,7 @@ async function handleCreateLobby(roomId, roomName, roomCode, user_info) {
                 game_active: false,
                 usersVoted: false,
                 triviaIndex: 0,
+                phase: 'lobby',
                 randomizedCrushes: [],
                 topVotedCrush: {},
                 votes: [],
@@ -233,7 +229,14 @@ async function handleCreateLobby(roomId, roomName, roomCode, user_info) {
 }
 
 function handleGetAllLobbies() {
-    return lobbyRooms
+    let nonActiveLobbies = []
+    console.log('all lobbies active or not', lobbyRooms)
+    for (const lobby in lobbyRooms) {
+        if (lobbyRooms[lobby].gameState.game_active === false) {
+            nonActiveLobbies.push(lobbyRooms[lobby])
+        }
+    }
+    return nonActiveLobbies
 }
 
 function handleGetLobbyFromId(roomId) {
@@ -243,7 +246,7 @@ function handleGetLobbyFromId(roomId) {
 function handleGetLobbyFromCode(roomCode) {
     for (const lobby in lobbyRooms) {
         if (lobbyRooms[lobby].room_code === roomCode) {
-            console.log('get lobby from code lobbyRooms[lobby]', lobbyRooms[lobby])
+            // console.log('get lobby from code lobbyRooms[lobby]', lobbyRooms[lobby])
             return lobbyRooms[lobby]
         }
     }
@@ -251,44 +254,59 @@ function handleGetLobbyFromCode(roomCode) {
 }
 
 function handleLobbyJoin(roomId, client) {
-    console.log('handle lobby join room Id', roomId)
+    // console.log('handle lobby join room Id', roomId)
 
     socketUsers[client.id].roomId = roomId
-    console.log(socketUsers[client.id])
+    // console.log(socketUsers[client.id])
 
     const connectedClient = socketUsers[client.id]
     lobbyRooms[roomId].clients[connectedClient.socketId] = connectedClient
     lobbyRooms[roomId].num_clientInRoom++
-    console.log('handle lobby join room', lobbyRooms[roomId])
+    // console.log('handle lobby join room', lobbyRooms[roomId])
     return lobbyRooms[roomId]
 }
 
-function handleDeleteLobby(roomId) {
-    for (const client in socketUsers) {
-        if (socketUsers[client].roomId === roomId) {
-            socketUsers[client].roomId = null
+function handleLobbyCleanUp(roomId) {
+    let players = lobbyRooms[roomId].clients
+    console.log('removing players from room', players)
+    for (const player in players) {
+        if (players[player].active === false) {
+            let socketId = players[player].socketId
+            delete lobbyRooms[roomId].clients[socketId]
+            delete socketUsers[socketId];
         }
     }
+    return
+}
+
+function handleDeleteLobby(roomId) {
+    // for (const client in socketUsers) {
+    //     if (socketUsers[client].roomId === roomId) {
+    //         socketUsers[client].roomId = null
+    //     }
+    // }
+    handleLobbyCleanUp(roomId)
+    console.log(lobbyRooms[roomId])
     delete lobbyRooms[roomId]
     return
 }
 
 // Should now transfer host if host leaves
 function handleLobbyDisconnect(roomId, client) {
-    socketUsers[client.id].roomId = null
     const connectedClient = socketUsers[client.id]
-    if (connectedClient.userId === lobbyRooms[roomId].creator_id && Object.keys(lobbyRooms[roomId].clients).length >= 1) {
-        delete lobbyRooms[roomId].clients[connectedClient.socketId]
-        lobbyRooms[roomId].creator_id = Object.values(lobbyRooms[roomId].clients)[0].userId
-        lobbyRooms[roomId].creator_name = Object.values(lobbyRooms[roomId].clients)[0].userName
-    } else {
-        delete lobbyRooms[roomId].clients[connectedClient.socketId]
-    }
+    delete lobbyRooms[roomId].clients[connectedClient.socketId]
     lobbyRooms[roomId].num_clientInRoom--
-    console.log(lobbyRooms[roomId].clients)
+    console.log('users active in the room', lobbyRooms[roomId].clients)
     if (Object.keys(lobbyRooms[roomId].clients).length === 0) {
         handleDeleteLobby(roomId)
     }
+    delete socketUsers[client.id];
+    return
+}
+
+function handleLobbyTransfer(roomId, user) {
+    lobbyRooms[roomId].creator_id = user.userId
+    lobbyRooms[roomId].creator_name = user.username
     return
 }
 
@@ -297,13 +315,28 @@ function handleGetLobbyPlayers(roomId) {
 }
 
 
-// GAME STATE ACTIVE HANDLER
-function handleGameState(room) {
-    room.gameState.game_active = true
-    console.log("UPDATED GAME STATE", room)
+// // GAME STATE ACTIVE HANDLER
+// function handleGameState(room) {
+//     room.gameState.game_active = true
+//     console.log("UPDATED GAME STATE", room)
+//     return
+// }
+
+function handleLeavingGameInProgress(room, client) {
+    room.clients[client.id].active = false
+    lobbyRooms[room.room_id].num_clientInRoom--
+    let players = room.clients
+    let activePlayers = 0
+    for (const player in players) {
+        if (players[player].active === true) {
+            activePlayers++
+        }
+    }
+    if (activePlayers === 0) {
+        handleDeleteLobby(room.room_id)
+    }
     return
 }
-
 
 // CRUSHES
 function handleCrushes(room) {
@@ -344,24 +377,33 @@ function handleCrushes(room) {
 function handleGetCrushFromId(crushId) {
     for (const crush of crushes) {
         if (crush.id === crushId) {
-            console.log('crush', crush)
+            //console.log('crush', crush)
             return crush
         }
     }
 }
 
-function handleVote(votedCrush, user, room) {
+function handleVote(votedCrush, user, room, novote) {
 
-    console.log("PASSED user", user)
+    //console.log("PASSED user", user)
+    console.log(novote)
+    if (!novote) {
+        user.game.crushVote = votedCrush.id
+        room.gameState.votes.push(votedCrush.id)
+    }
 
-    user.game.crushVote = votedCrush.id
-
-    room.gameState.votes.push(votedCrush.id)
-
-    console.log('gameStateVotes track', room.gameState.votes) // basically trackVoteArr
-
+    //console.log('gameStateVotes track', room.gameState.votes) // basically trackVoteArr
+    let playersLeftToVote = 0
+    let players = room.clients
+    for (const player in players) {
+        if (players[player].game.crushVote === null && players[player].active === true) {
+            playersLeftToVote++
+        }
+    }
     // This will need to change slightly, need to add a check to make sure everyone present in lobby has voted as well - Laurent
-    if (room.gameState.votes.length >= room.num_clientInRoom && !room.gameState.usersVoted) {
+    console.log(room.gameState)
+    if (room.gameState.votes.length >= room.num_clientInRoom && !room.gameState.usersVoted && room.gameState.votes.length > 0 && playersLeftToVote === 0) {
+        console.log(room.gameState.votes.length)
         const resultCalculation = {}
         room.gameState.usersVoted = true
         let mostVotedCrushId = 0;
@@ -377,7 +419,7 @@ function handleVote(votedCrush, user, room) {
 
         }
 
-        console.log("RESULT CALCULATION", resultCalculation)
+        //console.log("RESULT CALCULATION", resultCalculation)
 
         for (let result in resultCalculation) {
             if (resultCalculation[result] >= highestVotes) {
@@ -399,11 +441,11 @@ function handleVote(votedCrush, user, room) {
 
         const gameState = room.gameState
 
-        console.log('VOTED CRUSH ID', mostVotedCrushId)
+        //console.log('VOTED CRUSH ID', mostVotedCrushId)
 
         gameState.topVotedCrush = crushes.filter(crush => crush.id === +mostVotedCrushId)[0]
 
-        console.log('Vtop', gameState.topVotedCrush)
+        //console.log('Vtop', gameState.topVotedCrush)
 
         const data = {
             topVotedCrush: gameState.topVotedCrush,
@@ -414,7 +456,7 @@ function handleVote(votedCrush, user, room) {
 
     } else {
 
-        return user.userId // returns a string
+        return user.userId // returns a number
 
     }
 }
@@ -510,7 +552,7 @@ function checkTriviaAnswer(user, room, answer) {
         correctAnswer = room.gameState.triviaGames.hardAnswers[userProgressIndex]
         errors = user.game.trivia.hard.errors[userProgressIndex]
     }
-    
+
 
     if (answer !== correctAnswer) {
         user.game.trivia.animate = 1
@@ -672,24 +714,26 @@ function userReset(user) {
 
 // Victory
 function handleGetVictory(room, leaderboard) {
+    if (room) {
+        // NEEDS TO CHANGE -- Laurent
+        let winner = leaderboard[0]
 
-    // NEEDS TO CHANGE -- Laurent
-    let winner = leaderboard[0]
-
-    // SAVE GAME TO DATABASE HERE
-
-
+        // SAVE GAME TO DATABASE HERE
 
 
-    // GAME RESET
-    gameReset(room)
 
-    return { winner, leaderboard }
+        handleLobbyCleanUp(room.room_id)
+        // GAME RESET
+        gameReset(room)
+
+        return { winner, leaderboard }
+    }
 }
 
 
 function handleCreateLeaderboard(room) {
     let players = room.clients
+    room.gameState.game_active = true
     for (const player in players) {
 
         /////////// PLAYER OBJECT USED IN ANALYTICS /////////
@@ -719,7 +763,7 @@ function handleUpdateLeaderboard(room) {
     for (const player in players) {
         for (let i = 0; i < leaderboard.length; i++) {
             if (leaderboard[i].userId === players[player].userId) {
-                players[player].game.position = i
+                players[player].game.position = i + 1
             }
         }
     }
@@ -744,12 +788,9 @@ function handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia) {
 
 module.exports = {
     handleServerJoin,
-    handleServerDisconnect,
     handleGetAllUsers,
     handleGetUserFromClientId,
     handleGetUserFromUserId,
-
-    handleGameState,
 
     handleCreateLeaderboard,
     handleUpdateLeaderboard,
@@ -772,6 +813,9 @@ module.exports = {
     handleLobbyDisconnect,
     handleDeleteLobby,
     handleGetLobbyPlayers,
+    handleLobbyTransfer,
+    handleLeavingGameInProgress,
+    handleLobbyCleanUp,
 
     handleGetVictory
 }
