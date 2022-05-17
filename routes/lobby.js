@@ -57,7 +57,6 @@ router.post("/joinLobby", (req, res) => {
         res.status(404).redirect('/')
         return
     }
-    console.log(req.body.room_code)
     const room = handlers.handleGetLobbyFromCode(req.body?.room_code)
     console.log('joinLobby room', room)
     if (!room) {
