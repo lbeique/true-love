@@ -35,6 +35,7 @@ app.set('socketio', io)
 app.set('view engine', 'ejs')
 app.use(express.static("./public"))
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
 
 
 
@@ -78,9 +79,9 @@ io.on('connection', client => {
   })
 
   // SERVER JOIN
-  client.on('join-room', (roomId, userId, userName) => {
+  client.on('join-room', (roomId, userId, userName, avatarName) => {
 
-    let user = handlers.handleServerJoin(client, userId, userName)
+    let user = handlers.handleServerJoin(client, userId, userName, avatarName)
     console.log('join-room user: ', user)
     if (!user) {
       // NEED TO DEAL WITH USERS HERE (handler failed to join user) - Laurent
@@ -238,18 +239,25 @@ io.on('connection', client => {
         nextPhase = 'victory'
       }
       console.log('trivia phase start')
-      const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
+      // const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
+
+      console.log('amount', amount, 'id', id, 'difficulty', difficulty)
+
+      const response = await fetch(`https://the-trivia-api.com/api/questions?categories=${id}&limit=${amount}&difficulty=${difficulty}`)
       const data = await response.json()
 
+      console.log('api data', data.length)
+      console.log('api data', data)
+      
       // console.log(data.results)
 
-      if (data.response_code === 4) {
-        await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
-        response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
-        data = await response.json()
-      }
+      // if (data.response_code === 4) {
+      //   await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
+      //   response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
+      //   data = await response.json()
+      // }
 
-      let clientTriviaQuestions = handlers.handleTrivia(data.results, room)
+      let clientTriviaQuestions = handlers.handleTrivia(data, room)
 
       //console.log('clientTriviaQuestions', clientTriviaQuestions)
 
@@ -268,33 +276,19 @@ io.on('connection', client => {
       room.gameState.phase = 'lounge'
       room.gameState.triviaIndex++
       io.to(room.room_id).emit('create-lounge', gameInfo)
-      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 30, nextTrivia)
+      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', +process.env.LOUNGE_COUNT, nextTrivia)
     }
 
 
     // PHASE VICTORY
-    function victory() {
+    async function victory() {
 
       console.log('victory phase start')
       room.gameState.phase = 'trivia'
-      let leaderboard = handlers.handleUpdateLeaderboard(room)
-      console.log('final room', room)
-      console.log('final room', room.gameState)
+      // await handlers.handleGameSave(room)
+      const victoryObject = await handlers.handleGetVictory(room)
 
-      console.log('final user', user)
-      console.log('final user', user.game)
-
-      console.log('final leaderboard', leaderboard)
-
-      console.log('easy error', user.game.trivia.easy.errors)
-      console.log('completed easy', user.game.trivia.easy.questions)
-
-      console.log('medium error', user.game.trivia.medium.errors)
-      console.log('completed medium', user.game.trivia.medium.questions)
-
-      console.log('hard error', user.game.trivia.hard.errors)
-      console.log('completed hard', user.game.trivia.hard.questions)
-      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(room, leaderboard))
+      io.to(room.room_id).emit('create-victory', victoryObject)
     }
 
 

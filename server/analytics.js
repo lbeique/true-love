@@ -115,7 +115,7 @@ function analytics(room, firstLeaderboard, secondLeaderboard) {
             dialogue.push(`${secondLeaderboard[0].username} is in the lead with ${secondLeaderboard[0].points} points`)
         }
         if (secondLeaderboard.length > 1) {
-            dialogue.push(`You can do it! ${secondLeaderboard[secondLeaderboard.length - 1].username} I believe in you!`)
+            dialogue.push(`You can do it ${secondLeaderboard[secondLeaderboard.length - 1].username}! I believe in you!`)
         }
         let howCloseIsGame = howCloseIsGameCalculator(secondLeaderboard)
         if (howCloseIsGame <= 5) {
