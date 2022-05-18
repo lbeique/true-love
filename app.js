@@ -259,10 +259,9 @@ io.on('connection', client => {
 
       let clientTriviaQuestions = handlers.handleTrivia(data, room)
 
-      //console.log('clientTriviaQuestions', clientTriviaQuestions)
-
-      // THIS IS WHERE TRIVIA GETS INITILIAZED EVERY TIME
-
+      console.log('clientTriviaQuestions', clientTriviaQuestions)
+      
+      io.to(room.room_id).emit('setup-sidebar-trivia', handlers.handleUpdateLeaderboard(room))
       io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
       io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0, 0)
 
@@ -276,7 +275,9 @@ io.on('connection', client => {
       room.gameState.phase = 'lounge'
       room.gameState.triviaIndex++
       io.to(room.room_id).emit('create-lounge', gameInfo)
+      io.to(room.room_id).emit('setup-sidebar-lounge')
       gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', +process.env.LOUNGE_COUNT, nextTrivia)
+
     }
 
 

@@ -1,3 +1,4 @@
+
 socket.on('crush-start', (crushes) => {
 
     // The client 'crush' objects passed in this array look something like this
@@ -158,8 +159,15 @@ socket.on('remove-crush', () => {
     const reveal__container = document.querySelector('.overlay__container')
     const revealOverlay = document.querySelector('.overlay')
 
+    console.log("REMOVE LISTENER CRUSH")
+    const sidebar__container = document.querySelector('.sidebar__container')
+    const eventListener = sidebar__container.getEventListeners()['click'][0]
+    sidebar__container.removeEventListener('click', eventListener.listener, eventListener.useCapture)
+
     reveal__container.remove()
-    carousel.remove()
+    // carousel.remove()
+    carousel.classList.add('hide')
     section__crushes.classList.add('hide')
     revealOverlay.classList.add('hide')
+
 })

@@ -1,5 +1,89 @@
 
 
+// SIDEBAR TOGGLES
+
+
+function sidebarToggle(){
+
+    console.log("NORMAL TOGGLE")
+
+    const section__sidebar = document.querySelector('.section-sidebar')
+    const sidebar__container = document.querySelector('.sidebar__container')
+    const sidebar__players = document.querySelector('.sidebar__players')
+
+    document.querySelector('.sidebar__header-text').classList.toggle('hide')
+
+    section__sidebar.classList.toggle('section-sidebar--close')
+    section__sidebar.classList.toggle('section-sidebar--open')
+    sidebar__players.classList.toggle('sidebar__players--close')
+    sidebar__players.classList.toggle('sidebar__players--open')
+    sidebar__container.classList.toggle('sidebar__container--close')
+    sidebar__container.classList.toggle('sidebar__container--open')
+
+    document.querySelectorAll('.player__info').forEach((player) => {
+        player.classList.toggle('hide')
+    })
+
+    document.querySelectorAll('.player__avatarContainer').forEach((avatar) => {
+        avatar.classList.toggle('player__avatarContainer--close')
+        avatar.classList.toggle('player__avatarContainer--open')
+    })
+
+  
+    document.querySelector('.player__youContainer').classList.toggle('player__youContainer--close')
+    document.querySelector('.player__youContainer').classList.toggle('player__youContainer--open')
+    document.querySelector('.player__youText').classList.toggle('hide')
+
+}
+
+function toggleLounge(){
+
+    console.log("TOGGLE LOUNGE")
+
+    const section__sidebar = document.querySelector('.section-sidebar')
+    section__sidebar.classList.toggle('section-sidebar--open-votingLounge')
+
+    document.querySelector('.carousel').classList.toggle('carousel__slide--moveRight')
+    document.querySelector('.carousel').classList.toggle('carousel__slide--moveBack')
+    document.querySelector('.carousel__slide').classList.toggle('carousel__slide--move')
+    document.querySelector('.carousel__slide').classList.toggle('carousel__slide--original')
+    document.querySelector('.carousel__slideText').classList.toggle('carousel__slideText--original')
+    document.querySelector('.carousel__slideText').classList.toggle('carousel__slideText--move')
+
+    document.querySelectorAll('.player__avatarContainer').forEach((node) => node.classList.toggle('margin-left-5'))
+    document.querySelectorAll('.player__position').forEach((node) => node.classList.toggle('hide'))
+
+    const result = document.querySelector('.carousel').classList.toggle('carousel--moveRight')
+    if(result){
+        document.querySelector('.carousel').classList.remove('carousel--moveBack')
+    } else{
+        document.querySelector('.carousel').classList.add('carousel--moveBack')
+    }
+
+}
+
+function toggleTrivia(){
+
+    console.log("TOGGLE TRIVIA")
+
+    const section__sidebar = document.querySelector('.section-sidebar')
+    const sidebar__overlay = document.querySelector('.sidebar__overlay')
+
+    section__sidebar.classList.toggle('section-sidebar--close')
+    section__sidebar.classList.toggle('section-sidebar--open-trivia')
+
+    document.querySelectorAll('.player__avatarContainer').forEach((node) => node.classList.toggle('margin-left-5'))
+    document.querySelectorAll('.player__position').forEach((node) => node.classList.toggle('hide'))
+
+    sidebar__overlay.classList.toggle('hide')
+
+}
+
+
+
+
+
+
 socket.on('receive room_clients', (room) => {
 
     console.log("ROOM", room)
@@ -26,9 +110,13 @@ socket.on('receive room_clients', (room) => {
 
     sidebar__header.innerHTML = '<i class="fa-solid fa-flag-checkered"></i> <span class="sidebar__header-text hide"> LEADERBOARD<span>'
 
-    sidebar__container.addEventListener('click', (event) => {
+
+    console.log("ADDED LISTENER VOTING")
+    sidebar__container.addEventListener('click', function votingSidebar(event) {
         event.preventDefault()
         sidebarToggle()
+
+        section__sidebar.classList.toggle('section-sidebar--open-votingLounge')
 
         carousel__leftBtn.classList.toggle('carousel__btn--left')
         carousel__leftBtn.classList.toggle('carousel__btn--left-move')
@@ -48,6 +136,7 @@ socket.on('receive room_clients', (room) => {
             voting__carousel.classList.add('carousel--moveBack')
         }
     })
+    // console.log('CURRENT HADNLER', document.querySelector('.sidebar__container').getEventListeners())
 
     const clients = room.clients
 
@@ -62,46 +151,6 @@ socket.on('receive room_clients', (room) => {
     section__voting.prepend(section__sidebar)
 
 })
-
-
-
-
-
-
-function sidebarToggle(){
-
-    const section__sidebar = document.querySelector('.section-sidebar')
-    const sidebar__container = document.querySelector('.sidebar__container')
-    const sidebar__players = document.querySelector('.sidebar__players')
-
-    document.querySelector('.sidebar__header-text').classList.toggle('hide')
-
-    section__sidebar.classList.toggle('section-sidebar--close')
-    section__sidebar.classList.toggle('section-sidebar--open')
-    section__sidebar.classList.toggle('section-sidebar--open-votingLounge')
-    sidebar__players.classList.toggle('sidebar__players--close')
-    sidebar__players.classList.toggle('sidebar__players--open')
-    sidebar__container.classList.toggle('sidebar__container--close')
-    sidebar__container.classList.toggle('sidebar__container--open')
-
-    document.querySelectorAll('.player__info').forEach((player) => {
-        player.classList.toggle('hide')
-    })
-
-    document.querySelectorAll('.player__avatarContainer').forEach((avatar) => {
-        avatar.classList.toggle('player__avatarContainer--close')
-        avatar.classList.toggle('player__avatarContainer--open')
-    })
-
-  
-    document.querySelector('.player__youContainer').classList.toggle('player__youContainer--close')
-    document.querySelector('.player__youContainer').classList.toggle('player__youContainer--open')
-
-    document.querySelector('.player__youText').classList.toggle('hide')
-
-}
-
-
 
 
 
@@ -170,6 +219,77 @@ socket.on('client_voted', (clientID) => {
 
 })
 
+function returnPosition(positionNum){
+    
+    const checkRemainder = positionNum % 10
+
+    switch(checkRemainder){
+        case 1:
+            return `${positionNum}st`
+        case 2:
+            return`${positionNum}nd`
+        case 3:
+            return`${positionNum}rd`
+        default:
+            return`${positionNum}th`
+    }
+
+}
+
+socket.on('setup-sidebar-trivia', (leaderboard) => { // ! Everything that was '--open' must be '--close'
+
+    const section__trivia = document.querySelector('.section-trivia')
+    const section__sidebar = document.querySelector('.section-sidebar')
+    const sidebar__container = document.querySelector('.section-sidebar')
+    // const player__containers = document.querySelectorAll('.player__container')
+
+    const sidebar__overlay = document.createElement('div')
+    sidebar__overlay.classList.add('sidebar__overlay', 'hide')
+
+    if(section__sidebar.classList.contains('section-sidebar--open')){
+        sidebarToggle()
+    }
+
+    let counter = 1;
+    for(let i = 0; i < leaderboard.length; i++){ 
+
+        const player = leaderboard[i]
+
+        const player__container = document.querySelector(`.player-${player.userId}`)
+        const info__note = document.querySelector(`.player-${player.userId} .info__note`)
+        const player__youText = document.querySelector('.player__youText')
+
+        const player__position = document.createElement('span')
+        player__position.classList.add('player__position', 'hide')
+
+        position = returnPosition(counter)
+
+        info__note.innerHTML = `${player.points} pts`
+        player__position.innerHTML = `${position}`
+        if(USER_ID === player.userId){
+            player__youText.innerHTML = `${position}`
+        }
+
+        player__container.prepend(player__position)
+
+        counter++
+
+    }
+
+    console.log("ADDED LISTENER TRIVIA")
+    sidebar__container.addEventListener('click', function triviaSidebar(event) {
+        event.preventDefault()
+        sidebarToggle()
+        toggleTrivia()
+    })
+    console.log('CURRENT TRIVIA HADNLER', sidebar__container.getEventListeners())
+   
+    section__trivia.appendChild(sidebar__overlay)
+    section__trivia.appendChild(section__sidebar)
+    
+})
+
+
 socket.on('update-leaderboard', (leaderboard) => {
     ///////////////////////////////////////////////////
     // This is what the leaderboard looks like:
@@ -181,119 +301,105 @@ socket.on('update-leaderboard', (leaderboard) => {
     // }, {}]
     ////////////////////////////////////////////////////
 
-    // leaderboard stuff goes here?
+    const sidebar__players = document.querySelector('.sidebar__players')
 
+    let counter = 1;
+    for(let i = 0; i < leaderboard.length; i++){ 
+        const player = leaderboard[i]
+
+        const player__container =  document.querySelector(`.player-${player.userId}`)
+        const info__note = document.querySelector(`.player-${player.userId} .info__note`)
+        const player__position = document.querySelector(`.player-${player.userId} .player__position`)
+
+        const prevPosition = player__position.textContent.substring(0, 1)
+        const currentPosition = counter
+
+        info__note.innerHTML = `${player.points} pts`
+        let position = returnPosition(currentPosition)
+    
+        player__position.innerHTML = `${position}`
+
+        if(USER_ID == player.userId){
+            const player__YOUtext = document.querySelector(`.player-${player.userId} .player__youText`)
+            player__YOUtext.innerHTML = `${position}`
+        }
+
+        if(currentPosition < +prevPosition){
+
+            player__container.classList.add('player__container--moveUp')
+            setTimeout(() => {
+                player__container.classList.remove('player__container--moveUp')
+            }, 1000)
+
+            player__container.remove()
+
+        } else if(currentPosition > +prevPosition){
+
+            player__container.classList.add('player__container--moveDown')
+            setTimeout(() => {
+                player__container.classList.remove('player__container--moveDown')
+            }, 1000)
+            player__container.remove()
+
+        }
+
+        sidebar__players.appendChild(player__container)
+
+        counter++
+    }
+    
+    
 })
 
 
-// socket.on('setup-sidebar-trivia', () => { // ! Everything that was '--open' must be '--close'
+// LOUNGE
 
-//     const section__trivia = document.querySelector('.section-trivia')
-//     const section__sidebar = document.querySelector('.section-sidebar')
+socket.on('setup-sidebar-lounge', () => {
 
-//     const sidebar__overlay = document.createElement('div')
-//     sidebar__overlay.classList.add('sidebar__overlay', 'hide')
+    const section__sidebar = document.querySelector('.section-sidebar')
+    const section__lounge = document.querySelector('.section-lounge')
+    const sidebar__container = document.querySelector('.sidebar__container')
 
-//     if(section__sidebar.classList.contains('section-sidebar--open')){
-//         console.log("RUNNN")
-//         sidebarToggle()
-//     }
+    if(section__sidebar.classList.contains('section-sidebar--close')){
+        console.log("CLOSED TRIVIA SO OPEN EVERYTHING")
+        sidebarToggle() 
+        toggleLounge() 
+    } else if(section__sidebar.classList.contains('section-sidebar--open')){
+        console.log("OPEN TRIVIA SO OPEN VOTING LOUNGE NOW")
+        section__sidebar.classList.remove('section-sidebar--open-trivia')
+        section__sidebar.classList.add('section-sidebar--open-votingLounge')
+    } 
 
-//     section__trivia.appendChild(sidebar__overlay)
-//     section__trivia.appendChild(section__sidebar)
-    
-// })
+    document.querySelector('.carousel').classList.add('carousel__slide--moveRight')
 
-// socket.on('send-updated-leaderboard', (leaderboard) => {
-//     /* 
-//     Data being sent:
-//      Array(2)
-//         0:
-//             avatar: "sunglasses"
-//             points: 10
-//             userId: "8345"
-//             username: "jholman"
-//             [[Prototype]]: Object
-//         1:
-//             avatar: "sunglasses"
-//             points: 5
-//             userId: "2529"
-//             username: "mad max"
-//             [[Prototype]]: Object
-//             length: 2
-//     */
+    console.log("ADDED LISTENER LOUNGE")
+    sidebar__container.addEventListener('click', function loungeSidebar(event){
+        event.preventDefault()
+        sidebarToggle()
 
-//     const section__sidebar = document.querySelector('.section-sidebar')
-//     const sidebar__container = document.querySelector('.sidebar__container')
-//     const sidebar__overlay = document.querySelector('.sidebar__overlay')
+        document.querySelector('.section-sidebar').classList.toggle('section-sidebar--open-votingLounge')
 
-//     // const player__containers = document.querySelectorAll('.player__container')
+        document.querySelector('.carousel').classList.toggle('carousel__slide--moveRight')
+        document.querySelector('.carousel').classList.toggle('carousel__slide--moveBack')
+        document.querySelector('.carousel__slide').classList.toggle('carousel__slide--move')
+        document.querySelector('.carousel__slide').classList.toggle('carousel__slide--original')
+        document.querySelector('.carousel__slideText').classList.toggle('carousel__slideText--original')
+        document.querySelector('.carousel__slideText').classList.toggle('carousel__slideText--move')
 
-//     const updatedLeaderboard = []
-    
-//     for(let i = 0; i < leaderboard.length; i++){
+        document.querySelectorAll('.player__avatarContainer').forEach((node) => node.classList.toggle('margin-left-5'))
+        document.querySelectorAll('.player__position').forEach((node) => node.classList.toggle('hide'))
 
-        
-//         const player = leaderboard[i]
+        const result = document.querySelector('.carousel').classList.toggle('carousel--moveRight')
+        if(result){
+            document.querySelector('.carousel').classList.remove('carousel--moveBack')
+        } else{
+            document.querySelector('.carousel').classList.add('carousel--moveBack')
+        }
 
-//         const player__container =  document.querySelector(`.player-${player.userId}`)
-//         const info__note = document.querySelector(`.player-${player.userId} .info__note`)
+    })
+    console.log('CURRENT HADNLER LOUNGE', sidebar__container.getEventListeners())
+   
 
-//         const player__position = document.createElement('span')
+    section__lounge.prepend(section__sidebar)
 
-//         player__position.classList.add('player__position', 'hide')
-
-//         info__note.innerHTML = `${player.points} pts`
-//         const checkRemainder = (i + 1) % 10
-//         let positionResult = ``
-
-//         switch(checkRemainder){
-//             case 1:
-//                 positionResult = `${++i}st`
-//                 break;
-//             case 2:
-//                 positionResult = `${++i}nd`
-//                 break;
-//             case 3:
-//                 positionResult = `${++i}rd`
-//                 break;
-//             default:
-//                 positionResult = `${++i}th`
-//                 break;
-//         }
-    
-//         player__position.innerHTML = `${positionResult}`
-
-//             const player__YOUtext = document.querySelector(`.player-${player.userId} .player__youText`)
-//             player__YOUtext.innerHTML = `${positionResult}` 
-
-        
-
-//         player__container.prepend(player__position)
-    
-//         console.log("PLAYER CONTAINER", player__container)
-//         updatedLeaderboard.push(player__container)
-
-//     }
-    
-//     console.log("updated Leaderboard", updatedLeaderboard)
-
-//     sidebar__container.addEventListener('click', (event) => {
-//         event.preventDefault()
-//         sidebarToggle()
-//         section__sidebar.classList.toggle('section-sidebar--close')
-//         section__sidebar.classList.toggle('section-sidebar--open-trivia')
-
-//         document.querySelectorAll('.player__position').forEach((node) => node.classList.toggle('hide'))
-
-//         sidebar__overlay.classList.toggle('hide')
-
-//     })
-
-//     // sidebar__players.innerHTML = ''
-//     // updatedLeaderboard.map((player) => {
-//     //     sidebar__players.appendChild(player)
-//     // })
-
-// })
-
+})

@@ -141,15 +141,11 @@
     0%{
         width: 0;
         left: -2%;
-       
-
     }
 
     100%{
         width: 90%;
         left: -2%;
-      
-
     }
 
 }
@@ -183,6 +179,24 @@
     100%{
         opacity: 100%;
         transform: translateX(0%)
+    }
+}
+
+@keyframes moveUp{
+    0%{
+        transform: translateY(100%)
+    }
+    100%{
+        transform: translateY(0%)
+    }
+}
+
+@keyframes moveDown{
+    0%{
+        transform: translateY(-100%)
+    }
+    100%{
+        transform: translateY(0%)
     }
 }
 
