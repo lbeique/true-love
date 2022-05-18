@@ -35,6 +35,7 @@ app.set('socketio', io)
 app.set('view engine', 'ejs')
 app.use(express.static("./public"))
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
 
 
 
@@ -78,9 +79,9 @@ io.on('connection', client => {
   })
 
   // SERVER JOIN
-  client.on('join-room', (roomId, userId, userName) => {
+  client.on('join-room', (roomId, userId, userName, avatarName) => {
 
-    let user = handlers.handleServerJoin(client, userId, userName)
+    let user = handlers.handleServerJoin(client, userId, userName, avatarName)
     console.log('join-room user: ', user)
     if (!user) {
       // NEED TO DEAL WITH USERS HERE (handler failed to join user) - Laurent

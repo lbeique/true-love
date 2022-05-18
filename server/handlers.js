@@ -111,17 +111,17 @@ let categories = [ // easy // medium // hard
 
 // Server Handlers
 
-function handleServerJoin(client, user_id, user_name) {
+function handleServerJoin(client, user_id, user_name, avatar_name) {
 
-    const randomAvatars = [`sunglasses`, `hat`, `default`, `bow`];
+    // const randomAvatars = [`sunglasses`, `hat`, `default`, `bow`];
 
-    const avatarIndex = Math.floor(Math.random() * randomAvatars.length);
+    // const avatarIndex = Math.floor(Math.random() * randomAvatars.length);
 
     const user = {
         socketId: client.id,
         username: user_name,
         userId: +user_id,
-        avatar: randomAvatars[avatarIndex],
+        avatar: avatar_name,
         roomId: null, // Foreign Key for DB ?
         active: true,
         game: {
@@ -716,17 +716,9 @@ function userReset(user) {
 // Victory
 async function handleGetVictory(room) {
     if (room) {
-        // NEEDS TO CHANGE -- Laurent
-        let leaderboard = handleUpdateLeaderboard(room)
-
-        let winner = leaderboard[0]
-
-        // SAVE GAME TO DATABASE HERE
-        console.log('final room', room)
-        console.log('final gamestate', room.gameState)
-        console.log('final leaderboard', room.gameState.leaderboard)
 
         let players = room.clients
+
         const params = {
             crush_id: room.gameState.topVotedCrush.id,
             category_easy_id: room.gameState.topVotedCrush.categoryEasy.id,
@@ -734,7 +726,26 @@ async function handleGetVictory(room) {
             category_hard_id: room.gameState.topVotedCrush.categoryHard.id,
             room_name: room.room_name
         }
+
         const values = []
+        const dialogue = []
+        // NEEDS TO CHANGE -- Laurent
+        let leaderboard = handleUpdateLeaderboard(room)
+        if (leaderboard[0].points === leaderboard[1].points) {
+            for (const player in players) {
+                if (players[player].userId === leaderboard[0].userId) {
+                    players[player].game.trivia.hard.points++
+                    dialogue.push(`I am honoured that ${leaderboard[0].username} and ${leaderboard[1].username} fought so hard for my love... but...`)
+                }
+            }
+        }
+        leaderboard = handleUpdateLeaderboard(room)
+
+        // SAVE GAME TO DATABASE HERE
+        console.log('final room', room)
+        console.log('final gamestate', room.gameState)
+        console.log('final leaderboard', room.gameState.leaderboard)
+
         for (const player in players) {
             values.push(
                 [
@@ -749,15 +760,22 @@ async function handleGetVictory(room) {
                     players[player].game.trivia.hard.errors.reduce((accumulator, error) => accumulator + error, 0)
                 ])
         }
+
         console.log('params', params)
         console.log('values', values)
 
-
         handleLobbyCleanUp(room.room_id)
+
         // GAME RESET
         gameReset(room)
 
-        return { winner, leaderboard }
+        const victoryObject = {
+            winner: winner,
+            leaderboard: leaderboard,
+            dialogue: dialogue,
+        }
+
+        return victoryObject
     }
 }
 

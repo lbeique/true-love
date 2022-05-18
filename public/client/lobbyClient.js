@@ -132,7 +132,7 @@ function userList(room) { // USER LIST
     }
 }
 
-socket.emit('join-room', ROOM_ID, USER_ID, USER_NAME)
+socket.emit('join-room', ROOM_ID, USER_ID, USER_NAME, AVATAR_NAME)
 
 // ERROR
 
