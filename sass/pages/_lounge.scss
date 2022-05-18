@@ -3,49 +3,92 @@
 
 }
 
+.lounge{
+    &__timerContainer{
+        position: absolute;
+        display: flex;
+        width: 13em;
+        height: 6em;
+        perspective: 5em;
+        transform-origin: top left;
+        animation: popUpCenter 1s ease backwards; 
 
-// .crush{
+        &--boy{
+            left: 60%;
+            top: 20%;
+        }
 
-//     &__containerLeft{
-//         width: 50%;
-//         height: 100%;
-//         margin: 0;
-//     }
+        &--girl{
+            top: 31%;
 
-//     &__containerRight{
-//         display: flex; 
-//         align-items: center;
-//         justify-content: center;
-//         flex-direction: column;
-//         width: 50%;
-//         height: 100%;
-//         margin: 0;
+            &--open{
+                left: 7%;
+            }
 
+            &--close{
+                left: 31%;
+            }
 
+            
+        }
 
-//         & img{
-//             width: 100%;
-//             height: 50%;
-//             object-fit: contain;
-//         }
-
+    }
     
-//     }
 
+    &__timer{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-23%) rotate(-5deg) rotateY(3deg);
+        background-color: #19083c;
+        border-radius: 10px;
+        color: #19083c;
+        padding-left: 1.5em;
+        padding-bottom: 0.5em;
+        letter-spacing: 2px;
+        font-size: 20px;
 
-// }
+        &::before, &::after{
+            position: absolute;
+            content: '';
+            z-index: -1;
+        }
 
-// .lounge{
-//     &__container{
-//         display: flex;
-//         width: 100%;
-//         height: 90%;
-//     }
-// }
+        &--boy::before{
+            border: solid 0 transparent;
+            border-right: solid 3.5em #D7FF60;
+            border-bottom: solid 1.3em #19083c;
+            width: 0;
+            height: 1em;
+            left: 0.5em;
+            right: 1em;
+            transform: rotate(-20deg) skewX(77deg);
 
-.timer__lounge{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    position: absolute;
+        }
+
+        &--girl::before{
+            border: solid 0 transparent;
+            border-right: solid 3.5em #D7FF60;
+            border-bottom: solid 1.3em #19083c;
+            width: 0;
+            height: 1em;
+            right: -0.5em;
+            transform: rotate(1deg) skewX(74deg)
+
+        }
+
+        &::after{
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border-radius: inherit;
+            transform: rotate(0deg) translate(0.5em, -0.3em) scale(1.02);
+            background: #D7FF60;
+        }
+
+    }
 }

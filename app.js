@@ -253,10 +253,14 @@ io.on('connection', client => {
 
       console.log('clientTriviaQuestions', clientTriviaQuestions)
       
-      io.to(room.room_id).emit('setup-sidebar-trivia', handlers.handleUpdateLeaderboard(room))
+      const sidebarTriviaData = {
+        leaderboard: handlers.handleUpdateLeaderboard(room),
+        phase: room.gameState.phase
+      }
+     
+      io.to(room.room_id).emit('setup-sidebar-trivia', sidebarTriviaData)
       io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
       io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0, 0)
-
       gameTimer('start-trivia-timer', 'remove-trivia', nextPhase, +process.env.TRIVIA_COUNT)
     }
 
@@ -267,8 +271,8 @@ io.on('connection', client => {
       room.gameState.phase = 'lounge'
       room.gameState.triviaIndex++
       io.to(room.room_id).emit('create-lounge', gameInfo)
-      io.to(room.room_id).emit('setup-sidebar-lounge')
-      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 30, nextTrivia)
+      io.to(room.room_id).emit('setup-sidebar-lounge', room.gameState.phase)
+      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 10, nextTrivia) // lounge timer
     }
 
 

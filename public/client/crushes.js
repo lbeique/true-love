@@ -1,3 +1,41 @@
+function crushNameToggle(name, easy, medium){
+    const slide__text = document.querySelector(".carousel__slideText")
+    slide__text.classList.toggle("carousel__slideText--open")
+    slide__text.innerText = ''
+
+    if(slide__text.classList.contains('carousel__slideText--open')){
+        for(let i = 1; i <= 3; i++){
+            const triviaContainer = document.createElement('div')
+            const triviaContainer__top = document.createElement('div')
+            const triviaContainer__bottom = document.createElement('div')
+
+            triviaContainer.classList.add('crush__triviaContainer')
+            triviaContainer__top.classList.add('crush__triviaContainer--top')
+            triviaContainer__bottom.classList.add('crush__triviaContainer--bottom')
+
+            triviaContainer__top.innerText = `Trivia ${i}:`
+            switch(i){
+                case 1:
+                    triviaContainer__bottom.innerText = `${easy}`
+                    break;
+                case 2:
+                    triviaContainer__bottom.innerText = `${medium}`
+                    break;
+                case 3:
+                    triviaContainer__bottom.innerText = `???`
+                    break;
+            }
+
+            triviaContainer.append(triviaContainer__top, triviaContainer__bottom)
+            slide__text.appendChild(triviaContainer)
+
+        }
+    } else{
+        slide__text.innerText = `${name}`
+    }
+
+}
+
 
 socket.on('crush-start', (crushes) => {
 
@@ -28,7 +66,7 @@ socket.on('crush-start', (crushes) => {
     carousel__btnRight.classList.add('carousel__btn', 'carousel__btn--right')
 
     slide__container.classList.add('carousel__slideContainer')
-    slide__text.classList.add('carousel__slideText', 'carousel__slideText--original')
+    slide__text.classList.add( 'carousel__slideText', 'carousel__slideText--original')
     slide.classList.add('carousel__slide', 'carousel__slide--original')
 
     carousel__voteButton.classList.add('btn', 'btn--green', 'carousel__voteButton', 'carousel__voteButton--original')
@@ -39,7 +77,14 @@ socket.on('crush-start', (crushes) => {
 
         const shiftedCrush = crushes.shift()
         crushes.push(shiftedCrush)
-        slide__text.innerText = `${crushes[1].name}`
+        if(slide__text.classList.contains('carousel__slideText--open')){
+            for(let i = 0; i < 2; i++){
+                crushNameToggle(crushes[1].name, crushes[1].categoryEasy, crushes[1].categoryMedium)
+            }
+        } else{
+            slide__text.innerText = `${crushes[1].name}`
+        }
+    
         slide.src = `assets/character-fullbody/${crushes[1].nickname}.png`
 
         slide.classList.remove("carousel__slide--animated");
@@ -56,7 +101,15 @@ socket.on('crush-start', (crushes) => {
 
         const shiftedCrush = crushes.pop()
         crushes.unshift(shiftedCrush)
-        slide__text.innerText = `${crushes[1].name}`
+        // slide__text.innerText = `${crushes[1].name}`
+        if(slide__text.classList.contains('carousel__slideText--open')){
+            for(let i = 0; i < 2; i++){
+                crushNameToggle(crushes[1].name, crushes[1].categoryEasy, crushes[1].categoryMedium)
+            }
+        } else{
+            slide__text.innerText = `${crushes[1].name}`
+        }
+        
         slide.src = `assets/character-fullbody/${crushes[1].nickname}.png`
 
         slide.classList.remove("carousel__slide--animated");
@@ -80,6 +133,13 @@ socket.on('crush-start', (crushes) => {
     slide.src = `assets/character-fullbody/${crushes[1].nickname}.png`
     carousel__btnLeft.src = 'assets/arrows/arrowLeft.png'
     carousel__btnRight.src = 'assets/arrows/arrowRight.png'
+
+    slide__text.addEventListener('click', (event) => {
+        event.preventDefault()
+
+        crushNameToggle(crushes[1].name,crushes[1].categoryEasy, crushes[1].categoryMedium)
+        
+    })
 
     carousel__voteButton.innerText = "SELECT!"
 
@@ -159,10 +219,7 @@ socket.on('remove-crush', () => {
     const reveal__container = document.querySelector('.overlay__container')
     const revealOverlay = document.querySelector('.overlay')
 
-    console.log("REMOVE LISTENER CRUSH")
-    const sidebar__container = document.querySelector('.sidebar__container')
-    const eventListener = sidebar__container.getEventListeners()['click'][0]
-    sidebar__container.removeEventListener('click', eventListener.listener, eventListener.useCapture)
+    document.querySelector('.player__avatarContainer').classList.remove('margin-left-2')
 
     reveal__container.remove()
     // carousel.remove()

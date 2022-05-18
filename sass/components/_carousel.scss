@@ -119,9 +119,9 @@
         height: 10%;
         bottom: 1em;
         top: 5%;
-        left: 50%;
+        left: 40%;
         padding: 10px 20px;
-        transform: translateX(-50%);
+        
         border-radius: 20px;
         margin-bottom: 1em;
         border: 4px solid $tertiary-color;
@@ -130,19 +130,25 @@
         text-align: center;
         font-size: 25px;
         flex-shrink: 0;
-
+        transition: all .2s;
+       
         &--original{
             width: 20%;
         }
 
         &--move{
             width: 50%;
-           
+            left: 20%;
         }
-        
 
         &--animated{
             animation: fadingIn 1s ease;
+        }
+    
+        &--open{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            transform: scaleX(150%)
         }
     }
 
@@ -166,5 +172,103 @@
         
     }
     
+}
+
+.crush{
+
+    &__dialogueContainer{
+        position: absolute;
+        display: flex;
+        bottom: 20%;
+        width: 25em;
+        height: 10em;
+        perspective: 5em;
+        transform-origin: top left;
+        animation: popUpCenter 1s ease 1s backwards;
+
+        &--moveRight{
+            left: 40%;
+        }
+
+        &--moveBack{
+            left: 50%;
+        }
+
+    }
+    
+
+    &__dialogue{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-44%) rotate(-2deg) rotateY(2deg);
+        background-color: #19083c;
+        border-radius: 10px;
+        color: #19083c;
+        padding-left: 1.5em;
+        padding-bottom: 0.5em;
+        letter-spacing: 2px;
+        font-size: 30px;
+
+        &::before, &::after{
+            position: absolute;
+            content: '';
+            z-index: -1;
+        }
+
+        &::before{
+            border: solid 0 transparent;
+            border-right: solid 3.5em $tertiary-color;
+            border-bottom: solid 1.3em $primary-color;
+            top: 0.25em;
+            right: 1.3em;
+            width: 0;
+            height: 1em;
+            transform: rotate(40deg) skewX(75deg);
+        }
+
+        &::after{
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border-radius: inherit;
+            transform: rotate(2deg) translate(0.5em, -0.3em) scale(1.02);
+            background: $tertiary-color;
+        }
+
+    }
+
+    &__triviaContainer{
+        display: flex;
+        flex-direction: column;
+        place-self: center;
+        width: 120%;
+        height: 100%;
+        transform: scaleX(.8);
+
+        &--top{
+            display: flex;
+            place-content: center;
+            width: 100%;
+            height: 100%;
+            color: $tertiary-color;
+            font-size: 15px;
+        }
+
+        &--bottom{
+            display: flex;
+            place-content: center;
+            width: 100%;
+            height: 100%;
+            color: $tertiary-color;
+            font-size: 15px;
+        }
+    }
+
+
 
 }

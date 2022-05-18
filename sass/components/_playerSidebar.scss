@@ -158,8 +158,6 @@
     }
 
     &__position{
-        position:absolute;
-        place-self: center;
         font-size: 25px;
         color: $tertiary-color;
         margin-left: 0.5em;
@@ -178,7 +176,6 @@
         &--open{
             width: 7%;
             height: 70%;
-            margin-left: 2em;
         }
 
         &--close{
