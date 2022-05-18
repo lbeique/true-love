@@ -268,33 +268,19 @@ io.on('connection', client => {
       room.gameState.phase = 'lounge'
       room.gameState.triviaIndex++
       io.to(room.room_id).emit('create-lounge', gameInfo)
-      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', 30, nextTrivia)
+      gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', +process.env.LOUNGE_COUNT, nextTrivia)
     }
 
 
     // PHASE VICTORY
-    function victory() {
+    async function victory() {
 
       console.log('victory phase start')
       room.gameState.phase = 'trivia'
-      let leaderboard = handlers.handleUpdateLeaderboard(room)
-      console.log('final room', room)
-      console.log('final room', room.gameState)
+      // await handlers.handleGameSave(room)
+      const victoryObject = await handlers.handleGetVictory(room)
 
-      console.log('final user', user)
-      console.log('final user', user.game)
-
-      console.log('final leaderboard', leaderboard)
-
-      console.log('easy error', user.game.trivia.easy.errors)
-      console.log('completed easy', user.game.trivia.easy.questions)
-
-      console.log('medium error', user.game.trivia.medium.errors)
-      console.log('completed medium', user.game.trivia.medium.questions)
-
-      console.log('hard error', user.game.trivia.hard.errors)
-      console.log('completed hard', user.game.trivia.hard.questions)
-      io.to(room.room_id).emit('create-victory', handlers.handleGetVictory(room, leaderboard))
+      io.to(room.room_id).emit('create-victory', victoryObject)
     }
 
 

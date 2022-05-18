@@ -632,6 +632,7 @@ function gameReset(room) {
         game_active: false,
         usersVoted: false,
         triviaIndex: 0,
+        phase: 'lobby',
         randomizedCrushes: [],
         topVotedCrush: {},
         votes: [],
@@ -713,13 +714,43 @@ function userReset(user) {
 
 
 // Victory
-function handleGetVictory(room, leaderboard) {
+async function handleGetVictory(room) {
     if (room) {
         // NEEDS TO CHANGE -- Laurent
+        let leaderboard = handleUpdateLeaderboard(room)
+
         let winner = leaderboard[0]
 
         // SAVE GAME TO DATABASE HERE
+        console.log('final room', room)
+        console.log('final gamestate', room.gameState)
+        console.log('final leaderboard', room.gameState.leaderboard)
 
+        let players = room.clients
+        const params = {
+            crush_id: room.gameState.topVotedCrush.id,
+            category_easy_id: room.gameState.topVotedCrush.categoryEasy.id,
+            category_medium_id: room.gameState.topVotedCrush.categoryMedium.id,
+            category_hard_id: room.gameState.topVotedCrush.categoryHard.id,
+            room_name: room.room_name
+        }
+        const values = []
+        for (const player in players) {
+            values.push(
+                [
+                    players[player].userId,
+                    24,
+                    players[player].game.position,
+                    players[player].game.trivia.easy.points,
+                    players[player].game.trivia.easy.errors.reduce((accumulator, error) => accumulator + error, 0),
+                    players[player].game.trivia.medium.points,
+                    players[player].game.trivia.medium.errors.reduce((accumulator, error) => accumulator + error, 0),
+                    players[player].game.trivia.hard.points,
+                    players[player].game.trivia.hard.errors.reduce((accumulator, error) => accumulator + error, 0)
+                ])
+        }
+        console.log('params', params)
+        console.log('values', values)
 
 
         handleLobbyCleanUp(room.room_id)
@@ -782,7 +813,9 @@ function handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia) {
     return gameInfo
 }
 
+// async function handleGameSave(room) {
 
+// }
 
 
 
@@ -817,5 +850,6 @@ module.exports = {
     handleLeavingGameInProgress,
     handleLobbyCleanUp,
 
-    handleGetVictory
+    handleGetVictory,
+    // handleGameSave
 }
