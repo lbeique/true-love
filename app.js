@@ -239,18 +239,25 @@ io.on('connection', client => {
         nextPhase = 'victory'
       }
       console.log('trivia phase start')
-      const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
+      // const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
+
+      console.log('amount', amount, 'id', id, 'difficulty', difficulty)
+
+      const response = await fetch(`https://the-trivia-api.com/api/questions?categories=${id}&limit=${amount}&difficulty=${difficulty}`)
       const data = await response.json()
 
+      console.log('api data', data.length)
+      console.log('api data', data)
+      
       // console.log(data.results)
 
-      if (data.response_code === 4) {
-        await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
-        response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
-        data = await response.json()
-      }
+      // if (data.response_code === 4) {
+      //   await fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
+      //   response = await fetch(`https://opentdb.com/api.php?amount=${amount}&category=${id}&difficulty=${difficulty}&type=multiple&token=${room.token}`)
+      //   data = await response.json()
+      // }
 
-      let clientTriviaQuestions = handlers.handleTrivia(data.results, room)
+      let clientTriviaQuestions = handlers.handleTrivia(data, room)
 
       //console.log('clientTriviaQuestions', clientTriviaQuestions)
 
