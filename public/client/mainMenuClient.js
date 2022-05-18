@@ -36,6 +36,8 @@ menuMusic.menu1.volume(0.4).play()
 
 // WHAT A MESS LMAO AAAAAAA
 
+// ANIMATIONS!!!
+
 document.querySelector('.menu__skip-btn').addEventListener('click', (event) => {
     event.preventDefault()
     sfx.positive.play()
@@ -114,3 +116,7 @@ if (window.sessionStorage.getItem('animated') === null) {
     document.querySelector('.menu__skip-btn').classList.add('hide')
 
 }
+
+
+// OTHER STUFFS!!!!!
+

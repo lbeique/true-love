@@ -10,7 +10,7 @@ let crushes = [
         id: 1,
         name: 'Rocco Moses',
         nickname: 'nerdyBoy',
-        categoryEasy: { id: '18', name: 'Computer Science' },
+        categoryEasy: { id: 'general_knowledge', name: 'General Knowledge' },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -18,7 +18,7 @@ let crushes = [
         id: 2,
         name: 'Julien Raven',
         nickname: 'emoBoy',
-        categoryEasy: { id: '23', name: 'History' },
+        categoryEasy: { id: 'arts_and_literature', name: 'Arts & Literature' },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -26,7 +26,7 @@ let crushes = [
         id: 3,
         name: 'Chadwick "The Chad" Jonhson',
         nickname: 'sportyBoy',
-        categoryEasy: { id: '11', name: 'Film' },
+        categoryEasy: { id: 'film_and_tv', name: 'Film & TV' },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -34,7 +34,7 @@ let crushes = [
         id: 4,
         name: 'Willow Whitlock',
         nickname: 'nerdyGirl',
-        categoryEasy: { id: '9', name: 'General Knowledge' },
+        categoryEasy: { id: 'science', name: 'Science' },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -42,7 +42,7 @@ let crushes = [
         id: 5,
         name: 'Faye Midnight',
         nickname: 'emoGirl',
-        categoryEasy: { id: '15', name: 'Video Games' },
+        categoryEasy: { id: 'history', name: 'History' },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -50,7 +50,7 @@ let crushes = [
         id: 6,
         name: 'Billie Hale',
         nickname: 'sportyGirl',
-        categoryEasy: { id: '21', name: 'Sports' },
+        categoryEasy: { id: 'sport_and_leisure', name: 'Sports & Leisure' },
         categoryMedium: null,
         categoryHard: null,
     }
@@ -58,52 +58,44 @@ let crushes = [
 
 let categories = [ // easy // medium // hard
     {
-        id: '9', // 116 // 123 // 59
+        id: 'arts_and_literature', // 116 // 123 // 59
+        name: 'Arts & Literature'
+    },
+    {
+        id: 'film_and_tv', // 87 // 116 // 42
+        name: 'Film & TV'
+    },
+    {
+        id: 'food_and_drink', // 322 // 441 // 182
+        name: 'Food & Drink'
+    },
+    {
+        id: 'general_knowledge', // 48 // 74 // 37
         name: 'General Knowledge'
     },
     {
-        id: '11', // 87 // 116 // 42
-        name: 'Film'
-    },
-    {
-        id: '15', // 322 // 441 // 182
-        name: 'Video Games'
-    },
-    {
-        id: '18', // 48 // 74 // 37
-        name: 'Computer Science'
-    },
-    {
-        id: '21', // 49 // 64 // 20
-        name: 'Sports'
-    },
-    {
-        id: '23', // 66 // 161 // 80
-        name: 'History'
-    },
-    {
-        id: '17', // 59 // 100 // 68
-        name: 'Nature Science'
-    },
-    {
-        id: '10', // 31 // 40 // 26
-        name: 'Literature'
-    },
-    {
-        id: '12', // 107 // 189 // 68
-        name: 'Music'
-    },
-    {
-        id: '14', // 69 // 72 // 29
-        name: 'Television'
-    },
-    {
-        id: '22', // 80 // 139 // 56
+        id: 'geography', // 49 // 64 // 20
         name: 'Geography'
     },
     {
-        id: '31', // 59 // 82 // 43
-        name: 'Anime Manga'
+        id: 'history', // 66 // 161 // 80
+        name: 'History'
+    },
+    {
+        id: 'music', // 59 // 100 // 68
+        name: 'Music'
+    },
+    {
+        id: 'science', // 31 // 40 // 26
+        name: 'Science'
+    },
+    {
+        id: 'society_and_culture', // 107 // 189 // 68
+        name: 'Society & Culture'
+    },
+    {
+        id: 'sport_and_leisure', // 69 // 72 // 29
+        name: 'Sport & Leisure'
     },
 ]
 
@@ -111,17 +103,17 @@ let categories = [ // easy // medium // hard
 
 // Server Handlers
 
-function handleServerJoin(client, user_id, user_name) {
+function handleServerJoin(client, user_id, user_name, avatar_name) {
 
-    const randomAvatars = [`sunglasses`, `hat`, `default`, `bow`];
+    // const randomAvatars = [`sunglasses`, `hat`, `default`, `bow`];
 
-    const avatarIndex = Math.floor(Math.random() * randomAvatars.length);
+    // const avatarIndex = Math.floor(Math.random() * randomAvatars.length);
 
     const user = {
         socketId: client.id,
         username: user_name,
         userId: +user_id,
-        avatar: randomAvatars[avatarIndex],
+        avatar: avatar_name,
         roomId: null, // Foreign Key for DB ?
         active: true,
         game: {
@@ -480,8 +472,8 @@ function handleTrivia(trivias, room) {
     for (let i = 0; i < trivias.length; i++) {
         let shuffledAnswers = []
         let triviaQuestion = {}
-        shuffledAnswers = arrayClone(trivias[i].incorrect_answers)
-        shuffledAnswers.push(trivias[i].correct_answer)
+        shuffledAnswers = arrayClone(trivias[i].incorrectAnswers)
+        shuffledAnswers.push(trivias[i].correctAnswer)
         shuffledAnswers.sort(() => 0.5 - Math.random()) // shuffle the multiple choices
         triviaQuestion.difficulty = trivias[i].difficulty
         triviaQuestion.category = trivias[i].category
@@ -489,7 +481,7 @@ function handleTrivia(trivias, room) {
         triviaQuestion.question = trivias[i].question
 
         clientTriviaQuestions.push(triviaQuestion)
-        correctTriviaAnswers.push(trivias[i].correct_answer)
+        correctTriviaAnswers.push(trivias[i].correctAnswer)
     }
 
     if (room.gameState.triviaIndex === 0) {
@@ -632,6 +624,7 @@ function gameReset(room) {
         game_active: false,
         usersVoted: false,
         triviaIndex: 0,
+        phase: 'lobby',
         randomizedCrushes: [],
         topVotedCrush: {},
         votes: [],
@@ -713,20 +706,72 @@ function userReset(user) {
 
 
 // Victory
-function handleGetVictory(room, leaderboard) {
+async function handleGetVictory(room) {
     if (room) {
+
+        let players = room.clients
+
+        const params = {
+            crush_id: room.gameState.topVotedCrush.id,
+            category_easy_id: room.gameState.topVotedCrush.categoryEasy.id,
+            category_medium_id: room.gameState.topVotedCrush.categoryMedium.id,
+            category_hard_id: room.gameState.topVotedCrush.categoryHard.id,
+            room_name: room.room_name
+        }
+
+        const values = []
+        const dialogue = []
+
         // NEEDS TO CHANGE -- Laurent
+        let leaderboard = handleUpdateLeaderboard(room)
+        if (leaderboard.length > 1) {
+            if (leaderboard[0].points === leaderboard[1].points) {
+                for (const player in players) {
+                    if (players[player].userId === leaderboard[0].userId) {
+                        players[player].game.trivia.hard.points++
+                        dialogue.push(`I am honoured that ${leaderboard[0].username} and ${leaderboard[1].username} fought so hard for my love... but...`)
+                    }
+                }
+            }
+        }
+        leaderboard = handleUpdateLeaderboard(room)
         let winner = leaderboard[0]
 
         // SAVE GAME TO DATABASE HERE
+        console.log('final room', room)
+        console.log('final gamestate', room.gameState)
+        console.log('final leaderboard', room.gameState.leaderboard)
 
+        for (const player in players) {
+            values.push(
+                [
+                    players[player].userId,
+                    24,
+                    players[player].game.position,
+                    players[player].game.trivia.easy.points,
+                    players[player].game.trivia.easy.errors.reduce((accumulator, error) => accumulator + error, 0),
+                    players[player].game.trivia.medium.points,
+                    players[player].game.trivia.medium.errors.reduce((accumulator, error) => accumulator + error, 0),
+                    players[player].game.trivia.hard.points,
+                    players[player].game.trivia.hard.errors.reduce((accumulator, error) => accumulator + error, 0)
+                ])
+        }
 
+        console.log('params', params)
+        console.log('values', values)
 
         handleLobbyCleanUp(room.room_id)
+
         // GAME RESET
         gameReset(room)
 
-        return { winner, leaderboard }
+        const victoryObject = {
+            winner: winner,
+            leaderboard: leaderboard,
+            dialogue: dialogue,
+        }
+
+        return victoryObject
     }
 }
 
@@ -782,7 +827,9 @@ function handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia) {
     return gameInfo
 }
 
+// async function handleGameSave(room) {
 
+// }
 
 
 
@@ -817,5 +864,6 @@ module.exports = {
     handleLeavingGameInProgress,
     handleLobbyCleanUp,
 
-    handleGetVictory
+    handleGetVictory,
+    // handleGameSave
 }

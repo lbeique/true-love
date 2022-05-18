@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js"
         integrity="sha512-dMiBqqEV5i3KqpAdsgQSSZ72DnNib7otY0X+b/Tnn1EmLym1dxuZ19csdZqBnfDniKd9bmNtzStQzuMrIa5Ngw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Love is War</title>
 </head>
 
@@ -32,9 +33,9 @@
 
         <!-- Following what Ilia recommended. Hiding paths until feature is ready  -->
         <div class="menuIcons">
-            <img class="icon__btn" src="assets/menu/profile_icon.png" alt="profileIcon">
+            <img class="icon__btn profile_icon" src="assets/menu/profile_icon.png" alt="profileIcon">
 
-            <img class="icon__btn" src="assets/menu/leaderboard_icon.png" alt="leaderboardIcon">
+            <img class="icon__btn leaderboard_icon" src="assets/menu/leaderboard_icon.png" alt="leaderboardIcon">
         </div>
 
         <div class="btn menu__skip-btn btn--darkPurple">
@@ -48,11 +49,13 @@
             <!-- Following what Ilia recommended. Hiding paths until feature is ready  -->
 
             <!-- <a href="/leaderboard" class="btn btn__menu btn--darkPurple"> LEADERBOARD </a>  -->
-            <!-- <a href="/auth/logout" class="btn btn__menu btn--darkPurple"> LOGOUT </a> -->
+            <a href="/auth/logout" class="btn btn__menu btn--darkPurple"> LOGOUT </a>
 
         </div>
     </section>
 </body>
-<script src="../../client/mainMenu.js"></script>
+<script src="../../client/mainMenuClient.js"></script>
+<script src="../../client/profileClient.js"></script>
+<script src="../../client/leaderboardClient.js"></script>
 
 </html>

@@ -22,22 +22,22 @@
 
         <div class="auth__content">
             <% if (!user_info) { %>
-                <form method="POST" action="auth/login">
+                <!-- <form method="POST" action="auth/login">
                     <label for="username" class="login__username"> User Name </label>
                     <input type="text" id="username" name="username" required style="color: black">
                     <button class="submit" class="btn btn__auth btn--green" style="background-color: #D7FF60; border: none; border-radius: 5px; color: #333; /* Dark grey */ padding: 15px 32px"> MAIN MENU </button>
-                </form>
+                </form> -->
                 <!-- Following what Ilia recommended. Hiding paths until feature is ready. ALSO RENAMED LOG IN TO MAIN MENU  -->
-                <!-- <a href="auth/login" class="btn btn__auth btn--green"> MAIN MENU </a> -->
-                <!-- <a href="auth/signup" class="btn btn__auth btn--green"> SIGN UP </a> -->
+                <a href="auth/login" class="btn btn__auth btn--green"> LOG IN </a>
+                <a href="auth/signup" class="btn btn__auth btn--green"> SIGN UP </a>
                 <% } else if (user_info) { %>
-                    <form method="POST" action="auth/login">
+                    <!-- <form method="POST" action="auth/login">
                         <label for="username" class="login__username"> User Name </label>
                         <input type="text" id="username" name="username" required style="color: black">
                         <button class="submit" class="btn btn__auth btn--green" style="background-color: #D7FF60; border: none; border-radius: 5px; color: #333; /* Dark grey */ padding: 15px 32px"> MAIN MENU </button>
-                    </form>
-                    <!-- <a href="mainmenu" class="btn btn__auth btn--green"> MAIN MENU </a> -->
-                    <!-- <a href="auth/logout" class="btn btn__auth btn--green"> LOGOUT </a> -->
+                    </form> -->
+                    <a href="mainmenu" class="btn btn__auth btn--green"> TO MAIN MENU </a>
+                    <a href="auth/logout" class="btn btn__auth btn--green"> LOGOUT </a>
                     <% } %>
         </div>
     </section>

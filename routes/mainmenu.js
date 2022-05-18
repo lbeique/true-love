@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const bodyParser = require("body-parser")
+const database = require("../databaseAccess")
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(express.static("public"))
@@ -22,6 +23,69 @@ router.get("/", (req, res) => {
     res.status(200).render("mainmenu", { user_info })
     return
 })
+
+router.post("/achievements", async (req, res) => {
+    const session = getSession(req.session)
+    if (!session) {
+        res.status(404).redirect('/')
+        return
+    }
+    const userId = +req.session.user_info.user_id
+    const user_achievements = await database.getUserAchievements(userId)
+    console.log('route', user_achievements)
+    if (!user_achievements) {
+        console.log('Error loading user achievements')
+        res.status(404).redirect('/')
+        return
+    }
+    res.json({ user_achievements })
+    return
+})
+
+router.post("/avatar", async (req, res) => {
+    const session = getSession(req.session)
+    if (!session) {
+        res.status(404).redirect('/')
+        return
+    }
+    const userId = +req.session.user_info.user_id
+    const avatarId = +req.body.avatar_id
+    const user_avatar = await database.updateUserAvatar(userId, avatarId)
+    console.log('route', user_avatar)
+    if (!user_avatar) {
+        console.log('Error loading user avatar')
+        res.status(404).redirect('/')
+        return
+    }
+    req.session.user_info.avatar_name = user_avatar.avatar_name
+    res.json({ user_avatar })
+    return
+})
+
+router.post("/username", async (req, res) => {
+    const session = getSession(req.session)
+    if (!session) {
+        res.status(404).redirect('/')
+        return
+    }
+    const userId = +req.session.user_info.user_id
+    const username = +req.body.avatar_id
+    const user_info = await database.updateUsername(userId, username)
+    console.log('route', user_info)
+    if (!user_info) {
+        console.log('Error loading user info')
+        res.status(404).redirect('/')
+        return
+    }
+    req.session.user_info.user_name = user_info.user_name
+    let user_name = user_info.user_name
+    res.json({ user_name })
+    return
+})
+
+
+
+
 
 router.use((req, res) => {
     res.status(404).send({ error: "This isn't a valid address." })

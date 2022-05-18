@@ -19,11 +19,11 @@ router.get("/", async (req, res) => {
     res.status(404).redirect('/')
     return
 }
-  const all_users = await database.getAllUsers()
+  // const all_users = await database.getAllUsers()
   console.log(all_users)
   if (!all_users) {
     console.log('Error loading users for leaderboard')
-    res.status(404).redirect('/lobby')
+    res.status(404).redirect('/mainmenu')
     return
   }
   const user_info = session.user_info
