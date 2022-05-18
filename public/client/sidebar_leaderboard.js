@@ -1,7 +1,7 @@
 
+ let currentPhase
 
 // SIDEBAR TOGGLES
-
 
 function sidebarToggle(){
 
@@ -40,17 +40,16 @@ function toggleLounge(){
 
     console.log("TOGGLE LOUNGE")
 
-    const section__sidebar = document.querySelector('.section-sidebar')
-    section__sidebar.classList.toggle('section-sidebar--open-votingLounge')
+    document.querySelector('.section-sidebar').classList.toggle('section-sidebar--open-votingLounge')
 
-    document.querySelector('.carousel').classList.toggle('carousel__slide--moveRight')
-    document.querySelector('.carousel').classList.toggle('carousel__slide--moveBack')
     document.querySelector('.carousel__slide').classList.toggle('carousel__slide--move')
     document.querySelector('.carousel__slide').classList.toggle('carousel__slide--original')
     document.querySelector('.carousel__slideText').classList.toggle('carousel__slideText--original')
     document.querySelector('.carousel__slideText').classList.toggle('carousel__slideText--move')
 
-    document.querySelectorAll('.player__avatarContainer').forEach((node) => node.classList.toggle('margin-left-5'))
+    document.querySelector('.crush__dialogueContainer').classList.add('crush__dialogueContainer--moveBack')
+    document.querySelector('.crush__dialogueContainer').classList.add('crush__dialogueContainer--moveRight')
+
     document.querySelectorAll('.player__position').forEach((node) => node.classList.toggle('hide'))
 
     const result = document.querySelector('.carousel').classList.toggle('carousel--moveRight')
@@ -69,10 +68,9 @@ function toggleTrivia(){
     const section__sidebar = document.querySelector('.section-sidebar')
     const sidebar__overlay = document.querySelector('.sidebar__overlay')
 
-    section__sidebar.classList.toggle('section-sidebar--close')
+
     section__sidebar.classList.toggle('section-sidebar--open-trivia')
 
-    document.querySelectorAll('.player__avatarContainer').forEach((node) => node.classList.toggle('margin-left-5'))
     document.querySelectorAll('.player__position').forEach((node) => node.classList.toggle('hide'))
 
     sidebar__overlay.classList.toggle('hide')
@@ -110,31 +108,58 @@ socket.on('receive room_clients', (room) => {
 
     sidebar__header.innerHTML = '<i class="fa-solid fa-flag-checkered"></i> <span class="sidebar__header-text hide"> LEADERBOARD<span>'
 
+    
+    currentPhase = room.gameState.phase
 
-    console.log("ADDED LISTENER VOTING")
+
     sidebar__container.addEventListener('click', function votingSidebar(event) {
         event.preventDefault()
-        sidebarToggle()
 
-        section__sidebar.classList.toggle('section-sidebar--open-votingLounge')
 
-        carousel__leftBtn.classList.toggle('carousel__btn--left')
-        carousel__leftBtn.classList.toggle('carousel__btn--left-move')
-        carousel__rightBtn.classList.toggle('carousel__btn--right')
-        carousel__rightBtn.classList.toggle('carousel__btn--right-move')
-        carousel__slide.classList.toggle('carousel__slide--move')
-        carousel__slide.classList.toggle('carousel__slide--original')
-        carousel__text.classList.toggle('carousel__slideText--original')
-        carousel__text.classList.toggle('carousel__slideText--move')
-        vote__btn.classList.toggle('carousel__voteButton--original')
-        vote__btn.classList.toggle('carousel__voteButton--move')
+        switch(currentPhase){
 
-        const result = voting__carousel.classList.toggle('carousel--moveRight')
-        if(result){
-            voting__carousel.classList.remove('carousel--moveBack')
-        } else{
-            voting__carousel.classList.add('carousel--moveBack')
+            case 'voting':
+                sidebarToggle()
+                section__sidebar.classList.toggle('section-sidebar--open-votingLounge')
+
+                carousel__leftBtn.classList.toggle('carousel__btn--left')
+                carousel__leftBtn.classList.toggle('carousel__btn--left-move')
+                carousel__rightBtn.classList.toggle('carousel__btn--right')
+                carousel__rightBtn.classList.toggle('carousel__btn--right-move')
+                carousel__slide.classList.toggle('carousel__slide--move')
+                carousel__slide.classList.toggle('carousel__slide--original')
+                carousel__text.classList.toggle('carousel__slideText--original')
+                carousel__text.classList.toggle('carousel__slideText--move')
+                vote__btn.classList.toggle('carousel__voteButton--original')
+                vote__btn.classList.toggle('carousel__voteButton--move')
+
+                document.querySelectorAll('.player__avatarContainer').forEach((node) => node.classList.toggle('margin-left-2'))
+
+                const result = voting__carousel.classList.toggle('carousel--moveRight')
+                if(result){
+                    voting__carousel.classList.remove('carousel--moveBack')
+                } else{
+                    voting__carousel.classList.add('carousel--moveBack')
+                }
+                break;
+            
+            case 'trivia':
+                sidebarToggle()
+                toggleTrivia()
+                break;
+            
+            case 'lounge':
+                sidebarToggle()
+                toggleLounge()
+                if(document.querySelector('.lounge__timerContainer').classList.contains('lounge__timerContainer--girl')){
+                    console.log('RUN')
+                    document.querySelector('.lounge__timerContainer').classList.toggle('lounge__timerContainer--girl--close')
+                    document.querySelector('.lounge__timerContainer').classList.toggle('lounge__timerContainer--girl--open')
+                }
+                break;
+                
         }
+    
     })
     // console.log('CURRENT HADNLER', document.querySelector('.sidebar__container').getEventListeners())
 
@@ -236,20 +261,22 @@ function returnPosition(positionNum){
 
 }
 
-socket.on('setup-sidebar-trivia', (leaderboard) => { // ! Everything that was '--open' must be '--close'
+socket.on('setup-sidebar-trivia', (sidebarData) => { // ! Everything that was '--open' must be '--close'
+
+    currentPhase = sidebarData.phase
+    const leaderboard = sidebarData.leaderboard
 
     const section__trivia = document.querySelector('.section-trivia')
     const section__sidebar = document.querySelector('.section-sidebar')
-    const sidebar__container = document.querySelector('.section-sidebar')
-    // const player__containers = document.querySelectorAll('.player__container')
-
     const sidebar__overlay = document.createElement('div')
+
     sidebar__overlay.classList.add('sidebar__overlay', 'hide')
 
     if(section__sidebar.classList.contains('section-sidebar--open')){
         sidebarToggle()
+        section__sidebar.classList.remove('section-sidebar--open-votingLounge')
     }
-
+    
     let counter = 1;
     for(let i = 0; i < leaderboard.length; i++){ 
 
@@ -264,9 +291,10 @@ socket.on('setup-sidebar-trivia', (leaderboard) => { // ! Everything that was '-
 
         position = returnPosition(counter)
 
-        info__note.innerHTML = `${player.points} pts`
         player__position.innerHTML = `${position}`
-        if(USER_ID === player.userId){
+        info__note.innerHTML = `${player.points} pts`
+      
+        if(+USER_ID === player.userId){
             player__youText.innerHTML = `${position}`
         }
 
@@ -276,14 +304,6 @@ socket.on('setup-sidebar-trivia', (leaderboard) => { // ! Everything that was '-
 
     }
 
-    console.log("ADDED LISTENER TRIVIA")
-    sidebar__container.addEventListener('click', function triviaSidebar(event) {
-        event.preventDefault()
-        sidebarToggle()
-        toggleTrivia()
-    })
-    console.log('CURRENT TRIVIA HADNLER', sidebar__container.getEventListeners())
-   
     section__trivia.appendChild(sidebar__overlay)
     section__trivia.appendChild(section__sidebar)
     
@@ -319,13 +339,12 @@ socket.on('update-leaderboard', (leaderboard) => {
     
         player__position.innerHTML = `${position}`
 
-        if(USER_ID == player.userId){
+        if(+USER_ID === player.userId){
             const player__YOUtext = document.querySelector(`.player-${player.userId} .player__youText`)
             player__YOUtext.innerHTML = `${position}`
         }
 
         if(currentPosition < +prevPosition){
-
             player__container.classList.add('player__container--moveUp')
             setTimeout(() => {
                 player__container.classList.remove('player__container--moveUp')
@@ -334,7 +353,6 @@ socket.on('update-leaderboard', (leaderboard) => {
             player__container.remove()
 
         } else if(currentPosition > +prevPosition){
-
             player__container.classList.add('player__container--moveDown')
             setTimeout(() => {
                 player__container.classList.remove('player__container--moveDown')
@@ -354,51 +372,34 @@ socket.on('update-leaderboard', (leaderboard) => {
 
 // LOUNGE
 
-socket.on('setup-sidebar-lounge', () => {
+socket.on('setup-sidebar-lounge', (phase) => {
+
+    currentPhase = phase
 
     const section__sidebar = document.querySelector('.section-sidebar')
     const section__lounge = document.querySelector('.section-lounge')
-    const sidebar__container = document.querySelector('.sidebar__container')
-
+   
     if(section__sidebar.classList.contains('section-sidebar--close')){
-        console.log("CLOSED TRIVIA SO OPEN EVERYTHING")
-        sidebarToggle() 
-        toggleLounge() 
-    } else if(section__sidebar.classList.contains('section-sidebar--open')){
-        console.log("OPEN TRIVIA SO OPEN VOTING LOUNGE NOW")
+        console.log("IF CLOSE, OPEN EVERYTHING LOUNGE VERSION")
+        sidebarToggle()
+        // section__sidebar.classList.add('section-sidebar--open-votingLounge')
+      
+    } else if(section__sidebar.classList.contains('section-sidebar--open-trivia')){
         section__sidebar.classList.remove('section-sidebar--open-trivia')
-        section__sidebar.classList.add('section-sidebar--open-votingLounge')
+        document.querySelectorAll('.player__position').forEach((node) => node.classList.add('hide'))
+        // section__sidebar.classList.add('section-sidebar--open-votingLounge')
     } 
 
-    document.querySelector('.carousel').classList.add('carousel__slide--moveRight')
-
-    console.log("ADDED LISTENER LOUNGE")
-    sidebar__container.addEventListener('click', function loungeSidebar(event){
-        event.preventDefault()
-        sidebarToggle()
-
-        document.querySelector('.section-sidebar').classList.toggle('section-sidebar--open-votingLounge')
-
-        document.querySelector('.carousel').classList.toggle('carousel__slide--moveRight')
-        document.querySelector('.carousel').classList.toggle('carousel__slide--moveBack')
-        document.querySelector('.carousel__slide').classList.toggle('carousel__slide--move')
-        document.querySelector('.carousel__slide').classList.toggle('carousel__slide--original')
-        document.querySelector('.carousel__slideText').classList.toggle('carousel__slideText--original')
-        document.querySelector('.carousel__slideText').classList.toggle('carousel__slideText--move')
-
-        document.querySelectorAll('.player__avatarContainer').forEach((node) => node.classList.toggle('margin-left-5'))
-        document.querySelectorAll('.player__position').forEach((node) => node.classList.toggle('hide'))
-
-        const result = document.querySelector('.carousel').classList.toggle('carousel--moveRight')
-        if(result){
-            document.querySelector('.carousel').classList.remove('carousel--moveBack')
-        } else{
-            document.querySelector('.carousel').classList.add('carousel--moveBack')
-        }
-
-    })
-    console.log('CURRENT HADNLER LOUNGE', sidebar__container.getEventListeners())
-   
+    
+    if(document.querySelector('.lounge__timerContainer').classList.contains('lounge__timerContainer--girl')){
+        document.querySelector('.lounge__timerContainer').classList.add('lounge__timerContainer--girl--open')
+    }
+    document.querySelector('.crush__dialogueContainer').classList.add('crush__dialogueContainer--moveBack')
+    document.querySelector('.carousel__slideText').classList.add('carousel__slideText--original')
+    document.querySelector('.carousel__slide').classList.add('carousel__slide--original')
+    toggleLounge()
+    document.querySelector('.carousel__slide').classList.add('carousel__slide--move')
+    document.querySelector('.carousel').classList.add('carousel--moveRight')
 
     section__lounge.prepend(section__sidebar)
 
