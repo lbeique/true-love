@@ -191,13 +191,13 @@ const addUsersToRoom = async (room, insertId) => {
             [
                 players[player].userId,
                 insertId,
-                players[player].position,
-                players[player].easy_points,
-                players[player].easy_errors,
-                players[player].medium_points,
-                players[player].medium_errors,
-                players[player].hard_points,
-                players[player].hard_errors
+                players[player].game.position,
+                players[player].game.trivia.easy.points,
+                players[player].game.trivia.easy.errors.reduce((accumulator, error) => accumulator + error, 0),
+                players[player].game.trivia.medium.points,
+                players[player].game.trivia.medium.errors.reduce((accumulator, error) => accumulator + error, 0),
+                players[player].game.trivia.hard.points,
+                players[player].game.trivia.hard.errors.reduce((accumulator, error) => accumulator + error, 0)
             ])
     }
     const sqlInsertUsersInRoom = "INSERT INTO user_room (user_id, room_id, position, easy_points, easy_errors, medium_points, medium_errors, hard_points, hard_errors) VALUES ?;"
@@ -216,7 +216,7 @@ const addRoom = async (room) => {
         category_hard_id: room.gameState.topVotedCrush.categoryHard.id,
         room_name: room.room_name
     }
-    const sqlInsertRoom = "INSERT INTO room (crush_id, category_easy_id, category_medium_id, category_hard_id, date) VALUES (:crush_id, :category_easy_id, :category_medium_id, :category_hard_id, :room_name, CURRENT_TIMESTAMP);"
+    const sqlInsertRoom = "INSERT INTO room (crush_id, category_easy_id, category_medium_id, category_hard_id, room_name, date) VALUES (:crush_id, :category_easy_id, :category_medium_id, :category_hard_id, :room_name, CURRENT_TIMESTAMP);"
     const room_result = await database.query(sqlInsertRoom, params)
     console.log('db addroom result', room_result[0])
     if (room_result[0]) {
