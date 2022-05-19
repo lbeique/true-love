@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,8 +8,9 @@
     <link rel="stylesheet" href="styles/main.css">
     <title>Love is War</title>
 </head>
+
 <body>
-    
+
     <section class="section-header">
         <h1 class="heading-primary">Welcome to True Love! </h1>
 
@@ -16,18 +18,24 @@
 
 
     <main>
-        <section class="">
+        <section class="auth-form">
             <h1 class="heading-primary">Login</h1>
 
             <div class="form__page">
-                <form method="POST" action="">
-                    <label for="userNameOrEmail" class="login__userNameOrEmail"> User Name or Email </label>
-                    <input type="text" id="userNameOrEmail" name="userNameOrEmail" required style="color: black">
 
-                    <label for="password" class="login__password"> Password </label>
-                    <input type="text" id="password" name="password" required style="color: black">
-
-                    <button class="submit" class="button__link" style="background-color: #D7FF60; border: none; border-radius: 5px; color: #333; /* Dark grey */ padding: 15px 32px"> Log In </button>
+                <form method="POST" action="" style="display: flex;flex-direction: column; align-items: center; width: 100%;">
+                    <div style="display: flex;flex-direction: column;">
+                        <label for="userNameOrEmail" class="login__userNameOrEmail"> User Name or Email </label>
+                        <input type="text" id="userNameOrEmail" name="userNameOrEmail" required="" style="color: black">
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <label for="password" class="login__password"> Password </label>
+                        <input type="text" id="password" name="password" required="" style="color: black">
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <button class="submit" style="background-color: #D7FF60; border: none; border-radius: 5px; color: #333; /* Dark grey */ padding: 15px 32px">
+                            Log In </button>
+                    </div>
                 </form>
             </div>
         </section>
@@ -35,4 +43,5 @@
 
 
 </body>
+
 </html>

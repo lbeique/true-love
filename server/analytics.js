@@ -53,14 +53,14 @@ function firstTriviaStreakCalculator(players) {
 function secondTriviaStreakCalculator(players) {
     let maxStreaks = []
     for (const player in players) {
-        let totalErrors = players[player].game.trivia.easy.errors
-        let mediumTriviaErrors = players[player].game.trivia.medium.errors
-        for (const error of mediumTriviaErrors) {
-            totalErrors.push(error)
-        }
+        // let totalErrors = players[player].game.trivia.easy.errors
+        let errors = players[player].game.trivia.medium.errors
+        // for (const error of mediumTriviaErrors) {
+        //     totalErrors.push(error)
+        // }
         let currentStreak = 0
         let highestStreak = 0
-        for (const error of totalErrors) {
+        for (const error of errors) {
             if (error === 0) {
                 currentStreak++
             } else {
@@ -110,6 +110,9 @@ function analytics(room, firstLeaderboard, secondLeaderboard) {
                 dialogue.push(`${firstTriviaStreak.username} sure is hot! They answered ${firstTriviaStreak.streak} questions correctly in a row!`)
             }
         }
+        if (firstLeaderboard[0].points === 0) {
+            dialogue.push(`Keep up the hard work Stefanie!!`)
+        }
     } else {
         if (secondLeaderboard[0].points > 0 && secondLeaderboard[0].points !== secondLeaderboard[1]?.points) {
             dialogue.push(`${secondLeaderboard[0].username} is in the lead with ${secondLeaderboard[0].points} points`)
@@ -133,7 +136,11 @@ function analytics(room, firstLeaderboard, secondLeaderboard) {
                 dialogue.push(`Look out! ${secondTriviaStreak.username} had a hotstreak of ${secondTriviaStreak.streak} correct guesses in a row!`)
             }
         }
+        if (secondLeaderboard[0].points === 0) {
+            dialogue.push(`Dev life... amirite?`)
+        }
     }
+    console.log(dialogue)
     return dialogue
 }
 
