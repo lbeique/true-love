@@ -1,0 +1,9 @@
+.auth-form {
+    @include absCenter;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    row-gap: 2em;
+    justify-content: center;
+}

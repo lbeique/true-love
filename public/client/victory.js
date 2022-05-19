@@ -23,14 +23,21 @@ socket.on('create-victory', (victoryObject) => {
     const victory__container = document.createElement('div')
     victory__container.classList.add('victory__container')
 
+    const winner__container = document.createElement('div')
+    winner__container.classList.add('winner__container')
+
     const victory__header = document.createElement('h1')
     victory__header.innerText = `Victory Screen`
+    victory__header.classList.add('victory__header')
 
-    const victory__winner = document.createElement('h1')
+    const victory__winner = document.createElement('h2')
     victory__winner.innerText = `The Winner is: ${victoryObject.winner.username} with ${victoryObject.winner.points} points`
-    victory__winner.classList.add(`user${1}`)
+    victory__winner.classList.add(`winner__header`)
 
-    const leaderboard__header = document.createElement('p')
+    const leaderboard__container = document.createElement('div')
+    leaderboard__container.classList.add('leaderboard__container')
+
+    const leaderboard__header = document.createElement('h1')
     leaderboard__header.innerText = `............ THE LEADERBOARD .............`
 
     const leaderboard = document.createElement('div')
@@ -46,10 +53,12 @@ socket.on('create-victory', (victoryObject) => {
     returnLobby__btn.classList.add('btn', 'btn-success')
     returnLobby__btn.innerText = 'Return to Lobby'
 
-    victory__container.appendChild(victory__header)
-    victory__container.appendChild(victory__winner)
-    victory__container.appendChild(leaderboard__header)
-    victory__container.appendChild(leaderboard)
+    winner__container.appendChild(victory__header)
+    winner__container.appendChild(victory__winner)
+    victory__container.appendChild(winner__container)
+    leaderboard__container.appendChild(leaderboard__header)
+    leaderboard__container.appendChild(leaderboard)
+    victory__container.appendChild(leaderboard__container)
     victory__container.appendChild(returnLobby__btn)
    
     section__victory.appendChild(victory__container)

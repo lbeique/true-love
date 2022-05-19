@@ -247,7 +247,7 @@ io.on('connection', client => {
       const data = await response.json()
 
       console.log('api data', data.length)
-      console.log('api data', data)
+      // console.log('api data', data)
       
       // console.log(data.results)
 
@@ -259,7 +259,7 @@ io.on('connection', client => {
 
       let clientTriviaQuestions = handlers.handleTrivia(data, room)
 
-      console.log('clientTriviaQuestions', clientTriviaQuestions)
+      // console.log('clientTriviaQuestions', clientTriviaQuestions)
       
       const sidebarTriviaData = {
         leaderboard: handlers.handleUpdateLeaderboard(room),

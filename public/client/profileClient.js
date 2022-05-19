@@ -30,7 +30,7 @@ document.querySelector('.leaderboard_icon').addEventListener('click', event => {
     .then(res => {
 
       // Object containing user avatar info
-      // { avatar_id: 1, avatar_name: 'default' }
+      // { avatar_id: 3, avatar_name: 'bow' }
       console.log('axios.then', res.data)
 
       // DOM MANIPULATION HERE
