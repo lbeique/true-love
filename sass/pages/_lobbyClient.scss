@@ -63,11 +63,15 @@
     }
 
     &__startBtn-Header{
-        color: $tertiary-color;
+        color: $primary-color;
         font-size: 50px;
         text-transform: uppercase;
         letter-spacing: 2px;
         margin-bottom: 10px;
+
+        &--readyGreen{
+            color: $tertiary-color
+        }
     }
 
     &__startBtn{

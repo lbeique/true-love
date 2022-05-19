@@ -138,6 +138,7 @@ function handleServerJoin(client, user_id, user_name, avatar_name) {
                     points: 0
                 }
             },
+            ready: false,
             totalPoints: 0,
             position: null,
             animate: 0,
@@ -329,6 +330,29 @@ function handleLeavingGameInProgress(room, client) {
     }
     return
 }
+
+
+function handlePlayerReady(user, room) {
+    user.game.ready = true
+    let playersLeftToBeReady = 0
+    let players = room.clients
+    const data = {
+        gameready: false,
+        userId: user.userId
+    }
+    for (const player in players) {
+        if (players[player].game.ready === false && players[player].active === true) {
+            playersLeftToBeReady++
+        }
+    }
+    if (playersLeftToBeReady === 0) {
+        data.gameready = true
+        return data // returns an object
+    } else {
+        return data // returns a number
+    }
+}
+
 
 // CRUSHES
 function handleCrushes(room) {
@@ -664,6 +688,7 @@ function gameReset(room) {
                     points: 0
                 }
             },
+            ready: false,
             totalPoints: 0,
             position: null,
             animate: 0,
@@ -697,6 +722,7 @@ function userReset(user) {
                 points: 0
             }
         },
+        ready: false,
         totalPoints: 0,
         position: null,
         animate: 0,
@@ -863,6 +889,7 @@ module.exports = {
     handleLobbyTransfer,
     handleLeavingGameInProgress,
     handleLobbyCleanUp,
+    handlePlayerReady,
 
     handleGetVictory,
     // handleGameSave

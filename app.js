@@ -190,7 +190,25 @@ io.on('connection', client => {
     })
 
 
+    // LOBBY PLAYER READY
+    client.on('player-ready', () => {
+      const readyStatus = handlers.handlePlayerReady(user, room, null)
+      lobbyReady(readyStatus)
+    })
+
+
+
     ////////////////// SKATEBOARD HELPER FUNCTIONS /////////////////
+
+     // PLAYERS READY
+     function lobbyReady(readyStatus) {
+      if (!readyStatus.gameready) {
+        io.to(room.room_id).emit('user_ready_client', readyStatus.userId)
+      } else {
+        io.to(room.room_id).emit('user_ready_client', readyStatus.userId)
+        io.to(room.room_id).emit('all_users_ready', user.userId, room) 
+      }
+    }
 
     // GAME TIMER (used to advance phase)
     function gameTimer(startEmit, cleanEmit, nextPhase, counter, triviaInfo) {
@@ -248,7 +266,7 @@ io.on('connection', client => {
 
       console.log('api data', data.length)
       // console.log('api data', data)
-      
+
       // console.log(data.results)
 
       // if (data.response_code === 4) {
@@ -260,12 +278,12 @@ io.on('connection', client => {
       let clientTriviaQuestions = handlers.handleTrivia(data, room)
 
       // console.log('clientTriviaQuestions', clientTriviaQuestions)
-      
+
       const sidebarTriviaData = {
         leaderboard: handlers.handleUpdateLeaderboard(room),
         phase: room.gameState.phase
       }
-     
+
       io.to(room.room_id).emit('setup-sidebar-trivia', sidebarTriviaData)
       io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
       io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0, 0)

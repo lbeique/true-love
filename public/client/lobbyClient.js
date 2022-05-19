@@ -179,7 +179,7 @@ socket.on('create-lobby', (room, userId) => {
     lobby__rightContainer.classList.add('lobby__rightContainer')
     lobby__header.classList.add('heading-primary', 'lobby__header')
     lobby__code.classList.add('lobby__code')
-    gameStart__header.classList.add('heading-tertiary', 'lobby__startBtn-Header')
+    gameStart__header.classList.add('lobby__startBtn-Header')
     gameStart__btn.classList.add('btn', 'lobby__startBtn')
     lobby__userListContainer.classList.add('lobby__userListContainer')
     lobby__backBtn.classList.add('btn', 'lobby__backButton', 'btn--darkPurple')
@@ -193,6 +193,7 @@ socket.on('create-lobby', (room, userId) => {
     lobby__backBtn.href = '/lobby'
 
 
+
     lobby__leftContainer.appendChild(lobby__code)
     lobby__leftContainer.appendChild(gameStart__header)
     lobby__leftContainer.appendChild(gameStart__btn)
@@ -202,16 +203,15 @@ socket.on('create-lobby', (room, userId) => {
     lobby__container.appendChild(lobby__rightContainer)
     lobby__container.appendChild(lobby__backBtn)
 
-
     section__lobbyClient.appendChild(lobby__container)
 
 
-    gameStart__btn.addEventListener('click', (event) => {
-        event.preventDefault();
+    gameStart__header.addEventListener('click', (event) => {
+        event.preventDefault()
+        // sfx.positive.play()
         sfx.join.play()
-        socket.emit('voting-start')
+        socket.emit(`player-ready`)
     })
-
 
     console.log("USER ID", userId, "HOST ID", hostID)
     if (+userId !== hostID) { // Stef: if client is not the host, don't see this button, will have to change logic
@@ -232,13 +232,44 @@ socket.on('remove-lobby', () => {
     section__lobbyClient.classList.add('hide')
 })
 
+// player ready
+socket.on('user_ready_client', (userId) => {
+    if (+USER_ID === userId) {
 
+        const gameStart__header = document.querySelector('.lobby__startBtn-Header')
+        gameStart__header.innerText = 'Ready!'
+        gameStart__header.classList.add('lobby__startBtn-Header--readyGreen')
+    }
 
+    // need to select appropriate avatar container and turn it greeeeen
+
+    // const user__avatarContainer = document.querySelector(`.player-${userId}  .user__avatarContainer`)
+    // user__avatarContainer.classList.add('user__avatarContainer--readyGreen')
+})
+
+// all users ready
+socket.on('all_users_ready', (user, room) => {
+    const hostID = room.creator_id
+    if (+user.userId === hostID) {
+        const gameStart__btn = document.querySelector('.gameStart__btn')
+        
+        // now we make the inside of the botton green
+
+        gameStart__btn.addEventListener('click', (event) => {
+            event.preventDefault();
+            sfx.join.play()
+            socket.emit('voting-start')
+        })
+    }
+})
+
+// host transfer
 socket.on('host-transfer', (host, phase) => {
     console.log(phase)
     if (phase === 'lobby') {
         console.log('host transfered to', host.username)
         const lobby__leftContainer = document.querySelector('.lobby__leftContainer')
+        const gameready__button = document.querySelector('.gameready__button')
         const gameStart__btn = document.createElement('button')
         gameStart__btn.classList.add('btn', 'lobby__startBtn')
         gameStart__btn.innerHTML = '<i class="fa-solid fa-play"></i>'
@@ -248,6 +279,8 @@ socket.on('host-transfer', (host, phase) => {
             sfx.join.play()
             socket.emit('voting-start')
         })
+        gameready__button.remove()
+
     }
 })
 

@@ -30,7 +30,7 @@ function crushNameToggle(name, easy, medium){
             slide__text.appendChild(triviaContainer)
 
         }
-    } else{
+    } else {
         slide__text.innerText = `${name}`
     }
 
