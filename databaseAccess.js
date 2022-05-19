@@ -23,7 +23,7 @@ const getUserByID = async (userId) => {
     const params = {
         user_id: userId,
     }
-    const sqlSelectUserByID = "SELECT user.user_id, avatar.avatar_name, user.user_name, user.password_hash FROM user JOIN avatar ON avatar.avatar_id = user.avatar_id FROM user WHERE user_id = :user_id;"
+    const sqlSelectUserByID = "SELECT user.user_id, avatar.avatar_name, user.user_name, user.password_hash FROM user JOIN avatar ON avatar.avatar_id = user.avatar_id WHERE user_id = :user_id;"
     const user_info = await database.query(sqlSelectUserByID, params)
     console.log('database', user_info[0][0])
     return user_info[0][0]
@@ -39,28 +39,25 @@ const getAllUsers = async () => {
 
 const addUser = async (postBody) => {
     console.log('db adduser post body', postBody)
-    // const newUser = new UserValidation(postBody.email, postBody.password)
-    // console.log(newUser.validateEmail())
-    // console.log(newUser.validatePassword())
-    // if (!newUser.validateEmail() || newUser.validatePassword()) {
-    //     return
-    // }
-    const password = postBody.password
-    const encryptedPassword = await bcrypt.hash(password, 10)
-    const params = {
-        name: postBody.name,
-        email: postBody.email,
-        password: encryptedPassword,
-        currency: 0,
-        points: 0
-    }
-    const sqlInsertUser = "INSERT INTO user (user_name, email, password_hash, creation_date) VALUES (:name, :email, :password, CURRENT_TIMESTAMP);"
-    const result = await database.query(sqlInsertUser, params)
-    console.log('db adduser result', result[0])
-    if (result[0]) {
-        const user_info = await getUserByID(result[0].insertId)
-        console.log(user_info)
-        return user_info
+    const checkUserResult = await checkUsername(postBody.name)
+    if (checkUserResult.user_matches === 0) {
+        const password = postBody.password
+        const encryptedPassword = await bcrypt.hash(password, 10)
+        const params = {
+            name: postBody.name,
+            password: encryptedPassword,
+            currency: 0,
+            points: 0
+        }
+        const sqlInsertUser = "INSERT INTO user (user_name, password_hash, creation_date) VALUES (:name, :password, CURRENT_TIMESTAMP);"
+        const result = await database.query(sqlInsertUser, params)
+        console.log('db adduser result', result[0])
+        if (result[0]) {
+            const user_info = await getUserByID(result[0].insertId)
+            console.log(user_info)
+            return user_info
+        }
+        return
     }
     return
 }
@@ -80,8 +77,8 @@ const updateUsername = async (userId, username) => {
         user_id: userId,
         user_name: username
     }
-    const user_matches = await checkUsername(username)
-    if (user_matches === 0) {
+    const checkUserResult = await checkUsername(username)
+    if (checkUserResult.user_matches === 0) {
         const sqlUpdateUsername = "UPDATE user SET user_name = :username WHERE user_id = :userId;"
         await database.query(sqlUpdateUsername, params)
         const user_info = await getUserByID(userId)
