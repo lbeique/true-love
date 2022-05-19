@@ -187,11 +187,10 @@ socket.on('create-lobby', (room, userId) => {
 
     lobby__header.innerText = `Welcome to the Lobby: ${room.room_name}`
     lobby__code.innerHTML = `The Lobby Code is: <span>${room.room_code} </span>`
-    gameStart__header.innerText = 'Ready?'
+    gameStart__header.innerText = 'Not Ready'
     gameStart__btn.innerHTML = '<i class="fa-solid fa-play"></i>'
     lobby__backBtn.innerHTML = '<span>&#8618;</span>'
     lobby__backBtn.href = '/lobby'
-
 
 
     lobby__leftContainer.appendChild(lobby__code)
@@ -205,18 +204,18 @@ socket.on('create-lobby', (room, userId) => {
 
     section__lobbyClient.appendChild(lobby__container)
 
-
-    gameStart__header.addEventListener('click', (event) => {
+    function gameStartHelper(event) {
         event.preventDefault()
-        // sfx.positive.play()
-        sfx.join.play()
-        socket.emit(`player-ready`)
-    })
+        sfx.positive.play()
+        //sfx.join.play()
+        socket.emit(`player-ready`, null)
+        setTimeout(() => { gameStart__btn.removeEventListener('click', gameStartHelper) }, 0)
+    }
+
+    gameStart__btn.addEventListener('click', gameStartHelper)
 
     console.log("USER ID", userId, "HOST ID", hostID)
-    if (+userId !== hostID) { // Stef: if client is not the host, don't see this button, will have to change logic
-        gameStart__btn.remove()
-    }
+
 
     section__lobbyClient.classList.remove('hide')
     userList(room)
@@ -233,12 +232,18 @@ socket.on('remove-lobby', () => {
 })
 
 // player ready
-socket.on('user_ready_client', (userId) => {
-    if (+USER_ID === userId) {
+socket.on('user_ready_client', (userId, room) => {
 
+    const hostID = room.creator_id
+    if (+USER_ID === userId) {
         const gameStart__header = document.querySelector('.lobby__startBtn-Header')
-        gameStart__header.innerText = 'Ready!'
+        
         gameStart__header.classList.add('lobby__startBtn-Header--readyGreen')
+        if (+userId === hostID) {
+            gameStart__header.innerText = 'Waiting...'
+        } else {
+            gameStart__header.innerText = 'Ready!'
+        }
     }
 
     // need to select appropriate avatar container and turn it greeeeen
@@ -248,11 +253,14 @@ socket.on('user_ready_client', (userId) => {
 })
 
 // all users ready
-socket.on('all_users_ready', (user, room) => {
+socket.on('all_users_ready', (userId, room) => {
     const hostID = room.creator_id
-    if (+user.userId === hostID) {
-        const gameStart__btn = document.querySelector('.gameStart__btn')
-        
+    if (+userId === hostID) {
+        const gameStart__header = document.querySelector('.lobby__startBtn-Header')
+        gameStart__header.innerText = 'Ready!'
+        const gameStart__btn = document.querySelector('.lobby__startBtn')
+        gameStart__btn.classList.add('lobby__startBtn--readyGreen')
+
         // now we make the inside of the botton green
 
         gameStart__btn.addEventListener('click', (event) => {
@@ -268,18 +276,19 @@ socket.on('host-transfer', (host, phase) => {
     console.log(phase)
     if (phase === 'lobby') {
         console.log('host transfered to', host.username)
-        const lobby__leftContainer = document.querySelector('.lobby__leftContainer')
-        const gameready__button = document.querySelector('.gameready__button')
-        const gameStart__btn = document.createElement('button')
-        gameStart__btn.classList.add('btn', 'lobby__startBtn')
-        gameStart__btn.innerHTML = '<i class="fa-solid fa-play"></i>'
-        lobby__leftContainer.appendChild(gameStart__btn)
-        gameStart__btn.addEventListener('click', (event) => {
-            event.preventDefault();
-            sfx.join.play()
-            socket.emit('voting-start')
-        })
-        gameready__button.remove()
+        socket.emit(`player-ready`, true)
+        // const lobby__leftContainer = document.querySelector('.lobby__leftContainer')
+        // const gameready__button = document.querySelector('.gameready__button')
+        // const gameStart__btn = document.createElement('button')
+        // gameStart__btn.classList.add('btn', 'lobby__startBtn')
+        // gameStart__btn.innerHTML = '<i class="fa-solid fa-play"></i>'
+        // lobby__leftContainer.appendChild(gameStart__btn)
+        // gameStart__btn.addEventListener('click', (event) => {
+        //     event.preventDefault();
+        //     sfx.join.play()
+        //     socket.emit('voting-start')
+        // })
+        // gameready__button.remove()
 
     }
 })

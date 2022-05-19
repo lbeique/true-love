@@ -82,11 +82,14 @@
         height: 30vh;
         border: 15px solid $secondary-variant;
         border-radius: 40em;
-        background-color: $tertiary-color;
+        background-color: $primary-color;
         font-size: 100px;
 
         & i{
             color: $secondary-variant;
+        }
+        &--readyGreen{
+            background-color: $tertiary-color
         }
 
     }

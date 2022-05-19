@@ -26,8 +26,8 @@ body {
 }
 
 * {
-  font-family: "Fredoka One", cursive, "Arial Rounded MT Bold", "Arial";
-  color: beige;
+  font-family: "Fredoka One", "Arial Rounded MT Bold", "Arial";
+  color: white;
 }
 
 .heading-primary {
@@ -1095,11 +1095,14 @@ tr:nth-child(even) {
   color: #D7FF60;
 }
 .lobby__startBtn-Header {
-  color: #D7FF60;
+  color: #19083c;
   font-size: 50px;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 10px;
+}
+.lobby__startBtn-Header--readyGreen {
+  color: #D7FF60;
 }
 .lobby__startBtn {
   display: flex;
@@ -1109,11 +1112,14 @@ tr:nth-child(even) {
   height: 30vh;
   border: 15px solid #7366BD;
   border-radius: 40em;
-  background-color: #D7FF60;
+  background-color: #19083c;
   font-size: 100px;
 }
 .lobby__startBtn i {
   color: #7366BD;
+}
+.lobby__startBtn--readyGreen {
+  background-color: #D7FF60;
 }
 .lobby__rightContainer {
   display: flex;

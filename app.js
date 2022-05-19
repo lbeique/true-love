@@ -191,8 +191,8 @@ io.on('connection', client => {
 
 
     // LOBBY PLAYER READY
-    client.on('player-ready', () => {
-      const readyStatus = handlers.handlePlayerReady(user, room, null)
+    client.on('player-ready', (transfer) => {
+      const readyStatus = handlers.handlePlayerReady(user, room, transfer)
       lobbyReady(readyStatus)
     })
 
@@ -203,9 +203,9 @@ io.on('connection', client => {
      // PLAYERS READY
      function lobbyReady(readyStatus) {
       if (!readyStatus.gameready) {
-        io.to(room.room_id).emit('user_ready_client', readyStatus.userId)
+        io.to(room.room_id).emit('user_ready_client', readyStatus.userId, room)
       } else {
-        io.to(room.room_id).emit('user_ready_client', readyStatus.userId)
+        io.to(room.room_id).emit('user_ready_client', readyStatus.userId, room)
         io.to(room.room_id).emit('all_users_ready', user.userId, room) 
       }
     }

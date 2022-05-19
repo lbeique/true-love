@@ -332,8 +332,10 @@ function handleLeavingGameInProgress(room, client) {
 }
 
 
-function handlePlayerReady(user, room) {
-    user.game.ready = true
+function handlePlayerReady(user, room, transfer) {
+    if (!transfer) {
+        user.game.ready = true
+    }
     let playersLeftToBeReady = 0
     let players = room.clients
     const data = {
@@ -347,9 +349,9 @@ function handlePlayerReady(user, room) {
     }
     if (playersLeftToBeReady === 0) {
         data.gameready = true
-        return data // returns an object
+        return data
     } else {
-        return data // returns a number
+        return data
     }
 }
 
