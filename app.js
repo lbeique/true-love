@@ -22,14 +22,14 @@ const lobbyRouter = require('./routes/lobby')
 const leaderboardRouter = require('./routes/leaderboard')
 
 
-// Session Set-up
+// Session Middleware setup
 const sessionMiddleware = session({
   secret: `${process.env.SESSION_USER_KEYS}`,
   resave: false,
   saveUninitialized: false
 })
 
-// Conflict Oh no
+// Express do things
 app.use(sessionMiddleware)
 app.set('socketio', io)
 app.set('view engine', 'ejs')
@@ -38,12 +38,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 
-
-// some socket router stuff
+// socket router session magic!
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 
 io.use(wrap(sessionMiddleware))
-
 
 io.use((socket, next) => {
   const session = socket.request.session
@@ -63,10 +61,24 @@ app.use('/mainmenu', mainMenuRouter)
 app.use('/lobby', lobbyRouter)
 
 
+const getSession = (session) => {
+  if (!session.authenticated) {
+    return null
+  }
+  return session
+}
 
-// THE REAL SOCKETS STUFF BEGINS HERE
+
+
+// THE SOCKETS STUFF BEGINS HERE
 io.on('connection', client => {
 
+  const session = getSession(client.request.session)
+
+  if (!session) {
+    io.to(client.id).emit('redirect-to-mainmenu')
+    return
+  }
   console.log(`on-connection, connected with clientid: ${client.id}`)
 
   // LOBBY USER REFRESH
@@ -79,9 +91,9 @@ io.on('connection', client => {
   })
 
   // SERVER JOIN
-  client.on('join-room', (roomId, userId, userName, avatarName) => {
-
-    let user = handlers.handleServerJoin(client, userId, userName, avatarName)
+  client.on('join-room', (roomId) => {
+    let { user_name, user_id, avatar_name } = client.request.session.user_info
+    let user = handlers.handleServerJoin(client, user_id, user_name, avatar_name)
     console.log('join-room user: ', user)
     if (!user) {
       // NEED TO DEAL WITH USERS HERE (handler failed to join user) - Laurent
@@ -200,13 +212,13 @@ io.on('connection', client => {
 
     ////////////////// SKATEBOARD HELPER FUNCTIONS /////////////////
 
-     // PLAYERS READY
-     function lobbyReady(readyStatus) {
+    // PLAYERS READY
+    function lobbyReady(readyStatus) {
       if (!readyStatus.gameready) {
         io.to(room.room_id).emit('user_ready_client', readyStatus.userId, room)
       } else {
         io.to(room.room_id).emit('user_ready_client', readyStatus.userId, room)
-        io.to(room.room_id).emit('all_users_ready', user.userId, room) 
+        io.to(room.room_id).emit('all_users_ready', user.userId, room)
       }
     }
 
@@ -228,6 +240,11 @@ io.on('connection', client => {
 
     // PHASE VOTING
     function voting(checkVotingState) {
+      const session = getSession(client.request.session)
+      if (!session) {
+        io.to(client.id).emit('redirect-to-lobbylist')
+        return
+      }
       if (typeof checkVotingState === "number") {
         io.to(room.room_id).emit('client_voted', checkVotingState)
       } else {
@@ -248,6 +265,7 @@ io.on('connection', client => {
 
     // PHASE TRIVIA
     async function trivia(triviaInfo) {
+
       let { amount, id, difficulty } = triviaInfo
       let nextPhase = null
       room.gameState.phase = 'trivia'
@@ -308,7 +326,9 @@ io.on('connection', client => {
     async function victory() {
 
       console.log('victory phase start')
+
       room.gameState.phase = 'trivia'
+
       // await handlers.handleGameSave(room)
       const victoryObject = await handlers.handleGetVictory(room)
 

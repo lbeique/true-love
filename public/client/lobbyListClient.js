@@ -55,7 +55,16 @@ socket.on('lobby-list', (lobbyRooms) => {
         lobby_room.appendChild(lobbyForm)
 
 
+        
+
         lobby_room.classList.add('lobby-list__room')
         lobby_listContainer.appendChild(lobby_room) // lobbyList
     }
 })
+
+
+// REDIRECT
+socket.on('redirect-to-mainmenu', () => {
+    // redirect to new URL
+    window.location = "/mainmenu"
+});
