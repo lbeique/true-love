@@ -315,7 +315,6 @@ io.on('connection', client => {
       room.gameState.phase = 'lounge'
       room.gameState.triviaIndex++
       io.to(room.room_id).emit('create-lounge', gameInfo)
-
       io.to(room.room_id).emit('setup-sidebar-lounge', room.gameState.phase)
       gameTimer('start-lounge-timer', 'remove-lounge', 'trivia', +process.env.LOUNGE_COUNT, nextTrivia)
 

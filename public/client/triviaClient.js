@@ -67,6 +67,10 @@ socket.on('trivia-question', (trivia, animate, points) => {
     // }
     // Trying to limit the amount of information the client has access to
 
+    if(document.querySelector('.cross')){
+        document.querySelector('.cross').remove()
+    }
+
     if (document.querySelector(".trivia__container")) {
         document.querySelector(".trivia__container").remove()
         document.querySelector('.trivia__scoreText').remove()
