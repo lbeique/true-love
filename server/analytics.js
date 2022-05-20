@@ -137,7 +137,7 @@ function analytics(room, firstLeaderboard, secondLeaderboard) {
             }
         }
         if (secondLeaderboard[0].points === 0) {
-            dialogue.push(`Dev life... amirite?`)
+            dialogue.push(`Dev life... amirite?!!`)
         }
     }
     console.log(dialogue)

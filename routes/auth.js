@@ -15,38 +15,11 @@ const getSession = (session) => {
 }
 
 
-
-// // TEMPORARY
-// router.post("/login", (req, res) => {
-
-//   let username = req.body.username
-//   ////////////////////////////////////////////////////////
-//   // THIS IS TEMPORARY => (
-//   req.session.authenticated = true;
-//   req.session.user_info = {}
-//   req.session.user_info.user_name = username
-//   req.session.user_info.user_id = Math.floor(Math.random() * 9000)
-//   req.session.user_info.avatar_name = 'default'
-//   req.session.user_info.total_points = 0
-//   // )
-//   ///////////////////////////////////////////////////////
-
-//   const session = getSession(req.session)
-//   console.log('get login session', session)
-//   if (!session) {
-//     res.status(200).redirect('/')
-//     return
-//   }
-//   res.status(200).redirect('/mainmenu')
-//   return
-// })
-
-// TEMPORARY
 router.get("/login", (req, res) => {
-
   const session = getSession(req.session)
   console.log('get login session', session)
   if (!session) {
+    req.session.location = 'login'
     res.status(200).render('loginForm')
     return
   }
@@ -86,6 +59,7 @@ router.get("/signup", (req, res) => {
   const session = getSession(req.session)
   console.log('get signup session', session)
   if (!session) {
+    req.session.location = 'signup'
     res.status(200).render('signUpForm')
     return
   }
