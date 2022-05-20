@@ -4,7 +4,6 @@
 
 .carousel{
     position: relative;
-   
     height: 100%;
     width: 100%;
     transition: all ;
@@ -120,8 +119,7 @@
         bottom: 1em;
         top: 5%;
         left: 40%;
-        padding: 10px 20px;
-        
+        padding: 10px;
         border-radius: 20px;
         margin-bottom: 1em;
         border: 4px solid $tertiary-color;
@@ -144,11 +142,15 @@
         &--animated{
             animation: fadingIn 1s ease;
         }
+
+        &--idle{
+            animation: scaleUpDown 1s ease infinite;
+        }
     
         &--open{
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            transform: scaleX(150%)
+            transform: scaleX(150%);
         }
     }
 
@@ -180,17 +182,25 @@
         position: absolute;
         display: flex;
         bottom: 20%;
-        width: 25em;
-        height: 10em;
         perspective: 5em;
         transform-origin: top left;
         animation: popUpCenter 1s ease 1s backwards;
 
+        &--victory{
+            width: 30em;
+            height: 15em;
+            left: 50%
+        }
+
         &--moveRight{
+            width: 25em;
+            height: 10em;
             left: 40%;
         }
 
         &--moveBack{
+            width: 25em;
+            height: 10em;
             left: 50%;
         }
 

@@ -1,3 +1,41 @@
+// .victory{
+
+//     &__screen{
+//         width: 100%;
+//         height: 100%;
+//     }
+
+//     &__transition{
+//         width: 100%;
+//         height: 100%;
+//         background-color: rgba(black, 0.8);
+//         z-index: 90;
+
+//         &-text{
+//             @include absCenter;
+//             display: flex;
+//             place-content: center;
+//             width: 30%;
+//             height: 20%;
+//             font-size: 30px;
+//             color: $tertiary-color;
+//             text-align: center;
+//             opacity: 1;
+//             transition: opacity 0.5s
+
+//         }
+
+//         &--fadeOut{
+//             animation: fadeOut 1s ease forwards;
+//         }
+        
+//     }
+
+// }
+
+
+
+
 .section-victory {
     @include absCenter;
     display: flex;

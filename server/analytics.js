@@ -111,7 +111,7 @@ function analytics(room, firstLeaderboard, secondLeaderboard) {
             }
         }
         if (firstLeaderboard[0].points === 0) {
-            dialogue.push(`Keep up the hard work Stefanie!!`)
+            dialogue.push(`Are you even trying???`)
         }
     } else {
         if (secondLeaderboard[0].points > 0 && secondLeaderboard[0].points !== secondLeaderboard[1]?.points) {
