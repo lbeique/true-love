@@ -4,7 +4,8 @@ socket.on('create-lounge', (gameInfo) => {
     // gameInfo = {
     //     name: 'Albert',
     //     nickname: 'emoBoy',
-    //     nextCategory: 'History',
+    //     nextTrivia: 'History',
+    //     triviaIndex: room.gameState.triviaIndex,
     //     leaderboard: [{userId: 324, 'Bob', avatar: 'unicorn', points: 17}, {}]
     //     dialogue: ['User 1 has the most consecutive answers', 'User 3 is falling behind']
     // }
@@ -13,10 +14,12 @@ socket.on('create-lounge', (gameInfo) => {
     console.log(gameInfo)
     music.lounge.play()
 
+    
+    
     const section__lounge = document.querySelector('.section-lounge')
     const crush__carousel = document.querySelector('.carousel')
     const carousel__slideContainer = document.querySelector('.carousel__slideContainer')
-
+    
     const crush__dialogueContainer = document.createElement('div')
     const crush__dialogue = document.createElement('div')
 
@@ -26,6 +29,20 @@ socket.on('create-lounge', (gameInfo) => {
     const lounge__timerContainer = document.createElement('div')
     const lounge__timer = document.createElement('div')
 
+    if(gameInfo.triviaIndex === 1){
+        console.log("FINAL LOUNGE", gameInfo)
+        
+        const carousel__slideText = document.querySelector('.carousel__slideText')
+
+        carousel__slideText.addEventListener('click', (event) => {
+            event.preventDefault()
+            const crush__lastTriviaText = document.querySelector('.crush__triviaContainer:last-child .crush__triviaContainer--bottom')
+            crush__lastTriviaText.innerText = `${gameInfo.nextTrivia}`
+        })
+
+    }
+
+    
     let counter = 0;
     const dialogues = gameInfo.dialogue
     
@@ -37,7 +54,7 @@ socket.on('create-lounge', (gameInfo) => {
         if(counter === dialogues.length){
             counter = 0
         }
-        crush__dialogue.innerText = `${gameInfo.dialogue[counter]}!`
+        crush__dialogue.innerText = `${gameInfo.dialogue[counter]}`
         counter++
     })
 
@@ -45,7 +62,7 @@ socket.on('create-lounge', (gameInfo) => {
         if(counter === dialogues.length){
             counter = 0
         }
-        crush__dialogue.innerText = `${gameInfo.dialogue[counter]}!`
+        crush__dialogue.innerText = `${gameInfo.dialogue[counter]}`
         counter++
      }, 10000);
 
@@ -68,6 +85,7 @@ socket.on('create-lounge', (gameInfo) => {
 
     crush__carousel.classList.remove('hide')
     section__lounge.classList.remove('hide')
+    
 })
 
 socket.on('start-lounge-timer', async function (count, triviaCategory) {

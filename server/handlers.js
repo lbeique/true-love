@@ -822,6 +822,7 @@ function handleLoungeGameInfo(room, leaderboard, dialogue, nextTrivia) {
         nickname: room.gameState.topVotedCrush.nickname,
         nextTrivia: nextTrivia,
         leaderboard: leaderboard,
+        triviaIndex: room.gameState.triviaIndex,
         dialogue: dialogue,
     }
     return gameInfo

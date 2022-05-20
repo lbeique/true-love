@@ -66,7 +66,7 @@ socket.on('crush-start', (crushes) => {
     carousel__btnRight.classList.add('carousel__btn', 'carousel__btn--right')
 
     slide__container.classList.add('carousel__slideContainer')
-    slide__text.classList.add( 'carousel__slideText', 'carousel__slideText--original')
+    slide__text.classList.add( 'carousel__slideText', 'carousel__slideText--original', 'carousel__slideText--idle')
     slide.classList.add('carousel__slide', 'carousel__slide--original')
 
     carousel__voteButton.classList.add('btn', 'btn--green', 'carousel__voteButton', 'carousel__voteButton--original')
@@ -129,6 +129,7 @@ socket.on('crush-start', (crushes) => {
     })
 
 
+
     slide__text.innerText = `${crushes[1].name}`
     slide.src = `assets/character-fullbody/${crushes[1].nickname}.png`
     carousel__btnLeft.src = 'assets/arrows/arrowLeft.png'
@@ -136,6 +137,8 @@ socket.on('crush-start', (crushes) => {
 
     slide__text.addEventListener('click', (event) => {
         event.preventDefault()
+
+        slide__text.classList.toggle('carousel__slideText--idle')
 
         crushNameToggle(crushes[1].name,crushes[1].categoryEasy, crushes[1].categoryMedium)
         

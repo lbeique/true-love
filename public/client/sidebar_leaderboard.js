@@ -29,9 +29,9 @@ function sidebarToggle(){
         avatar.classList.toggle('player__avatarContainer--open')
     })
 
-  
     document.querySelector('.player__youContainer').classList.toggle('player__youContainer--close')
     document.querySelector('.player__youContainer').classList.toggle('player__youContainer--open')
+
     document.querySelector('.player__youText').classList.toggle('hide')
 
 }
@@ -276,6 +276,8 @@ socket.on('setup-sidebar-trivia', (sidebarData) => { // ! Everything that was '-
         sidebarToggle()
         section__sidebar.classList.remove('section-sidebar--open-votingLounge')
     }
+
+    document.querySelectorAll('.player__avatarContainer').forEach((node) => node.classList.remove('margin-left-2'))
     
     let counter = 1;
     for(let i = 0; i < leaderboard.length; i++){ 
@@ -303,6 +305,13 @@ socket.on('setup-sidebar-trivia', (sidebarData) => { // ! Everything that was '-
         counter++
 
     }
+
+
+    sidebar__overlay.addEventListener('click', (event) => {
+        event.preventDefault()
+        sidebarToggle()
+        toggleTrivia()
+    })
 
     section__trivia.appendChild(sidebar__overlay)
     section__trivia.appendChild(section__sidebar)
@@ -350,14 +359,12 @@ socket.on('update-leaderboard', (leaderboard) => {
                 player__container.classList.remove('player__container--moveUp')
             }, 1000)
 
-            player__container.remove()
 
         } else if(currentPosition > +prevPosition){
             player__container.classList.add('player__container--moveDown')
             setTimeout(() => {
                 player__container.classList.remove('player__container--moveDown')
             }, 1000)
-            player__container.remove()
 
         }
 
@@ -376,30 +383,32 @@ socket.on('setup-sidebar-lounge', (phase) => {
 
     currentPhase = phase
 
+    console.log('SETUP SIDEBAR LOUNGE')
+
     const section__sidebar = document.querySelector('.section-sidebar')
     const section__lounge = document.querySelector('.section-lounge')
    
     if(section__sidebar.classList.contains('section-sidebar--close')){
-        console.log("IF CLOSE, OPEN EVERYTHING LOUNGE VERSION")
         sidebarToggle()
-        // section__sidebar.classList.add('section-sidebar--open-votingLounge')
-      
+        document.querySelector('.carousel__slide').classList.remove('carousel__slide--original')
+
     } else if(section__sidebar.classList.contains('section-sidebar--open-trivia')){
         section__sidebar.classList.remove('section-sidebar--open-trivia')
         document.querySelectorAll('.player__position').forEach((node) => node.classList.add('hide'))
-        // section__sidebar.classList.add('section-sidebar--open-votingLounge')
     } 
 
-    
     if(document.querySelector('.lounge__timerContainer').classList.contains('lounge__timerContainer--girl')){
         document.querySelector('.lounge__timerContainer').classList.add('lounge__timerContainer--girl--open')
     }
-    document.querySelector('.crush__dialogueContainer').classList.add('crush__dialogueContainer--moveBack')
-    document.querySelector('.carousel__slideText').classList.add('carousel__slideText--original')
-    document.querySelector('.carousel__slide').classList.add('carousel__slide--original')
-    toggleLounge()
+
+  
+    document.querySelector('.crush__dialogueContainer').classList.add('crush__dialogueContainer--moveRight')
+    document.querySelector('.carousel__slideText').classList.add('carousel__slideText--move')
     document.querySelector('.carousel__slide').classList.add('carousel__slide--move')
+    document.querySelector('.section-sidebar').classList.toggle('section-sidebar--open-votingLounge')
+    document.querySelectorAll('.player__position').forEach((node) => node.classList.toggle('hide'))
     document.querySelector('.carousel').classList.add('carousel--moveRight')
+    
 
     section__lounge.prepend(section__sidebar)
 

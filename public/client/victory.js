@@ -1,3 +1,6 @@
+
+
+
 socket.on('create-victory', (victoryObject) => {
     ///////////////////////////////////////////////////
     ///////// This is what the victoryObject looks like
@@ -18,6 +21,72 @@ socket.on('create-victory', (victoryObject) => {
     ////////////////////////////////////////////////////
 
     music.victory.loop(true).play()
+
+    // const winner = victoryObject.winner
+
+    // const section__victory = document.querySelector('.section-victory')
+    // const carousel__crush = document.querySelector('.carousel')
+    // const carousel__slideContainer = document.querySelector('.carousel__slideContainer')
+
+    // const victory__page = document.createElement('div')
+    // const victory__transition = document.createElement('div')
+    // const victory__transition_text = document.createElement('div')
+    // const victory__leaderboard = document.createElement('div')
+
+    // const crush__dialogueContainer = document.createElement('div')
+    // const crush__dialogue = document.createElement('div')
+
+    // victory__page.classList.add('victory__screen')
+    // victory__transition.classList.add('victory__transition')
+    // victory__transition_text.classList.add('victory__transition-text')
+    // victory__leaderboard.classList.add('victory__leaderboard')
+
+    // carousel__crush.classList.add('hide', 'animation-fadingIn')
+    // carousel__crush.classList.remove('carousel--moveBack', 'carousel--moveRight')
+    // crush__dialogueContainer.classList.add('crush__dialogueContainer', 'crush__dialogueContainer--victory', 'opacity-0')
+    // crush__dialogue.classList.add('crush__dialogue')
+
+    // let counter = 0
+    // const victory__script = [
+    //     'Now that the game is over...',
+    //     'I shall announce the winner of this war...',
+    //     'They are...'
+    // ]
+
+    
+    // setInterval( function(){
+    //     victory__transition_text.classList.add('opacity-0')
+    //     setTimeout(() => {
+    //         victory__transition_text.innerHTML = `${victory__script[counter]}`
+    //         victory__transition_text.classList.remove('opacity-0')
+    //         counter++
+    //         if(counter >= victory__script.length){
+    //             victory__transition.classList.add('victory__transition--fadeOut')
+    //             victory__transition.classList.remove()
+    //             crush__dialogue.innerText = `${winner.username}! With a score of ${winner.points}! You have stolen my heart! Take me with you to space!`
+    //             carousel__crush.classList.remove('hide')
+    //             victory__transition.classList.add('hide')
+    //             crush__dialogueContainer.classList.remove('hide')
+    //             clearInterval()
+    //         }
+    //         }, 500)
+    //     }
+    // , 2500)
+
+
+    // crush__dialogueContainer.appendChild(crush__dialogue)
+    // carousel__slideContainer.appendChild(crush__dialogueContainer)
+
+    // victory__page.appendChild(victory__transition)
+    // victory__transition.appendChild(victory__transition_text)
+    // victory__page.appendChild(carousel__crush)
+
+    // section__victory.appendChild(victory__page)
+
+
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
     const section__victory = document.querySelector('.section-victory')
 
     const victory__container = document.createElement('div')
@@ -75,7 +144,17 @@ socket.on('create-victory', (victoryObject) => {
 socket.on('remove-victory', () => {
     music.victory.fade(1, 0, 3000).stop()
     const section__victory = document.querySelector('.section-victory')
+    // ! const victory__ = document.querySelector('.victory__')
+    const section__sidebar = document.querySelector('.section-sidebar')
+    const carousel__crush = document.querySelector('.carousel')
+    
+    // below - temporary for demo
     const victory__container = document.querySelector('.victory__container')
     victory__container.remove()
+
+
+    carousel__crush.remove()
+    //! victory__.remove()
+    section__sidebar.remove()
     section__victory.classList.add('hide')
 })
