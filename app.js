@@ -208,11 +208,17 @@ io.on('connection', client => {
       lobbyReady(readyStatus)
     })
 
+     // LOBBY PLAYER NOT READY
+     client.on('player-not-ready', (transfer) => {
+      const readyStatus = handlers.handlePlayerNotReady(user, room, transfer)
+      lobbyReady(readyStatus)
+    })
+
 
 
     ////////////////// SKATEBOARD HELPER FUNCTIONS /////////////////
 
-    // PLAYERS READY
+    // ALL PLAYERS READY
     function lobbyReady(readyStatus) {
       if (!readyStatus.gameready) {
         io.to(room.room_id).emit('user_ready_client', readyStatus.userId, room)
@@ -265,7 +271,11 @@ io.on('connection', client => {
 
     // PHASE TRIVIA
     async function trivia(triviaInfo) {
-
+      const session = getSession(client.request.session)
+      if (!session) {
+        io.to(client.id).emit('redirect-to-mainmenu')
+        return
+      }
       let { amount, id, difficulty } = triviaInfo
       let nextPhase = null
       room.gameState.phase = 'trivia'
@@ -311,6 +321,12 @@ io.on('connection', client => {
 
     // PHASE LOUNGE
     function lounge(gameInfo) {
+      const session = getSession(client.request.session)
+
+      if (!session) {
+        io.to(client.id).emit('redirect-to-mainmenu')
+        return
+      }
       let nextTrivia = gameInfo.nextTrivia
       room.gameState.phase = 'lounge'
       room.gameState.triviaIndex++
@@ -323,6 +339,12 @@ io.on('connection', client => {
 
     // PHASE VICTORY
     async function victory() {
+      const session = getSession(client.request.session)
+
+      if (!session) {
+        io.to(client.id).emit('redirect-to-mainmenu')
+        return
+      }
 
       console.log('victory phase start')
 

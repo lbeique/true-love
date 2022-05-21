@@ -168,7 +168,7 @@ socket.on('create-lobby', (room, userId) => {
     const lobby__rightContainer = document.createElement('div')
     const lobby__header = document.createElement('h1')
     const lobby__code = document.createElement('div')
-    const gameStart__header = document.createElement('h2')
+    // const gameStart__header = document.createElement('h2')
     const gameStart__btn = document.createElement('button')
     const gameReady__btn = document.createElement('button')
     const lobby__userListContainer = document.createElement('div')
@@ -180,9 +180,9 @@ socket.on('create-lobby', (room, userId) => {
     lobby__rightContainer.classList.add('lobby__rightContainer')
     lobby__header.classList.add('heading-primary', 'lobby__header')
     lobby__code.classList.add('lobby__code')
-    gameStart__header.classList.add('lobby__startBtn-Header')
+    // gameStart__header.classList.add('lobby__startBtn-Header')
     gameStart__btn.classList.add('btn', 'lobby__startBtn')
-    gameReady__btn.classList.add('btn', 'lobby__readyBtn')
+    gameReady__btn.classList.add('btn', 'lobby__readyBtn', 'btn--darkPurple')
     lobby__userListContainer.classList.add('lobby__userListContainer')
     lobby__backBtn.classList.add('btn', 'lobby__backButton', 'btn--darkPurple')
 
@@ -190,16 +190,16 @@ socket.on('create-lobby', (room, userId) => {
 
 
     lobby__header.innerText = `Welcome to the Lobby: ${room.room_name}`
-    lobby__code.innerHTML = `The Lobby Code is:
-    <span>${room.room_code}</span>`
-    gameStart__header.innerText = 'Not Ready'
+    lobby__code.innerHTML = `The Lobby Code is: <span>${room.room_code}</span>`
+    // gameStart__header.innerText = 'Not Ready'
+    gameReady__btn.innerText = 'Not Ready'
     gameStart__btn.innerHTML = '<i class="fa-solid fa-play"></i>'
     lobby__backBtn.innerHTML = '<span>&#8618;</span>'
     lobby__backBtn.href = '/lobby'
 
 
     lobby__leftContainer.appendChild(lobby__code)
-    lobby__leftContainer.appendChild(gameStart__header)
+    // lobby__leftContainer.appendChild(gameStart__header)
     lobby__leftContainer.appendChild(gameReady__btn)
     lobby__leftContainer.appendChild(gameStart__btn)
     lobby__rightContainer.appendChild(lobby__header)

@@ -1130,14 +1130,18 @@ tr:nth-child(even) {
   font-size: 30px;
   color: #D7FF60;
 }
-.lobby__startBtn-Header {
-  color: #19083c;
+.lobby__readyBtn {
   font-size: 50px;
+  color: #6250AC;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
+  width: 100%;
+  height: 100%;
+  border: 15px solid #7366BD;
+  border-radius: 40em;
+  background-color: #19083c;
 }
-.lobby__startBtn-Header--readyGreen {
+.lobby__readyBtn--readyGreen {
+  background-color: #19083c;
   color: #D7FF60;
 }
 .lobby__startBtn {

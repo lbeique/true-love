@@ -4,12 +4,12 @@ function makeUsername() {
 }
 
 function makeCode(length) {
-    let code = ""
     let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    let roomCode = ""
     for (let i = 0; i < length; i++) {
-        code += characters.charAt(Math.floor(Math.random() * characters.length))
+        roomCode += characters.charAt(Math.floor(Math.random() * characters.length))
     }
-    return code
+    return roomCode
 }
 
 function arrayClone(array) {
