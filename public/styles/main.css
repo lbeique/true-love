@@ -34,8 +34,8 @@ body {
 }
 
 * {
-  font-family: "Fredoka One", cursive, "Arial Rounded MT Bold", "Arial";
-  color: beige;
+  font-family: "Fredoka One", "Arial Rounded MT Bold", "Arial";
+  color: white;
 }
 
 .heading-primary {
@@ -1123,19 +1123,26 @@ tr:nth-child(even) {
   background-color: #19083c;
   color: #D7FF60;
   font-size: 20px;
-  margin-top: 5em;
-  margin-bottom: 7em;
+  margin-top: 3em;
+  margin-bottom: 5em;
 }
 .lobby__code span {
   font-size: 30px;
   color: #D7FF60;
 }
-.lobby__startBtn-Header {
-  color: #D7FF60;
-  font-size: 50px;
+.lobby__readyBtn {
+  font-size: 30px;
+  color: #6250AC;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
+  width: 50%;
+  height: 10%;
+  border: 10px solid #7366BD;
+  border-radius: 40em;
+  background-color: #19083c;
+  margin-bottom: 1em;
+}
+.lobby__readyBtn--readyGreen {
+  background-color: #D7FF60;
 }
 .lobby__startBtn {
   display: flex;
@@ -1145,11 +1152,14 @@ tr:nth-child(even) {
   height: 30vh;
   border: 15px solid #7366BD;
   border-radius: 40em;
-  background-color: #D7FF60;
+  background-color: #19083c;
   font-size: 100px;
 }
 .lobby__startBtn i {
-  color: #7366BD;
+  color: #6250AC;
+}
+.lobby__startBtn--readyGreen {
+  background-color: #D7FF60;
 }
 .lobby__rightContainer {
   display: flex;
@@ -1216,13 +1226,33 @@ tr:nth-child(even) {
 }
 .user__name {
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
   font-size: 30px;
   padding: 10px 20px;
   border-radius: 2em;
+}
+.user__name:hover {
+  text-shadow: none;
+}
+.user__name i {
+  color: #D7FF60;
+}
+.user__name--kick {
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+  font-size: 30px;
+}
+.user__name--kick:hover {
+  transform: translateY(-2px);
+  text-shadow: 0 0 15px #d7ff60;
+}
+.user__name--kick:active {
+  transform: translateY(1px);
+  text-shadow: 0 0 15px #d7ff60;
 }
 
 .section-lobbies {

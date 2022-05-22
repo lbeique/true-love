@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
     return
 })
 
-router.post("/achievements", async (req, res) => {
+router.post("/profile", async (req, res) => {
     const session = getSession(req.session)
     if (!session) {
         res.status(404).redirect('/')
@@ -38,7 +38,12 @@ router.post("/achievements", async (req, res) => {
         res.status(404).redirect('/')
         return
     }
-    res.json({ user_achievements })
+    const userData = {
+        userInfo: req.session.user_info,
+        achievements: user_achievements
+    }
+
+    res.json({ userData })
     return
 })
 
