@@ -52,8 +52,8 @@
         background-color: $primary-color;
         color: $tertiary-color;
         font-size: 20px;
-        margin-top: 2em;
-        margin-bottom: 6em;
+        margin-top: 3em;
+        margin-bottom: 5em;
 
         & span{
             font-size: 30px;
@@ -198,7 +198,7 @@
         }
         
         &--kick{
-            background-color: $primary-color;
+            background-color: transparent;
             border-radius: 0;
             border: none;
             font-size: 30px;

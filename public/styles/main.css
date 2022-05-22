@@ -1123,8 +1123,8 @@ tr:nth-child(even) {
   background-color: #19083c;
   color: #D7FF60;
   font-size: 20px;
-  margin-top: 2em;
-  margin-bottom: 6em;
+  margin-top: 3em;
+  margin-bottom: 5em;
 }
 .lobby__code span {
   font-size: 30px;
@@ -1241,7 +1241,7 @@ tr:nth-child(even) {
   color: #D7FF60;
 }
 .user__name--kick {
-  background-color: #19083c;
+  background-color: transparent;
   border-radius: 0;
   border: none;
   font-size: 30px;
