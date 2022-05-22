@@ -25,6 +25,12 @@
         &-trivia{
             width: 50%;
         }
+
+        &-victory{
+            position: absolute;
+            width: 100%;
+            z-index: 50;
+        }
         
     }
     
@@ -47,13 +53,14 @@
         height: 100%;
         z-index: 20;
         background-color: rgba($secondary-color, 0.5);
-        animation: fadingIn 1s ease 
+        animation: fadingIn 1s ease backwards;
     
     }
 
     &__container{
 
         display: flex;
+        position: relative;
         flex-direction: column;
         row-gap: 1em;
         height: 90%;
@@ -176,6 +183,10 @@
         &--open{
             width: 7%;
             height: 70%;
+
+            &-victory{
+                width: 3.4%;
+            }
         }
 
         &--close{
@@ -201,6 +212,7 @@
         align-items: center;
         width: 60%;
         height: 100%;
+        
     }
 
     &__youContainer{
@@ -276,6 +288,15 @@
 
     }
 
+    &__triviaPts{
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        width: 62%;
+        column-gap: 1em;
+
+    }
+
 }
 
 .info{
@@ -297,6 +318,35 @@
 
         &--green{
             color: $tertiary-color;
+        }
+    }
+
+    &__categoryPts{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        border: 2px solid $secondary-color;
+        border-radius: 20px;
+        column-gap: 2px;
+        place-self: center;
+        padding: .2em;
+
+        &--top{
+            width: 100%;
+            height: 100%;
+            color: $tertiary-color;
+            display: flex;
+            place-content: center;
+            font-size: 14px;
+        }
+
+        &--bottom{
+            width: 100%;
+            height: 100%;
+            color: $tertiary-color;
+            display: flex;
+            place-content: center;
+            font-size: 14px;
         }
     }
 

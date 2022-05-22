@@ -289,11 +289,11 @@ io.on('connection', client => {
     async function victory() {
 
       console.log('victory phase start')
-      room.gameState.phase = 'trivia'
+      room.gameState.phase = 'victory'
       // await handlers.handleGameSave(room)
       const victoryObject = await handlers.handleGetVictory(room)
-
       io.to(room.room_id).emit('create-victory', victoryObject)
+      io.to(room.room_id).emit('setup-sidebar-victory', victoryObject)
     }
 
 
