@@ -1,13 +1,20 @@
+function apples(userData) {
+  console.log('user_name', userData.userInfo.user_name)
+
+}
+
 document.querySelector('.profile_icon').addEventListener('click', event => {
   event.preventDefault();
-  axios.post('/mainmenu/achievements')
+  axios.post('/mainmenu/profile')
     .then(res => {
 
       // Array with UP TO 6 achievement objects
       // No achievements results in an empty array
       // [ { achievement_id: 1, achievement_name: 'achieveNerdyBoy' } ]
-      console.log('axios.then', res.data)
-
+      console.log('axios.then', res.data.userData)
+      let userData = res.data.userData
+     
+      apples(userData)
       // DOM MANIPULATION HERE
 
 

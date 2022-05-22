@@ -195,6 +195,7 @@ async function handleCreateLobby(roomId, roomName, roomCode, user_info) {
             room_code: roomCode,
             room_id: roomId,
             room_name: roomName,
+            kickedUsers: {},
             token: await fetchTriviaToken(),
             clients: {},
             gameState: {

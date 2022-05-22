@@ -110,6 +110,9 @@ io.on('connection', client => {
       // NEED TO DEAL WITH USERS HERE (game is currently active) - Laurent
       io.to(client.id).emit('redirect-to-lobbylist')
       return
+    } else if (room.kickedUsers[user.userId]) {
+      io.to(client.id).emit('redirect-to-lobbylist')
+      return
     }
 
     let clients = room.clients
@@ -131,6 +134,8 @@ io.on('connection', client => {
     client.join(room.room_id)
     // console.log(`${client.id} client.join-room -> emit user-joined`)
     io.to(room.room_id).emit('user-joined', user, room)
+    let host = room.creator_socketId
+    io.to(host).emit('create-kick-users', room)
     console.log(`on-join-room, user ${user.username} connected to room ${room.room_id} with clientid: ${user.socketId}`)
 
 
@@ -151,11 +156,14 @@ io.on('connection', client => {
             }
           }
         }
-        transfer = false
       }
       if (room.gameState.game_active === false) {
         handlers.handleLobbyDisconnect(room.room_id, client)
+
         io.to(room.room_id).emit(`user-disconnected`, user, room)
+        let host = room.creator_socketId
+        io.to(host).emit('create-kick-users', room)
+
       } else if (room.gameState.game_active === true) {
         handlers.handleLeavingGameInProgress(room, client)
         if (room.gameState.phase === 'voting') {
@@ -167,6 +175,23 @@ io.on('connection', client => {
           // we might need a possible stop at lounge, need to address if a person leaves -- Laurent
         }
       }
+    })
+
+    client.on('host_ready_for_X', () => {
+      let host = room.creator_socketId
+      io.to(host).emit('create-kick-users', room)
+    })
+
+    client.on('kick-player', (userId) => {
+      let kickUser = handlers.handleGetUserFromUserId(userId)
+      room.kickedUsers[userId] = true;
+      console.log(room.kickedUsers)
+      console.log(kickUser)
+      io.to(kickUser.socketId).emit('redirect-to-mainmenu')
+    })
+
+    client.on('kicked', () => {
+      client.disconnect()
     })
 
 
@@ -232,7 +257,7 @@ io.on('connection', client => {
           } else {
             io.to(room.room_id).emit('user_ready_client', user.userId)
           }
-          
+
         } else {
           io.to(room.room_id).emit('user_ready_client', user.userId)
           io.to(hostSocketId).emit('all_users_ready', room)
