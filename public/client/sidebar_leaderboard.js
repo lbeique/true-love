@@ -161,7 +161,6 @@ socket.on('receive room_clients', (room) => {
         }
     
     })
-    // console.log('CURRENT HADNLER', document.querySelector('.sidebar__container').getEventListeners())
 
     const clients = room.clients
 
