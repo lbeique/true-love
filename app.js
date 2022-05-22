@@ -205,26 +205,51 @@ io.on('connection', client => {
     // LOBBY PLAYER READY
     client.on('player-ready', (transfer) => {
       const readyStatus = handlers.handlePlayerReady(user, room, transfer)
-      lobbyReady(readyStatus)
+      lobbyReadyCheck(readyStatus)
     })
 
-     // LOBBY PLAYER NOT READY
-     client.on('player-not-ready', (transfer) => {
-      const readyStatus = handlers.handlePlayerNotReady(user, room, transfer)
-      lobbyReady(readyStatus)
+    // LOBBY PLAYER NOT READY
+    client.on('player-not-ready', () => {
+      handlers.handlePlayerNotReady(user)
+      lobbyNotReady()
     })
 
 
 
     ////////////////// SKATEBOARD HELPER FUNCTIONS /////////////////
 
-    // ALL PLAYERS READY
-    function lobbyReady(readyStatus) {
-      if (!readyStatus.gameready) {
-        io.to(room.room_id).emit('user_ready_client', readyStatus.userId, room)
-      } else {
-        io.to(room.room_id).emit('user_ready_client', readyStatus.userId, room)
-        io.to(room.room_id).emit('all_users_ready', user.userId, room)
+    // LOBBY READY CHECK
+    function lobbyReadyCheck(readyStatus) {
+      let players = room.clients
+      let hostSocketId = null
+      for (const player in players) {
+        if (players[player].userId === room.creator_id) {
+          hostSocketId = players[player].socketId
+        }
+        if (!readyStatus) {
+          if (!user.game.ready) {
+            io.to(room.room_id).emit('user_not_ready_client', user.userId)
+          } else {
+            io.to(room.room_id).emit('user_ready_client', user.userId)
+          }
+          
+        } else {
+          io.to(room.room_id).emit('user_ready_client', user.userId)
+          io.to(hostSocketId).emit('all_users_ready', room)
+        }
+      }
+    }
+
+    // LOBBY NOT READY
+    function lobbyNotReady() {
+      let players = room.clients
+      let hostSocketId = null
+      for (const player in players) {
+        if (players[player].userId === room.creator_id) {
+          hostSocketId = players[player].socketId
+        }
+        io.to(room.room_id).emit('user_not_ready_client', user.userId)
+        io.to(hostSocketId).emit('all_users_not_ready', room)
       }
     }
 

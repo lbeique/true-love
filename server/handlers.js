@@ -190,6 +190,7 @@ async function handleCreateLobby(roomId, roomName, roomCode, user_info) {
         let lobby = {
             creator_id: user_info.user_id,
             creator_name: user_info.user_name,
+            creator_socketId: null,
             num_clientInRoom: 0,
             room_code: roomCode,
             room_id: roomId,
@@ -255,6 +256,9 @@ function handleLobbyJoin(roomId, client) {
     const connectedClient = socketUsers[client.id]
     lobbyRooms[roomId].clients[connectedClient.socketId] = connectedClient
     lobbyRooms[roomId].num_clientInRoom++
+    if (connectedClient.userId === lobbyRooms[roomId].creator_id) {
+        lobbyRooms[roomId].creator_socketId = connectedClient.socketId
+    }
     // console.log('handle lobby join room', lobbyRooms[roomId])
     return lobbyRooms[roomId]
 }
@@ -300,6 +304,7 @@ function handleLobbyDisconnect(roomId, client) {
 function handleLobbyTransfer(roomId, user) {
     lobbyRooms[roomId].creator_id = user.userId
     lobbyRooms[roomId].creator_name = user.username
+    lobbyRooms[roomId].creator_socketId = user.socketId
     return
 }
 
@@ -338,21 +343,22 @@ function handlePlayerReady(user, room, transfer) {
     }
     let playersLeftToBeReady = 0
     let players = room.clients
-    const data = {
-        gameready: false,
-        userId: user.userId
-    }
+    let readyStatus = false
     for (const player in players) {
         if (players[player].game.ready === false && players[player].active === true) {
             playersLeftToBeReady++
         }
     }
     if (playersLeftToBeReady === 0) {
-        data.gameready = true
-        return data
+        readyStatus = true
+        return readyStatus
     } else {
-        return data
+        return readyStatus
     }
+}
+
+function handlePlayerNotReady(user) {
+    user.game.ready = false
 }
 
 
@@ -893,6 +899,7 @@ module.exports = {
     handleLeavingGameInProgress,
     handleLobbyCleanUp,
     handlePlayerReady,
+    handlePlayerNotReady,
 
     handleGetVictory,
     // handleGameSave
