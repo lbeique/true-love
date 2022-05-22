@@ -286,58 +286,12 @@ socket.on('create-lobby', (room, userId) => {
     }
 
 
-
     console.log("USER ID", userId, "HOST ID", hostID)
 
-    // if (+userId !== hostID) {
-    //     // Stef: if client is not the host, don't see this button, will have to change logic
-    //     // Lo: I like it haha
-    //     console.log(lobby__userListContainer)
-    //     let query__user__container = document.querySelectorAll('.user__container')
-    //     query__user__container.forEach(node => {
-    //         let userNodeId = +node.id
-    //     });
-
-
-
-    //     // console.log('node', query__user__container)
-
-    //     // lobby__userListContainer.forEach(user__container => {
-    //     //     let container_userId = null
-    //     //     if (user__container.classList.contains('user__avatarContainer')) {
-    //     //         console.log(user__container.classList[0])
-    //     //     }
-    //     //     user__container.forEach(username__container => {
-    //     //         if (username__container.classList.contains('user__name--kick')) {
-    //     //             username__container.querySelector('.user__name--kick')
-    //     //         }
-
-    //     //     });
-    //     // });
-    //     let kick__buttons = lobby__userListContainer.querySelectorAll('.user__name--kick')
-    //     kick__buttons.forEach(element => {
-    //         element.remove()
-    //     });
-    //     // gameStart__btn.remove()
-    // }
 
     socket.emit(`player-not-ready`)
 
     section__lobbyClient.classList.remove('hide')
-
-    // if (+userId === hostID) {
-    //     let kick__buttons = lobby__userListContainer.querySelectorAll('user__name--kick')
-    //     console.log('allo', kick__buttons)
-    //     // lobby__userListContainer.forEach(element => {
-    //     //     if (element.classList.contains('user__name--kick')) {
-    //     //         for (let i = 0; i < classList.length; i++) {
-    //     //             console.log(classList[i])
-
-    //     //         }
-    //     //     }
-    //     // });
-
-    // }
 
 })
 
@@ -419,38 +373,6 @@ socket.on('host-transfer', (host, phase) => {
 
         lobby__leftContainer.appendChild(gameStart__btn)
         lobby__rightContainer.addEventListener('click', kickUserHelper)
-
-
-        // let userNameContainers = document.querySelectorAll('.user__name')
-        // userNameContainers.forEach(container => {
-        //     if (container.lastChild.nodeType !== Node.TEXT_NODE) {
-        //         container.lastChild.remove()
-        //     }
-        //     let currentUserId = +container.id
-        //     if (currentUserId !== hostID) {
-        //         const kick__btn = document.createElement('button')
-        //         kick__btn.classList.add('user__name--kick', `kick-${currentUserId}`)
-        //         kick__btn.innerHTML = `<i id=${currentUserId} class="fa-solid fa-x"></i>`
-        //         kick__btn.id = currentUserId
-        //         container.appendChild(kick__btn)
-        //     }
-        // })
-        // user__listContainer.forEach(node => {
-
-        // });
-
-        // if (userId !== hostID) {
-        //     kick__btn.addEventListener('click', (event) => {
-        //         event.preventDefault();
-        //         sfx.negative.play()
-        //         socket.emit('kick-user', clients[client].userId)
-        //     })
-        //     const kick__btns = document.querySelectorAll('.user__name--kick')
-        //     kick__btns.forEach(button => {
-        //         button.remove()
-        //     });
-        // }
-
 
     }
 })
