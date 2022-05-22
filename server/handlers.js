@@ -4,6 +4,7 @@ const { arrayClone } = require('../utils/utilities')
 
 let socketUsers = {}; // wanna use Database instead later - maybe??
 let lobbyRooms = {};
+let activeSockets = {};
 
 let crushes = [
     {
@@ -158,6 +159,18 @@ function handleServerJoin(client, user_id, user_name, avatar_name) {
 
 }
 
+function socketStore(userId, socket) {
+    let store = {
+        userId: userId,
+        socket: socket,
+    }
+    activeSockets[userId] = store
+}
+
+function retrieveSocket(userId) {
+    return activeSockets[userId].socket
+}
+
 function handleGetAllUsers() {
     return socketUsers
 }
@@ -290,7 +303,7 @@ function handleDeleteLobby(roomId) {
 }
 
 // Should now transfer host if host leaves
-function handleLobbyDisconnect(roomId, client) {
+function handleLobbyDisconnect(roomId, client, userId) {
     const connectedClient = socketUsers[client.id]
     delete lobbyRooms[roomId].clients[connectedClient.socketId]
     lobbyRooms[roomId].num_clientInRoom--
@@ -299,6 +312,7 @@ function handleLobbyDisconnect(roomId, client) {
         handleDeleteLobby(roomId)
     }
     delete socketUsers[client.id];
+    delete activeSockets[userId];
     return
 }
 
@@ -904,4 +918,7 @@ module.exports = {
 
     handleGetVictory,
     // handleGameSave
+
+    socketStore,
+    retrieveSocket
 }

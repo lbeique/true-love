@@ -94,6 +94,7 @@ io.on('connection', client => {
   client.on('join-room', (roomId) => {
     let { user_name, user_id, avatar_name } = client.request.session.user_info
     let user = handlers.handleServerJoin(client, user_id, user_name, avatar_name)
+    handlers.socketStore(user.userId, client)
     console.log('join-room user: ', user)
     if (!user) {
       // NEED TO DEAL WITH USERS HERE (handler failed to join user) - Laurent
@@ -158,7 +159,7 @@ io.on('connection', client => {
         }
       }
       if (room.gameState.game_active === false) {
-        handlers.handleLobbyDisconnect(room.room_id, client)
+        handlers.handleLobbyDisconnect(room.room_id, client, user.userId)
 
         io.to(room.room_id).emit(`user-disconnected`, user, room)
         let host = room.creator_socketId
@@ -175,6 +176,7 @@ io.on('connection', client => {
           // we might need a possible stop at lounge, need to address if a person leaves -- Laurent
         }
       }
+      
     })
 
     client.on('host_ready_for_X', () => {
@@ -184,15 +186,19 @@ io.on('connection', client => {
 
     client.on('kick-player', (userId) => {
       let kickUser = handlers.handleGetUserFromUserId(userId)
+      let kickSocket = handlers.retrieveSocket(userId)
       room.kickedUsers[userId] = true;
       console.log(room.kickedUsers)
       console.log(kickUser)
-      io.to(kickUser.socketId).emit('redirect-to-mainmenu')
+      kickSocket.disconnect()
+      // io.to(kickUser.socketId).emit('redirect-to-mainmenu')
+      const readyStatus = handlers.handlePlayerReady(user, room, true)
+      lobbyReadyCheck(readyStatus)
     })
 
-    client.on('kicked', () => {
-      client.disconnect()
-    })
+    // client.on('kicked', () => {
+    //   client.disconnect()
+    // })
 
 
     // SERVER ERROR
