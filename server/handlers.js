@@ -1,6 +1,6 @@
 require('dotenv').config()
-const fetch = require('node-fetch')
 const { arrayClone } = require('../utils/utilities')
+const database = require("../databaseAccess")
 
 let socketUsers = {}; // wanna use Database instead later - maybe??
 let lobbyRooms = {};
@@ -11,7 +11,7 @@ let crushes = [
         id: 1,
         name: 'Rocco Moses',
         nickname: 'nerdyBoy',
-        categoryEasy: { id: 'general_knowledge', name: 'General Knowledge' },
+        categoryEasy: { id: 'general_knowledge', name: 'General Knowledge', db: 4 },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -19,7 +19,7 @@ let crushes = [
         id: 2,
         name: 'Julien Raven',
         nickname: 'emoBoy',
-        categoryEasy: { id: 'arts_and_literature', name: 'Arts & Literature' },
+        categoryEasy: { id: 'arts_and_literature', name: 'Arts & Literature', db: 1 },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -27,7 +27,7 @@ let crushes = [
         id: 3,
         name: 'Chadwick "The Chad" Jonhson',
         nickname: 'sportyBoy',
-        categoryEasy: { id: 'film_and_tv', name: 'Film & TV' },
+        categoryEasy: { id: 'film_and_tv', name: 'Film & TV', db: 2 },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -35,7 +35,7 @@ let crushes = [
         id: 4,
         name: 'Willow Whitlock',
         nickname: 'nerdyGirl',
-        categoryEasy: { id: 'science', name: 'Science' },
+        categoryEasy: { id: 'science', name: 'Science', db: 8 },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -43,7 +43,7 @@ let crushes = [
         id: 5,
         name: 'Faye Midnight',
         nickname: 'emoGirl',
-        categoryEasy: { id: 'history', name: 'History' },
+        categoryEasy: { id: 'history', name: 'History', db: 6 },
         categoryMedium: null,
         categoryHard: null,
     },
@@ -51,7 +51,7 @@ let crushes = [
         id: 6,
         name: 'Billie Hale',
         nickname: 'sportyGirl',
-        categoryEasy: { id: 'sport_and_leisure', name: 'Sports & Leisure' },
+        categoryEasy: { id: 'sport_and_leisure', name: 'Sports & Leisure', db: 10 },
         categoryMedium: null,
         categoryHard: null,
     }
@@ -60,43 +60,53 @@ let crushes = [
 let categories = [ // easy // medium // hard
     {
         id: 'arts_and_literature', // 116 // 123 // 59
-        name: 'Arts & Literature'
+        name: 'Arts & Literature',
+        db: 1
     },
     {
         id: 'film_and_tv', // 87 // 116 // 42
-        name: 'Film & TV'
+        name: 'Film & TV',
+        db: 2
     },
     {
         id: 'food_and_drink', // 322 // 441 // 182
-        name: 'Food & Drink'
+        name: 'Food & Drink',
+        db: 3
     },
     {
         id: 'general_knowledge', // 48 // 74 // 37
-        name: 'General Knowledge'
+        name: 'General Knowledge',
+        db: 4
     },
     {
         id: 'geography', // 49 // 64 // 20
-        name: 'Geography'
+        name: 'Geography',
+        db: 5
     },
     {
         id: 'history', // 66 // 161 // 80
-        name: 'History'
+        name: 'History',
+        db: 6
     },
     {
         id: 'music', // 59 // 100 // 68
-        name: 'Music'
+        name: 'Music',
+        db: 7
     },
     {
         id: 'science', // 31 // 40 // 26
-        name: 'Science'
+        name: 'Science',
+        db: 8
     },
     {
         id: 'society_and_culture', // 107 // 189 // 68
-        name: 'Society & Culture'
+        name: 'Society & Culture',
+        db: 9
     },
     {
         id: 'sport_and_leisure', // 69 // 72 // 29
-        name: 'Sport & Leisure'
+        name: 'Sport & Leisure',
+        db: 10
     },
 ]
 
@@ -189,11 +199,11 @@ function handleGetUserFromUserId(userId) {
 }
 
 // API FETCH TOKEN
-async function fetchTriviaToken() {
-    const response = await fetch(`https://opentdb.com/api_token.php?command=request`)
-    const data = await response.json()
-    return data.token
-}
+// async function fetchTriviaToken() {
+//     const response = await fetch(`https://opentdb.com/api_token.php?command=request`)
+//     const data = await response.json()
+//     return data.token
+// }
 
 
 // LOBBY HANDLER FUNCTIONS
@@ -209,7 +219,7 @@ async function handleCreateLobby(roomId, roomName, roomCode, user_info) {
             room_id: roomId,
             room_name: roomName,
             kickedUsers: {},
-            token: await fetchTriviaToken(),
+            // token: await fetchTriviaToken(),
             clients: {},
             gameState: {
                 game_active: false,
@@ -723,6 +733,7 @@ function gameReset(room) {
 function userReset(user) {
 
     // MUST ALWAYS KEEP UP TO DATE -- Laurent
+    // Dont think this is ever used
     user.game = {
         crushVote: null,
         trivia: {
@@ -760,15 +771,15 @@ async function handleGetVictory(room) {
 
         let players = room.clients
 
-        const params = {
-            crush_id: room.gameState.topVotedCrush.id,
-            category_easy_id: room.gameState.topVotedCrush.categoryEasy.id,
-            category_medium_id: room.gameState.topVotedCrush.categoryMedium.id,
-            category_hard_id: room.gameState.topVotedCrush.categoryHard.id,
-            room_name: room.room_name
-        }
+        // const params = {
+        //     crush_id: room.gameState.topVotedCrush.id,
+        //     category_easy_id: room.gameState.topVotedCrush.categoryEasy.db,
+        //     category_medium_id: room.gameState.topVotedCrush.categoryMedium.db,
+        //     category_hard_id: room.gameState.topVotedCrush.categoryHard.db,
+        //     room_name: room.room_name
+        // }
 
-        const values = []
+        // const values = []
         const dialogue = []
 
         // NEEDS TO CHANGE -- Laurent
@@ -778,6 +789,7 @@ async function handleGetVictory(room) {
                 for (const player in players) {
                     if (players[player].userId === leaderboard[0].userId) {
                         players[player].game.trivia.hard.points++
+                        players[player].game.totalPoints++
                         dialogue.push(`I am honoured that ${leaderboard[0].username} and ${leaderboard[1].username} fought so hard for my love... but...`)
                     }
                 }
@@ -786,28 +798,30 @@ async function handleGetVictory(room) {
         leaderboard = handleUpdateLeaderboard(room)
         let winner = leaderboard[0]
 
+        await database.saveGame(room)
         // SAVE GAME TO DATABASE HERE
-        console.log('final room', room)
-        console.log('final gamestate', room.gameState)
-        console.log('final leaderboard', room.gameState.leaderboard)
+        // console.log('final room', room)
+        // console.log('final gamestate', room.gameState)
+        // console.log('final leaderboard', room.gameState.leaderboard)
 
-        for (const player in players) {
-            values.push(
-                [
-                    players[player].userId,
-                    24,
-                    players[player].game.position,
-                    players[player].game.trivia.easy.points,
-                    players[player].game.trivia.easy.errors.reduce((accumulator, error) => accumulator + error, 0),
-                    players[player].game.trivia.medium.points,
-                    players[player].game.trivia.medium.errors.reduce((accumulator, error) => accumulator + error, 0),
-                    players[player].game.trivia.hard.points,
-                    players[player].game.trivia.hard.errors.reduce((accumulator, error) => accumulator + error, 0)
-                ])
-        }
+        // for (const player in players) {
+        //     values.push(
+        //         [
+        //             players[player].userId,
+        //             24,
+        //             players[player].game.position,
+        //             players[player].game.trivia.easy.points,
+        //             players[player].game.trivia.easy.errors.reduce((accumulator, error) => accumulator + error, 0),
+        //             players[player].game.trivia.medium.points,
+        //             players[player].game.trivia.medium.errors.reduce((accumulator, error) => accumulator + error, 0),
+        //             players[player].game.trivia.hard.points,
+        //             players[player].game.trivia.hard.errors.reduce((accumulator, error) => accumulator + error, 0)
+        //         ])
+        // }
 
-        console.log('params', params)
-        console.log('values', values)
+        // console.log('params', params)
+        // console.log('values', values)
+
 
         handleLobbyCleanUp(room.room_id)
 
