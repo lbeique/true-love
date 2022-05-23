@@ -1,6 +1,6 @@
 ## Heroku App
 
-https://idsp-true-love.herokuapp.com/
+https://love-is-war.herokuapp.com/
 
 ## IDSP Game Project
 

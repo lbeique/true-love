@@ -23,6 +23,7 @@ const getUserByID = async (userId) => {
     const params = {
         user_id: +userId,
     }
+
     const sqlSelectUserByID = "SELECT user.user_id, avatar.avatar_name, user.user_name, user.password_hash FROM user JOIN avatar ON avatar.avatar_id = user.avatar_id WHERE user.user_id = :user_id;"
     const user_info = await database.query(sqlSelectUserByID, params)
     console.log('database', user_info[0][0])
@@ -39,28 +40,25 @@ const getAllUsers = async () => {
 
 const addUser = async (postBody) => {
     console.log('db adduser post body', postBody)
-    // const newUser = new UserValidation(postBody.email, postBody.password)
-    // console.log(newUser.validateEmail())
-    // console.log(newUser.validatePassword())
-    // if (!newUser.validateEmail() || newUser.validatePassword()) {
-    //     return
-    // }
-    const password = postBody.password
-    const encryptedPassword = await bcrypt.hash(password, 10)
-    const params = {
-        name: postBody.name,
-        email: postBody.email,
-        password: encryptedPassword,
-        currency: 0,
-        points: 0
-    }
-    const sqlInsertUser = "INSERT INTO user (user_name, email, password_hash, creation_date) VALUES (:name, :email, :password, CURRENT_TIMESTAMP);"
-    const result = await database.query(sqlInsertUser, params)
-    console.log('db adduser result', result[0])
-    if (result[0]) {
-        const user_info = await getUserByID(result[0].insertId)
-        console.log(user_info)
-        return user_info
+    const checkUserResult = await checkUsername(postBody.name)
+    if (checkUserResult.user_matches === 0) {
+        const password = postBody.password
+        const encryptedPassword = await bcrypt.hash(password, 10)
+        const params = {
+            name: postBody.name,
+            password: encryptedPassword,
+            currency: 0,
+            points: 0
+        }
+        const sqlInsertUser = "INSERT INTO user (user_name, password_hash, creation_date) VALUES (:name, :password, CURRENT_TIMESTAMP);"
+        const result = await database.query(sqlInsertUser, params)
+        console.log('db adduser result', result[0])
+        if (result[0]) {
+            const user_info = await getUserByID(result[0].insertId)
+            console.log(user_info)
+            return user_info
+        }
+        return
     }
     return
 }
@@ -80,6 +78,7 @@ const updateUsername = async (userId, username) => {
         user_id: userId,
         user_name: username
     }
+
     const matches = await checkUsername(username)
     if (matches.user_matches === 0) {
         const sqlUpdateUsername = "UPDATE user SET user_name = :user_name WHERE user_id = :user_id;"
@@ -181,31 +180,41 @@ const getGlobalMatchHistory = async () => {
     const sqlSelectGlobalMatchHistory = "SELECT winningscore_by_room.room_id, crush.crush_nickname, user.user_id, user.user_name, winningscore_by_room.total_score, winningscore_by_room.total_players, room.date FROM (SELECT room_id, MAX(easy_points+medium_points+hard_points) AS total_score, COUNT(user_id) AS total_players FROM user_room GROUP BY room_id) AS winningscore_by_room JOIN user_room ON winningscore_by_room.room_id = user_room.room_id AND winningscore_by_room.total_score = (easy_points+medium_points+hard_points) JOIN user ON user.user_id = user_room.user_id JOIN room ON room.room_id = user_room.room_id JOIN crush ON crush.crush_id = room.crush_id ORDER BY room.date DESC LIMIT 50;"
     const global_match_history = await database.query(sqlSelectGlobalMatchHistory)
     console.log('database', global_match_history[0])
-    // [{room_id, crush_nickname, user_id, user_name, avatar_id, total_score, total_players, date}]
+    // [
+    //     {
+    //         room_id, 
+    //         crush_nickname, 
+    //         user_id, 
+    //         user_name, 
+    //         avatar_id, 
+    //         total_score, 
+    //         total_players, 
+    //         date
+    //     }
+    // ]
     return global_match_history[0]
 }
 
 
 // Need an access for retrieving global leaderboard information (user_name, avatar_id, Favourite Category, Total Points, Total Wins, Win/Loss Ratio)
 const getGlobalLeaderboard = async () => {
-    const sqlSelectGlobalLeaderboard = ""
+    const sqlSelectGlobalLeaderboard = "SELECT user.user_id, user.user_name, user.avatar_id, avatar.avatar_name, IFNULL(total_points.total_points,0) AS total_points, IFNULL(total_wins,0) AS total_wins, IFNULL((total_wins.total_wins / (IFNULL(total_wins.total_wins,0) + IFNULL(total_losses.total_losses,0))),0) AS win_ratio FROM (SELECT user_id, SUM(easy_points+medium_points+hard_points) AS total_points FROM user_room GROUP BY user_id) AS total_points LEFT JOIN (SELECT user_id, IFNULL(COUNT(position),0) AS total_wins FROM user_room WHERE position = 1 GROUP BY user_id) AS total_wins ON total_wins.user_id = total_points.user_id LEFT JOIN (SELECT user_id, IFNULL(COUNT(position),0) AS total_losses FROM user_room WHERE position != 1 GROUP BY user_id) AS total_losses ON total_losses.user_id = total_points.user_id RIGHT JOIN user ON user.user_id = total_points.user_id RIGHT JOIN avatar ON user.avatar_id = avatar.avatar_id ORDER BY total_wins.total_wins DESC, win_ratio DESC, total_points DESC"
     const global_leaderboard = await database.query(sqlSelectGlobalLeaderboard)
     console.log('database', global_leaderboard[0])
     return global_leaderboard[0]
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    // [
+    //     { 
+    //         user_id, 
+    //         user_name, 
+    //         avatar_id,
+    //         avatar_name 
+    //         total_points, 
+    //         total_wins, 
+    //         win_ratio
+    //     }
+    // ]
 
 
 
@@ -362,4 +371,4 @@ const getCategoriesById = async (categoryEasyId, categoryMediumId, categoryHardI
 }
 
 
-module.exports = { addUser, getUserByLogin, getUserByID, getAllUsers, getUserAchievements, updateUserAvatar, deleteUser, updateUsername }
+module.exports = { addUser, getUserByLogin, getUserByID, getAllUsers, getUserAchievements, updateUserAvatar, deleteUser, updateUsername, getGlobalMatchHistory, getUserMatchHistory, getRoomInformationByRoomId }

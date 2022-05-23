@@ -22,14 +22,14 @@ const lobbyRouter = require('./routes/lobby')
 const leaderboardRouter = require('./routes/leaderboard')
 
 
-// Session Set-up
+// Session Middleware setup
 const sessionMiddleware = session({
   secret: `${process.env.SESSION_USER_KEYS}`,
   resave: false,
   saveUninitialized: false
 })
 
-// Conflict Oh no
+// Express do things
 app.use(sessionMiddleware)
 app.set('socketio', io)
 app.set('view engine', 'ejs')
@@ -38,12 +38,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 
-
-// some socket router stuff
+// socket router session magic!
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 
 io.use(wrap(sessionMiddleware))
-
 
 io.use((socket, next) => {
   const session = socket.request.session
@@ -63,10 +61,24 @@ app.use('/mainmenu', mainMenuRouter)
 app.use('/lobby', lobbyRouter)
 
 
+const getSession = (session) => {
+  if (!session.authenticated) {
+    return null
+  }
+  return session
+}
 
-// THE REAL SOCKETS STUFF BEGINS HERE
+
+
+// THE SOCKETS STUFF BEGINS HERE
 io.on('connection', client => {
 
+  const session = getSession(client.request.session)
+
+  if (!session) {
+    client.disconnect()
+    return
+  }
   console.log(`on-connection, connected with clientid: ${client.id}`)
 
   // LOBBY USER REFRESH
@@ -79,24 +91,28 @@ io.on('connection', client => {
   })
 
   // SERVER JOIN
-  client.on('join-room', (roomId, userId, userName, avatarName) => {
-
-    let user = handlers.handleServerJoin(client, userId, userName, avatarName)
+  client.on('join-room', (roomId) => {
+    let { user_name, user_id, avatar_name } = client.request.session.user_info
+    let user = handlers.handleServerJoin(client, user_id, user_name, avatar_name)
+    handlers.socketStore(user.userId, client)
     console.log('join-room user: ', user)
     if (!user) {
       // NEED TO DEAL WITH USERS HERE (handler failed to join user) - Laurent
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     }
 
     let room = handlers.handleGetLobbyFromId(roomId)
     if (!room) {
       // NEED TO DEAL WITH USERS HERE (handler failed to get room) - Laurent
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     } else if (room.gameState.game_active === true) {
       // NEED TO DEAL WITH USERS HERE (game is currently active) - Laurent
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
+      return
+    } else if (room.kickedUsers[user.userId]) {
+      client.disconnect()
       return
     }
 
@@ -105,7 +121,7 @@ io.on('connection', client => {
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
         // NEED TO DEAL WITH USERS HERE (user is already in the game) - Laurent
-        io.to(client.id).emit('redirect-to-lobbylist')
+        client.disconnect()
         return
       }
     }
@@ -119,6 +135,8 @@ io.on('connection', client => {
     client.join(room.room_id)
     // console.log(`${client.id} client.join-room -> emit user-joined`)
     io.to(room.room_id).emit('user-joined', user, room)
+    let host = room.creator_socketId
+    io.to(host).emit('create-kick-users', room)
     console.log(`on-join-room, user ${user.username} connected to room ${room.room_id} with clientid: ${user.socketId}`)
 
 
@@ -139,11 +157,14 @@ io.on('connection', client => {
             }
           }
         }
-        transfer = false
       }
       if (room.gameState.game_active === false) {
-        handlers.handleLobbyDisconnect(room.room_id, client)
+        handlers.handleLobbyDisconnect(room.room_id, client, user.userId)
+
         io.to(room.room_id).emit(`user-disconnected`, user, room)
+        let host = room.creator_socketId
+        io.to(host).emit('create-kick-users', room)
+
       } else if (room.gameState.game_active === true) {
         handlers.handleLeavingGameInProgress(room, client)
         if (room.gameState.phase === 'voting') {
@@ -155,6 +176,23 @@ io.on('connection', client => {
           // we might need a possible stop at lounge, need to address if a person leaves -- Laurent
         }
       }
+      
+    })
+
+    client.on('host_ready_for_X', () => {
+      let host = room.creator_socketId
+      io.to(host).emit('create-kick-users', room)
+    })
+
+    client.on('kick-player', (userId) => {
+      let kickUser = handlers.handleGetUserFromUserId(userId)
+      let kickSocket = handlers.retrieveSocket(userId)
+      room.kickedUsers[userId] = true;
+      console.log(room.kickedUsers)
+      console.log(kickUser)
+      kickSocket.disconnect()
+      const readyStatus = handlers.handlePlayerReady(user, room, true)
+      lobbyReadyCheck(readyStatus)
     })
 
 
@@ -190,7 +228,56 @@ io.on('connection', client => {
     })
 
 
+    // LOBBY PLAYER READY
+    client.on('player-ready', (transfer) => {
+      const readyStatus = handlers.handlePlayerReady(user, room, transfer)
+      lobbyReadyCheck(readyStatus)
+    })
+
+    // LOBBY PLAYER NOT READY
+    client.on('player-not-ready', () => {
+      handlers.handlePlayerNotReady(user)
+      lobbyNotReady()
+    })
+
+
+
     ////////////////// SKATEBOARD HELPER FUNCTIONS /////////////////
+
+    // LOBBY READY CHECK
+    function lobbyReadyCheck(readyStatus) {
+      let players = room.clients
+      let hostSocketId = null
+      for (const player in players) {
+        if (players[player].userId === room.creator_id) {
+          hostSocketId = players[player].socketId
+        }
+        if (!readyStatus) {
+          if (!user.game.ready) {
+            io.to(room.room_id).emit('user_not_ready_client', user.userId)
+          } else {
+            io.to(room.room_id).emit('user_ready_client', user.userId)
+          }
+
+        } else {
+          io.to(room.room_id).emit('user_ready_client', user.userId)
+          io.to(hostSocketId).emit('all_users_ready', room)
+        }
+      }
+    }
+
+    // LOBBY NOT READY
+    function lobbyNotReady() {
+      let players = room.clients
+      let hostSocketId = null
+      for (const player in players) {
+        if (players[player].userId === room.creator_id) {
+          hostSocketId = players[player].socketId
+        }
+        io.to(room.room_id).emit('user_not_ready_client', user.userId)
+        io.to(hostSocketId).emit('all_users_not_ready', room)
+      }
+    }
 
     // GAME TIMER (used to advance phase)
     function gameTimer(startEmit, cleanEmit, nextPhase, counter, triviaInfo) {
@@ -210,6 +297,11 @@ io.on('connection', client => {
 
     // PHASE VOTING
     function voting(checkVotingState) {
+      const session = getSession(client.request.session)
+      if (!session) {
+        client.disconnect()
+        return
+      }
       if (typeof checkVotingState === "number") {
         io.to(room.room_id).emit('client_voted', checkVotingState)
       } else {
@@ -230,6 +322,11 @@ io.on('connection', client => {
 
     // PHASE TRIVIA
     async function trivia(triviaInfo) {
+      const session = getSession(client.request.session)
+      if (!session) {
+        client.disconnect()
+        return
+      }
       let { amount, id, difficulty } = triviaInfo
       let nextPhase = null
       room.gameState.phase = 'trivia'
@@ -248,7 +345,7 @@ io.on('connection', client => {
 
       console.log('api data', data.length)
       // console.log('api data', data)
-      
+
       // console.log(data.results)
 
       // if (data.response_code === 4) {
@@ -260,12 +357,12 @@ io.on('connection', client => {
       let clientTriviaQuestions = handlers.handleTrivia(data, room)
 
       // console.log('clientTriviaQuestions', clientTriviaQuestions)
-      
+
       const sidebarTriviaData = {
         leaderboard: handlers.handleUpdateLeaderboard(room),
         phase: room.gameState.phase
       }
-     
+
       io.to(room.room_id).emit('setup-sidebar-trivia', sidebarTriviaData)
       io.to(room.room_id).emit('start-trivia-music', room.gameState.triviaIndex)
       io.to(room.room_id).emit('trivia-question', clientTriviaQuestions[0], 0, 0)
@@ -275,6 +372,12 @@ io.on('connection', client => {
 
     // PHASE LOUNGE
     function lounge(gameInfo) {
+      const session = getSession(client.request.session)
+
+      if (!session) {
+        client.disconnect()
+        return
+      }
       let nextTrivia = gameInfo.nextTrivia
       room.gameState.phase = 'lounge'
       room.gameState.triviaIndex++
@@ -287,8 +390,15 @@ io.on('connection', client => {
 
     // PHASE VICTORY
     async function victory() {
+      const session = getSession(client.request.session)
+
+      if (!session) {
+        client.disconnect()
+        return
+      }
 
       console.log('victory phase start')
+
       room.gameState.phase = 'victory'
       // await handlers.handleGameSave(room)
       const victoryObject = await handlers.handleGetVictory(room)

@@ -4,6 +4,7 @@ const { arrayClone } = require('../utils/utilities')
 
 let socketUsers = {}; // wanna use Database instead later - maybe??
 let lobbyRooms = {};
+let activeSockets = {};
 
 let crushes = [
     {
@@ -138,6 +139,7 @@ function handleServerJoin(client, user_id, user_name, avatar_name) {
                     points: 0
                 }
             },
+            ready: false,
             totalPoints: 0,
             position: null,
             animate: 0,
@@ -155,6 +157,18 @@ function handleServerJoin(client, user_id, user_name, avatar_name) {
     console.log(`${user.socketId} has joined the server`);
     return socketUsers[client.id]
 
+}
+
+function socketStore(userId, socket) {
+    let store = {
+        userId: userId,
+        socket: socket,
+    }
+    activeSockets[userId] = store
+}
+
+function retrieveSocket(userId) {
+    return activeSockets[userId].socket
 }
 
 function handleGetAllUsers() {
@@ -189,10 +203,12 @@ async function handleCreateLobby(roomId, roomName, roomCode, user_info) {
         let lobby = {
             creator_id: user_info.user_id,
             creator_name: user_info.user_name,
+            creator_socketId: null,
             num_clientInRoom: 0,
             room_code: roomCode,
             room_id: roomId,
             room_name: roomName,
+            kickedUsers: {},
             token: await fetchTriviaToken(),
             clients: {},
             gameState: {
@@ -254,6 +270,9 @@ function handleLobbyJoin(roomId, client) {
     const connectedClient = socketUsers[client.id]
     lobbyRooms[roomId].clients[connectedClient.socketId] = connectedClient
     lobbyRooms[roomId].num_clientInRoom++
+    if (connectedClient.userId === lobbyRooms[roomId].creator_id) {
+        lobbyRooms[roomId].creator_socketId = connectedClient.socketId
+    }
     // console.log('handle lobby join room', lobbyRooms[roomId])
     return lobbyRooms[roomId]
 }
@@ -284,7 +303,7 @@ function handleDeleteLobby(roomId) {
 }
 
 // Should now transfer host if host leaves
-function handleLobbyDisconnect(roomId, client) {
+function handleLobbyDisconnect(roomId, client, userId) {
     const connectedClient = socketUsers[client.id]
     delete lobbyRooms[roomId].clients[connectedClient.socketId]
     lobbyRooms[roomId].num_clientInRoom--
@@ -293,12 +312,14 @@ function handleLobbyDisconnect(roomId, client) {
         handleDeleteLobby(roomId)
     }
     delete socketUsers[client.id];
+    delete activeSockets[userId];
     return
 }
 
 function handleLobbyTransfer(roomId, user) {
     lobbyRooms[roomId].creator_id = user.userId
     lobbyRooms[roomId].creator_name = user.username
+    lobbyRooms[roomId].creator_socketId = user.socketId
     return
 }
 
@@ -329,6 +350,32 @@ function handleLeavingGameInProgress(room, client) {
     }
     return
 }
+
+
+function handlePlayerReady(user, room, transfer) {
+    if (!transfer) {
+        user.game.ready = true
+    }
+    let playersLeftToBeReady = 0
+    let players = room.clients
+    let readyStatus = false
+    for (const player in players) {
+        if (players[player].game.ready === false && players[player].active === true) {
+            playersLeftToBeReady++
+        }
+    }
+    if (playersLeftToBeReady === 0) {
+        readyStatus = true
+        return readyStatus
+    } else {
+        return readyStatus
+    }
+}
+
+function handlePlayerNotReady(user) {
+    user.game.ready = false
+}
+
 
 // CRUSHES
 function handleCrushes(room) {
@@ -664,6 +711,7 @@ function gameReset(room) {
                     points: 0
                 }
             },
+            ready: false,
             totalPoints: 0,
             position: null,
             animate: 0,
@@ -697,6 +745,7 @@ function userReset(user) {
                 points: 0
             }
         },
+        ready: false,
         totalPoints: 0,
         position: null,
         animate: 0,
@@ -868,7 +917,12 @@ module.exports = {
     handleLobbyTransfer,
     handleLeavingGameInProgress,
     handleLobbyCleanUp,
+    handlePlayerReady,
+    handlePlayerNotReady,
 
     handleGetVictory,
     // handleGameSave
+
+    socketStore,
+    retrieveSocket
 }

@@ -111,11 +111,11 @@ router.post("/signup", async (req, res) => {
       res.status(400).redirect('/auth/signup')
       return
     }
-    if (!req.body.email) {
-      console.log('Signup form is missing email')
-      res.status(400).redirect('/auth/signup')
-      return
-    }
+    // if (!req.body.email) {
+    //   console.log('Signup form is missing email')
+    //   res.status(400).redirect('/auth/signup')
+    //   return
+    // }
     if (!req.body.password) {
       console.log('Signup form is missing password')
       res.status(400).redirect('/auth/signup')
@@ -124,13 +124,13 @@ router.post("/signup", async (req, res) => {
     const user_info = await database.addUser(req.body)
     console.log('signup route db result', user_info)
     if (!user_info) {
-      console.log('Signup error')
+      console.log('Username already taken OR crash... 50/50')
       res.status(400).redirect('/auth/signup')
       return
     }
     req.session.authenticated = true;
     req.session.user_info = {}
-    req.session.user_info.user_name = user_info.name
+    req.session.user_info.user_name = user_info.user_name
     req.session.user_info.user_id = +user_info.user_id
     req.session.user_info.avatar_name = user_info.avatar_name
     res.status(200).redirect('/mainmenu')
