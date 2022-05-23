@@ -162,7 +162,7 @@ const getUserAchievements = async (userId) => {
 // Need an access for updating a user achievement from crush_id
 
 const addUserAchievement = async (userId, crushId) => {
-    const user_achievement_info = getUserAchievements(userId)
+    const user_achievement_info = await getUserAchievements(userId)
     if (user_achievement_info.filter(achievement => achievement.achievement_id === crushId).length === 0) {
         const params = {
             user_id: userId,
@@ -371,4 +371,4 @@ const getCategoriesById = async (categoryEasyId, categoryMediumId, categoryHardI
 }
 
 
-module.exports = { addUser, getUserByLogin, getUserByID, getAllUsers, getUserAchievements, updateUserAvatar, deleteUser, updateUsername, getGlobalMatchHistory, getUserMatchHistory, getRoomInformationByRoomId, getGlobalLeaderboard, saveGame }
+module.exports = { addUser, getUserByLogin, getUserByID, getAllUsers, getUserAchievements, updateUserAvatar, deleteUser, updateUsername, getGlobalMatchHistory, getUserMatchHistory, getRoomInformationByRoomId, getGlobalLeaderboard, saveGame, addUserAchievement }

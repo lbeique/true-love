@@ -797,8 +797,11 @@ async function handleGetVictory(room) {
         }
         leaderboard = handleUpdateLeaderboard(room)
         let winner = leaderboard[0]
+        let userId = winner.userId
+        let crushId = room.gameState.topVotedCrush.id
 
         await database.saveGame(room)
+        await database.addUserAchievement(userId, crushId)
         // SAVE GAME TO DATABASE HERE
         // console.log('final room', room)
         // console.log('final gamestate', room.gameState)
