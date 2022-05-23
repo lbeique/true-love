@@ -22,14 +22,15 @@
     }
 }
 
-@keyframes fadeOut {
+@keyframes heartMove {
     0%{
         opacity: 100%;
+        transform: translateY(-10vh);
     }
 
     100%{
-        display: none;
         opacity: 0%;
+        transform: translateY(-50vh)
     }
     
 }
@@ -205,6 +206,16 @@
     100%{
         opacity: 100%;
         transform: translateX(0%)
+    }
+}
+
+@keyframes slideFromBottom{
+    0%{
+        transform: translateY(100%)
+    }
+
+    100%{
+        transform: translateY(0%)
     }
 }
 

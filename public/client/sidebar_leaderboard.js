@@ -112,10 +112,8 @@ socket.on('receive room_clients', (room) => {
     currentPhase = room.gameState.phase
 
 
-    sidebar__container.addEventListener('click', function votingSidebar(event) {
+    sidebar__container.addEventListener('click', function sidebar(event){
         event.preventDefault()
-
-
         switch(currentPhase){
 
             case 'voting':
@@ -152,16 +150,17 @@ socket.on('receive room_clients', (room) => {
                 sidebarToggle()
                 toggleLounge()
                 if(document.querySelector('.lounge__timerContainer').classList.contains('lounge__timerContainer--girl')){
-                    console.log('RUN')
                     document.querySelector('.lounge__timerContainer').classList.toggle('lounge__timerContainer--girl--close')
                     document.querySelector('.lounge__timerContainer').classList.toggle('lounge__timerContainer--girl--open')
                 }
+                break;
+            case 'victory':
+                event.target.removeEventListener('click', this.sidebar)
                 break;
                 
         }
     
     })
-    // console.log('CURRENT HADNLER', document.querySelector('.sidebar__container').getEventListeners())
 
     const clients = room.clients
 
@@ -411,5 +410,89 @@ socket.on('setup-sidebar-lounge', (phase) => {
     
 
     section__lounge.prepend(section__sidebar)
+
+})
+
+socket.on('setup-sidebar-victory', (victoryObject) => {
+    /* 
+    dialogue: Array(0)
+        length: 0
+        [[Prototype]]: Array(0)
+        leaderboard: Array(1)
+        0:
+            avatar: "sunglasses"
+            easyPoints: 4
+            hardPoints: 1
+            mediumPoints: 4
+            points: 9
+            userId: 24
+            username: "chicken"
+            [[Prototype]]: Object
+            length: 1
+        [[Prototype]]: Array(0)
+    winner:
+        avatar: "sunglasses"
+        easyPoints: 4
+        hardPoints: 1
+        mediumPoints: 4
+        points: 9
+        userId: 24
+        username: "chicken"
+    
+    */
+
+    currentPhase = victoryObject.phase
+    
+    const leaderboard = victoryObject.leaderboard
+
+    const section__sidebar = document.querySelector('.section-sidebar')
+    const player__positions = document.querySelectorAll('.player__position')
+    const player__avatarContainers = document.querySelectorAll('.player__avatarContainer')
+    
+
+    if(section__sidebar.classList.contains('section-sidebar--close')){
+        sidebarToggle()
+        section__sidebar.classList.remove('section-sidebar--open-trivia')
+        player__positions.forEach((position) => {
+            position.classList.remove('hide')
+            position.classList.add('margin-left-2')
+        })
+        
+    }
+
+    player__avatarContainers.forEach((avatar) => avatar.classList.add('player__avatarContainer--open-victory'))
+    section__sidebar.classList.add('section-sidebar--open-victory')
+
+    let difficulty = ['easy', 'medium', 'hard']
+    let counter = 0
+    for(let player of leaderboard){
+
+        const player__info = document.querySelector(`.player-${player.userId} .player__info`)
+        const info__note = document.querySelector(`.player-${player.userId} .info__note`)
+        const player__triviaPts = document.createElement('div')
+        
+        player__triviaPts.classList.add('player__triviaPts')
+
+        for(let i = 1; i <= 3; i++){
+            const player__categoryPoints = document.createElement('div')
+            const player__categoryPoints_top = document.createElement('div')
+            const player__categoryPoints_bottom = document.createElement('div')
+
+            player__categoryPoints.classList.add('info__categoryPts')
+            player__categoryPoints_top.classList.add('info__categoryPts--top')
+            player__categoryPoints_bottom.classList.add('info__categoryPts--bottom')
+
+            player__categoryPoints_top.innerText = `Trivia ${i}:`
+            player__categoryPoints_bottom.innerText = `${player[difficulty[counter]]} pts`
+
+            player__categoryPoints.append(player__categoryPoints_top, player__categoryPoints_bottom)
+            player__triviaPts.appendChild(player__categoryPoints)
+        }
+
+        info__note.innerText = `Total: ${player.points} pts`
+        
+        player__info.insertBefore(player__triviaPts, info__note)
+
+    }
 
 })

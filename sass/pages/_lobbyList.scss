@@ -79,27 +79,6 @@
         height: 10px;
     }
 
-    &__backButton{
-
-        position: absolute;
-        padding-left: 3px;
-        top: 2%;
-        left: 13%;
-        width: 1.3em;
-        height: 1.3em;
-        border-radius: 2em;
-        border-width: 8px;
-        font-size: 65px;
-        z-index: 100;
-
-        & span{
-            transform: rotateZ(180deg);
-            color: $tertiary-color;
-            padding-top: 12px;
-        }
-
-    }
-
     &__refreshBtn{
 
         position: absolute;
