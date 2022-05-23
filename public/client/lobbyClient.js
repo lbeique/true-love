@@ -233,7 +233,7 @@ socket.on('create-lobby', (room, userId) => {
     gameStart__btn.classList.add('btn', 'lobby__startBtn')
     gameReady__btn.classList.add('btn', 'lobby__readyBtn')
     lobby__userListContainer.classList.add('lobby__userListContainer')
-    lobby__backBtn.classList.add('btn', 'lobby__backButton', 'btn--darkPurple')
+    lobby__backBtn.classList.add('btn', 'btn__back', 'btn--darkPurple')
 
 
     lobby__header.innerText = `Welcome to the Lobby: ${room.room_name}`
@@ -377,16 +377,7 @@ socket.on('host-transfer', (host, phase) => {
     }
 })
 
-// REDIRECT
-socket.on('redirect-to-lobbylist', () => {
-    // redirect to new URL
-    socket.disconnect();
-    window.location = "/lobby"
-});
 
-// REDIRECT
-socket.on('redirect-to-mainmenu', () => {
-    // redirect to new URL
-    socket.disconnect();
-    window.location = "/mainmenu"
-});
+socket.on('disconnect', () => {
+    window.location = "/lobby"
+})

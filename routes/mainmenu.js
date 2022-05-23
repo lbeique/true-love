@@ -42,7 +42,6 @@ router.post("/profile", async (req, res) => {
         userInfo: req.session.user_info,
         achievements: user_achievements
     }
-
     res.json({ userData })
     return
 })
@@ -56,7 +55,7 @@ router.post("/avatar", async (req, res) => {
     const userId = +req.session.user_info.user_id
     const avatarId = +req.body.avatar_id
     const user_avatar = await database.updateUserAvatar(userId, avatarId)
-    console.log('route', user_avatar)
+    console.log('avatar route', user_avatar)
     if (!user_avatar) {
         console.log('Error loading user avatar')
         res.status(404).redirect('/')
@@ -74,21 +73,20 @@ router.post("/username", async (req, res) => {
         return
     }
     const userId = +req.session.user_info.user_id
-    const username = +req.body.avatar_id
+    const username = req.body.newUsername
     const user_info = await database.updateUsername(userId, username)
-    console.log('route', user_info)
+    console.log('name route', user_info)
     if (!user_info) {
         console.log('Error loading user info')
         res.status(404).redirect('/')
         return
     }
     req.session.user_info.user_name = user_info.user_name
+    req.session.user_info.avatar_name = user_info.avatar_name
     let user_name = user_info.user_name
     res.json({ user_name })
     return
 })
-
-
 
 
 
