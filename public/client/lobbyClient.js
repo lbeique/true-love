@@ -182,7 +182,7 @@ socket.on('create-lobby', (room, userId) => {
     gameStart__header.classList.add('heading-tertiary', 'lobby__startBtn-Header')
     gameStart__btn.classList.add('btn', 'lobby__startBtn')
     lobby__userListContainer.classList.add('lobby__userListContainer')
-    lobby__backBtn.classList.add('btn', 'lobby__backButton', 'btn--darkPurple')
+    lobby__backBtn.classList.add('btn', 'btn__back', 'btn--darkPurple')
 
 
     lobby__header.innerText = `Welcome to the Lobby: ${room.room_name}`

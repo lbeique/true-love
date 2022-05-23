@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
     return
 })
 
-router.post("/achievements", async (req, res) => {
+router.post("/profile", async (req, res) => {
     const session = getSession(req.session)
     if (!session) {
         res.status(404).redirect('/')
@@ -38,7 +38,13 @@ router.post("/achievements", async (req, res) => {
         res.status(404).redirect('/')
         return
     }
-    res.json({ user_achievements })
+    const userData = {
+        userInfo: req.session.user_info,
+        achievements: user_achievements
+    }
+
+    console.log("USER DATA", userData)
+    res.json({ userData })
     return
 })
 
@@ -51,13 +57,15 @@ router.post("/avatar", async (req, res) => {
     const userId = +req.session.user_info.user_id
     const avatarId = +req.body.avatar_id
     const user_avatar = await database.updateUserAvatar(userId, avatarId)
-    console.log('route', user_avatar)
+    console.log('avatar route', user_avatar)
     if (!user_avatar) {
         console.log('Error loading user avatar')
         res.status(404).redirect('/')
         return
     }
+    console.log("user_avatar", user_avatar)
     req.session.user_info.avatar_name = user_avatar.avatar_name
+    console.log("UPDATE AVATAR SESSION", req.session)
     res.json({ user_avatar })
     return
 })
@@ -68,17 +76,22 @@ router.post("/username", async (req, res) => {
         res.status(404).redirect('/')
         return
     }
+    console.log('REQ BODY', req.body)
+    // REQ BODY { newUsername: 'hello' }
+
     const userId = +req.session.user_info.user_id
-    const username = +req.body.avatar_id
+    const username = req.body.newUsername
     const user_info = await database.updateUsername(userId, username)
-    console.log('route', user_info)
+    console.log('name route', user_info)
     if (!user_info) {
         console.log('Error loading user info')
         res.status(404).redirect('/')
         return
     }
     req.session.user_info.user_name = user_info.user_name
+    req.session.user_info.avatar_name = user_info.avatar_name
     let user_name = user_info.user_name
+    console.log("UPDATE NAME SESSION", req.session)
     res.json({ user_name })
     return
 })

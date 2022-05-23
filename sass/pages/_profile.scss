@@ -1,0 +1,242 @@
+.profile{
+
+    &__mainContainer{
+        width: 100%;
+        height: 100%;
+    }
+
+    &__container{
+        @include absCenter;
+        display: flex;
+        column-gap: 1em;
+        background-color: $primary-color;
+        border: 1em solid $tertiary-color;
+        border-radius: 4em;
+        width: 50%;
+        height: 50%;
+        padding: 1.5em;
+        transition: all .2s;
+        animation: fadingIn ease .5s backwards;
+
+        &--updateAvatar{
+            flex-direction: column;
+            
+        }
+
+        &--left{
+            position: relative;
+            right: 1em;
+            display: flex;
+            height: 100%;
+            width: 30%;
+
+        }
+
+        &--right{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            row-gap: 1em;
+            height: 100%;
+            width: 78%;
+
+            &-top{
+
+                display: flex;
+                column-gap: 0.5em;
+                width: 100%;
+                height: 35%;
+                color: $tertiary-color;
+            }
+
+            
+
+            &-bottom{
+                display: flex;
+                flex-direction: column;
+                row-gap: 1em;
+                width: 100%;
+                height: 65%;
+
+            }
+
+        }
+    
+    }
+
+
+
+    &__avatarContainer{
+
+        position: relative;
+        display: flex;
+        width: 100%;
+        left: 1em;
+        height: 40%;
+        overflow: hidden;
+        border: 10px solid $tertiary-color;
+        background-color: #6250AC;
+        border-radius: 4em;
+
+    }
+
+    &__avatar{
+
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+
+        &-change{
+
+            position: absolute;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            font-size: 76px;
+            background-color: rgba(98, 80, 172, 0.5);
+            color: $tertiary-color;
+            animation: fadingIn ease .5s backwards;
+            
+        }
+
+    }
+
+    &__name{
+
+        display: flex;
+        align-items: center;
+        height: 100%;
+        color: $tertiary-color;
+        font-size: 35px;
+
+        &-change{
+
+            display: flex;
+            align-items: center;
+            height: 100%;
+            color: $tertiary-color;
+            font-size: 35px;
+            animation: slideFromLeft .5s ease backwards;
+            
+
+            & span{
+                font-size: 20px;
+                margin-left: 3px;
+                color: $tertiary-color;
+            }
+
+        }
+
+    }
+
+    &__name-input{
+        display: flex;
+        align-self: center;
+        width: 40%;
+        height: 50%;
+        border-radius: 2em;
+        color: $primary-color;
+        background-color: $tertiary-color;
+        padding: 0.5em;
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+
+}
+
+.achievement{
+
+    &__header{
+        display: flex;
+        width: 100%;
+        height: 20%;
+        font-size: 35px;
+        color: $tertiary-color;
+
+    }
+
+    &__container{
+        @include disable-scrollbar;
+        overflow-x: auto;
+        position: relative;
+        flex-direction: row;
+        display: flex;
+        padding: 1em;
+        height: 59%;
+        column-gap: 0.5em;
+        border: 6px solid $tertiary-color;
+        border-radius: 20px;
+    }
+
+    &__imgContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    &__img{
+        height: 100%;
+        object-fit: contain;
+
+    }
+
+}
+
+.updateAvatar{
+
+    &__header{
+        display: flex;
+        width: 100%;
+        height: 20%;
+        font-size: 35px;
+        color: $tertiary-color;
+        animation: fadingIn ease 1s backwards;
+    }
+
+    &__listContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 2em;
+        width: 100%;
+        height: 80%;
+
+    }
+
+    &__avatarName{
+
+        width: 100%;
+        font-size: 25px;
+        color: $tertiary-color;
+
+    }
+
+    &__container{
+        display: flex;
+        flex-direction: column;
+        row-gap: 2em;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        animation: fadingIn ease .5s backwards;
+        
+    }
+
+    &__img{
+        width: 100%;
+        object-fit: contain;
+        border-radius: 5em;
+
+        &--green{
+            outline: 10px solid #D7FF60;
+        }
+    }
+
+}
+
+

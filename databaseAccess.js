@@ -21,9 +21,9 @@ const getUserByLogin = async (postBody) => {
 
 const getUserByID = async (userId) => {
     const params = {
-        user_id: userId,
+        user_id: +userId,
     }
-    const sqlSelectUserByID = "SELECT user.user_id, avatar.avatar_name, user.user_name, user.password_hash FROM user JOIN avatar ON avatar.avatar_id = user.avatar_id FROM user WHERE user_id = :user_id;"
+    const sqlSelectUserByID = "SELECT user.user_id, avatar.avatar_name, user.user_name, user.password_hash FROM user JOIN avatar ON avatar.avatar_id = user.avatar_id WHERE user.user_id = :user_id;"
     const user_info = await database.query(sqlSelectUserByID, params)
     console.log('database', user_info[0][0])
     return user_info[0][0]
@@ -80,9 +80,10 @@ const updateUsername = async (userId, username) => {
         user_id: userId,
         user_name: username
     }
-    const user_matches = await checkUsername(username)
-    if (user_matches === 0) {
-        const sqlUpdateUsername = "UPDATE user SET user_name = :username WHERE user_id = :userId;"
+    const matches = await checkUsername(username)
+    console.log('MATCHES', matches.user_matches, 'type', typeof matches.user_matches)
+    if (matches.user_matches === 0) {
+        const sqlUpdateUsername = "UPDATE user SET user_name = :user_name WHERE user_id = :user_id;"
         await database.query(sqlUpdateUsername, params)
         const user_info = await getUserByID(userId)
         return user_info
