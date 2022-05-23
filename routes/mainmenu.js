@@ -42,8 +42,6 @@ router.post("/profile", async (req, res) => {
         userInfo: req.session.user_info,
         achievements: user_achievements
     }
-
-    console.log("USER DATA", userData)
     res.json({ userData })
     return
 })
@@ -63,9 +61,7 @@ router.post("/avatar", async (req, res) => {
         res.status(404).redirect('/')
         return
     }
-    console.log("user_avatar", user_avatar)
     req.session.user_info.avatar_name = user_avatar.avatar_name
-    console.log("UPDATE AVATAR SESSION", req.session)
     res.json({ user_avatar })
     return
 })
@@ -76,9 +72,6 @@ router.post("/username", async (req, res) => {
         res.status(404).redirect('/')
         return
     }
-    console.log('REQ BODY', req.body)
-    // REQ BODY { newUsername: 'hello' }
-
     const userId = +req.session.user_info.user_id
     const username = req.body.newUsername
     const user_info = await database.updateUsername(userId, username)
@@ -91,7 +84,6 @@ router.post("/username", async (req, res) => {
     req.session.user_info.user_name = user_info.user_name
     req.session.user_info.avatar_name = user_info.avatar_name
     let user_name = user_info.user_name
-    console.log("UPDATE NAME SESSION", req.session)
     res.json({ user_name })
     return
 })

@@ -81,7 +81,6 @@ const updateUsername = async (userId, username) => {
         user_name: username
     }
     const matches = await checkUsername(username)
-    console.log('MATCHES', matches.user_matches, 'type', typeof matches.user_matches)
     if (matches.user_matches === 0) {
         const sqlUpdateUsername = "UPDATE user SET user_name = :user_name WHERE user_id = :user_id;"
         await database.query(sqlUpdateUsername, params)

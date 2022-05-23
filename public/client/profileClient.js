@@ -54,7 +54,6 @@ function checkNameInput(currentName){
 }
 
 function setAvatarList(currentAvatarName){
-  console.log("AVATAR CHANGE SECTION")
   const section__profile = document.querySelector('.section-profile')
   const profile__container = document.querySelector('.profile__container')
   const profile__backBtn = document.querySelector('.profile__backBtn')
@@ -142,7 +141,6 @@ function setProfile(data) {
     updateAvatar__backBtn.remove()
   }
 
-  // const profile__mainContainer = document.createElement('div')
   const profile__back_btn = document.createElement('a')
   const profile__container = document.createElement('div')
   const profile__container_left = document.createElement('div')
@@ -158,7 +156,6 @@ function setProfile(data) {
   const achievements__header = document.createElement('div')
   const achievement__container = document.createElement('div')
 
-  // profile__mainContainer.classList.add('profile__mainContainer')
   profile__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'profile__backBtn')
   profile__container.classList.add('profile__container')
   profile__container_left.classList.add('profile__container--left')
@@ -268,7 +265,6 @@ function setProfile(data) {
 function goToProfile(){
   axios.post('/mainmenu/profile')
     .then(res => {
-      console.log("PROFILE")
       // Array with UP TO 6 achievement objects
       // No achievements results in an empty array
       // achievements: [ { achievement_id: 1, achievement_name: 'achieveNerdyBoy' }, {} ]
@@ -279,6 +275,7 @@ function goToProfile(){
 
     })
     .catch((err) => {
+      alert('I dont feel so good')
       console.error("ERROR", err)
     })
 }
@@ -290,10 +287,10 @@ function updateAvatar(avatar_id){
       // Object containing user avatar info
       // { avatar_id: 3, avatar_name: 'bow' }
       console.log('update Avatar axios.then', res.data)
-      console.log("SUCCESS")
 
     })
     .catch((err) => {
+      alert('I dont feel so good')
       console.error('ERROR', err)
     })
 }
@@ -307,10 +304,10 @@ function updateName(newUsername){
       // { user_name: 'Chewbacca' }
       // console.log('UPDATE NAME axios.then', res.data)
       console.log("Update name success")
-      // document.querySelector('.profile__container').remove()
 
     })
     .catch((err) => {
+      alert('I dont feel so good')
       console.error("ERROR", err)
     })
 }
@@ -321,30 +318,3 @@ document.querySelector('.profile_icon').addEventListener('click', event => {
   event.preventDefault();
   goToProfile()
 })
-
-
-
-
-
-// document.querySelector('.username_form').addEventListener('click', event => {
-//   event.preventDefault();
-
-//   // THESE ARE JUST TEMPORARY NAMES
-//   // let newUsername = document.querySelector('.username_input').value
-//   let newUsername = "Chewbacca"
-
-//   axios.post('/mainmenu/username', { newUsername })
-//     .then(res => {
-
-//       // Object containing new user name
-//       // { user_name: 'Chewbacca' }
-//       console.log('axios.then', res.data)
-
-//       // DOM MANIPULATION HERE
-
-
-//     })
-//     .catch(() => {
-//       // alert('Uh oh')
-//     })
-// })
