@@ -815,6 +815,7 @@ async function handleGetVictory(room) {
         gameReset(room)
 
         const victoryObject = {
+            phase: room.gameState.phase,
             winner: winner,
             leaderboard: leaderboard,
             dialogue: dialogue,
@@ -850,6 +851,9 @@ function handleUpdateLeaderboard(room) {
         for (const player in players) {
             if (entry.userId === players[player].userId) {
                 entry.points = players[player].game.totalPoints
+                entry.easy = players[player].game.trivia.easy.points
+                entry.medium = players[player].game.trivia.medium.points
+                entry.hard = players[player].game.trivia.hard.points
             }
         }
     }
