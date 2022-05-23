@@ -162,7 +162,7 @@ const getUserAchievements = async (userId) => {
 // Need an access for updating a user achievement from crush_id
 
 const addUserAchievement = async (userId, crushId) => {
-    const user_achievement_info = getUserAchievements(userId)
+    const user_achievement_info = await getUserAchievements(userId)
     if (user_achievement_info.filter(achievement => achievement.achievement_id === crushId).length === 0) {
         const params = {
             user_id: userId,
@@ -246,12 +246,12 @@ const addUsersToRoom = async (room, insertId) => {
     return
 }
 
-const addRoom = async (room) => {
+const saveGame = async (room) => {
     const params = {
         crush_id: room.gameState.topVotedCrush.id,
-        category_easy_id: room.gameState.topVotedCrush.categoryEasy.id,
-        category_medium_id: room.gameState.topVotedCrush.categoryMedium.id,
-        category_hard_id: room.gameState.topVotedCrush.categoryHard.id,
+        category_easy_id: room.gameState.topVotedCrush.categoryEasy.db,
+        category_medium_id: room.gameState.topVotedCrush.categoryMedium.db,
+        category_hard_id: room.gameState.topVotedCrush.categoryHard.db,
         room_name: room.room_name
     }
     const sqlInsertRoom = "INSERT INTO room (crush_id, category_easy_id, category_medium_id, category_hard_id, room_name, date) VALUES (:crush_id, :category_easy_id, :category_medium_id, :category_hard_id, :room_name, CURRENT_TIMESTAMP);"
@@ -371,4 +371,4 @@ const getCategoriesById = async (categoryEasyId, categoryMediumId, categoryHardI
 }
 
 
-module.exports = { addUser, getUserByLogin, getUserByID, getAllUsers, getUserAchievements, updateUserAvatar, deleteUser, updateUsername, getGlobalMatchHistory, getUserMatchHistory, getRoomInformationByRoomId }
+module.exports = { addUser, getUserByLogin, getUserByID, getAllUsers, getUserAchievements, updateUserAvatar, deleteUser, updateUsername, getGlobalMatchHistory, getUserMatchHistory, getRoomInformationByRoomId, getGlobalLeaderboard, saveGame, addUserAchievement }
