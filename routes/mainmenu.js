@@ -90,8 +90,6 @@ router.post("/username", async (req, res) => {
 
 
 
-
-
 router.use((req, res) => {
     res.status(404).send({ error: "This isn't a valid address." })
     return

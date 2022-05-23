@@ -178,31 +178,41 @@ const getGlobalMatchHistory = async () => {
     const sqlSelectGlobalMatchHistory = "SELECT winningscore_by_room.room_id, crush.crush_nickname, user.user_id, user.user_name, winningscore_by_room.total_score, winningscore_by_room.total_players, room.date FROM (SELECT room_id, MAX(easy_points+medium_points+hard_points) AS total_score, COUNT(user_id) AS total_players FROM user_room GROUP BY room_id) AS winningscore_by_room JOIN user_room ON winningscore_by_room.room_id = user_room.room_id AND winningscore_by_room.total_score = (easy_points+medium_points+hard_points) JOIN user ON user.user_id = user_room.user_id JOIN room ON room.room_id = user_room.room_id JOIN crush ON crush.crush_id = room.crush_id ORDER BY room.date DESC LIMIT 50;"
     const global_match_history = await database.query(sqlSelectGlobalMatchHistory)
     console.log('database', global_match_history[0])
-    // [{room_id, crush_nickname, user_id, user_name, avatar_id, total_score, total_players, date}]
+    // [
+    //     {
+    //         room_id, 
+    //         crush_nickname, 
+    //         user_id, 
+    //         user_name, 
+    //         avatar_id, 
+    //         total_score, 
+    //         total_players, 
+    //         date
+    //     }
+    // ]
     return global_match_history[0]
 }
 
 
 // Need an access for retrieving global leaderboard information (user_name, avatar_id, Favourite Category, Total Points, Total Wins, Win/Loss Ratio)
 const getGlobalLeaderboard = async () => {
-    const sqlSelectGlobalLeaderboard = ""
+    const sqlSelectGlobalLeaderboard = "SELECT user.user_id, user.user_name, user.avatar_id, avatar.avatar_name, IFNULL(total_points.total_points,0) AS total_points, IFNULL(total_wins,0) AS total_wins, IFNULL((total_wins.total_wins / (IFNULL(total_wins.total_wins,0) + IFNULL(total_losses.total_losses,0))),0) AS win_ratio FROM (SELECT user_id, SUM(easy_points+medium_points+hard_points) AS total_points FROM user_room GROUP BY user_id) AS total_points LEFT JOIN (SELECT user_id, IFNULL(COUNT(position),0) AS total_wins FROM user_room WHERE position = 1 GROUP BY user_id) AS total_wins ON total_wins.user_id = total_points.user_id LEFT JOIN (SELECT user_id, IFNULL(COUNT(position),0) AS total_losses FROM user_room WHERE position != 1 GROUP BY user_id) AS total_losses ON total_losses.user_id = total_points.user_id RIGHT JOIN user ON user.user_id = total_points.user_id RIGHT JOIN avatar ON user.avatar_id = avatar.avatar_id ORDER BY total_wins.total_wins DESC, win_ratio DESC, total_points DESC"
     const global_leaderboard = await database.query(sqlSelectGlobalLeaderboard)
     console.log('database', global_leaderboard[0])
     return global_leaderboard[0]
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    // [
+    //     { 
+    //         user_id, 
+    //         user_name, 
+    //         avatar_id,
+    //         avatar_name 
+    //         total_points, 
+    //         total_wins, 
+    //         win_ratio
+    //     }
+    // ]
 
 
 
@@ -359,4 +369,4 @@ const getCategoriesById = async (categoryEasyId, categoryMediumId, categoryHardI
 }
 
 
-module.exports = { addUser, getUserByLogin, getUserByID, getAllUsers, getUserAchievements, updateUserAvatar, deleteUser, updateUsername }
+module.exports = { addUser, getUserByLogin, getUserByID, getAllUsers, getUserAchievements, updateUserAvatar, deleteUser, updateUsername, getGlobalMatchHistory, getUserMatchHistory, getRoomInformationByRoomId }

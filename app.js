@@ -76,7 +76,7 @@ io.on('connection', client => {
   const session = getSession(client.request.session)
 
   if (!session) {
-    io.to(client.id).emit('redirect-to-mainmenu')
+    client.disconnect()
     return
   }
   console.log(`on-connection, connected with clientid: ${client.id}`)
@@ -94,24 +94,25 @@ io.on('connection', client => {
   client.on('join-room', (roomId) => {
     let { user_name, user_id, avatar_name } = client.request.session.user_info
     let user = handlers.handleServerJoin(client, user_id, user_name, avatar_name)
+    handlers.socketStore(user.userId, client)
     console.log('join-room user: ', user)
     if (!user) {
       // NEED TO DEAL WITH USERS HERE (handler failed to join user) - Laurent
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     }
 
     let room = handlers.handleGetLobbyFromId(roomId)
     if (!room) {
       // NEED TO DEAL WITH USERS HERE (handler failed to get room) - Laurent
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     } else if (room.gameState.game_active === true) {
       // NEED TO DEAL WITH USERS HERE (game is currently active) - Laurent
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     } else if (room.kickedUsers[user.userId]) {
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     }
 
@@ -120,7 +121,7 @@ io.on('connection', client => {
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
         // NEED TO DEAL WITH USERS HERE (user is already in the game) - Laurent
-        io.to(client.id).emit('redirect-to-lobbylist')
+        client.disconnect()
         return
       }
     }
@@ -158,7 +159,7 @@ io.on('connection', client => {
         }
       }
       if (room.gameState.game_active === false) {
-        handlers.handleLobbyDisconnect(room.room_id, client)
+        handlers.handleLobbyDisconnect(room.room_id, client, user.userId)
 
         io.to(room.room_id).emit(`user-disconnected`, user, room)
         let host = room.creator_socketId
@@ -175,6 +176,7 @@ io.on('connection', client => {
           // we might need a possible stop at lounge, need to address if a person leaves -- Laurent
         }
       }
+      
     })
 
     client.on('host_ready_for_X', () => {
@@ -184,14 +186,13 @@ io.on('connection', client => {
 
     client.on('kick-player', (userId) => {
       let kickUser = handlers.handleGetUserFromUserId(userId)
+      let kickSocket = handlers.retrieveSocket(userId)
       room.kickedUsers[userId] = true;
       console.log(room.kickedUsers)
       console.log(kickUser)
-      io.to(kickUser.socketId).emit('redirect-to-mainmenu')
-    })
-
-    client.on('kicked', () => {
-      client.disconnect()
+      kickSocket.disconnect()
+      const readyStatus = handlers.handlePlayerReady(user, room, true)
+      lobbyReadyCheck(readyStatus)
     })
 
 
@@ -298,7 +299,7 @@ io.on('connection', client => {
     function voting(checkVotingState) {
       const session = getSession(client.request.session)
       if (!session) {
-        io.to(client.id).emit('redirect-to-lobbylist')
+        client.disconnect()
         return
       }
       if (typeof checkVotingState === "number") {
@@ -323,7 +324,7 @@ io.on('connection', client => {
     async function trivia(triviaInfo) {
       const session = getSession(client.request.session)
       if (!session) {
-        io.to(client.id).emit('redirect-to-mainmenu')
+        client.disconnect()
         return
       }
       let { amount, id, difficulty } = triviaInfo
@@ -374,7 +375,7 @@ io.on('connection', client => {
       const session = getSession(client.request.session)
 
       if (!session) {
-        io.to(client.id).emit('redirect-to-mainmenu')
+        client.disconnect()
         return
       }
       let nextTrivia = gameInfo.nextTrivia
@@ -392,7 +393,7 @@ io.on('connection', client => {
       const session = getSession(client.request.session)
 
       if (!session) {
-        io.to(client.id).emit('redirect-to-mainmenu')
+        client.disconnect()
         return
       }
 
