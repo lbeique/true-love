@@ -377,16 +377,7 @@ socket.on('host-transfer', (host, phase) => {
     }
 })
 
-// REDIRECT
-socket.on('redirect-to-lobbylist', () => {
-    // redirect to new URL
-    socket.disconnect();
-    window.location = "/lobby"
-});
 
-// REDIRECT
-socket.on('redirect-to-mainmenu', () => {
-    // redirect to new URL
-    socket.disconnect();
-    window.location = "/mainmenu"
-});
+socket.on('disconnect', () => {
+    window.location = "/lobby"
+})

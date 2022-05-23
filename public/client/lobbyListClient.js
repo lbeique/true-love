@@ -63,8 +63,6 @@ socket.on('lobby-list', (lobbyRooms) => {
 })
 
 
-// REDIRECT
-socket.on('redirect-to-mainmenu', () => {
-    // redirect to new URL
+socket.on('disconnect', () => {
     window.location = "/mainmenu"
-});
+})

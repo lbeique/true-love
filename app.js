@@ -76,7 +76,7 @@ io.on('connection', client => {
   const session = getSession(client.request.session)
 
   if (!session) {
-    io.to(client.id).emit('redirect-to-mainmenu')
+    client.disconnect()
     return
   }
   console.log(`on-connection, connected with clientid: ${client.id}`)
@@ -98,21 +98,21 @@ io.on('connection', client => {
     console.log('join-room user: ', user)
     if (!user) {
       // NEED TO DEAL WITH USERS HERE (handler failed to join user) - Laurent
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     }
 
     let room = handlers.handleGetLobbyFromId(roomId)
     if (!room) {
       // NEED TO DEAL WITH USERS HERE (handler failed to get room) - Laurent
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     } else if (room.gameState.game_active === true) {
       // NEED TO DEAL WITH USERS HERE (game is currently active) - Laurent
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     } else if (room.kickedUsers[user.userId]) {
-      io.to(client.id).emit('redirect-to-lobbylist')
+      client.disconnect()
       return
     }
 
@@ -121,7 +121,7 @@ io.on('connection', client => {
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
         // NEED TO DEAL WITH USERS HERE (user is already in the game) - Laurent
-        io.to(client.id).emit('redirect-to-lobbylist')
+        client.disconnect()
         return
       }
     }
@@ -191,14 +191,9 @@ io.on('connection', client => {
       console.log(room.kickedUsers)
       console.log(kickUser)
       kickSocket.disconnect()
-      // io.to(kickUser.socketId).emit('redirect-to-mainmenu')
       const readyStatus = handlers.handlePlayerReady(user, room, true)
       lobbyReadyCheck(readyStatus)
     })
-
-    // client.on('kicked', () => {
-    //   client.disconnect()
-    // })
 
 
     // SERVER ERROR
@@ -304,7 +299,7 @@ io.on('connection', client => {
     function voting(checkVotingState) {
       const session = getSession(client.request.session)
       if (!session) {
-        io.to(client.id).emit('redirect-to-lobbylist')
+        client.disconnect()
         return
       }
       if (typeof checkVotingState === "number") {
@@ -329,7 +324,7 @@ io.on('connection', client => {
     async function trivia(triviaInfo) {
       const session = getSession(client.request.session)
       if (!session) {
-        io.to(client.id).emit('redirect-to-mainmenu')
+        client.disconnect()
         return
       }
       let { amount, id, difficulty } = triviaInfo
@@ -380,7 +375,7 @@ io.on('connection', client => {
       const session = getSession(client.request.session)
 
       if (!session) {
-        io.to(client.id).emit('redirect-to-mainmenu')
+        client.disconnect()
         return
       }
       let nextTrivia = gameInfo.nextTrivia
@@ -398,7 +393,7 @@ io.on('connection', client => {
       const session = getSession(client.request.session)
 
       if (!session) {
-        io.to(client.id).emit('redirect-to-mainmenu')
+        client.disconnect()
         return
       }
 
