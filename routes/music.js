@@ -32,8 +32,8 @@ router.post("/update", (req, res) => {
     if (req.body?.sound_update) {
         return
     }
-    req.session.user_info.music = req.body.sound_update.music
-    req.session.user_info.sfx = req.body.sound_update.sfx
+    req.session.user_info.music_status = req.body.sound_update.music
+    req.session.user_info.sfx_status = req.body.sound_update.sfx
     let user_info = req.session.user_info
     res.json({ user_info })
     return

@@ -31,19 +31,54 @@
         right: 23.85%;
         top: 48.75%;
         bottom: 43.44%;
-    
+
         background: #DFFF79;
         border: 5px solid #150A38;
-    
+
         &__off {
             background-color: $secondary-color;
         }
     }
 
-    &__volumeBar {
+    &__slidecontainer {
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+
+
+        &__slider {
+            -webkit-appearance: none;
+            width: 80%;
+            height: 15px;
+            border-radius: 5px;
+            background: #150A38;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+
+            &:hover {
+                opacity: 1;
+            }
+
+            &::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                background: #DFFF79;
+                cursor: pointer;
+            }
+
+            &::-moz-range-thumb {
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                background: #DFFF79;
+                cursor: pointer;
+            }
+        }
 
     }
 }
-
-
-

@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css">
     <script>
-        var MUSIC_STATUS = user_info.music_status
-        var SFX_STATUS = user_info.sfx_status
+        var MUSIC_STATUS = `<%= user_info.music_status %>`
+        var SFX_STATUS = `<%= user_info.sfx_status %>`
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js"
         integrity="sha512-dMiBqqEV5i3KqpAdsgQSSZ72DnNib7otY0X+b/Tnn1EmLym1dxuZ19csdZqBnfDniKd9bmNtzStQzuMrIa5Ngw=="
@@ -66,6 +66,7 @@
 
 
 </body>
+<script src="../../client/settings.js" defer></script>
 <script src="../../client/mainMenuClient.js" defer></script>
 <script src="../../client/profileClient.js" defer></script>
 <script src="../../client/leaderboardClient.js" defer></script>

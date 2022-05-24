@@ -1,37 +1,37 @@
 // MUSIC 
 
-const menuMusic = {
-    menu1: new Howl({
-        src: ['../assets/sounds/music/Polkavant - Monsterpolka.mp3'],
-        html5: true,
-        onend: function () {
-            menuMusic.menu2.volume(0.5).play()
-        },
-        onplayerror: function () {
-            menuMusic.menu1.once('unlock', function () {
-                menuMusic.menu1.stop()
-                menuMusic.menu1.volume(0.4).play()
-            })
-        }
-    }),
-    menu2: new Howl({
-        src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3'],
-        html5: true,
-        onend: function () {
-            menuMusic.menu1.volume(0.4).play()
-        }
-    })
-}
+// const menuMusic = {
+//     menu1: new Howl({
+//         src: ['../assets/sounds/music/Polkavant - Monsterpolka.mp3'],
+//         html5: true,
+//         onend: function () {
+//             menuMusic.menu2.volume(0.5).play()
+//         },
+//         onplayerror: function () {
+//             menuMusic.menu1.once('unlock', function () {
+//                 menuMusic.menu1.stop()
+//                 menuMusic.menu1.volume(0.4).play()
+//             })
+//         }
+//     }),
+//     menu2: new Howl({
+//         src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3'],
+//         html5: true,
+//         onend: function () {
+//             menuMusic.menu1.volume(0.4).play()
+//         }
+//     })
+// }
 
-const sfx = {
-    positive: new Howl({
-        src: ['../assets/sounds/sfx/close.mp3'],
-        volue: 0.8,
-    })
-}
+// const sfx = {
+//     positive: new Howl({
+//         src: ['../assets/sounds/sfx/close.mp3'],
+//         volue: 0.8,
+//     })
+// }
 
 
-menuMusic.menu1.volume(0.4).play()
+music.menu.play()
 
 
 // WHAT A MESS LMAO AAAAAAA

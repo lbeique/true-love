@@ -45,6 +45,14 @@ router.post("/login", async (req, res) => {
     req.session.user_info.user_name = user_info.user_name
     req.session.user_info.user_id = +user_info.user_id
     req.session.user_info.avatar_name = user_info.avatar_name
+    if (!req.session.user_info.music_status) {
+      req.session.user_info.music_status = {}
+      req.session.user_info.music_status.mute = false
+      req.session.user_info.music_status.volume = 0.8
+      req.session.user_info.sfx_status = {}
+      req.session.user_info.sfx_status.mute = false
+      req.session.user_info.sfx_status.volume = 0.8
+    } 
     res.status(200).redirect('/mainmenu')
     return
   }
@@ -107,6 +115,14 @@ router.post("/signup", async (req, res) => {
     req.session.user_info.user_name = user_info.user_name
     req.session.user_info.user_id = +user_info.user_id
     req.session.user_info.avatar_name = user_info.avatar_name
+    if (!req.session.user_info.music_status) {
+      req.session.user_info.music_status = {}
+      req.session.user_info.music_status.mute = false
+      req.session.user_info.music_status.volume = 0.8
+      req.session.user_info.sfx_status = {}
+      req.session.user_info.sfx_status.mute = false
+      req.session.user_info.sfx_status.volume = 0.8
+    } 
     res.status(200).redirect('/mainmenu')
     return
   }

@@ -12,7 +12,7 @@
 //     }
 // }
 
-.settingsMenu {
+// .settingsMenu {
 
 
 
@@ -20,291 +20,292 @@
 
 
 
-    display: flex;
+//     display: flex;
 
 
-    /* settings */
+    // /* settings */
 
-    position: relative;
-    width: 960px;
-    height: 640px;
+    // position: relative;
+    // width: 960px;
+    // height: 640px;
 
-    background: #7167B8;
+    // background: #7167B8;
 
 
-    /* inGameExit */
+    // /* inGameExit */
 
-    position: absolute;
-    width: 74px;
-    height: 74px;
-    left: 864px;
-    top: 14px;
+    // position: absolute;
+    // width: 74px;
+    // height: 74px;
+    // left: 864px;
+    // top: 14px;
 
 
 
-    /* circle */
+    // /* circle */
 
-    box-sizing: border-box;
+    // box-sizing: border-box;
 
-    position: absolute;
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
+    // position: absolute;
+    // left: 0%;
+    // right: 0%;
+    // top: 0%;
+    // bottom: 0%;
 
-    background: #150A38;
-    border: 7px solid #DFFF79;
+    // background: #150A38;
+    // border: 7px solid #DFFF79;
 
 
-    /* X */
+    // /* X */
 
-    position: absolute;
-    left: 29.73%;
-    right: 29.73%;
-    top: 17.57%;
-    bottom: 17.57%;
+    // position: absolute;
+    // left: 29.73%;
+    // right: 29.73%;
+    // top: 17.57%;
+    // bottom: 17.57%;
 
-    font-family: 'Fredoka One';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 40px;
-    line-height: 48px;
-    text-align: center;
+    // font-family: 'Fredoka One';
+    // font-style: normal;
+    // font-weight: 400;
+    // font-size: 40px;
+    // line-height: 48px;
+    // text-align: center;
 
-    color: #DFFF79;
+    // color: #DFFF79;
 
 
 
-    /* Settings Box */
+    // /* Settings Box */
 
-    position: absolute;
-    width: 479px;
-    height: 119px;
-    left: 240px;
-    top: 60px;
+    // position: absolute;
+    // width: 479px;
+    // height: 119px;
+    // left: 240px;
+    // top: 60px;
 
 
 
-    /* settings box */
+    // /* settings box */
 
-    position: absolute;
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
+    // position: absolute;
+    // left: 0%;
+    // right: 0%;
+    // top: 0%;
+    // bottom: 0%;
 
-    background: #5F51A7;
-    border: 21px solid #DFFF79;
-    border-radius: 40px;
+    // background: #5F51A7;
+    // border: 21px solid #DFFF79;
+    // border-radius: 40px;
 
 
-    /* Settings */
+    // /* Settings */
 
-    position: absolute;
-    left: 5.53%;
-    right: 5.7%;
-    top: 25.1%;
-    bottom: 26.16%;
+    // position: absolute;
+    // left: 5.53%;
+    // right: 5.7%;
+    // top: 25.1%;
+    // bottom: 26.16%;
 
-    font-family: 'Fredoka One';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 48px;
-    line-height: 58px;
-    /* identical to box height */
-    display: flex;
-    align-items: center;
-    text-align: center;
+    // font-family: 'Fredoka One';
+    // font-style: normal;
+    // font-weight: 400;
+    // font-size: 48px;
+    // line-height: 58px;
+    // /* identical to box height */
+    // display: flex;
+    // align-items: center;
+    // text-align: center;
 
-    color: #DFFF79;
+    // color: #DFFF79;
 
 
 
-    /* Music Text */
+    // /* Music Text */
 
-    position: absolute;
-    left: 19.79%;
-    right: 71.04%;
-    top: 49.22%;
-    bottom: 44.69%;
+    // position: absolute;
+    // left: 19.79%;
+    // right: 71.04%;
+    // top: 49.22%;
+    // bottom: 44.69%;
 
-    font-family: 'Fredoka One';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 39px;
-    /* identical to box height */
-    display: flex;
-    align-items: center;
-    text-align: center;
+    // font-family: 'Fredoka One';
+    // font-style: normal;
+    // font-weight: 400;
+    // font-size: 32px;
+    // line-height: 39px;
+    // /* identical to box height */
+    // display: flex;
+    // align-items: center;
+    // text-align: center;
 
-    color: #DFFF79;
+    // color: #DFFF79;
 
 
 
-    /* Volume Text */
+    // /* Volume Text */
 
-    position: absolute;
-    left: 38.85%;
-    right: 38.85%;
-    top: 36.09%;
-    bottom: 56.41%;
+    // position: absolute;
+    // left: 38.85%;
+    // right: 38.85%;
+    // top: 36.09%;
+    // bottom: 56.41%;
 
-    font-family: 'Fredoka One';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 40px;
-    line-height: 48px;
-    display: flex;
-    align-items: center;
-    text-align: center;
+    // font-family: 'Fredoka One';
+    // font-style: normal;
+    // font-weight: 400;
+    // font-size: 40px;
+    // line-height: 48px;
+    // display: flex;
+    // align-items: center;
+    // text-align: center;
 
-    color: #DFFF79;
+    // color: #DFFF79;
 
 
 
-    /* SFX Text */
+    // /* SFX Text */
 
-    position: absolute;
-    left: 20.83%;
-    right: 72.19%;
-    top: 64.84%;
-    bottom: 29.06%;
+    // position: absolute;
+    // left: 20.83%;
+    // right: 72.19%;
+    // top: 64.84%;
+    // bottom: 29.06%;
 
-    font-family: 'Fredoka One';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 39px;
-    /* identical to box height */
-    display: flex;
-    align-items: center;
-    text-align: center;
+    // font-family: 'Fredoka One';
+    // font-style: normal;
+    // font-weight: 400;
+    // font-size: 32px;
+    // line-height: 39px;
+    // /* identical to box height */
+    // display: flex;
+    // align-items: center;
+    // text-align: center;
 
-    color: #DFFF79;
+    // color: #DFFF79;
 
 
 
-    /* menuButton */
+    // /* menuButton */
 
-    position: absolute;
-    left: 31.88%;
-    right: 31.98%;
-    top: 82.34%;
-    bottom: 8.75%;
+    // position: absolute;
+    // left: 31.88%;
+    // right: 31.98%;
+    // top: 82.34%;
+    // bottom: 8.75%;
 
 
 
-    /* exit rectangle */
+    // /* exit rectangle */
 
-    position: absolute;
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
+    // position: absolute;
+    // left: 0%;
+    // right: 0%;
+    // top: 0%;
+    // bottom: 0%;
 
-    background: #150A38;
-    border: 11px solid #7167B8;
-    border-radius: 40px;
+    // background: #150A38;
+    // border: 11px solid #7167B8;
+    // border-radius: 40px;
 
 
-    /* EXIT GAME */
+    // /* EXIT GAME */
 
-    position: absolute;
-    left: 4.46%;
-    right: 4.46%;
-    top: 15.79%;
-    bottom: 15.79%;
+    // position: absolute;
+    // left: 4.46%;
+    // right: 4.46%;
+    // top: 15.79%;
+    // bottom: 15.79%;
 
-    font-family: 'Fredoka One';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 29px;
-    display: flex;
-    align-items: center;
-    text-align: center;
+    // font-family: 'Fredoka One';
+    // font-style: normal;
+    // font-weight: 400;
+    // font-size: 24px;
+    // line-height: 29px;
+    // display: flex;
+    // align-items: center;
+    // text-align: center;
 
-    color: #DFFF79;
+    // color: #DFFF79;
 
+    
+    // /* music thumb */
+    // -webkit-appearance: ;
+    // position: absolute;
+    // width: 55px;
+    // height: 0px;
+    // left: 548px;
+    // top: 309px;
 
+    // border: 20px solid #DFFF79;
+    // transform: rotate(90deg);
 
-    /* music bar */
 
-    position: absolute;
-    width: 347px;
-    height: 0px;
-    left: 306px;
-    top: 337px;
+    // /* sfx thumb */
 
-    border: 15px solid #150A38;
+    // position: absolute;
+    // width: 55px;
+    // height: 0px;
+    // left: 548px;
+    // top: 409px;
 
+    // border: 20px solid #DFFF79;
+    // transform: rotate(90deg);
 
-    /* sfx bar */
+    // /* music bar */
 
-    position: absolute;
-    width: 347px;
-    height: 0px;
-    left: 306px;
-    top: 437px;
+    // position: absolute;
+    // width: 347px;
+    // height: 0px;
+    // left: 306px;
+    // top: 337px;
 
-    border: 15px solid #150A38;
+    // border: 15px solid #150A38;
 
 
-    /* music muteToggle */
+    // /* sfx bar */
 
-    box-sizing: border-box;
+    // position: absolute;
+    // width: 347px;
+    // height: 0px;
+    // left: 306px;
+    // top: 437px;
 
-    position: absolute;
-    left: 70.94%;
-    right: 23.85%;
-    top: 48.75%;
-    bottom: 43.44%;
+    // border: 15px solid #150A38;
 
-    background: #DFFF79;
-    border: 5px solid #150A38;
 
+    // /* music muteToggle */
 
-    /* sfx muteToggle */
+    // box-sizing: border-box;
 
-    box-sizing: border-box;
+    // position: absolute;
+    // left: 70.94%;
+    // right: 23.85%;
+    // top: 48.75%;
+    // bottom: 43.44%;
 
-    position: absolute;
-    left: 70.94%;
-    right: 23.85%;
-    top: 64.38%;
-    bottom: 27.81%;
+    // background: #DFFF79;
+    // border: 5px solid #150A38;
 
-    background: #DFFF79;
-    border: 5px solid #150A38;
 
+    // /* sfx muteToggle */
 
-    /* music thumb */
+    // box-sizing: border-box;
 
-    position: absolute;
-    width: 55px;
-    height: 0px;
-    left: 548px;
-    top: 309px;
+    // position: absolute;
+    // left: 70.94%;
+    // right: 23.85%;
+    // top: 64.38%;
+    // bottom: 27.81%;
 
-    border: 20px solid #DFFF79;
-    transform: rotate(90deg);
+    // background: #DFFF79;
+    // border: 5px solid #150A38;
 
 
-    /* sfx thumb */
 
-    position: absolute;
-    width: 55px;
-    height: 0px;
-    left: 548px;
-    top: 409px;
 
-    border: 20px solid #DFFF79;
-    transform: rotate(90deg);
 
 
 
 
 
-
-}
+// }

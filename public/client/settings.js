@@ -1,6 +1,21 @@
-const socket = io.connect();
+// const socket = io.connect();
 
 let currentTrack = null
+let triviaTrack = null
+
+axios.get('/music')
+    .then(res => {
+
+        MUSIC_STATUS = res.data.user_info.music_status
+        SFX_STATUS = res.data.user_info.sfx_status
+
+    })
+    .catch(() => {
+        console.error('axios get sound broke')
+    })
+
+
+
 
 const music = {
 
@@ -127,52 +142,6 @@ const sfx = {
 }
 
 
-function soundEventListener(event) {
-
-    if (event.target.classList.contains('music_mute')) {
-        if (MUSIC_STATUS.mute === false) {
-            MUSIC_STATUS.mute = true
-        } else {
-            MUSIC_STATUS.mute = false
-        }
-    }
-
-    if (event.target.classList.contains('sfx_mute')) {
-        if (SFX_STATUS.mute === false) {
-            SFX_STATUS.mute = true
-        } else {
-            SFX_STATUS.mute = false
-        }
-    }
-
-    if (event.target.classList.contains('music_mute')) {
-        if (MUSIC_STATUS.mute === false) {
-            MUSIC_STATUS.mute = true
-        } else {
-            MUSIC_STATUS.mute = false
-        }
-    }
-}
-
-
-
-
-// AXIOS SESSION GET and UPDATE
-async function getSound() {
-    axios.get('/music')
-        .then(res => {
-
-            MUSIC_STATUS = res.data.user_info.music
-            SFX_STATUS = res.data.user_info.sfx
-
-        })
-        .catch(() => {
-            console.error('axios get sound broke')
-        })
-}
-
-
-
 async function updateSound() {
     let sound_update = {
         music: MUSIC_STATUS,
@@ -181,8 +150,8 @@ async function updateSound() {
     axios.post('/music/update', (sound_update))
         .then(res => {
 
-            MUSIC_STATUS = res.data.user_info.music
-            SFX_STATUS = res.data.user_info.sfx
+            // MUSIC_STATUS = res.data.user_info.music
+            // SFX_STATUS = res.data.user_info.sfx
 
         })
         .catch(() => {
@@ -192,42 +161,123 @@ async function updateSound() {
 
 
 const settingsMenu = document.querySelector('.settingsMenu')
-const settings_icon = document.querySelector('.settings__icon')
+const settings_icon = document.querySelector('.settings_icon')
 
-const settings__text = document.createElement('div')
-//const settingsMenu__nav = document.createElement('div')
+const settings__nav = document.createElement('div')
+const settings__textBox = document.createElement('div')
+const settings__textVolume = document.createElement('div')
+const settings__musictext = document.createElement('div')
+const settings__sfxtext = document.createElement('div')
+
+const settings__musicMute = document.createElement('button')
+const settings__musicSlidecontainer = document.createElement('div')
+const settings__musicSlider = document.createElement('input')
+
+const settings__sfxMute = document.createElement('button')
+const settings__sfxSlidecontainer = document.createElement('div')
+const settings__sfxSlider = document.createElement('input')
 
 const exitgame__btn = document.createElement('a')
 
-settings__text.classList.add('settingsMenu__text')
-//settingsMenuu__nav.classList.add('settingsMenu__nav')
-exitgame__btn.classList.add('btn', 'btn--darkPurple', 'exitGame__btn')
+settings__nav.classList.add('settingsMenu__nav')
+settings__textBox.classList.add('settingsMenu__textBox')
+settings__textVolume.classList.add('settingsMenu__textVolume')
+settings__musictext.classList.add('settingsMenu__text')
+settings__sfxtext.classList.add('settingsMenu__text')
 
-settings__text.innerText = "Settings"
+settings__musicMute.classList.add('btn', 'settingsMenu__muteToggle')
+if (MUSIC_STATUS.mute === true) {
+    settings__musicMute.classList.add('settingsMenu__muteToggle__off')
+}
+settings__musicSlidecontainer.classList.add('settingsMenu__slidecontainer')
+settings__musicSlider.classList.add('settingsMenu__slider')
+
+settings__musicSlider.type = 'range'
+settings__musicSlider.min = '1'
+settings__musicSlider.max = '100'
+settings__musicSlider.value = `${MUSIC_STATUS.volume * 10}`
+
+settings__musicSlider.oninput = function () {
+    MUSIC_STATUS.volume = +this.value / 10
+}
+
+settings__sfxMute.classList.add('btn', 'settingsMenu__muteToggle')
+if (SFX_STATUS.mute === true) {
+    settings__sfxMute.classList.add('settingsMenu__muteToggle__off')
+}
+settings__sfxSlidecontainer.classList.add('settingsMenu__slidecontainer')
+settings__sfxSlider.classList.add('settingsMenu__slider')
+
+settings__sfxSlider.type = 'range'
+settings__sfxSlider.min = '1'
+settings__sfxSlider.max = '100'
+settings__sfxSlider.value = `${SFX_STATUS.volume * 10}`
+
+settings__sfxSlider.oninput = function () {
+    SFX_STATUS.volume = +this.value / 10
+}
+
+exitgame__btn.classList.add('btn', 'btn--darkPurple', 'settingsMenu__btn')
+
+settings__textBox.innerText = "Settings"
+settings__textVolume.innerText = "Volume"
+settings__musictext.innerText = "Music"
+settings__sfxtext.innerText = "SFX"
 exitgame__btn.innerText = `EXIT GAME`
 
-exitMenu__nav.appendChild(exitMenu__text)
-exitMenu__nav.appendChild(exitMenu__btn)
+settings__nav.appendChild(settings__textBox)
+settings__nav.appendChild(settings__textVolume)
 
-exitMenu.appendChild(exitMenu__nav)
+settings__musicSlidecontainer.appendChild(settings__musictext)
+settings__musicSlidecontainer.appendChild(settings__musicSlider)
+settings__musicSlidecontainer.appendChild(settings__musicMute)
+
+settings__sfxSlidecontainer.appendChild(settings__sfxtext)
+settings__sfxSlidecontainer.appendChild(settings__sfxSlider)
+settings__sfxSlidecontainer.appendChild(settings__sfxMute)
+
+settings__nav.appendChild(settings__musicSlidecontainer)
+settings__nav.appendChild(settings__sfxSlidecontainer)
+settings__nav.appendChild(exitgame__btn)
+
+settingsMenu.appendChild(settings__nav)
 
 settings_icon.addEventListener('click', (event) => {
     event.preventDefault()
     sfx.positive.play()
+    updateSound()
     settingsMenu.classList.toggle('hide')
 })
 
-let confirm = 0;
-exitMenu__btn.addEventListener('click', (event) => { // should have a socket emit that will let everybody know that somebody quit
-    // I think this happens when the disconnect emiter is triggered, we just need to display it to the others
+settings__musicMute.addEventListener('click', (event) => {
+    event.preventDefault()
+    if (MUSIC_STATUS.mute === false) {
+        MUSIC_STATUS.mute = true
+        settings__musicMute.toggle('settingsMenu__muteToggle__off')
+    } else {
+        MUSIC_STATUS.mute = false
+        settings__musicMute.toggle('settingsMenu__muteToggle__off')
+    }
+    sfx.positive.play()
+})
+
+settings__sfxMute.addEventListener('click', (event) => {
+    event.preventDefault()
+    if (SFX_STATUS.mute === false) {
+        SFX_STATUS.mute = true
+        settings__sfxMute.toggle('settingsMenu__muteToggle__off')
+    } else {
+        SFX_STATUS.mute = false
+        settings__sfxMute.toggle('settingsMenu__muteToggle__off')
+    }
+    sfx.positive.play()
+})
+
+exitgame__btn.addEventListener('click', (event) => {
     event.preventDefault()
     sfx.positive.play()
-    if (confirm == 0) {
-        exitMenu__text.innerText = "Are you sure?"
-        confirm = 1
-    } else {
-        window.location.href = '/mainmenu/'
-    }
+    updateSound()
+    window.location.href = '/mainmenu/'
 })
 
 
