@@ -10,12 +10,14 @@
         const USER_NAME = '<%= user_info.user_name %>'
         const USER_ID = '<%= user_info.user_id %>'
         const AVATAR_NAME = '<%= user_info.avatar_name %>'
+        var MUSIC_STATUS = user_info.music_status
+        var SFX_STATUS = user_info.sfx_status
     </script>
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js"
         integrity="sha512-dMiBqqEV5i3KqpAdsgQSSZ72DnNib7otY0X+b/Tnn1EmLym1dxuZ19csdZqBnfDniKd9bmNtzStQzuMrIa5Ngw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src='https://cdn.jsdelivr.net/gh/colxi/getEventListeners/src/getEventListeners.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/gh/colxi/getEventListeners/src/getEventListeners.min.js'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <title>Love is War</title>
@@ -23,25 +25,36 @@
 
 <body>
 
-    <section class="section-main section-main--bg section-lobbyClient hide"> </section>
+    <section class="section-main section-main--bg section-lobbyClient hide">
+        
+        <img class="icon__btn settingsMenu__icon" src="assets/menu/settings_icon.png" alt="settings icon">
+    </section>
 
-    <section class="exitMenu hide">  </section>
+    <section class="settingsMenu hide"> </section>
 
     <section class="overlay overlay--black hide"> </section>
 
 
-    <section class="section-main section-main--bg section-crushes hide">  </section>
+    <section class="section-main section-main--bg section-crushes hide">
+        <img class="icon__btn settingsMenu__icon" src="assets/menu/settings_icon.png" alt="settings icon">
+    </section>
 
 
     <section class="section-main section-main--bg-trivia section-trivia hide">
         <span class="timer timer__trivia"></span>
 
-        <img class="icon__btn exitMenu__icon" src="assets/menu/inGameExit_icon.png" alt="inGameExit_icon">
+        <img class="icon__btn settingsMenu__icon" src="assets/menu/settings_icon.png" alt="settings icon">
     </section>
 
-    <section class="section-main section-main--bg section-lounge hide"></section>
+    <section class="section-main section-main--bg section-lounge hide">
 
-    <section class="section-main section-main--bg section-victory hide">  </section>
+        <img class="icon__btn settingsMenu__icon" src="assets/menu/settings_icon.png" alt="settings icon">
+    </section>
+
+    <section class="section-main section-main--bg section-victory hide">
+
+        <img class="icon__btn settingsMenu__icon" src="assets/menu/settings_icon.png" alt="settings icon">
+    </section>
 
 
 </body>
@@ -52,5 +65,6 @@
 <script src="../../client/triviaClient.js" defer></script>
 <script src="../../client/loungeClient.js" defer></script>
 <script src="../../client/victory.js" defer></script>
+<script src="../../client/settings.js" defer></script>
 
 </html>

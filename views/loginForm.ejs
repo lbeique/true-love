@@ -6,13 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css">
+    <script>
+        if (!user_info) {
+            var MUSIC_STATUS = {
+                mute: false,
+                volume: 8,
+            }
+            var SFX_STATUS = {
+                mute: false,
+                volume: 8,
+            }
+        } else {
+            var MUSIC_STATUS = user_info.music_status
+            var SFX_STATUS = user_info.sfx_status
+        }
+    </script>
     <title>Love is War</title>
 </head>
 
 <body>
 
     <section class="section-header">
-        <h1 class="heading-primary">Welcome to True Love! </h1>
+        <h1 class="heading-primary">Love is War!</h1>
 
     </section>
 
@@ -23,7 +38,8 @@
 
             <div class="form__page">
 
-                <form method="POST" action="" style="display: flex;flex-direction: column; align-items: center; width: 100%;">
+                <form method="POST" action=""
+                    style="display: flex;flex-direction: column; align-items: center; width: 100%;">
                     <div style="display: flex;flex-direction: column;">
                         <label for="userNameOrEmail" class="login__userNameOrEmail"> User Name </label>
                         <input type="text" id="userNameOrEmail" name="userNameOrEmail" required="" style="color: black">
@@ -33,7 +49,8 @@
                         <input type="password" id="password" name="password" required="" style="color: black">
                     </div>
                     <div style="display: flex; flex-direction: column;">
-                        <button class="submit" style="background-color: #D7FF60; border: none; border-radius: 5px; color: #333; /* Dark grey */ padding: 15px 32px">
+                        <button class="submit"
+                            style="background-color: #D7FF60; border: none; border-radius: 5px; color: #333; /* Dark grey */ padding: 15px 32px">
                             Log In </button>
                     </div>
                 </form>

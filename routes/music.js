@@ -12,17 +12,14 @@ const getSession = (session) => {
     return session
 }
 
-router.post("/", (req, res) => {
+router.get("/", (req, res) => {
     let session = getSession(req.session)
     if (!session) {
         res.status(404).redirect('/')
         return
     }
-
-    let music = req.session.user_info.music
-    let sfx = req.session.user_info.sfx
-
-    res.json({ music, sfx })
+    let user_info = req.session.user_info
+    res.json({ user_info })
     return
 })
 
@@ -32,17 +29,13 @@ router.post("/update", (req, res) => {
         res.status(404).redirect('/')
         return
     }
-    if (req.body?.session_sounds) {
+    if (req.body?.sound_update) {
         return
     }
-    req.session.user_info.music = req.body.session_sounds.music
-    req.session.user_info.sfx = req.body.session_sounds.sfx
-
-    // req.body.music_update.music
-    // let music = req.session.user_info.music
-    // let sfx = req.session.user_info.sfx
-    // res.json({ music, sfx })
-    
+    req.session.user_info.music = req.body.sound_update.music
+    req.session.user_info.sfx = req.body.sound_update.sfx
+    let user_info = req.session.user_info
+    res.json({ user_info })
     return
 })
 

@@ -6,13 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css">
+    <script>
+        if (!user_info) {
+            var MUSIC_STATUS = {
+                mute: false,
+                volume: 8,
+            }
+            var SFX_STATUS = {
+                mute: false,
+                volume: 8,
+            }
+        } else {
+            var MUSIC_STATUS = user_info.music_status
+            var SFX_STATUS = user_info.sfx_status
+        }
+    </script>
     <title>Love is War</title>
 </head>
 
 <body>
 
     <section class="section-header">
-        <h1 class="heading-primary">Welcome to True Love! </h1>
+        <h1 class="heading-primary">Love is War!</h1>
 
     </section>
 

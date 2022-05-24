@@ -1,0 +1,49 @@
+.exitMenu {
+
+    &__icon {
+        position: absolute;
+        top: 2em;
+        right: 17%;
+        z-index: 100;
+    }
+
+}
+
+.settingsMenu {
+
+    &__icon {
+        position: absolute;
+        top: 2em;
+        right: 17%;
+        z-index: 100;
+    }
+
+    &__btn {
+        width: 20em;
+        font-size: 20px;
+
+        // animation: popUpCenter 1s ease backwards;
+    }
+
+    &__muteToggle {
+        position: absolute;
+        left: 70.94%;
+        right: 23.85%;
+        top: 48.75%;
+        bottom: 43.44%;
+    
+        background: #DFFF79;
+        border: 5px solid #150A38;
+    
+        &__off {
+            background-color: $secondary-color;
+        }
+    }
+
+    &__volumeBar {
+
+    }
+}
+
+
+

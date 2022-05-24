@@ -1,0 +1,73 @@
+.settingsMenu {
+    position: absolute;
+    margin: 0;
+    background-color: rgba($secondary-color, 0.9);
+    width: 100%;
+    height: 100%;
+    z-index: 89;
+    transition: all .2s;
+
+    
+    &__textBox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1em;
+        width: 20em;
+        height: 10em;
+        border: 10px solid $tertiary-color;
+        border-radius: 2em;
+        background-color: $secondary-variant;
+        font-size: 48px;
+        color: $tertiary-color;
+        margin-bottom: 1em;
+
+        // animation: popUpCenter 1s ease backwards;
+
+    }
+
+    &__textVolume {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1em;
+        width: 10em;
+        height: 2em;
+        border: none;
+        font-size: 40px;
+        color: $tertiary-color;
+        margin-bottom: 1em;
+
+        // animation: popUpCenter 1s ease backwards;
+
+    }
+
+    &__text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1em;
+        width: 4em;
+        height: 2em;
+        border: none;
+        font-size: 32px;
+        color: $tertiary-color;
+        margin-bottom: 1em;
+
+        // animation: popUpCenter 1s ease backwards;
+
+    }
+
+    // &__nav {
+    //     @include absCenter;
+    //     display: flex;
+    //     flex-direction: column;
+    //     align-items: center;
+    //     row-gap: .5em;
+    //     width: 40em;
+    //     height: 10em;
+    // }
+
+
+}
+

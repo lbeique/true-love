@@ -6,6 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css">
+    <script>
+        if (!user_info) {
+            var MUSIC_STATUS = {
+                mute: false,
+                volume: 8,
+            }
+            var SFX_STATUS = {
+                mute: false,
+                volume: 8,
+            }
+        } else {
+            var MUSIC_STATUS = user_info.music_status
+            var SFX_STATUS = user_info.sfx_status
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js"
         integrity="sha512-dMiBqqEV5i3KqpAdsgQSSZ72DnNib7otY0X+b/Tnn1EmLym1dxuZ19csdZqBnfDniKd9bmNtzStQzuMrIa5Ngw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -22,20 +37,12 @@
 
         <div class="auth__content">
             <% if (!user_info) { %>
-                <!-- <form method="POST" action="auth/login">
-                    <label for="username" class="login__username"> User Name </label>
-                    <input type="text" id="username" name="username" required style="color: black">
-                    <button class="submit" class="btn btn__auth btn--green" style="background-color: #D7FF60; border: none; border-radius: 5px; color: #333; /* Dark grey */ padding: 15px 32px"> MAIN MENU </button>
-                </form> -->
-                <!-- Following what Ilia recommended. Hiding paths until feature is ready. ALSO RENAMED LOG IN TO MAIN MENU  -->
+
                 <a href="auth/login" class="btn btn__auth btn--green"> LOG IN </a>
                 <a href="auth/signup" class="btn btn__auth btn--green"> SIGN UP </a>
+
                 <% } else if (user_info) { %>
-                    <!-- <form method="POST" action="auth/login">
-                        <label for="username" class="login__username"> User Name </label>
-                        <input type="text" id="username" name="username" required style="color: black">
-                        <button class="submit" class="btn btn__auth btn--green" style="background-color: #D7FF60; border: none; border-radius: 5px; color: #333; /* Dark grey */ padding: 15px 32px"> MAIN MENU </button>
-                    </form> -->
+
                     <a href="mainmenu" class="btn btn__auth btn--green"> TO MAIN MENU </a>
                     <a href="auth/logout" class="btn btn__auth btn--green"> LOGOUT </a>
                     <% } %>
