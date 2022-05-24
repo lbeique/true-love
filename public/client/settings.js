@@ -8,7 +8,7 @@ axios.get('/music')
 
         MUSIC_STATUS = res.data.user_info.music_status
         SFX_STATUS = res.data.user_info.sfx_status
-
+        console.log(MUSIC_STATUS)
     })
     .catch(() => {
         console.error('axios get sound broke')
