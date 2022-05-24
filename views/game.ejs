@@ -10,10 +10,9 @@
         const USER_NAME = '<%= user_info.user_name %>'
         const USER_ID = '<%= user_info.user_id %>'
         const AVATAR_NAME = '<%= user_info.avatar_name %>'
-        var MUSIC_STATUS = user_info.music_status
-        var SFX_STATUS = user_info.sfx_status
     </script>
     <script src="/socket.io/socket.io.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js"
         integrity="sha512-dMiBqqEV5i3KqpAdsgQSSZ72DnNib7otY0X+b/Tnn1EmLym1dxuZ19csdZqBnfDniKd9bmNtzStQzuMrIa5Ngw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -58,6 +57,7 @@
 
 
 </body>
+<script src="../../client/settings.js" defer></script>
 <script src="../../client/lobbyClient.js" defer></script>
 <script src="../../client/exitMenu.js" defer></script>
 <script src="../../client/crushes.js" defer></script>
@@ -65,6 +65,5 @@
 <script src="../../client/triviaClient.js" defer></script>
 <script src="../../client/loungeClient.js" defer></script>
 <script src="../../client/victory.js" defer></script>
-<script src="../../client/settings.js" defer></script>
 
 </html>

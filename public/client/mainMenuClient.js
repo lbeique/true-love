@@ -31,7 +31,7 @@
 // }
 
 
-music.menu.play()
+// music.menu.play()
 
 
 // WHAT A MESS LMAO AAAAAAA

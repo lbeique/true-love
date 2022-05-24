@@ -1039,11 +1039,7 @@ tr:nth-child(even) {
   font-size: 20px;
 }
 .settingsMenu__muteToggle {
-  position: absolute;
-  left: 70.94%;
-  right: 23.85%;
-  top: 48.75%;
-  bottom: 43.44%;
+  display: flex;
   background: #DFFF79;
   border: 5px solid #150A38;
 }

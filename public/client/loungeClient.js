@@ -11,8 +11,8 @@ socket.on('create-lounge', (gameInfo) => {
     // }
     // all player facts should be handled in the backend
 
-    console.log(gameInfo)
-    music.lounge.play()
+    // console.log(gameInfo)
+    // music.lounge.play()
 
     
     

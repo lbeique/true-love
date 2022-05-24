@@ -6,7 +6,7 @@ const section__main = document.querySelector('.section-lobbies')
 
 
 
-lobbyListMusic.lobby2.volume(0.5).seek(54).loop(true).play()
+// lobbyListMusic.lobby2.volume(0.5).seek(54).loop(true).play()
 
 
 

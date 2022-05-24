@@ -46,7 +46,7 @@ socket.on('start-trivia-timer', async function (count) {
 
     timerText.innerHTML = count + "s";
     if (count === 7) {
-        sfx.timer.volume(0.6).play()
+        sfx.timer.play()
     }
     if (count === 5) {
         triviaTrack.fade(0.8, 0, 3000)
