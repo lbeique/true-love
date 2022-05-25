@@ -139,7 +139,7 @@ socket.on('create-lobby', (room, userId) => {
     lobby__backBtn.classList.add('btn', 'btn__back', 'btn--darkPurple')
 
 
-    lobby__header.innerText = `Welcome to the Lobby: ${room.room_name}`
+    lobby__header.innerText = `Lobby: ${room.room_name}`
     lobby__code.innerHTML = `The Lobby Code is: <span>${room.room_code}</span>`
     // gameStart__header.innerText = 'Not Ready'
     gameReady__btn.innerText = 'Not Ready'

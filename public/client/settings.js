@@ -234,14 +234,12 @@ axios.post('/music')
             music.menu.play()
         } else if (userLocation === 'lobby') {
             music.welcome.seek(54).play()
-        } else if (userLocation === 'game') {
-            music.lobby.play()
         }
-
-        console.log(MUSIC_STATUS)
 
         const settingsMenu = document.querySelector('.settingsMenu')
         const settings_icon = document.querySelector('.settings_icon')
+
+        const settings__exitIcon = document.createElement('img')
 
         const settings__nav = document.createElement('div')
         const settings__textBox = document.createElement('div')
@@ -264,6 +262,9 @@ axios.post('/music')
         settings__textVolume.classList.add('settingsMenu__textVolume')
         settings__musictext.classList.add('settingsMenu__text')
         settings__sfxtext.classList.add('settingsMenu__text')
+        settings__exitIcon.classList.add('icon__btn', 'exitMenu', 'exitMenu__icon')
+        settings__exitIcon.src = "assets/menu/inGameExit_icon.png"
+        settings__exitIcon.alt = "exit settings"
 
         settings__musicMute.classList.add('btn', 'settingsMenu__muteToggle')
         if (!MUSIC_STATUS.mute) {
@@ -347,6 +348,8 @@ axios.post('/music')
         settings__nav.appendChild(exitgame__btn)
 
         settingsMenu.appendChild(settings__nav)
+        settingsMenu.appendChild(settings__exitIcon)
+        
 
         function updateSound() {
             let sound_update = {
@@ -365,6 +368,13 @@ axios.post('/music')
         }
 
         settings_icon.addEventListener('click', (event) => {
+            event.preventDefault()
+            sfx.positive.play()
+            // updateSound()
+            settingsMenu.classList.toggle('hide')
+        })
+
+        settings__exitIcon.addEventListener('click', (event) => {
             event.preventDefault()
             sfx.positive.play()
             updateSound()

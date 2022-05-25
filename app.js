@@ -123,7 +123,7 @@ io.on('connection', client => {
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
         // NEED TO DEAL WITH USERS HERE (user is already in the game) - Laurent
-        client.disconnect()
+        // client.disconnect()
         return
       }
     }

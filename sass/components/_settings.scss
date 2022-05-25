@@ -1,9 +1,15 @@
 .exitMenu {
+    display: flex;
+        justify-content: end;
+        flex-direction: row;
 
+    
     &__icon {
-        position: absolute;
+        height: 10vh;
         top: 2em;
-        right: 17%;
+        display: flex;
+        justify-content: end;
+        // right: 17%;
         z-index: 100;
     }
 

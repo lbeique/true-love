@@ -1021,10 +1021,16 @@ tr:nth-child(even) {
   z-index: 100;
 }
 
+.exitMenu {
+  display: flex;
+  justify-content: end;
+  flex-direction: row;
+}
 .exitMenu__icon {
-  position: absolute;
+  height: 10vh;
   top: 2em;
-  right: 17%;
+  display: flex;
+  justify-content: end;
   z-index: 100;
 }
 
