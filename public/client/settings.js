@@ -271,13 +271,15 @@ axios.post('/music')
         settings__musicSlider.classList.add('settingsMenu__slidecontainer__slider')
 
         settings__musicSlider.type = 'range'
-        settings__musicSlider.min = '1'
+        settings__musicSlider.min = '0'
         settings__musicSlider.max = '100'
         settings__musicSlider.value = `${MUSIC_STATUS.volume * 100}`
 
         settings__musicSlider.oninput = function () {
             MUSIC_STATUS.volume = (+(this.value) / 100)
-            currentTrack.volume(+(this.value) / 100)
+            for (const track in music) {
+                music[track].volume(+(this.value) / 100)
+            }
         }
         settings__sfxMute.classList.add('btn', 'settingsMenu__muteToggle')
         if (!SFX_STATUS.mute) {
@@ -291,12 +293,28 @@ axios.post('/music')
         settings__sfxSlider.classList.add('settingsMenu__slidecontainer__slider')
 
         settings__sfxSlider.type = 'range'
-        settings__sfxSlider.min = '1'
+        settings__sfxSlider.min = '0'
         settings__sfxSlider.max = '100'
         settings__sfxSlider.value = `${SFX_STATUS.volume * 100}`
 
+        let hold = false
+
+        function playSFX () {
+            if (hold) {
+                return
+            } else {
+                sfx.positive.play()
+            }
+            hold = true
+            setTimeout(() => { hold = false }, 500)
+        }
+
         settings__sfxSlider.oninput = function () {
             SFX_STATUS.volume = (+(this.value) / 100)
+            for (const track in sfx) {
+                sfx[track].volume(+(this.value) / 100)
+            }
+            playSFX()
         }
 
         exitgame__btn.classList.add('btn', 'btn--darkPurple', 'settingsMenu__btn')
@@ -340,12 +358,12 @@ axios.post('/music')
                 })
         }
 
-        // settings_icon.addEventListener('click', (event) => {
-        //     event.preventDefault()
-        //     sfx.positive.play()
-        //     updateSound()
-        //     settingsMenu.classList.toggle('hide')
-        // })
+        settings_icon.addEventListener('click', (event) => {
+            event.preventDefault()
+            sfx.positive.play()
+            updateSound()
+            settingsMenu.classList.toggle('hide')
+        })
 
         function musicMuteEventHelper(event) {
 
@@ -354,7 +372,7 @@ axios.post('/music')
                 MUSIC_STATUS.mute = true
                 console.log(currentTrack)
                 for (const track in music) {
-                    music[track].mute = true
+                    music[track].mute(true)
                 }
                 // currentTrack.mute(true)
                 settings__musicMute.classList.toggle('settingsMenu__muteToggle__off')
@@ -362,7 +380,7 @@ axios.post('/music')
             } else if (MUSIC_STATUS.mute) {
                 MUSIC_STATUS.mute = false
                 for (const track in music) {
-                    music[track].mute = false
+                    music[track].mute(false)
                 }
                 // currentTrack.mute(false)
                 settings__musicMute.classList.toggle('settingsMenu__muteToggle__off')
@@ -379,14 +397,14 @@ axios.post('/music')
             if (!SFX_STATUS.mute) {
                 SFX_STATUS.mute = true
                 for (const track in sfx) {
-                    sfx[track].mute = true
+                    sfx[track].mute(true)
                 }
                 settings__sfxMute.classList.toggle('settingsMenu__muteToggle__off')
                 settings__sfxMute.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'
             } else if (SFX_STATUS.mute) {
                 SFX_STATUS.mute = false
                 for (const track in sfx) {
-                    sfx[track].mute = false
+                    sfx[track].mute(false)
                 }
                 settings__sfxMute.classList.toggle('settingsMenu__muteToggle__off')
                 settings__sfxMute.innerHTML = '<i class="fas fa-volume-up"></i>'
