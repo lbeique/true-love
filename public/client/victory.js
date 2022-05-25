@@ -154,7 +154,7 @@ socket.on('create-victory', (victoryObject) => {
 })
 
 socket.on('remove-victory', () => {
-    music.victory.fade(1, 0, 3000).stop()
+    music.victory.fade(MUSIC_STATUS.volume, 0, 3000).stop()
     const section__victory = document.querySelector('.section-victory')
     const victory__screen = document.querySelector('.victory__screen')
     const section__sidebar = document.querySelector('.section-sidebar')

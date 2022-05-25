@@ -19,6 +19,7 @@ router.get("/login", (req, res) => {
   const session = getSession(req.session)
   console.log('get login session', session)
   if (!session) {
+    req.session.user_info = {}
     req.session.user_info.location = "login"
     res.status(200).render('loginForm')
     return
@@ -48,10 +49,10 @@ router.post("/login", async (req, res) => {
     if (!req.session.user_info.music_status) {
       req.session.user_info.music_status = {}
       req.session.user_info.music_status.mute = false
-      req.session.user_info.music_status.volume = 0.8
+      req.session.user_info.music_status.volume = 0.7
       req.session.user_info.sfx_status = {}
       req.session.user_info.sfx_status.mute = false
-      req.session.user_info.sfx_status.volume = 0.8
+      req.session.user_info.sfx_status.volume = 0.5
     } 
     res.status(200).redirect('/mainmenu')
     return
@@ -67,6 +68,7 @@ router.get("/signup", (req, res) => {
   const session = getSession(req.session)
   console.log('get signup session', session)
   if (!session) {
+    req.session.user_info = {}
     req.session.user_info.location = "signup"
     res.status(200).render('signUpForm')
     return
@@ -118,10 +120,10 @@ router.post("/signup", async (req, res) => {
     if (!req.session.user_info.music_status) {
       req.session.user_info.music_status = {}
       req.session.user_info.music_status.mute = false
-      req.session.user_info.music_status.volume = 0.8
+      req.session.user_info.music_status.volume = 0.7
       req.session.user_info.sfx_status = {}
       req.session.user_info.sfx_status.mute = false
-      req.session.user_info.sfx_status.volume = 0.8
+      req.session.user_info.sfx_status.volume = 0.5
     }
     res.status(200).redirect('/mainmenu')
     return

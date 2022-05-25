@@ -12,7 +12,7 @@ socket.on('create-lounge', (gameInfo) => {
     // all player facts should be handled in the backend
 
     // console.log(gameInfo)
-    // music.lounge.play()
+    music.lounge.play()
 
     
     
@@ -93,7 +93,7 @@ socket.on('start-lounge-timer', async function (count, triviaCategory) {
 
     timerText.innerHTML = `${triviaCategory} trivia in: ${count}s`;
     if (count === 5) {
-        music.lounge.fade(1, 0, 3000)
+        music.lounge.fade(MUSIC_STATUS.volume, 0, 3000)
     }
 })
 
