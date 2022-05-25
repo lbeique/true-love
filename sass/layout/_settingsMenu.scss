@@ -1,5 +1,7 @@
 .settingsMenu {
     position: absolute;
+    display: flex;
+    justify-content: center;
     margin: 0;
     background-color: rgba($secondary-color, 0.9);
     width: 100%;
@@ -12,15 +14,16 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-top: 1em;
         padding: 1em;
-        width: 20em;
+        width: 14em;
         height: 10em;
-        border: 10px solid $tertiary-color;
+        border: 20px solid $tertiary-color;
         border-radius: 2em;
         background-color: $secondary-variant;
         font-size: 48px;
         color: $tertiary-color;
-        margin-bottom: 1em;
+        margin-bottom: 0.5em;
 
         // animation: popUpCenter 1s ease backwards;
 
@@ -36,7 +39,7 @@
         border: none;
         font-size: 40px;
         color: $tertiary-color;
-        margin-bottom: 1em;
+        margin-bottom: 0.5em;
 
         // animation: popUpCenter 1s ease backwards;
 
@@ -46,20 +49,17 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 1em;
-        width: 4em;
+        width: 3em;
         height: 2em;
         border: none;
         font-size: 32px;
         color: $tertiary-color;
-        margin-bottom: 1em;
 
         // animation: popUpCenter 1s ease backwards;
 
     }
 
     &__nav {
-        @include absCenter;
         display: flex;
         flex-direction: column;
         align-items: center;

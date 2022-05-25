@@ -279,11 +279,15 @@ settings__musictext.classList.add('settingsMenu__text')
 settings__sfxtext.classList.add('settingsMenu__text')
 
 settings__musicMute.classList.add('btn', 'settingsMenu__muteToggle')
-if (MUSIC_STATUS.mute === true) {
+if (MUSIC_STATUS.mute === false) {
+    settings__musicMute.innerHTML = '<i class="fa-solid fa-volume-low"></i>'
+} else if (MUSIC_STATUS.mute = true) {
     settings__musicMute.classList.add('settingsMenu__muteToggle__off')
+    settings__sfxMute.innerHTML = '<i class="fa-solid fa-volume-off"></i>'
 }
+
 settings__musicSlidecontainer.classList.add('settingsMenu__slidecontainer')
-settings__musicSlider.classList.add('settingsMenu__slider')
+settings__musicSlider.classList.add('settingsMenu__slidecontainer__slider')
 
 settings__musicSlider.type = 'range'
 settings__musicSlider.min = '1'
@@ -294,13 +298,16 @@ settings__musicSlider.oninput = function () {
     MUSIC_STATUS.volume = (+(this.value) / 10)
     currentTrack.volume(+(this.value) / 10)
 }
-
 settings__sfxMute.classList.add('btn', 'settingsMenu__muteToggle')
-if (SFX_STATUS.mute === true) {
+if (SFX_STATUS.mute === false) {
+    settings__sfxMute.innerHTML = '<i class="fa-solid fa-volume-low"></i>'
+} else if (SFX_STATUS.mute === true) {
     settings__sfxMute.classList.add('settingsMenu__muteToggle__off')
+    settings__sfxMute.innerHTML = '<i class="fa-solid fa-volume-off"></i>'
 }
+
 settings__sfxSlidecontainer.classList.add('settingsMenu__slidecontainer')
-settings__sfxSlider.classList.add('settingsMenu__slider')
+settings__sfxSlider.classList.add('settingsMenu__slidecontainer__slider')
 
 settings__sfxSlider.type = 'range'
 settings__sfxSlider.min = '1'
@@ -348,11 +355,11 @@ settings__musicMute.addEventListener('click', (event) => {
     if (MUSIC_STATUS.mute === false) {
         MUSIC_STATUS.mute = true
         currentTrack.mute(true)
-        settings__musicMute.toggle('settingsMenu__muteToggle__off')
+        settings__musicMute.classList.toggle('settingsMenu__muteToggle__off')
     } else {
         MUSIC_STATUS.mute = false
         currentTrack.mute(false)
-        settings__musicMute.toggle('settingsMenu__muteToggle__off')
+        settings__musicMute.classList.toggle('settingsMenu__muteToggle__off')
     }
     sfx.positive.play()
 })
@@ -361,10 +368,10 @@ settings__sfxMute.addEventListener('click', (event) => {
     event.preventDefault()
     if (SFX_STATUS.mute === false) {
         SFX_STATUS.mute = true
-        settings__sfxMute.toggle('settingsMenu__muteToggle__off')
+        settings__sfxMute.classList.toggle('settingsMenu__muteToggle__off')
     } else {
         SFX_STATUS.mute = false
-        settings__sfxMute.toggle('settingsMenu__muteToggle__off')
+        settings__sfxMute.classList.toggle('settingsMenu__muteToggle__off')
     }
     sfx.positive.play()
 })
