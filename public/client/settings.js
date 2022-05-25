@@ -33,7 +33,12 @@ axios.post('/music')
                     music.welcome.volume(MUSIC_STATUS.volume)
                 },
                 onplayerror: function () {
-                    if (userLocation === 'welcome') {
+                    if (!userLocation) {
+                        music.welcome.once('unlock', function () {
+                            music.welcome.stop()
+                            music.welcome.play()
+                        })
+                    } else if (userLocation === 'welcome') {
                         music.welcome.once('unlock', function () {
                             music.welcome.stop()
                             music.welcome.play()
@@ -217,6 +222,7 @@ axios.post('/music')
             }),
         }
         if (!userLocation) {
+            console.log('where am i??')
             music.welcome.play()
         } else if (userLocation === 'welcome') {
             music.welcome.play()
