@@ -28,8 +28,8 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
     const section__menu = document.querySelector(".section-menu")
     const section__leaderboard = document.querySelector(".section-leaderboard")
 
-    if(document.querySelector('.sidebar')){
-        document.querySelector('.sidebar').remove()
+    if(document.querySelector('.leaderboard')){
+        document.querySelector('.leaderboard').remove()
     }
 
     if(document.querySelector('.btn__refresh')){
@@ -50,11 +50,11 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
 
     leaderboard__refresh_btn.classList.add('btn', 'btn__refresh', 'btn--darkPurple', 'leaderboard__refreshBtn')
     leaderboard__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'leaderboard__backBtn')
-    section__leaderboard.classList.add('section-sidebar','section-sidebar--open', 'section-sidebar--open-victory')
-    leaderboard.classList.add('sidebar')
-    leaderboard__container.classList.add('sidebar__container', 'sidebar__container--open', 'sidebar__container--open-leaderboard')
-    leaderboard__header.classList.add('sidebar__header')
-    leaderboard__players.classList.add('sidebar__players', 'sidebar__players--open')
+    section__leaderboard.classList.add('section-leaderboard','section-leaderboard--open', 'section-leaderboard--open-victory')
+    leaderboard.classList.add('leaderboard')
+    leaderboard__container.classList.add('leaderboard__container', 'leaderboard__container--open', 'leaderboard__container--open-leaderboard')
+    leaderboard__header.classList.add('leaderboard__header', 'leaderboard__header--leaderboard')
+    leaderboard__players.classList.add('leaderboard__players', 'leaderboard__players--open')
     leaderboard__categoriesContainer.classList.add('leaderboard__categories-container')
 
     for(let i= 0; i < 3; i++){
@@ -117,7 +117,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
 
     leaderboard__back_btn.innerHTML = `<span>&#8618;</span>`
     leaderboard__refresh_btn.innerHTML = `&#8634;`
-    leaderboard__header.innerHTML = '<i class="fa-solid fa-earth-americas"></i><span class="sidebar__header-text"> GLOBAL TOP 50 <span>'
+    leaderboard__header.innerHTML = '<i class="fa-solid fa-earth-americas"></i><span class="leaderboard__header-text"> GLOBAL TOP 50 <span>'
     leaderboard.style.animation = 'fadingIn 1s ease backwards'
 
     leaderboard__back_btn.addEventListener('click', (event) => {
@@ -142,10 +142,10 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
         let position = returnPosition(positionNum)
         let player = globalLeaderboard[counter]
         if(player){
-            const player__container = displayPlayers(player, position, 'global')
+            const leaderboard_player__container = displayPlayers(player, position, 'global')
             
-            // player__container.style.animation = `slideFromBottom .1s ease ${counter - .8}s backwards`
-            leaderboard__players.appendChild(player__container)
+            // leaderboard-player__container.style.animation = `slideFromBottom .1s ease ${counter - .8}s backwards`
+            leaderboard__players.appendChild(leaderboard_player__container)
             positionNum++
             counter++
         } else{
@@ -192,26 +192,26 @@ function displayPlayers(player, position, location){
 
     console.log('player', player)
 
-    const player__container = document.createElement('div')
-    const player__avatarContainer = document.createElement('div')
-    const player__avatar = document.createElement('img')
-    const player__info = document.createElement('div')
-    const player__position = document.createElement('span')
+    const leaderboard_player__container = document.createElement('div')
+    const leaderboard_player__avatarContainer = document.createElement('div')
+    const leaderboard_player__avatar = document.createElement('img')
+    const leaderboard_player__info = document.createElement('div')
+    const leaderboard_player__position = document.createElement('span')
     const info__name = document.createElement('span')
     const info__note = document.createElement('span')
 
-    player__container.classList.add(`player-${player.user_id}`, 'player__container')
-    player__avatarContainer.classList.add('player__avatarContainer', 'player__avatarContainer--open', 'player__avatarContainer--open-victory')
-    player__avatar.classList.add('player__avatar')
+    leaderboard_player__container.classList.add(`player-${player.user_id}`, 'leaderboard-player__container')
+    leaderboard_player__avatarContainer.classList.add('leaderboard-player__avatarContainer', 'leaderboard-player__avatarContainer--open', 'leaderboard-player__avatarContainer--open-victory')
+    leaderboard_player__avatar.classList.add('leaderboard-player__avatar')
     if(location === 'my_match'){
-        player__info.classList.add('player__info-match')
+        leaderboard_player__info.classList.add('leaderboard-player__info-match')
     }
-    player__info.classList.add('player__info')
-    player__position.classList.add('player__position')
-    info__name.classList.add('info__name')
-    info__note.classList.add('info__note')
+    leaderboard_player__info.classList.add('leaderboard-player__info')
+    leaderboard_player__position.classList.add('leaderboard-player__position')
+    info__name.classList.add('leaderboard-info__name')
+    info__note.classList.add('leaderboard-info__note')
 
-    player__avatar.src = `assets/user-avatars/avatar_${player.avatar_name}.png`
+    leaderboard_player__avatar.src = `assets/user-avatars/avatar_${player.avatar_name}.png`
     info__name.innerHTML = `${player.user_name}`
 
     if(location === "global"){
@@ -220,64 +220,64 @@ function displayPlayers(player, position, location){
         info__note.innerHTML = `${player.total_points} pts`
     }
 
-    player__position.innerHTML = `${position}`
+    leaderboard_player__position.innerHTML = `${position}`
 
-    player__avatarContainer.appendChild(player__avatar)
-    player__container.appendChild(player__position)
-    player__container.appendChild(player__avatarContainer)
-    player__info.appendChild(info__name)
-    player__container.appendChild(player__info)
+    leaderboard_player__avatarContainer.appendChild(leaderboard_player__avatar)
+    leaderboard_player__container.appendChild(leaderboard_player__position)
+    leaderboard_player__container.appendChild(leaderboard_player__avatarContainer)
+    leaderboard_player__info.appendChild(info__name)
+    leaderboard_player__container.appendChild(leaderboard_player__info)
 
     if(location === 'global'){
 
-        const player__subCategory_container = document.createElement('div')
-        player__subCategory_container.classList.add('player__subCategory-container', 'player__subCategory-container--leaderboard')
+        const leaderboard_player__subCategory_container = document.createElement('div')
+        leaderboard_player__subCategory_container.classList.add('leaderboard-player__subCategory-container', 'leaderboard-player__subCategory-container--leaderboard')
 
         for(let i = 1; i <= 2; i++){
-            const player__subCategory = document.createElement('div')
-            const player__subCategory_left = document.createElement('div')
-            const player__subCategory_right = document.createElement('div')
+            const leaderboard_player__subCategory = document.createElement('div')
+            const leaderboard_player__subCategory_left = document.createElement('div')
+            const leaderboard_player__subCategory_right = document.createElement('div')
     
-            player__subCategory.classList.add('info__category-details')
-            player__subCategory_left.classList.add('info__category-details--left')
-            player__subCategory_right.classList.add('info__category-details--right')
+            leaderboard_player__subCategory.classList.add('leaderboard-info__category-details')
+            leaderboard_player__subCategory_left.classList.add('leaderboard-info__category-details--left')
+            leaderboard_player__subCategory_right.classList.add('leaderboard-info__category-details--right')
     
             if(i === 1){
-                player__subCategory_left.innerText = `Total pts:`
-                player__subCategory_right.innerText = `${player.total_points} pts`    
+                leaderboard_player__subCategory_left.innerText = `Total pts:`
+                leaderboard_player__subCategory_right.innerText = `${player.total_points} pts`    
             } else if(i === 2){
-                player__subCategory_left.innerText = `Win Ratio:`
-                player__subCategory_right.innerText = `${+player.win_ratio * 100}%` 
+                leaderboard_player__subCategory_left.innerText = `Win Ratio:`
+                leaderboard_player__subCategory_right.innerText = `${+player.win_ratio * 100}%` 
             }
     
-            player__subCategory.append(player__subCategory_left, player__subCategory_right)
-            player__subCategory_container.appendChild(player__subCategory)
+            leaderboard_player__subCategory.append(leaderboard_player__subCategory_left, leaderboard_player__subCategory_right)
+            leaderboard_player__subCategory_container.appendChild(leaderboard_player__subCategory)
     
         }
 
-        player__info.appendChild(player__subCategory_container)
+        leaderboard_player__info.appendChild(leaderboard_player__subCategory_container)
 
     }
 
-    player__info.appendChild(info__note)
+    leaderboard_player__info.appendChild(info__note)
 
     if(player.user_id === +USER_ID){
         
-        const player__YOUcontainer = document.createElement('div')
-        const player__YOU = document.createElement('div')
+        const leaderboard_player__YOUcontainer = document.createElement('div')
+        const leaderboard_player__YOU = document.createElement('div')
         if(location === 'my_match'){
-            player__YOUcontainer.classList.add('player__youContainer', 'player__youContainer--open', 'player__youContainer--open-match')
+            leaderboard_player__YOUcontainer.classList.add('leaderboard-player__youContainer', 'leaderboard-player__youContainer--open', 'leaderboard-player__youContainer--open-match')
         } else if(location === 'global'){
-            player__YOUcontainer.classList.add('player__youContainer', 'player__youContainer--open')
+            leaderboard_player__YOUcontainer.classList.add('leaderboard-player__youContainer', 'leaderboard-player__youContainer--open')
         }
-        player__YOU.classList.add('player__you')
+        leaderboard_player__YOU.classList.add('leaderboard-player__you')
         
-        player__YOUcontainer.appendChild(player__YOU)
-        player__container.appendChild(player__YOUcontainer)
+        leaderboard_player__YOUcontainer.appendChild(leaderboard_player__YOU)
+        leaderboard_player__container.appendChild(leaderboard_player__YOUcontainer)
 
     }
 
-    return player__container
+    return leaderboard_player__container
 
 }
 
@@ -309,19 +309,19 @@ function displayMatches(matchHistory, leaderboardType){
         }
     */
 
-    const leaderboard = document.querySelector(".sidebar")
-    const leaderboard__header = document.querySelector(".sidebar__header")
-    const leaderboard__container = document.querySelector(".sidebar__players")
-    const sidebar__container = document.querySelector('.sidebar__container')
+    const leaderboard = document.querySelector(".leaderboard")
+    const leaderboard__header = document.querySelector(".leaderboard__header")
+    const leaderboard__players = document.querySelector(".leaderboard__players")
+    const leaderboard__container = document.querySelector('.leaderboard__container')
     
     if(document.querySelector(".leaderboard__currentPlayer-container")){
         document.querySelector(".leaderboard__currentPlayer-container").remove()
     }
-    leaderboard__container.remove()
+    leaderboard__players.remove()
 
     const history__leaderboard = document.createElement("div")
 
-    history__leaderboard.classList.add('sidebar__players',  'sidebar__players--open')
+    history__leaderboard.classList.add('leaderboard__players',  'leaderboard__players--open')
 
     for(let i = 0; i < matchHistory.length; i++){
         const match = matchHistory[i]
@@ -334,7 +334,7 @@ function displayMatches(matchHistory, leaderboardType){
         const match__totalPlayers = document.createElement('div')
         const match__date = document.createElement('div')
 
-        match__container.classList.add('btn', 'match__container')
+        match__container.classList.add('match__container')
         match__crushContainer.classList.add('match__crushContainer')
         match__crushImg.classList.add('match__crushImg')
         match__hostName.classList.add('match__hostname')
@@ -351,8 +351,15 @@ function displayMatches(matchHistory, leaderboardType){
             match__hostName.innerText = `Host: ${match.user_name}`
             match__totalScore.innerText = `Top Score: ${match.total_score}`
         } else if(leaderboardType === 'personal'){
+            match__container.classList.add('btn')
             match__hostName.innerText = `User: ${match.user_name}`
             match__totalScore.innerText = `Total Pts: ${match.total_points} pts`
+            match__container.addEventListener("click", (event) => {
+                event.preventDefault()
+                sfx.positive.play()
+                request_match_detail(match.room_id)
+    
+            })
         }
 
         match__totalPlayers.innerText = `#Players: ${match.total_players}`
@@ -379,7 +386,7 @@ function displayMatches(matchHistory, leaderboardType){
 
     leaderboard.style.animation = 'fadingIn 1s ease backwards'
 
-    sidebar__container.appendChild(history__leaderboard)
+    leaderboard__container.appendChild(history__leaderboard)
 
 }
 
@@ -413,7 +420,7 @@ function matchDetailPage(matchData){
 
     const room_users = matchData.roomUsers
 
-    const leaderboard = document.querySelector('.sidebar')
+    const leaderboard = document.querySelector('.leaderboard')
     const leaderboard__back_btn = document.querySelector('.leaderboard__backBtn')
     const leaderboard__refresh_btn = document.querySelector('.btn__refresh')
 

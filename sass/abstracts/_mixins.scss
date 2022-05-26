@@ -8,8 +8,19 @@
 @mixin respond($breakpoint){  // passess a parameter
 
     @if $breakpoint == iPhone_SE {
-        @media (max-width: 37.5em){ @content }; // apply to any width that is smaller than 600px
-    }  
+        @media screen and (max-width: 37.5em){ @content }; // apply to any width that is smaller than 600px
+    }
+    @if $breakpoint == tab-port {
+        @media screen and (max-width: 56.25em) and (min-width: 37.5em){ @content }; // 900
+    }
+
+    @if $breakpoint == tab-land {
+        @media screen and (max-width: 75em) and (min-width: 56.25em){ @content }; // 1200
+    }
+
+    @if $breakpoint == big-desktop {
+        @media screen and (max-width: 112.5em) and (min-width: 75em){ @content }; // 1800
+    }
 
 }
 
@@ -17,7 +28,7 @@
     overflow: auto;
 
         &::-webkit-scrollbar {
-            width: 12px;               /* width of the entire scrollbar */
+            width: 10px;               /* width of the entire scrollbar */
           }
 
         &::-webkit-scrollbar-track {
@@ -27,7 +38,7 @@
         &::-webkit-scrollbar-thumb {
             background-color: $tertiary-color ;
             border-radius: 20px;       /* roundness of the scroll thumb */
-            border: 3px solid $tertiary-color; 
+            border: 2px solid $tertiary-color; 
         }
 
 }

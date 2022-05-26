@@ -41,6 +41,7 @@
         // transform: scale(110%);
         z-index: 40;
         width: 100vw;
+        height: 100vh;
 
         &--animated{
             animation: fadingIn 1s ease 1s backwards;
@@ -52,6 +53,7 @@
         // top: 4em;
         // transform: scale(120%);
         width: 100vw;
+        height: 100vh;
 
         &--animated{
             // #2 clip-path: polygon(9% 13%, 62% 60%, 100% 95%, 100% 100%, 93% 100%, 4% 15%)
@@ -68,6 +70,11 @@
         width: 100vw;
         transform-origin: top left;
 
+        @include respond(iPhone_SE){
+            height: 79vh;
+            width: 121vw;
+        }
+
         &--animated{
             animation: popUpCenter 1.5s ease 7s backwards;
         }
@@ -81,6 +88,10 @@
         // width: 20em;
         height: 50vh;
 
+        @include respond(iPhone_SE){
+            height: 42vh
+        }
+
         &--animated{
             animation: entryBottom--alien1 1s ease 9s backwards;
         }
@@ -91,6 +102,10 @@
         right: 0px;
         // height: 40vh
         // transform: scale(130%);
+
+        @include respond(iPhone_SE){
+            width: 50vw;
+        }
 
         &--animated{
             animation: entryTop--alien2 2s ease 10s backwards;

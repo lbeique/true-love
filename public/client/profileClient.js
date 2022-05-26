@@ -147,8 +147,8 @@ function setProfile(data) {
 
   const profile__back_btn = document.createElement('a')
   const profile__container = document.createElement('div')
-  const profile__container_left = document.createElement('div')
-  const profile__container_right = document.createElement('div')
+  const profile__container_top = document.createElement('div')
+  const profile__container_bottom = document.createElement('div')
   const profile__container_rightTop = document.createElement('div')
   const profile__container_rightBottom = document.createElement('div')
   const profile__avatarContainer = document.createElement('div')
@@ -162,10 +162,10 @@ function setProfile(data) {
 
   profile__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'profile__backBtn')
   profile__container.classList.add('profile__container')
-  profile__container_left.classList.add('profile__container--left')
-  profile__container_right.classList.add('profile__container--right')
-  profile__container_rightTop.classList.add('profile__container--right-top')
-  profile__container_rightBottom.classList.add('profile__container--right-bottom')
+  profile__container_top.classList.add('profile__container--top')
+  profile__container_bottom.classList.add('profile__container--bottom')
+  // profile__container_rightTop.classList.add('profile__container--right-top')
+  // profile__container_rightBottom.classList.add('profile__container--right-bottom')
   profile__avatarContainer.classList.add('profile__avatarContainer')
   profile__avatar.classList.add('profile__avatar')
   profile__avatar_change.classList.add('btn', 'profile__avatar-change', 'hide')
@@ -262,13 +262,14 @@ function setProfile(data) {
 
 
   profile__avatarContainer.append(profile__avatar_change, profile__avatar)
-  profile__container_left.appendChild(profile__avatarContainer)
+  profile__container_top.append(profile__avatarContainer, profile__name, profile__name_change)
 
-  profile__container_rightTop.append(profile__name, profile__name_change)
-  profile__container_rightBottom.append(achievements__header, achievement__container)
-  profile__container_right.append(profile__container_rightTop, profile__container_rightBottom)
+  // profile__container_rightTop.append(profile__name, profile__name_change)
+  // profile__container_rightBottom.append(achievements__header, achievement__container)
+  // profile__container_right.append(profile__container_rightTop, profile__container_rightBottom)
+  profile__container_bottom.append(achievements__header, achievement__container)
 
-  profile__container.append(profile__container_left, profile__container_right)
+  profile__container.append(profile__container_top, profile__container_bottom)
   section__profile.append(profile__back_btn, profile__container)
 
   // section__profile.appendChild(profile__mainContainer)
