@@ -256,10 +256,10 @@ body {
   }
 }
 .spaceShip_gametitle {
-  height: 49vh;
+  height: 35vh;
   align-self: center;
   display: block;
-  margin-bottom: 3rem;
+  margin-bottom: 7rem;
   animation: fadingIn 2s ease 0.5s, upDownMotion 1.7s ease 2s infinite;
   animation-fill-mode: backwards;
 }
@@ -269,44 +269,44 @@ body {
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  border-radius: 2em;
+  border-radius: 3rem;
   transition: all 0.2s, left;
   box-shadow: 0 0.1em 0 rgba(0, 0, 0, 0.2);
 }
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0.2em 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.3rem 0 rgba(0, 0, 0, 0.2);
 }
 .btn:active {
   transform: translateY(1px);
-  box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.2rem 0 rgba(0, 0, 0, 0.2);
 }
 .btn--green {
   color: #19083c;
   background-color: #D7FF60;
-  border: 10px solid #7366BD;
+  border: 0.6rem solid #7366BD;
 }
 .btn--darkPurple {
   background-color: #19083c;
   color: #D7FF60;
-  border: 5px solid #7366BD;
+  border: 0.4rem solid #7366BD;
   z-index: 50;
 }
 .btn--darkPurple:hover {
   text-shadow: 0 0 20px #D7FF60;
 }
 .btn__menu {
-  width: 15em;
-  height: 2.5em;
+  width: 40vh;
+  padding: 0.5rem;
 }
 .btn__menu--animated {
   animation: popUpCenter 1s ease 12s backwards;
 }
 .btn__auth {
-  width: 50vh;
-  font-size: 4vh;
+  width: 40vh;
+  font-size: 3vh;
   animation: popUpCenter 1s ease 3s backwards;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 .btn__back {
   position: absolute;
@@ -1121,14 +1121,12 @@ tr:nth-child(even) {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1em;
-  padding: 1em;
-  width: 14em;
-  height: 10em;
-  border: 20px solid #D7FF60;
+  padding: 1rem;
+  width: 53vh;
+  border: 1rem solid #D7FF60;
   border-radius: 2em;
   background-color: #7366BD;
-  font-size: 48px;
+  font-size: 3rem;
   color: #D7FF60;
   margin-bottom: 0.5em;
 }
