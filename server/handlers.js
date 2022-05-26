@@ -2,6 +2,8 @@ require('dotenv').config()
 const { arrayClone } = require('../utils/utilities')
 const database = require("../databaseAccess")
 
+// Merge test to deal with handler rollback
+
 let socketUsers = {}; // wanna use Database instead later - maybe??
 let lobbyRooms = {};
 let activeSockets = {};
