@@ -1,62 +1,67 @@
 .profile{
 
-    &__mainContainer{
-        width: 100%;
-        height: 100%;
+    &__settings{
+        right: 14vw;
     }
 
     &__container{
-        @include absCenter;
+        margin-left: 25vw;
         display: flex;
-        column-gap: 1em;
+        justify-content: center;
+        column-gap: 1rem;
+        flex-direction: column;
         background-color: $primary-color;
-        border: 1em solid $tertiary-color;
-        border-radius: 4em;
-        width: 50%;
-        height: 50%;
+        border: 1rem solid $tertiary-color;
+        border-radius: 4rem;
+        width: 50vw;
+        height: 50vh;
         padding: 1.5em;
-        transition: all .2s;
-        animation: fadingIn ease .5s backwards;
+        transition: all 0.2s;
+        animation: fadingIn ease 0.5s backwards;
+
+        @include respond(iPhone_SE){
+            margin-left: 15vw;
+            border: 0.5rem solid $tertiary-color;
+            border-radius: 4rem;
+            width: 73vw;
+            height: 56vh;
+            padding: 1.5em;
+        }
 
         &--updateAvatar{
             flex-direction: column;
-            
         }
 
-        &--left{
+        &--top{
             position: relative;
-            right: 1em;
+            right: 1rem;
             display: flex;
             height: 100%;
-            width: 30%;
+            width: 30vw;
 
-        }
-
-        &--right{
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            row-gap: 1em;
-            height: 100%;
-            width: 78%;
-
-            &-top{
-
-                display: flex;
-                column-gap: 0.5em;
-                width: 100%;
-                height: 35%;
-                color: $tertiary-color;
+            @include respond(iPhone_SE){
+                height: 18vh;
+                column-gap: 1vh;
+                width: 58vw;
             }
 
-            
+        }
 
-            &-bottom{
+        &--bottom{
+            position: relative;
+            flex-direction: column;
+            margin-left: 13vw;
+            bottom: 2vw;
+            display: flex;
+            row-gap: 1rem;
+            width: 30vw;
+
+            @include respond(iPhone_SE){
+                margin-top: 2vh;
+                margin-left: 0vw;
                 display: flex;
-                flex-direction: column;
-                row-gap: 1em;
-                width: 100%;
-                height: 65%;
+                height: 26vh;
+                width: 60vw;
 
             }
 
@@ -70,13 +75,28 @@
 
         position: relative;
         display: flex;
-        width: 100%;
-        left: 1em;
-        height: 40%;
+        width: 9vw;
+        left: 2vw;
+        height: 17vh;
         overflow: hidden;
-        border: 10px solid $tertiary-color;
+        border: .5rem solid $tertiary-color;
         background-color: #6250AC;
-        border-radius: 4em;
+        border-radius: 4rem;
+
+        @include respond(iPhone_SE){
+            width: 22vw;
+            height: 15vh;
+        }
+
+        // @include respond(tab-port){
+        //     width: 10vw;
+        //     height: 12vh;
+        // }
+
+        @include respond(tab-land){
+            width: 10vw;
+            height: 16vh;
+        }
 
     }
 
@@ -85,6 +105,14 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
+
+        // width: 8vw;
+        // height: 15vh;
+        // object-fit: contain;
+
+        // @include respond(tab-land){
+        //     width: 9vw;
+        // }
 
         &-change{
 
@@ -107,17 +135,26 @@
 
         display: flex;
         align-items: center;
-        height: 100%;
         color: $tertiary-color;
-        font-size: 35px;
+        font-size: 2.5rem;
+        height: 15vh;
+        width: 16vw;
+        margin-left: 5vw;
+
+        @include respond(iPhone_SE){
+            font-size: 1.5rem;
+        }
+
+        @include respond(tab-port){
+            height: 10vh;
+        }
 
         &-change{
 
             display: flex;
             align-items: center;
-            height: 100%;
             color: $tertiary-color;
-            font-size: 35px;
+            font-size: 1.5rem;
             animation: slideFromLeft .5s ease backwards;
             
 
@@ -158,16 +195,32 @@
     }
 
     &__container{
-        @include disable-scrollbar;
+        @include scroll;
+
+        &::-webkit-scrollbar {
+            height: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: $secondary-color ;
+            border-radius: 20px;       /* roundness of the scroll thumb */
+            border: 2px solid $secondary-color; 
+        }
+
         overflow-x: auto;
         position: relative;
         flex-direction: row;
         display: flex;
-        padding: 1em;
-        height: 59%;
-        column-gap: 0.5em;
+        padding: 1rem;
+        height: 18vh;
+        width: 30vw;
+        column-gap: 0.5rem;
         border: 6px solid $tertiary-color;
-        border-radius: 20px;
+        border-radius: 2rem;
+
+        @include respond(iPhone_SE){
+            width: 60vw;
+        }
     }
 
     &__imgContainer{
