@@ -1271,7 +1271,7 @@ tr:nth-child(even) {
 }
 .settings__btn {
   width: 40vh;
-  font-size: 2rem;
+  font-size: 4vh;
   padding: 0.5rem;
 }
 .settings__muteToggle {
@@ -1292,7 +1292,7 @@ tr:nth-child(even) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 55vh;
+  width: 50vh;
 }
 .settings__slidecontainer__slider {
   -webkit-appearance: none;
@@ -1367,7 +1367,7 @@ tr:nth-child(even) {
   border: 1rem solid #D7FF60;
   border-radius: 2em;
   background-color: #7366BD;
-  font-size: 3rem;
+  font-size: 6vh;
   color: #D7FF60;
 }
 .settings__textVolume {
@@ -1375,7 +1375,7 @@ tr:nth-child(even) {
   justify-content: center;
   align-items: center;
   border: none;
-  font-size: 2.5rem;
+  font-size: 5vh;
   color: #D7FF60;
 }
 .settings__text {
@@ -1384,7 +1384,7 @@ tr:nth-child(even) {
   align-items: center;
   width: 3em;
   border: none;
-  font-size: 2rem;
+  font-size: 4vh;
   color: #D7FF60;
 }
 .settings__nav {
@@ -1854,7 +1854,9 @@ tr:nth-child(even) {
   position: absolute;
   display: flex;
   flex-direction: column;
-  row-gap: 1em;
+  row-gap: 4vh;
+  justify-content: center;
+  align-self: center;
   left: 20%;
   bottom: 15%;
 }

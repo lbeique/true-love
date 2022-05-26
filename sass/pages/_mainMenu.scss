@@ -2,7 +2,9 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    row-gap: 1em;
+    row-gap: 4vh;
+    justify-content: center;
+    align-self: center;
     left: 20%;
     bottom: 15%;
 }

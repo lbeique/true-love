@@ -88,7 +88,7 @@ axios.post('/music')
                 },
                 onend: function () {
                     if (userLocation === 'menu') {
-                        music.welcome.play()
+                        music.welcome.seek(54).play()
                     } else if (userLocation === 'lobby') {
                         music.welcome.play()
                     }
