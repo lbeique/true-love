@@ -1,6 +1,5 @@
 .section-main{ 
     position: relative;
-    padding: 0 8.5%;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -8,7 +7,7 @@
 
     &--bg{
         background: url(../assets/others/background-revised.png) no-repeat center center fixed;
-        background-size: contain;
+        background-size: cover;
         background-color: $primary-color;
     
         @include respond(iPhone_SE) { // width < 600

@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        const USER_ID = '<%= user_info.user_id %>'
+    </script>
     <link rel="stylesheet" href="styles/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js"
         integrity="sha512-dMiBqqEV5i3KqpAdsgQSSZ72DnNib7otY0X+b/Tnn1EmLym1dxuZ19csdZqBnfDniKd9bmNtzStQzuMrIa5Ngw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/gh/colxi/getEventListeners/src/getEventListeners.min.js'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <title>Love is War</title>
 </head>
@@ -56,6 +60,8 @@
     </section>
 
     <section class="section-main section-main--bg section-profile hide"></section>
+
+    <section class="section-main section-main--bg section-leaderboard hide"></section>
     
     
 

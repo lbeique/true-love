@@ -469,29 +469,30 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
 
         const player__info = document.querySelector(`.player-${player.userId} .player__info`)
         const info__note = document.querySelector(`.player-${player.userId} .info__note`)
-        const player__triviaPts = document.createElement('div')
+        const player__triviaPts_container = document.createElement('div')
         
-        player__triviaPts.classList.add('player__triviaPts')
+        player__triviaPts_container.classList.add('player__subCategory-container')
 
         for(let i = 1; i <= 3; i++){
             const player__categoryPoints = document.createElement('div')
-            const player__categoryPoints_top = document.createElement('div')
-            const player__categoryPoints_bottom = document.createElement('div')
+            const player__categoryPoints_left = document.createElement('div')
+            const player__categoryPoints_right = document.createElement('div')
 
-            player__categoryPoints.classList.add('info__categoryPts')
-            player__categoryPoints_top.classList.add('info__categoryPts--top')
-            player__categoryPoints_bottom.classList.add('info__categoryPts--bottom')
+            player__categoryPoints.classList.add('info__category-details')
+            player__categoryPoints_left.classList.add('info__category-details--left')
+            player__categoryPoints_right.classList.add('info__category-details--right')
 
-            player__categoryPoints_top.innerText = `Trivia ${i}:`
-            player__categoryPoints_bottom.innerText = `${player[difficulty[counter]]} pts`
+            player__categoryPoints_left.innerText = `Trivia ${i}:`
+            player__categoryPoints_right.innerText = `${player[difficulty[counter]]} pts`
 
-            player__categoryPoints.append(player__categoryPoints_top, player__categoryPoints_bottom)
-            player__triviaPts.appendChild(player__categoryPoints)
+            player__categoryPoints.append(player__categoryPoints_left, player__categoryPoints_right)
+            player__triviaPts_container.appendChild(player__categoryPoints)
+            
         }
 
         info__note.innerText = `Total: ${player.points} pts`
         
-        player__info.insertBefore(player__triviaPts, info__note)
+        player__info.insertBefore(player__triviaPts_container, info__note)
 
     }
 

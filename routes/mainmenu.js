@@ -42,6 +42,7 @@ router.post("/profile", async (req, res) => {
         userInfo: req.session.user_info,
         achievements: user_achievements
     }
+    console.log("USER DATA", userData)
     res.json({ userData })
     return
 })

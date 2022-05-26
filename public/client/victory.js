@@ -136,6 +136,7 @@ socket.on('create-victory', (victoryObject) => {
 
     const victoryLeaderboard = setTimeout(() => {
         leaderboard_setUp()
+        victory__skipButton.remove()
     }, 15000)
 
 
