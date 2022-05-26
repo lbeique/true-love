@@ -1,6 +1,12 @@
 .section-main{ 
+<<<<<<< HEAD
     position: relative;
     width: 100vw;
+=======
+    // position: relative;
+    // padding: 0 8.5%;
+    // width: 100vw;
+>>>>>>> responsive
     height: 100vh;
     overflow: hidden;
     background-color: $primary-color;
@@ -9,26 +15,29 @@
         background: url(../assets/others/background-revised.png) no-repeat center center fixed;
         background-size: cover;
         background-color: $primary-color;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
     
-        @include respond(iPhone_SE) { // width < 600
-            background: url(../assets/others/background-revised.png) no-repeat center center fixed;
-            background-size: 26.6em 47em;
+        // @include respond(iPhone_SE) { // width < 600
+        //     background: url(../assets/others/background-revised.png) no-repeat center center fixed;
+        //     background-size: 26.6em 47em;
             
-            background-color: $primary-color;
-        } 
+        //     background-color: $primary-color;
+        // } 
     }
 
     &--bg-trivia{
         background: url(../assets/others/background-trivia.png) no-repeat center center fixed;
-        background-size: contain;
+        background-size: cover;
         background-color: $primary-color;
     
-        @include respond(iPhone_SE) { // width < 600
-            background: url(../assets/others/background-trivia.png) no-repeat center center fixed;
-            background-size: 26.6em 47em;
+        // @include respond(iPhone_SE) { // width < 600
+        //     background: url(../assets/others/background-trivia.png) no-repeat center center fixed;
+        //     background-size: 26.6em 47em;
             
-            background-color: $primary-color;
-        } 
+        //     background-color: $primary-color;
+        // } 
     }
 
     // &--bg2{
