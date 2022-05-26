@@ -8,7 +8,7 @@
         justify-content: center;
         align-items: center;
         text-decoration: none;
-        border-radius: 2em;
+        border-radius: 3rem;
         transition: all .2s, left;
         box-shadow: 0 .1em 0 rgba($color-black, .2);      
     }
@@ -16,26 +16,26 @@
 
     &:hover{ // note: mobile devices do not have a hover function- only works on desktop
         transform: translateY(-3px);
-        box-shadow: 0 .2em 0 rgba($color-black, .2);        
+        box-shadow: 0 .3rem 0 rgba($color-black, .2);        
     }
 
     &:active{
         transform: translateY(1px);
-        box-shadow: 0 .15em 0 rgba($color-black, .2);
+        box-shadow: 0 .20rem 0 rgba($color-black, .2);
     }
     
 
     &--green{
         color: $primary-color;
         background-color: $tertiary-color;
-        border: 10px solid $secondary-variant;
+        border: 0.6rem solid $secondary-variant;
 
     }
 
     &--darkPurple{
         background-color: $primary-color;
         color: $tertiary-color;
-        border: 5px solid $secondary-variant;
+        border: 0.4rem solid $secondary-variant;
         z-index: 50;
 
         &:hover{
@@ -45,8 +45,10 @@
     }
 
     &__menu{
-        width: 15em;
-        height: 2.5em;
+        // width: 15em;
+        //width: 40vh;
+        // height: 2.5em;
+        padding: 2vh 3rem;
 
         &--animated{
             animation: popUpCenter 1s ease 12s backwards;
@@ -54,10 +56,12 @@
     }
 
     &__auth{
-        width: 15em;
-        height: 3em;
-        font-size: 25px;
+        // width: 15em;
+        //width: 40vh;
+        // height: 3em;
+        font-size: 3vh;
         animation: popUpCenter 1s ease 3s backwards;
+        padding: 2vh 3rem;
     }
 
     &__back{
@@ -88,7 +92,8 @@
 .icon__btn{
 
     transition: all .2s;
-    border-radius: 45px;
+    height: 9vh;
+    border-radius: 3rem;
     box-shadow: 0 .3em 0 rgba($color-black, .2);
     
     &--animated{

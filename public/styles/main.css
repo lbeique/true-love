@@ -256,24 +256,12 @@ body {
   }
 }
 .spaceShip_gametitle {
-  position: absolute;
-  width: 35%;
-  height: 40%;
-  top: 5em;
-  left: 33%;
+  height: 35vh;
+  align-self: center;
+  display: block;
+  margin-top: -1rem;
   animation: fadingIn 2s ease 0.5s, upDownMotion 1.7s ease 2s infinite;
   animation-fill-mode: backwards;
-}
-@media (max-width: 37.5em) {
-  .spaceShip_gametitle {
-    position: absolute;
-    width: 60%;
-    height: 50%;
-    top: 2em;
-    left: 20%;
-    animation: fadingIn 2s ease 0.5s, upDownMotion 1.7s ease 2s infinite;
-    animation-fill-mode: backwards;
-  }
 }
 
 .btn, .btn:link, .btn:visited {
@@ -281,44 +269,42 @@ body {
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  border-radius: 2em;
+  border-radius: 3rem;
   transition: all 0.2s, left;
   box-shadow: 0 0.1em 0 rgba(0, 0, 0, 0.2);
 }
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0.2em 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.3rem 0 rgba(0, 0, 0, 0.2);
 }
 .btn:active {
   transform: translateY(1px);
-  box-shadow: 0 0.15em 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.2rem 0 rgba(0, 0, 0, 0.2);
 }
 .btn--green {
   color: #19083c;
   background-color: #D7FF60;
-  border: 10px solid #7366BD;
+  border: 0.6rem solid #7366BD;
 }
 .btn--darkPurple {
   background-color: #19083c;
   color: #D7FF60;
-  border: 5px solid #7366BD;
+  border: 0.4rem solid #7366BD;
   z-index: 50;
 }
 .btn--darkPurple:hover {
   text-shadow: 0 0 20px #D7FF60;
 }
 .btn__menu {
-  width: 15em;
-  height: 2.5em;
+  padding: 2vh 3rem;
 }
 .btn__menu--animated {
   animation: popUpCenter 1s ease 12s backwards;
 }
 .btn__auth {
-  width: 15em;
-  height: 3em;
-  font-size: 25px;
+  font-size: 3vh;
   animation: popUpCenter 1s ease 3s backwards;
+  padding: 2vh 3rem;
 }
 .btn__back {
   position: absolute;
@@ -340,7 +326,8 @@ body {
 
 .icon__btn {
   transition: all 0.2s;
-  border-radius: 45px;
+  height: 9vh;
+  border-radius: 3rem;
   box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.2);
 }
 .icon__btn--animated {
@@ -1021,32 +1008,30 @@ tr:nth-child(even) {
   z-index: 100;
 }
 
-.exitMenu {
-  display: flex;
-  justify-content: end;
-  flex-direction: row;
-}
 .exitMenu__icon {
-  height: 10vh;
-  top: 2em;
+  position: absolute;
+  height: 9vh;
+  top: 2vh;
+  right: 2vh;
   display: flex;
   justify-content: end;
   z-index: 100;
 }
 
-.settingsMenu__icon {
+.settings__icon {
   position: absolute;
-  top: 2em;
-  right: 17%;
+  top: 2vh;
+  height: 9vh;
+  right: 2vh;
   z-index: 100;
 }
-.settingsMenu__btn {
+.settings__btn {
   width: 10em;
   font-size: 20px;
   margin-top: 1em;
   padding: 0.5em;
 }
-.settingsMenu__muteToggle {
+.settings__muteToggle {
   display: flex;
   background: #D7FF60;
   width: 4em;
@@ -1054,21 +1039,21 @@ tr:nth-child(even) {
   border: 4px solid #19083c;
   height: 4em;
 }
-.settingsMenu__muteToggle__off {
+.settings__muteToggle__off {
   background-color: #6250AC;
 }
-.settingsMenu__muteToggle i {
+.settings__muteToggle i {
   color: #19083c;
   font-size: 28px;
 }
-.settingsMenu__slidecontainer {
+.settings__slidecontainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   margin-bottom: 1.5em;
 }
-.settingsMenu__slidecontainer__slider {
+.settings__slidecontainer__slider {
   -webkit-appearance: none;
   width: 50%;
   height: 15px;
@@ -1079,10 +1064,10 @@ tr:nth-child(even) {
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
 }
-.settingsMenu__slidecontainer__slider:hover {
+.settings__slidecontainer__slider:hover {
   opacity: 1;
 }
-.settingsMenu__slidecontainer__slider::-webkit-slider-thumb {
+.settings__slidecontainer__slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 25px;
@@ -1091,7 +1076,7 @@ tr:nth-child(even) {
   background: #D7FF60;
   cursor: pointer;
 }
-.settingsMenu__slidecontainer__slider::-moz-range-thumb {
+.settings__slidecontainer__slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -1100,36 +1085,22 @@ tr:nth-child(even) {
 }
 
 .section-main {
-  position: relative;
-  padding: 0 8.5%;
-  width: 100vw;
   height: 100vh;
   overflow: hidden;
   background-color: #19083c;
 }
 .section-main--bg {
   background: url(../assets/others/background-revised.png) no-repeat center center fixed;
-  background-size: contain;
+  background-size: cover;
   background-color: #19083c;
-}
-@media (max-width: 37.5em) {
-  .section-main--bg {
-    background: url(../assets/others/background-revised.png) no-repeat center center fixed;
-    background-size: 26.6em 47em;
-    background-color: #19083c;
-  }
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .section-main--bg-trivia {
   background: url(../assets/others/background-trivia.png) no-repeat center center fixed;
-  background-size: contain;
+  background-size: cover;
   background-color: #19083c;
-}
-@media (max-width: 37.5em) {
-  .section-main--bg-trivia {
-    background: url(../assets/others/background-trivia.png) no-repeat center center fixed;
-    background-size: 26.6em 47em;
-    background-color: #19083c;
-  }
 }
 
 .settingsMenu {
@@ -1147,14 +1118,12 @@ tr:nth-child(even) {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1em;
-  padding: 1em;
-  width: 14em;
-  height: 10em;
-  border: 20px solid #D7FF60;
+  padding: 1rem;
+  width: 53vh;
+  border: 1rem solid #D7FF60;
   border-radius: 2em;
   background-color: #7366BD;
-  font-size: 48px;
+  font-size: 3rem;
   color: #D7FF60;
   margin-bottom: 0.5em;
 }
@@ -1668,10 +1637,10 @@ tr:nth-child(even) {
 
 .menuIcons {
   display: flex;
-  column-gap: 1em;
+  column-gap: 2vh;
   position: absolute;
-  top: 2em;
-  right: 17%;
+  top: 2vh;
+  right: 2vh;
   z-index: 40;
 }
 
@@ -2008,15 +1977,12 @@ tr:nth-child(even) {
 }
 
 .auth__content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  top: 70%;
   display: flex;
   flex-direction: column;
-  row-gap: 2em;
+  row-gap: 4vh;
+  margin-top: 4vh;
   justify-content: center;
+  align-self: center;
 }
 
 .victory__screen {
