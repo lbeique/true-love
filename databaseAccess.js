@@ -310,7 +310,7 @@ const getRoomInformationByRoomId = async (roomId) => {
     }
     const sqlSelectRoomInformation = "SELECT room.room_id, room.room_name, crush.crush_name, crush.crush_nickname, user_room.position, user.user_id, user.user_name, user.avatar_id, avatar.avatar_name, easy.category_id AS easy_category_id, easy.category_name AS easy_category_name, user_room.easy_points, user_room.easy_errors, medium.category_id AS medium_category_id, medium.category_name AS medium_category_name, user_room.medium_points, user_room.medium_errors, hard.category_id AS hard_category_id, hard.category_name AS hard_category_name, user_room.hard_points, user_room.hard_errors, (easy_points + medium_points + hard_points) AS total_points, (easy_errors + medium_errors + hard_errors) AS total_errors, room.date FROM room JOIN user_room ON user_room.room_id = room.room_id JOIN user ON user.user_id = user_room.user_id JOIN crush ON crush.crush_id = room.crush_id JOIN category AS easy ON easy.category_id = room.category_easy_id JOIN category AS medium ON medium.category_id = room.category_medium_id JOIN category AS hard ON hard.category_id = room.category_hard_id JOIN avatar ON avatar.avatar_id = user.avatar_id WHERE room.room_id = :room_id ORDER BY total_points DESC;"
     const room_information = await database.query(sqlSelectRoomInformation, params)
-    console.log('database', room_information[0])
+    console.log('room info database', room_information[0])
     // [
     //     {
     //         room_id,

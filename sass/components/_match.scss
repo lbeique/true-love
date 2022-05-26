@@ -1,0 +1,248 @@
+.match{
+
+    &__container{
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 50vw;
+        height: 5vh;
+        background-color: $secondary-color;
+        font-size: 2vh;
+        margin: 0 7vw;
+        padding: 1vw;
+        border-radius: 2rem;
+
+    }
+
+    &__crushContainer{
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 4px solid $secondary-variant;
+        border-radius: 4rem;
+        background-color: $secondary-variant;
+        width: 4vh;
+        height: 4vh;
+        margin-left: 0.5vw;
+
+    }
+
+    &__crushImg{
+        width: 4vh;
+        height: 4vh;
+        object-fit: contain;
+
+    }
+
+    &__hostname{
+        width: 7vw;
+        margin-left: -2vw;
+        color: $primary-color;
+
+    }
+
+    &__totalScore{
+        color: $primary-color;
+    }
+
+    &__totalPlayers{
+        color: $primary-color;
+    }
+
+    &__date{
+        color: $primary-color;
+    }
+
+}
+
+.my-match{
+
+
+    &__backBtn{
+        left: 4vw;
+    }
+
+    &__container{
+
+        display: flex;
+        flex-direction: column;
+        margin-left: 10vw;
+        margin-top: 8vh;
+        width: 78vw;
+        height: 86vh;
+        row-gap: 5vh;
+        border-radius: 8vh;
+        padding: 2vw;
+        background-color: $primary-color;
+        border: 1vh solid $tertiary-color;
+
+        &--top{
+            display: flex;
+            width: 100vw;
+            height: 25vh;
+
+            &-left{
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 13vw;
+            
+            }
+
+            &-right{
+                display: flex;
+                width: 50vw;
+                flex-direction: column;
+            }
+
+        }
+
+        &--bottom{
+            display: flex;
+            width: 100vw;
+            height: 80vh;
+    
+
+            &-left{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                row-gap: 1vh;
+                flex-direction: column;
+                width: 40vw;
+
+            }
+
+            &-right{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                row-gap: 1vh;
+                flex-direction: column;
+                width: 30vw;
+            }
+
+        }
+
+    }
+
+    &__crushContainer{
+        width: 9vw;
+        height: 17vh;
+        border-radius: 4rem;
+        background-color: $tertiary-color;
+
+    }
+
+    &__crush-img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+
+    }
+
+    &__crush-name{
+        font-size: 4vh;
+        color: $tertiary-color;
+    }
+
+    &__room-details-container{
+
+        display: grid;
+        grid-template-areas: 'a a'
+                             'b b';
+        background-color: $secondary-color;
+        margin-top: 1rem;
+        width: 40vw;
+        border-radius: 2rem;
+        padding: 1vw;
+
+    }
+
+
+    &__room-details{
+        font-size: 1.2rem;
+        color: $primary-color;
+    }
+
+    &__mini-leaderboard{
+
+        &-header{
+            font-size: 1.5rem;
+            color: $tertiary-color;
+        }
+
+        &-players{
+            @include disable-scrollbar;
+            overflow-y: scroll;
+            width: 30vw;
+        }
+
+        overflow-x: visible;
+        width: 27vw;
+        height: 46vh;
+        border-radius: 2vh;
+        display: flex;
+        flex-direction: column;
+        row-gap: 1vh;
+        border: 4px solid $tertiary-color;
+        background-color: $primary-color;
+        
+    }
+
+}
+
+.trivia-category{
+
+    &__container{
+
+        display: flex;
+        flex-direction: column;
+        width: 35vw;
+        row-gap: 1vh;
+
+    }
+
+    &__header{
+
+        font-size: 1.5rem;
+        color: $tertiary-color;
+
+    }
+
+    &__points-container{
+
+        display: flex;
+        column-gap: 1vw;
+        justify-content: space-between;
+        height: 10vh;
+
+    }
+
+    &__info{
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4vh;
+        width: 20vw;
+        height: 7vh;
+        font-size: 1.5rem;
+        padding: 1vw;
+
+        &--green{
+            background-color: $tertiary-color;
+            color: $primary-color
+        }
+
+        &--purple{
+            background-color: $secondary-variant;
+            color: $primary-color;
+        }
+
+    }
+
+}

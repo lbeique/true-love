@@ -83,7 +83,22 @@
             color: $tertiary-color;
             padding-top: 12px;
         }
-    
+      
+    }
+
+    &__refresh{
+        
+        position: absolute;
+        padding-bottom: 13px;
+        padding-left: 3px;
+        right: 13%;
+        top: 2%;
+        width: 1.2em;
+        height: 1.2em;
+        border-radius: 2em;
+        border-width: 8px;
+        font-size: 70px;
+        z-index: 100;
         
     }
 
