@@ -17,8 +17,10 @@ router.get("/", (req, res) => {
   let session = getSession(req.session)
   let user_info
   if (!session) {
-    user_info = null
+    req.session.user_info = {}
+    req.session.user_info.location = 'welcome'
   } else {
+    req.session.user_info.location = 'welcome'
     user_info = session.user_info
   }
   res.render('welcomeScreen', { user_info })

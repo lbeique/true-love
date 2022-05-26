@@ -6,10 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js"
         integrity="sha512-dMiBqqEV5i3KqpAdsgQSSZ72DnNib7otY0X+b/Tnn1EmLym1dxuZ19csdZqBnfDniKd9bmNtzStQzuMrIa5Ngw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <title>Love is War</title>
 </head>
@@ -32,11 +34,12 @@
         <img src="assets/menu/menu_star3.png" alt="menu_star3" class="menu menu__star3">
         <img src="assets/menu/menu_star2.png" alt="menu_star4" class="menu menu__star4">
 
-        <!-- Following what Ilia recommended. Hiding paths until feature is ready  -->
+        
         <div class="menuIcons">
-            <img class="icon__btn profile_icon" src="assets/menu/profile_icon.png" alt="profileIcon">
+            <img class="icon__btn profile_icon" src="assets/menu/profile_icon.png" alt="profile icon">
 
-            <img class="icon__btn leaderboard_icon" src="assets/menu/leaderboard_icon.png" alt="leaderboardIcon">
+            <img class="icon__btn leaderboard_icon" src="assets/menu/leaderboard_icon.png" alt="leaderboard icon">
+            <img class="icon__btn settings_icon" src="assets/menu/settings_icon.png" alt="settings icon">
         </div>
 
         <div class="btn menu__skip-btn btn--darkPurple">
@@ -47,7 +50,7 @@
 
             <a href="/lobby" class="btn btn__menu btn--darkPurple"> PLAY GAME </a>
 
-            <!-- Following what Ilia recommended. Hiding paths until feature is ready  -->
+            
 
             <!-- <a href="/leaderboard" class="btn btn__menu btn--darkPurple"> LEADERBOARD </a>  -->
             <a href="/auth/logout" class="btn btn__menu btn--darkPurple"> LOGOUT </a>
@@ -56,11 +59,14 @@
     </section>
 
     <section class="section-main section-main--bg section-profile hide"></section>
+
+    <section class="settingsMenu hide"> </section>
     
     
 
 
 </body>
+<script src="../../client/settings.js" defer></script>
 <script src="../../client/mainMenuClient.js" defer></script>
 <script src="../../client/profileClient.js" defer></script>
 <script src="../../client/leaderboardClient.js" defer></script>

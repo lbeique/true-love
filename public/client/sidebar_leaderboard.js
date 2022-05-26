@@ -1,5 +1,4 @@
-
- let currentPhase
+let currentPhase
 
 // SIDEBAR TOGGLES
 
