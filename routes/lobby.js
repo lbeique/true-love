@@ -21,6 +21,7 @@ router.get("/", (req, res) => {
         res.status(404).redirect('/')
         return
     }
+    req.session.user_info.location = 'lobby'
     const user_info = session.user_info
     res.status(200).render("lobbyList", { user_info })
     return
@@ -80,6 +81,7 @@ router.get("/:room", (req, res) => {
         res.status(404).redirect('/')
         return
     }
+    req.session.user_info.location = 'game'
     const user_info = session.user_info
     res.status(200).render("game", { user_info, room })
     return

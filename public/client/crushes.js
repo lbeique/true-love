@@ -210,7 +210,7 @@ socket.on('start-crush-timer', async function (count, triviaCategory) {
 
     timerText.innerHTML = `${triviaCategory} trivia in: ${count}s`;
     if (count === 3) {
-        music.lounge.fade(1, 0, 3000)
+        music.lounge.fade(MUSIC_STATUS.volume, 0, 3000)
     }
 })
 

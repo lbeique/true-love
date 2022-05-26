@@ -19,6 +19,7 @@ router.get("/", (req, res) => {
         res.status(404).redirect('/')
         return
     }
+    req.session.user_info.location = 'menu'
     const user_info = session.user_info
     res.status(200).render("mainmenu", { user_info })
     return

@@ -1,4 +1,3 @@
-
 function checkNameInput(currentName){
   const name__input = document.querySelector('.profile__name-input')
   document.querySelector('.profile__name-change').classList.add('hide')

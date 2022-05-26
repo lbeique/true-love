@@ -20,6 +20,7 @@ const authRouter = require('./routes/auth')
 const mainMenuRouter = require('./routes/mainmenu')
 const lobbyRouter = require('./routes/lobby')
 const leaderboardRouter = require('./routes/leaderboard')
+const musicRouter = require('./routes/music')
 
 
 // Session Middleware setup
@@ -59,6 +60,7 @@ app.use('/auth', authRouter)
 app.use('/leaderboard', leaderboardRouter)
 app.use('/mainmenu', mainMenuRouter)
 app.use('/lobby', lobbyRouter)
+app.use('/music', musicRouter)
 
 
 const getSession = (session) => {
@@ -121,7 +123,7 @@ io.on('connection', client => {
     for (const client in clients) {
       if (clients[client].userId === user.userId) {
         // NEED TO DEAL WITH USERS HERE (user is already in the game) - Laurent
-        client.disconnect()
+        // client.disconnect()
         return
       }
     }

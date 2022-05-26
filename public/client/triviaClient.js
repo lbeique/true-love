@@ -1,5 +1,4 @@
-
-// MUSIC HOLY FUCK IM SORRY
+// POORLY CODED MUSIC BULLSHIT
 socket.on('start-trivia-music', (triviaIndex) => {
 
     if (triviaIndex === 0) {
@@ -11,9 +10,6 @@ socket.on('start-trivia-music', (triviaIndex) => {
         } else if (triviaTrack === music.trivia3) {
             triviaTrack.seek(0).play() // Polka
         }
-        // else if (triviaTrack === music.trivia4) {
-        //     triviaTrack.seek(0).play() // Propane
-        // }
     } else if (triviaIndex === 1) {
         console.log('hi! 1', `${triviaTrack}`)
         if (triviaTrack === music.trivia1) {
@@ -23,9 +19,6 @@ socket.on('start-trivia-music', (triviaIndex) => {
         } else if (triviaTrack === music.trivia3) {
             triviaTrack.seek(59).play() // Polka
         }
-        // else if (triviaTrack === music.trivia4) {
-        //     triviaTrack.seek(117).play() // Propane
-        // }
     } else if (triviaIndex === 2) {
         console.log('hi! 2', `${triviaTrack}`)
         if (triviaTrack === music.trivia1) {
@@ -35,9 +28,6 @@ socket.on('start-trivia-music', (triviaIndex) => {
         } else if (triviaTrack === music.trivia3) {
             triviaTrack.seek(88).play() // Polka
         }
-        // else if (triviaTrack === music.trivia4) {
-        //     triviaTrack.seek(156).play() // Propane
-        // }
     }
 })
 
@@ -46,10 +36,10 @@ socket.on('start-trivia-timer', async function (count) {
 
     timerText.innerHTML = count + "s";
     if (count === 7) {
-        sfx.timer.volume(0.6).play()
+        sfx.timer.play()
     }
     if (count === 5) {
-        triviaTrack.fade(0.8, 0, 3000)
+        triviaTrack.fade(MUSIC_STATUS.volume, 0, 3000)
     } 
     
 })

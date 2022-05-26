@@ -1,34 +1,3 @@
-const lobbyListMusic = {
-    lobby1: new Howl({
-        src: ['../assets/sounds/music/Polkavant - Monsterpolka.mp3'],
-        html5: true,
-        onend: function () {
-            lobbyListMusic.lobby2.volume(0.5).seek(54).play()
-        }
-    }),
-    lobby2: new Howl({
-        src: ['../assets/sounds/music/Polkavant - UFO Traveler.mp3'],
-        html5: true,
-        onend: function () {
-            lobbyListMusic.lobby1.volume(0.4).play()
-        },
-        onplayerror: function() {
-            lobbyListMusic.lobby2.once('unlock', function() {
-                lobbyListMusic.lobby2.stop()
-                lobbyListMusic.lobby2.volume(0.5).seek(54).play()
-            })
-        }
-    })
-}
-
-const sfx = {
-    positive: new Howl({
-        src: ['../assets/sounds/sfx/close.mp3'],
-        volume: 0.3,
-    })
-}
-
-
 if (window.sessionStorage.getItem('introductory') === null) {
     const lobbies__section = document.querySelector('.section-lobbies')
     const introductory__section = document.querySelector('.section-introductory')
