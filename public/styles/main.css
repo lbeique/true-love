@@ -298,7 +298,8 @@ body {
   text-shadow: 0 0 20px #D7FF60;
 }
 .btn__menu {
-  padding: 2vh 3rem;
+  padding: 2vh 6rem;
+  font-size: 2rem;
 }
 .btn__menu--animated {
   animation: popUpCenter 1s ease 12s backwards;
@@ -306,7 +307,7 @@ body {
 .btn__auth {
   font-size: 3vh;
   animation: popUpCenter 1s ease 3s backwards;
-  padding: 2vh 3rem;
+  padding: 2vh 6rem;
 }
 .btn__back {
   position: absolute;
@@ -341,7 +342,7 @@ body {
 
 .icon__btn {
   transition: all 0.2s;
-  height: 9vh;
+  height: 11vh;
   border-radius: 3rem;
   box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.2);
 }
@@ -1255,7 +1256,6 @@ tr:nth-child(even) {
 
 .exitMenu__icon {
   position: absolute;
-  height: 9vh;
   top: 2vh;
   right: 2vh;
   display: flex;
@@ -1266,37 +1266,33 @@ tr:nth-child(even) {
 .settings__icon {
   position: absolute;
   top: 2vh;
-  height: 9vh;
   right: 2vh;
   z-index: 100;
 }
 .settings__btn {
-  width: 10em;
-  font-size: 20px;
-  margin-top: 1em;
-  padding: 0.5em;
+  width: 40vh;
+  font-size: 2rem;
+  padding: 0.5rem;
 }
 .settings__muteToggle {
   display: flex;
   background: #D7FF60;
-  width: 4em;
-  margin: 1em;
+  width: 4rem;
   border: 4px solid #19083c;
-  height: 4em;
+  height: 4rem;
 }
 .settings__muteToggle__off {
   background-color: #6250AC;
 }
 .settings__muteToggle i {
   color: #19083c;
-  font-size: 28px;
+  font-size: 1.8rem;
 }
 .settings__slidecontainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  margin-bottom: 1.5em;
+  width: 55vh;
 }
 .settings__slidecontainer__slider {
   -webkit-appearance: none;
@@ -1330,11 +1326,6 @@ tr:nth-child(even) {
 }
 
 .section-main {
-<<<<<<< HEAD
-  position: relative;
-  width: 100vw;
-=======
->>>>>>> responsive
   height: 100vh;
   overflow: hidden;
   background-color: #19083c;
@@ -1344,7 +1335,7 @@ tr:nth-child(even) {
   background-size: cover;
   background-color: #19083c;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   flex-direction: column;
 }
 .section-main--bg-trivia {
@@ -1353,59 +1344,56 @@ tr:nth-child(even) {
   background-color: #19083c;
 }
 
-.settingsMenu {
+.settings {
   position: absolute;
   display: flex;
   justify-content: center;
   margin: 0;
-  background-color: rgba(98, 80, 172, 0.9);
-  width: 100%;
-  height: 100%;
+  background-color: rgba(98, 80, 172, 0.95);
+  background-size: cover;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
   z-index: 89;
   transition: all 0.2s;
 }
-.settingsMenu__textBox {
+.settings__textBox {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  width: 53vh;
+  width: 45vh;
   border: 1rem solid #D7FF60;
   border-radius: 2em;
   background-color: #7366BD;
   font-size: 3rem;
   color: #D7FF60;
-  margin-bottom: 0.5em;
 }
-.settingsMenu__textVolume {
+.settings__textVolume {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1em;
-  width: 10em;
-  height: 2em;
   border: none;
-  font-size: 40px;
+  font-size: 2.5rem;
   color: #D7FF60;
-  margin-bottom: 0.5em;
 }
-.settingsMenu__text {
+.settings__text {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 3em;
-  height: 2em;
   border: none;
-  font-size: 32px;
+  font-size: 2rem;
   color: #D7FF60;
 }
-.settingsMenu__nav {
+.settings__nav {
   display: flex;
+  align-content: space-around;
   flex-direction: column;
   align-items: center;
-  row-gap: 0.5em;
-  width: 40em;
-  height: 10em;
+  justify-content: center;
+  row-gap: 10vh;
 }
 
 .section-introductory {
@@ -1869,7 +1857,6 @@ tr:nth-child(even) {
   row-gap: 1em;
   left: 20%;
   bottom: 15%;
-  font-size: 25px;
 }
 
 .menuIcons {
@@ -1898,45 +1885,38 @@ tr:nth-child(even) {
   z-index: 100;
 }
 .menu__spaceship {
-  top: 2em;
-  left: 7em;
-  transform: scale(110%);
   z-index: 40;
+  width: 100vw;
 }
 .menu__spaceship--animated {
   animation: fadingIn 1s ease 1s backwards;
 }
 .menu__spaceBeam {
-  left: 12em;
-  top: 4em;
-  transform: scale(120%);
+  width: 100vw;
 }
 .menu__spaceBeam--animated {
   animation: beam 3s ease 2s backwards;
 }
 .menu__title {
-  top: 3em;
-  left: 5.5em;
+  top: 3rem;
+  width: 100vw;
   transform-origin: top left;
 }
 .menu__title--animated {
   animation: popUpCenter 1.5s ease 7s backwards;
 }
 .menu__alien1 {
-  bottom: 0;
+  bottom: 0px;
   right: 20%;
-  transform: scale(130%);
   z-index: 2;
-  width: 20em;
-  height: 20em;
+  height: 50vh;
 }
 .menu__alien1--animated {
   animation: entryBottom--alien1 1s ease 9s backwards;
 }
 .menu__alien2 {
   bottom: 40%;
-  right: 12.5em;
-  transform: scale(130%);
+  right: 0px;
 }
 .menu__alien2--animated {
   animation: entryTop--alien2 2s ease 10s backwards;
@@ -1944,7 +1924,6 @@ tr:nth-child(even) {
 .menu__alienChatter1 {
   bottom: 35%;
   right: 17%;
-  transform: scale(130%);
   z-index: 2;
 }
 .menu__alienChatter1--animated {
@@ -1956,7 +1935,6 @@ tr:nth-child(even) {
 .menu__alienChatter2 {
   bottom: 10%;
   right: 15%;
-  transform: scale(130%);
   z-index: 2;
 }
 .menu__alienChatter2--animated {
@@ -1968,7 +1946,6 @@ tr:nth-child(even) {
 .menu__alienChatter3 {
   bottom: 8%;
   right: 15%;
-  transform: scale(130%);
   z-index: 2;
 }
 .menu__alienChatter3--animated {
@@ -1978,9 +1955,8 @@ tr:nth-child(even) {
   animation: alienChatter 2s ease infinite backwards;
 }
 .menu__star1 {
-  top: 15em;
-  left: 8em;
-  transform: scale(120%);
+  top: 30%;
+  left: 12%;
 }
 .menu__star1--animated {
   animation: pulsate 2s linear 8.5s infinite backwards;
@@ -1989,8 +1965,8 @@ tr:nth-child(even) {
   animation: pulsate 2s linear 1s infinite backwards;
 }
 .menu__star2 {
-  top: 2em;
-  left: 20em;
+  top: 4%;
+  left: 30%;
 }
 .menu__star2--animated {
   animation: pulsate 2s linear 7.5s infinite backwards;
@@ -1999,9 +1975,8 @@ tr:nth-child(even) {
   animation: pulsate 2s linear infinite backwards;
 }
 .menu__star3 {
-  top: 3em;
+  top: 6%;
   left: 50%;
-  transform: scale(140%);
 }
 .menu__star3--animated {
   animation: pulsate 2s linear 9.5s infinite backwards;
@@ -2012,7 +1987,6 @@ tr:nth-child(even) {
 .menu__star4 {
   top: 40%;
   left: 40%;
-  transform: scale(140%);
 }
 .menu__star4--animated {
   animation: pulsate 2s linear 9s infinite backwards;

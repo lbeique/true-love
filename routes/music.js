@@ -14,14 +14,14 @@ const getSession = (session) => {
 
 router.post("/", (req, res) => {
     let session = getSession(req.session)
-    if (!session) {
+    if (!session & !req.session?.user_info?.music_status) {
         req.session.user_info = {}
         req.session.user_info.music_status = {}
         req.session.user_info.music_status.volume = 0.7
-        req.session.user_info.music_status.false = false
+        req.session.user_info.music_status.mute = false
         req.session.user_info.sfx_status = {}
         req.session.user_info.sfx_status.volume = 0.5
-        req.session.user_info.sfx_status.false = false
+        req.session.user_info.sfx_status.mute = false
     }
     let user_info = req.session.user_info
     res.json({ user_info })
@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
 
 router.post("/update", (req, res) => {
     let session = getSession(req.session)
-    if (!session) {
+    if (!session & !req.session?.user_info?.music_status) {
         req.session.user_info = {}
         req.session.user_info.music_status = {}
         req.session.user_info.sfx_status = {}

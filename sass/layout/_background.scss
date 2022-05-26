@@ -1,12 +1,7 @@
 .section-main{ 
-<<<<<<< HEAD
-    position: relative;
-    width: 100vw;
-=======
     // position: relative;
     // padding: 0 8.5%;
     // width: 100vw;
->>>>>>> responsive
     height: 100vh;
     overflow: hidden;
     background-color: $primary-color;
@@ -16,7 +11,7 @@
         background-size: cover;
         background-color: $primary-color;
         display: flex;
-        justify-content: center;
+        justify-content: space-evenly;
         flex-direction: column;
     
         // @include respond(iPhone_SE) { // width < 600

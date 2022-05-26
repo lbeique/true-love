@@ -13,7 +13,7 @@ function setTriviaTrack() {
 
 axios.post('/music')
     .then(res => {
-
+        console.log('get music', res.data.user_info)
         MUSIC_STATUS = res.data.user_info.music_status
         SFX_STATUS = res.data.user_info.sfx_status
         userLocation = res.data.user_info.location
@@ -51,7 +51,9 @@ axios.post('/music')
                     }
                 },
                 onend: function () {
-                    if (userLocation === 'welcome') {
+                    if (!userLocation) {
+                        music.welcome.play()
+                    } else if (userLocation === 'welcome') {
                         music.welcome.play()
                     } else if (userLocation === 'menu') {
                         music.menu.play()
@@ -222,7 +224,6 @@ axios.post('/music')
             }),
         }
         if (!userLocation) {
-            console.log('where am i??')
             music.welcome.play()
         } else if (userLocation === 'welcome') {
             music.welcome.play()
@@ -306,7 +307,7 @@ axios.post('/music')
 
         let hold = false
 
-        function playSFX () {
+        function playSFX() {
             if (hold) {
                 return
             } else {
@@ -349,7 +350,7 @@ axios.post('/music')
 
         settingsMenu.appendChild(settings__nav)
         settingsMenu.appendChild(settings__exitIcon)
-        
+
 
         function updateSound() {
             let sound_update = {
@@ -360,7 +361,7 @@ axios.post('/music')
                 .then(res => {
                     MUSIC_STATUS = res.data.user_info.music_status
                     SFX_STATUS = res.data.user_info.sfx_status
-
+                    console.log(res.data.user_info)
                 })
                 .catch((error) => {
                     console.error('axios sound update broke', error)
@@ -372,6 +373,7 @@ axios.post('/music')
             sfx.positive.play()
             // updateSound()
             settingsMenu.classList.toggle('hide')
+            settings_icon.classList.toggle('hide')
         })
 
         settings__exitIcon.addEventListener('click', (event) => {
@@ -379,6 +381,7 @@ axios.post('/music')
             sfx.positive.play()
             updateSound()
             settingsMenu.classList.toggle('hide')
+            settings_icon.classList.toggle('hide')
         })
 
         function musicMuteEventHelper(event) {
@@ -386,7 +389,6 @@ axios.post('/music')
             event.preventDefault()
             if (!MUSIC_STATUS.mute) {
                 MUSIC_STATUS.mute = true
-                console.log(currentTrack)
                 for (const track in music) {
                     music[track].mute(true)
                 }

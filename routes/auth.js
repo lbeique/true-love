@@ -18,8 +18,12 @@ const getSession = (session) => {
 router.get("/login", (req, res) => {
   const session = getSession(req.session)
   console.log('get login session', session)
-  if (!session) {
+  if (!session & !req.session?.user_info?.music_status) {
     req.session.user_info = {}
+    req.session.user_info.location = "login"
+    res.status(200).render('loginForm')
+    return
+  } else if (!session) {
     req.session.user_info.location = "login"
     res.status(200).render('loginForm')
     return
@@ -41,19 +45,20 @@ router.post("/login", async (req, res) => {
       res.status(404).redirect('/auth/login')
       return
     }
+
     req.session.authenticated = true;
-    req.session.user_info = {}
-    req.session.user_info.user_name = user_info.user_name
-    req.session.user_info.user_id = +user_info.user_id
-    req.session.user_info.avatar_name = user_info.avatar_name
-    if (!req.session.user_info.music_status) {
+    if (!req.session?.user_info?.music_status) {
+      req.session.user_info = {}
       req.session.user_info.music_status = {}
       req.session.user_info.music_status.mute = false
       req.session.user_info.music_status.volume = 0.7
       req.session.user_info.sfx_status = {}
       req.session.user_info.sfx_status.mute = false
       req.session.user_info.sfx_status.volume = 0.5
-    } 
+    }
+    req.session.user_info.user_name = user_info.user_name
+    req.session.user_info.user_id = +user_info.user_id
+    req.session.user_info.avatar_name = user_info.avatar_name
     res.status(200).redirect('/mainmenu')
     return
   }
@@ -67,8 +72,12 @@ router.post("/login", async (req, res) => {
 router.get("/signup", (req, res) => {
   const session = getSession(req.session)
   console.log('get signup session', session)
-  if (!session) {
+  if (!session & !req.session?.user_info?.music_status) {
     req.session.user_info = {}
+    req.session.user_info.location = "signup"
+    res.status(200).render('signUpForm')
+    return
+  } else if (!session) {
     req.session.user_info.location = "signup"
     res.status(200).render('signUpForm')
     return
@@ -113,11 +122,8 @@ router.post("/signup", async (req, res) => {
       return
     }
     req.session.authenticated = true;
-    req.session.user_info = {}
-    req.session.user_info.user_name = user_info.user_name
-    req.session.user_info.user_id = +user_info.user_id
-    req.session.user_info.avatar_name = user_info.avatar_name
-    if (!req.session.user_info.music_status) {
+    if (!req.session?.user_info?.music_status) {
+      req.session.user_info = {}
       req.session.user_info.music_status = {}
       req.session.user_info.music_status.mute = false
       req.session.user_info.music_status.volume = 0.7
@@ -125,6 +131,9 @@ router.post("/signup", async (req, res) => {
       req.session.user_info.sfx_status.mute = false
       req.session.user_info.sfx_status.volume = 0.5
     }
+    req.session.user_info.user_name = user_info.user_name
+    req.session.user_info.user_id = +user_info.user_id
+    req.session.user_info.avatar_name = user_info.avatar_name
     res.status(200).redirect('/mainmenu')
     return
   }

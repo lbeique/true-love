@@ -48,7 +48,8 @@
         // width: 15em;
         //width: 40vh;
         // height: 2.5em;
-        padding: 2vh 3rem;
+        padding: 2vh 6rem;
+        font-size: 2rem;
 
         &--animated{
             animation: popUpCenter 1s ease 12s backwards;
@@ -61,7 +62,7 @@
         // height: 3em;
         font-size: 3vh;
         animation: popUpCenter 1s ease 3s backwards;
-        padding: 2vh 3rem;
+        padding: 2vh 6rem;
     }
 
     &__back{
@@ -107,7 +108,7 @@
 .icon__btn{
 
     transition: all .2s;
-    height: 9vh;
+    height: 11vh;
     border-radius: 3rem;
     box-shadow: 0 .3em 0 rgba($color-black, .2);
     
