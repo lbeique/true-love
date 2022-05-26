@@ -334,7 +334,7 @@ function displayMatches(matchHistory, leaderboardType){
         const match__totalPlayers = document.createElement('div')
         const match__date = document.createElement('div')
 
-        match__container.classList.add('btn', 'match__container')
+        match__container.classList.add('match__container')
         match__crushContainer.classList.add('match__crushContainer')
         match__crushImg.classList.add('match__crushImg')
         match__hostName.classList.add('match__hostname')
@@ -351,8 +351,15 @@ function displayMatches(matchHistory, leaderboardType){
             match__hostName.innerText = `Host: ${match.user_name}`
             match__totalScore.innerText = `Top Score: ${match.total_score}`
         } else if(leaderboardType === 'personal'){
+            match__container.classList.add('btn')
             match__hostName.innerText = `User: ${match.user_name}`
             match__totalScore.innerText = `Total Pts: ${match.total_points} pts`
+            match__container.addEventListener("click", (event) => {
+                event.preventDefault()
+                sfx.positive.play()
+                request_match_detail(match.room_id)
+    
+            })
         }
 
         match__totalPlayers.innerText = `#Players: ${match.total_players}`
