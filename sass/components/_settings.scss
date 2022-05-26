@@ -1,12 +1,11 @@
 .exitMenu {
-    display: flex;
-        justify-content: end;
-        flex-direction: row;
-
+    
     
     &__icon {
-        height: 10vh;
-        top: 2em;
+        position: absolute;
+        height: 9vh;
+        top: 2vh;
+        right: 2vh;
         display: flex;
         justify-content: end;
         // right: 17%;
@@ -15,12 +14,13 @@
 
 }
 
-.settingsMenu {
+.settings {
 
     &__icon {
         position: absolute;
-        top: 2em;
-        right: 17%;
+        top: 2vh;
+        height: 9vh;
+        right: 2vh;
         z-index: 100;
     }
 
