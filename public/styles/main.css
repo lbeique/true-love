@@ -256,24 +256,12 @@ body {
   }
 }
 .spaceShip_gametitle {
-  position: absolute;
-  width: 35%;
-  height: 40%;
-  top: 5em;
-  left: 33%;
+  height: 49vh;
+  align-self: center;
+  display: block;
+  margin-bottom: 3rem;
   animation: fadingIn 2s ease 0.5s, upDownMotion 1.7s ease 2s infinite;
   animation-fill-mode: backwards;
-}
-@media (max-width: 37.5em) {
-  .spaceShip_gametitle {
-    position: absolute;
-    width: 60%;
-    height: 50%;
-    top: 2em;
-    left: 20%;
-    animation: fadingIn 2s ease 0.5s, upDownMotion 1.7s ease 2s infinite;
-    animation-fill-mode: backwards;
-  }
 }
 
 .btn, .btn:link, .btn:visited {
@@ -315,10 +303,10 @@ body {
   animation: popUpCenter 1s ease 12s backwards;
 }
 .btn__auth {
-  width: 15em;
-  height: 3em;
-  font-size: 25px;
+  width: 50vh;
+  font-size: 4vh;
   animation: popUpCenter 1s ease 3s backwards;
+  padding: 1rem;
 }
 .btn__back {
   position: absolute;
@@ -1100,36 +1088,22 @@ tr:nth-child(even) {
 }
 
 .section-main {
-  position: relative;
-  padding: 0 8.5%;
-  width: 100vw;
   height: 100vh;
   overflow: hidden;
   background-color: #19083c;
 }
 .section-main--bg {
   background: url(../assets/others/background-revised.png) no-repeat center center fixed;
-  background-size: contain;
+  background-size: cover;
   background-color: #19083c;
-}
-@media (max-width: 37.5em) {
-  .section-main--bg {
-    background: url(../assets/others/background-revised.png) no-repeat center center fixed;
-    background-size: 26.6em 47em;
-    background-color: #19083c;
-  }
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .section-main--bg-trivia {
   background: url(../assets/others/background-trivia.png) no-repeat center center fixed;
-  background-size: contain;
+  background-size: cover;
   background-color: #19083c;
-}
-@media (max-width: 37.5em) {
-  .section-main--bg-trivia {
-    background: url(../assets/others/background-trivia.png) no-repeat center center fixed;
-    background-size: 26.6em 47em;
-    background-color: #19083c;
-  }
 }
 
 .settingsMenu {
@@ -2008,15 +1982,11 @@ tr:nth-child(even) {
 }
 
 .auth__content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  top: 70%;
   display: flex;
   flex-direction: column;
   row-gap: 2em;
   justify-content: center;
+  align-self: center;
 }
 
 .victory__screen {

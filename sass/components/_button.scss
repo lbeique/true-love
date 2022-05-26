@@ -54,10 +54,12 @@
     }
 
     &__auth{
-        width: 15em;
-        height: 3em;
-        font-size: 25px;
+        // width: 15em;
+        width: 50vh;
+        // height: 3em;
+        font-size: 4vh;
         animation: popUpCenter 1s ease 3s backwards;
+        padding: 1rem;
     }
 
     &__back{

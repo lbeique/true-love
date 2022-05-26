@@ -1,24 +1,28 @@
 .spaceShip_gametitle{
-    position: absolute;
-    width: 35%;
-    height: 40%;
-    top: 5em;
-    left: 33%;
+    // position: absolute;
+    // width: 35%;
+    // height: 40%;
+    height: 49vh;
+    // top: 5em;
+    // left: 33%;
+    align-self: center;
+    display: block;
+    margin-bottom: 3rem;
 
     animation: fadingIn 2s ease .5s, upDownMotion 1.7s ease 2s infinite;
     animation-fill-mode: backwards;
 
     
-    @include respond(iPhone_SE){
-        position: absolute;
-        width: 60%;
-        height: 50%;
-        top: 2em;
-        left: 20%;
+    // @include respond(iPhone_SE){
+    //     position: absolute;
+    //     width: 60%;
+    //     height: 50%;
+    //     top: 2em;
+    //     left: 20%;
 
-        animation: fadingIn 2s ease .5s, upDownMotion 1.7s ease 2s infinite;
-        animation-fill-mode: backwards;
-    }
+    //     animation: fadingIn 2s ease .5s, upDownMotion 1.7s ease 2s infinite;
+    //     animation-fill-mode: backwards;
+    // }
     
     
 
