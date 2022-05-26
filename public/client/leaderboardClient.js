@@ -66,6 +66,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
             leaderboard__category_btn.innerText = `Global Top 50`
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
+                sfx.positive.play()
                 console.log("GLOBAL TOP 50")
                 request_global_leaderboard()
             })
@@ -73,6 +74,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
             leaderboard__category_btn.innerText = `Global Matches`
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
+                sfx.positive.play()
                 console.log("GLOBAL MATCHES")
                 clientLocation = 'global_history'
                 leaderboard.style.animation = 'none'
@@ -82,6 +84,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
             leaderboard__category_btn.innerText = `Personal Matches`
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
+                sfx.positive.play()
                 console.log("PERSONAL MATCHES")
                 clientLocation = 'personal_history'
                 leaderboard.style.animation = 'none'
@@ -94,6 +97,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
 
     leaderboard__refresh_btn.addEventListener('click', (event) => {
         event.preventDefault()
+        sfx.positive.play()
         switch(clientLocation){
             case('global_leaderboard'):
                 request_global_leaderboard()
@@ -118,7 +122,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
 
     leaderboard__back_btn.addEventListener('click', (event) => {
         event.preventDefault()
-
+        sfx.positive.play()
         leaderboard.remove()
         leaderboard__back_btn.remove()
 
@@ -356,7 +360,7 @@ function displayMatches(matchHistory, leaderboardType){
 
         match__container.addEventListener("click", (event) => {
             event.preventDefault()
-
+            sfx.positive.play()
             request_match_detail(match.room_id)
 
         })
@@ -473,7 +477,7 @@ function matchDetailPage(matchData){
 
     my_match__back_btn.addEventListener('click', (event) => {
         event.preventDefault()
-
+        sfx.positive.play()
         my_match__container.remove()
         my_match__back_btn.remove()
 
@@ -679,5 +683,6 @@ function request_match_detail(room_id){
 // .leaderboard_icon button ----->>>> global standings leaderboard
 document.querySelector('.leaderboard_icon').addEventListener('click', event => {
     event.preventDefault();
+    sfx.positive.play()
     request_global_leaderboard()
 })

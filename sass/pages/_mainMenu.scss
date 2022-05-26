@@ -2,18 +2,19 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    row-gap: 1em;
+    row-gap: 4vh;
+    justify-content: center;
+    align-self: center;
     left: 20%;
     bottom: 15%;
-    font-size: 25px;
 }
 
 .menuIcons{
     display: flex;
-    column-gap: 1em;
+    column-gap: 2vh;
     position: absolute;
-    top: 2em;
-    right: 17%;
+    top: 2vh;
+    right: 2vh;
     z-index: 40;
 }
 
@@ -35,10 +36,11 @@
     }
 
     &__spaceship{
-        top: 2em;
-        left: 7em;
-        transform: scale(110%);
+        // top: 2em;
+        // left: 7em;
+        // transform: scale(110%);
         z-index: 40;
+        width: 100vw;
 
         &--animated{
             animation: fadingIn 1s ease 1s backwards;
@@ -46,9 +48,10 @@
     }
 
     &__spaceBeam{
-        left: 12em;
-        top: 4em;
-        transform: scale(120%);
+        // left: 12em;
+        // top: 4em;
+        // transform: scale(120%);
+        width: 100vw;
 
         &--animated{
             // #2 clip-path: polygon(9% 13%, 62% 60%, 100% 95%, 100% 100%, 93% 100%, 4% 15%)
@@ -60,8 +63,9 @@
     }
 
     &__title{
-        top: 3em;
-        left: 5.5em;
+        top: 3rem;
+        // left: 7rem;
+        width: 100vw;
         transform-origin: top left;
 
         &--animated{
@@ -70,12 +74,12 @@
     }
 
     &__alien1{
-        bottom: 0;
+        bottom: 0px;
         right: 20%;
-        transform: scale(130%);
+        // transform: scale(130%);
         z-index: 2;
-        width: 20em;
-        height: 20em;
+        // width: 20em;
+        height: 50vh;
 
         &--animated{
             animation: entryBottom--alien1 1s ease 9s backwards;
@@ -84,11 +88,13 @@
 
     &__alien2{
         bottom: 40%;
-        right: 12.5em;
-        transform: scale(130%);
+        right: 0px;
+        // height: 40vh
+        // transform: scale(130%);
 
         &--animated{
             animation: entryTop--alien2 2s ease 10s backwards;
+
         }
 
         
@@ -97,7 +103,7 @@
     &__alienChatter1{
         bottom: 35%;
         right: 17%;
-        transform: scale(130%);
+        // transform: scale(130%);
         z-index: 2;
 
         &--animated{
@@ -112,7 +118,7 @@
     &__alienChatter2{
         bottom: 10%;
         right: 15%;
-        transform: scale(130%);
+        // transform: scale(130%);
         z-index: 2;
 
         &--animated{
@@ -127,7 +133,7 @@
     &__alienChatter3{
         bottom: 8%;
         right: 15%;
-        transform: scale(130%);
+        // transform: scale(130%);
         z-index: 2;
 
         &--animated{
@@ -141,9 +147,9 @@
 
 
     &__star1{
-        top: 15em;
-        left: 8em;
-        transform: scale(120%);
+        top: 30%;
+        left: 12%;
+        // transform: scale(120%);
 
         &--animated{
             animation: pulsate 2s linear 8.5s infinite backwards;
@@ -156,8 +162,8 @@
     }
 
     &__star2{
-        top: 2em;
-        left: 20em;
+        top: 4%;
+        left: 30%;
 
         &--animated{
             animation: pulsate 2s linear 7.5s infinite backwards;
@@ -169,9 +175,9 @@
     }
 
     &__star3{
-        top: 3em;
+        top: 6%;
         left: 50%;
-        transform: scale(140%);
+        // transform: scale(140%);
 
         &--animated{
             animation: pulsate 2s linear 9.5s infinite backwards;
@@ -185,7 +191,7 @@
     &__star4{
         top: 40%;
         left: 40%;
-        transform: scale(140%);
+        // transform: scale(140%);
 
         &--animated{
             animation: pulsate 2s linear 9s infinite backwards;

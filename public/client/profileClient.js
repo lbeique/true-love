@@ -1,4 +1,4 @@
-function checkNameInput(currentName){
+function checkNameInput(currentName) {
   const name__input = document.querySelector('.profile__name-input')
   document.querySelector('.profile__name-change').classList.add('hide')
 
@@ -9,42 +9,43 @@ function checkNameInput(currentName){
       const withinBoundaries = event.composedPath().includes(name__input)
       console.log("composed path", event.composedPath())
       console.log("WithinBoundaries", withinBoundaries)
-  
+
       const profile__name = document.createElement('div')
       profile__name.classList.add('profile__name')
-      if(!withinBoundaries && !name__input.value){
+      if (!withinBoundaries && !name__input.value) {
         profile__name.innerText = `${currentName}`
         name__input.replaceWith(profile__name)
-  
-      } else if(name__input.value && !withinBoundaries || name__input.value && withinBoundaries){
+
+      } else if (name__input.value && !withinBoundaries || name__input.value && withinBoundaries) {
         updateName(name__input.value)
         profile__name.innerText = `${name__input.value}`
         name__input.replaceWith(profile__name)
-        
-      } 
+
+      }
       profile__name.addEventListener('mouseenter', (event) => {
         event.preventDefault()
         document.querySelector('.profile__name-change').classList.remove('hide')
       })
-    
+
       profile__name.addEventListener('mouseleave', (event) => {
         event.preventDefault()
         document.querySelector('.profile__name-change').classList.add('hide')
       })
-    
-      profile__name.addEventListener('click', function nameUpdate(event){
+
+      profile__name.addEventListener('click', function nameUpdate(event) {
         event.preventDefault()
+        sfx.positive.play()
         console.log('name change mode')
 
         document.removeEventListener('click', this.nameUpdateTransition)
         const name__input = document.createElement('input')
-        name__input.classList.add('profile__name-input')    
-    
+        name__input.classList.add('profile__name-input')
+
         const currentName = profile__name.innerText
-    
+
         profile__name.replaceWith(name__input)
         checkNameInput(currentName)
-    
+
       })
 
       document.body.removeEventListener('click', this.nameUpdateTransition)
@@ -56,11 +57,11 @@ function checkNameInput(currentName){
 
 }
 
-function setAvatarList(currentAvatarName){
+function setAvatarList(currentAvatarName) {
   const section__profile = document.querySelector('.section-profile')
   const profile__container = document.querySelector('.profile__container')
   const profile__backBtn = document.querySelector('.profile__backBtn')
-  
+
   profile__container.innerHTML = ''
   profile__backBtn.remove()
 
@@ -80,14 +81,14 @@ function setAvatarList(currentAvatarName){
   updateAvatar__header.innerText = 'Select Avatar'
 
   let counter = 1;
-  for(let avatar_name of available_avatar_names){
+  for (let avatar_name of available_avatar_names) {
     const avatar__container = document.createElement('div')
     const avatar__name = document.createElement('div')
     const avatar__img = document.createElement('img')
 
-    if(avatar_name === currentAvatarName){
+    if (avatar_name === currentAvatarName) {
       avatar__img.classList.add('btn', 'updateAvatar__img', 'updateAvatar__img--green', `avatar-${counter}`)
-    } else{
+    } else {
       avatar__img.classList.add('btn', 'updateAvatar__img', `avatar-${counter}`)
     }
 
@@ -99,14 +100,14 @@ function setAvatarList(currentAvatarName){
 
     avatar__img.addEventListener('click', event => {
       event.preventDefault();
-    
+      sfx.positive.play()
       let selected_avatar = event.target.classList[2]
       let new_avatar_id = selected_avatar.slice(-1);
 
       document.querySelectorAll('.updateAvatar__img').forEach((avatar) => {
-        if(avatar.classList.contains(`avatar-${new_avatar_id}`)){
+        if (avatar.classList.contains(`avatar-${new_avatar_id}`)) {
           avatar.classList.add('updateAvatar__img--green')
-        } else{
+        } else {
           avatar.classList.remove('updateAvatar__img--green')
         }
       })
@@ -137,8 +138,8 @@ function setProfile(data) {
   const section__menu = document.querySelector('.section-menu')
   const section__profile = document.querySelector('.section-profile')
   const updateAvatar__section = document.querySelector('.profile__container--updateAvatar')
- 
-  if(updateAvatar__section){
+
+  if (updateAvatar__section) {
     const updateAvatar__backBtn = document.querySelector('.updateAvatar__backBtn')
     updateAvatar__section.remove()
     updateAvatar__backBtn.remove()
@@ -154,7 +155,7 @@ function setProfile(data) {
   const profile__avatar = document.createElement('img')
   const profile__avatar_change = document.createElement('div')
   const profile__name = document.createElement('div')
-  const profile__name_change = document.createElement('div') 
+  const profile__name_change = document.createElement('div')
 
   const achievements__header = document.createElement('div')
   const achievement__container = document.createElement('div')
@@ -169,23 +170,25 @@ function setProfile(data) {
   profile__avatar.classList.add('profile__avatar')
   profile__avatar_change.classList.add('btn', 'profile__avatar-change', 'hide')
   profile__name.classList.add('profile__name')
-  profile__name_change.classList.add('profile__name-change', 'hide') 
+  profile__name_change.classList.add('profile__name-change', 'hide')
 
   achievements__header.classList.add('achievement__header')
   achievement__container.classList.add('achievement__container')
-  
+
   profile__back_btn.addEventListener('click', (event) => {
     event.preventDefault()
+    sfx.positive.play()
     profile__container.remove()
     profile__back_btn.remove()
     section__profile.classList.add("hide")
     section__menu.classList.remove('hide')
 
-    const getDOMListeners = document.body.getEventListeners()['click'][0]
-    console.log('getDomLISTENERS', getDOMListeners)
+    if (document.body.getEventListeners()['click']) {
+      const getDOMListeners = document.body.getEventListeners()['click'][0]
+      console.log('getDomLISTENERS', getDOMListeners)
 
-    document.body.removeEventListener('click', getDOMListeners.listener, getDOMListeners.useCapture)
-
+      document.body.removeEventListener('click', getDOMListeners.listener, getDOMListeners.useCapture)
+    }
 
   })
 
@@ -225,8 +228,9 @@ function setProfile(data) {
 
   profile__avatar_change.addEventListener('click', (event) => {
     event.preventDefault()
-    if(!profile__avatar_change.classList.contains('hide')){
-       setAvatarList(userInfo.avatar_name)
+    sfx.positive.play()
+    if (!profile__avatar_change.classList.contains('hide')) {
+      setAvatarList(userInfo.avatar_name)
     }
   })
 
@@ -240,8 +244,9 @@ function setProfile(data) {
     document.querySelector('.profile__name-change').classList.add('hide')
   })
 
-  profile__name.addEventListener('click', function nameUpdate(event){
+  profile__name.addEventListener('click', function nameUpdate(event) {
     event.preventDefault()
+    sfx.positive.play()
     console.log('name change mode')
 
     const name__input = document.createElement('input')
@@ -250,7 +255,7 @@ function setProfile(data) {
     const currentName = profile__name.innerText
 
     profile__name.replaceWith(name__input)
-    
+
     checkNameInput(currentName)
 
   })
@@ -273,7 +278,8 @@ function setProfile(data) {
 
 }
 
-function goToProfile(){
+function goToProfile() {
+  sfx.positive.play()
   axios.post('/mainmenu/profile')
     .then(res => {
       // Array with UP TO 6 achievement objects
@@ -291,7 +297,7 @@ function goToProfile(){
     })
 }
 
-function updateAvatar(avatar_id){
+function updateAvatar(avatar_id) {
   axios.post('/mainmenu/avatar', { avatar_id })
     .then(res => {
 
@@ -307,7 +313,7 @@ function updateAvatar(avatar_id){
 }
 
 
-function updateName(newUsername){
+function updateName(newUsername) {
   axios.post('/mainmenu/username', { newUsername })
     .then(res => {
 

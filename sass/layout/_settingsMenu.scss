@@ -1,11 +1,16 @@
-.settingsMenu {
+.settings {
     position: absolute;
     display: flex;
     justify-content: center;
     margin: 0;
-    background-color: rgba($secondary-color, 0.9);
-    width: 100%;
-    height: 100%;
+    background-color: rgba($secondary-color, 0.95);
+    background-size: cover;
+    // width: 100%;
+    // height: 100%;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
     z-index: 89;
     transition: all .2s;
 
@@ -14,16 +19,16 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 1em;
-        padding: 1em;
-        width: 14em;
-        height: 10em;
-        border: 20px solid $tertiary-color;
+        // margin-top: 1em;
+        padding: 1rem;
+        width: 45vh;
+        // height: 10em;
+        border: 1rem solid $tertiary-color;
         border-radius: 2em;
         background-color: $secondary-variant;
-        font-size: 48px;
+        font-size: 6vh;
         color: $tertiary-color;
-        margin-bottom: 0.5em;
+        // margin-bottom: 0.5em;
 
         // animation: popUpCenter 1s ease backwards;
 
@@ -33,13 +38,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 1em;
-        width: 10em;
-        height: 2em;
+        // padding: 1em;
+        // width: 10em;
+        // height: 2em;
         border: none;
-        font-size: 40px;
+        font-size: 5vh;
         color: $tertiary-color;
-        margin-bottom: 0.5em;
+        // margin-bottom: 0.5em;
 
         // animation: popUpCenter 1s ease backwards;
 
@@ -50,9 +55,9 @@
         justify-content: center;
         align-items: center;
         width: 3em;
-        height: 2em;
+        // height: 2em;
         border: none;
-        font-size: 32px;
+        font-size: 4vh;
         color: $tertiary-color;
 
         // animation: popUpCenter 1s ease backwards;
@@ -61,11 +66,13 @@
 
     &__nav {
         display: flex;
+        align-content: space-around;
         flex-direction: column;
         align-items: center;
-        row-gap: .5em;
-        width: 40em;
-        height: 10em;
+        justify-content: center;
+        row-gap: 10vh;
+        // width: 40em;
+        // height: 10em;
     }
 
 

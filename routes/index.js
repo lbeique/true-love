@@ -16,8 +16,10 @@ router.get("/", (req, res) => {
   console.log("SESSION", req.session)
   let session = getSession(req.session)
   let user_info
-  if (!session) {
+  if (!session & !req.session?.user_info?.music_status) {
     req.session.user_info = {}
+    req.session.user_info.location = 'welcome'
+  } else if (!session) {
     req.session.user_info.location = 'welcome'
   } else {
     req.session.user_info.location = 'welcome'

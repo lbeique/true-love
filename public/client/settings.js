@@ -13,7 +13,7 @@ function setTriviaTrack() {
 
 axios.post('/music')
     .then(res => {
-
+        console.log('get music', res.data.user_info)
         MUSIC_STATUS = res.data.user_info.music_status
         SFX_STATUS = res.data.user_info.sfx_status
         userLocation = res.data.user_info.location
@@ -51,7 +51,9 @@ axios.post('/music')
                     }
                 },
                 onend: function () {
-                    if (userLocation === 'welcome') {
+                    if (!userLocation) {
+                        music.welcome.play()
+                    } else if (userLocation === 'welcome') {
                         music.welcome.play()
                     } else if (userLocation === 'menu') {
                         music.menu.play()
@@ -86,7 +88,7 @@ axios.post('/music')
                 },
                 onend: function () {
                     if (userLocation === 'menu') {
-                        music.welcome.play()
+                        music.welcome.seek(54).play()
                     } else if (userLocation === 'lobby') {
                         music.welcome.play()
                     }
@@ -222,7 +224,6 @@ axios.post('/music')
             }),
         }
         if (!userLocation) {
-            console.log('where am i??')
             music.welcome.play()
         } else if (userLocation === 'welcome') {
             music.welcome.play()
@@ -236,8 +237,8 @@ axios.post('/music')
             music.welcome.seek(54).play()
         }
 
-        const settingsMenu = document.querySelector('.settingsMenu')
-        const settings_icon = document.querySelector('.settings_icon')
+        const settingsMenu = document.querySelector('.settings')
+        const settings_icon = document.querySelector('.settings__cog')
 
         const settings__exitIcon = document.createElement('img')
 
@@ -257,25 +258,25 @@ axios.post('/music')
 
         const exitgame__btn = document.createElement('a')
 
-        settings__nav.classList.add('settingsMenu__nav')
-        settings__textBox.classList.add('settingsMenu__textBox')
-        settings__textVolume.classList.add('settingsMenu__textVolume')
-        settings__musictext.classList.add('settingsMenu__text')
-        settings__sfxtext.classList.add('settingsMenu__text')
+        settings__nav.classList.add('settings__nav')
+        settings__textBox.classList.add('settings__textBox')
+        settings__textVolume.classList.add('settings__textVolume')
+        settings__musictext.classList.add('settings__text')
+        settings__sfxtext.classList.add('settings__text')
         settings__exitIcon.classList.add('icon__btn', 'exitMenu', 'exitMenu__icon')
         settings__exitIcon.src = "assets/menu/inGameExit_icon.png"
         settings__exitIcon.alt = "exit settings"
 
-        settings__musicMute.classList.add('btn', 'settingsMenu__muteToggle')
+        settings__musicMute.classList.add('btn', 'settings__muteToggle')
         if (!MUSIC_STATUS.mute) {
             settings__musicMute.innerHTML = '<i class="fas fa-volume-up"></i>'
         } else if (MUSIC_STATUS.mute === true) {
-            settings__musicMute.classList.add('settingsMenu__muteToggle__off')
+            settings__musicMute.classList.add('settings__muteToggle__off')
             settings__musicMute.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'
         }
 
-        settings__musicSlidecontainer.classList.add('settingsMenu__slidecontainer')
-        settings__musicSlider.classList.add('settingsMenu__slidecontainer__slider')
+        settings__musicSlidecontainer.classList.add('settings__slidecontainer')
+        settings__musicSlider.classList.add('settings__slidecontainer__slider')
 
         settings__musicSlider.type = 'range'
         settings__musicSlider.min = '0'
@@ -288,16 +289,16 @@ axios.post('/music')
                 music[track].volume(+(this.value) / 100)
             }
         }
-        settings__sfxMute.classList.add('btn', 'settingsMenu__muteToggle')
+        settings__sfxMute.classList.add('btn', 'settings__muteToggle')
         if (!SFX_STATUS.mute) {
             settings__sfxMute.innerHTML = '<i class="fas fa-volume-up"></i>'
         } else if (SFX_STATUS.mute === true) {
-            settings__sfxMute.classList.add('settingsMenu__muteToggle__off')
+            settings__sfxMute.classList.add('settings__muteToggle__off')
             settings__sfxMute.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'
         }
 
-        settings__sfxSlidecontainer.classList.add('settingsMenu__slidecontainer')
-        settings__sfxSlider.classList.add('settingsMenu__slidecontainer__slider')
+        settings__sfxSlidecontainer.classList.add('settings__slidecontainer')
+        settings__sfxSlider.classList.add('settings__slidecontainer__slider')
 
         settings__sfxSlider.type = 'range'
         settings__sfxSlider.min = '0'
@@ -306,7 +307,7 @@ axios.post('/music')
 
         let hold = false
 
-        function playSFX () {
+        function playSFX() {
             if (hold) {
                 return
             } else {
@@ -324,7 +325,7 @@ axios.post('/music')
             playSFX()
         }
 
-        exitgame__btn.classList.add('btn', 'btn--darkPurple', 'settingsMenu__btn')
+        exitgame__btn.classList.add('btn', 'btn--darkPurple', 'settings__btn')
 
         settings__textBox.innerText = "Settings"
         settings__textVolume.innerText = "Volume"
@@ -349,7 +350,7 @@ axios.post('/music')
 
         settingsMenu.appendChild(settings__nav)
         settingsMenu.appendChild(settings__exitIcon)
-        
+
 
         function updateSound() {
             let sound_update = {
@@ -360,7 +361,7 @@ axios.post('/music')
                 .then(res => {
                     MUSIC_STATUS = res.data.user_info.music_status
                     SFX_STATUS = res.data.user_info.sfx_status
-
+                    console.log(res.data.user_info)
                 })
                 .catch((error) => {
                     console.error('axios sound update broke', error)
@@ -372,6 +373,7 @@ axios.post('/music')
             sfx.positive.play()
             // updateSound()
             settingsMenu.classList.toggle('hide')
+            settings_icon.classList.toggle('hide')
         })
 
         settings__exitIcon.addEventListener('click', (event) => {
@@ -379,6 +381,7 @@ axios.post('/music')
             sfx.positive.play()
             updateSound()
             settingsMenu.classList.toggle('hide')
+            settings_icon.classList.toggle('hide')
         })
 
         function musicMuteEventHelper(event) {
@@ -386,12 +389,11 @@ axios.post('/music')
             event.preventDefault()
             if (!MUSIC_STATUS.mute) {
                 MUSIC_STATUS.mute = true
-                console.log(currentTrack)
                 for (const track in music) {
                     music[track].mute(true)
                 }
                 // currentTrack.mute(true)
-                settings__musicMute.classList.toggle('settingsMenu__muteToggle__off')
+                settings__musicMute.classList.toggle('settings__muteToggle__off')
                 settings__musicMute.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'
             } else if (MUSIC_STATUS.mute) {
                 MUSIC_STATUS.mute = false
@@ -399,7 +401,7 @@ axios.post('/music')
                     music[track].mute(false)
                 }
                 // currentTrack.mute(false)
-                settings__musicMute.classList.toggle('settingsMenu__muteToggle__off')
+                settings__musicMute.classList.toggle('settings__muteToggle__off')
                 settings__musicMute.innerHTML = '<i class="fas fa-volume-up"></i>'
             }
             sfx.positive.play()
@@ -415,14 +417,14 @@ axios.post('/music')
                 for (const track in sfx) {
                     sfx[track].mute(true)
                 }
-                settings__sfxMute.classList.toggle('settingsMenu__muteToggle__off')
+                settings__sfxMute.classList.toggle('settings__muteToggle__off')
                 settings__sfxMute.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'
             } else if (SFX_STATUS.mute) {
                 SFX_STATUS.mute = false
                 for (const track in sfx) {
                     sfx[track].mute(false)
                 }
-                settings__sfxMute.classList.toggle('settingsMenu__muteToggle__off')
+                settings__sfxMute.classList.toggle('settings__muteToggle__off')
                 settings__sfxMute.innerHTML = '<i class="fas fa-volume-up"></i>'
             }
             sfx.positive.play()

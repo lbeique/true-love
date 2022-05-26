@@ -1,12 +1,10 @@
 .exitMenu {
-    display: flex;
-        justify-content: end;
-        flex-direction: row;
-
+    
     
     &__icon {
-        height: 10vh;
-        top: 2em;
+        position: absolute;
+        top: 2vh;
+        right: 2vh;
         display: flex;
         justify-content: end;
         // right: 17%;
@@ -15,20 +13,20 @@
 
 }
 
-.settingsMenu {
+.settings {
 
     &__icon {
         position: absolute;
-        top: 2em;
-        right: 17%;
+        top: 2vh;
+        right: 2vh;
         z-index: 100;
     }
 
     &__btn {
-        width: 10em;
-        font-size: 20px;
-        margin-top: 1em;
-        padding: 0.5em;
+        width: 40vh;
+        font-size: 4vh;
+        // margin-top: 1em;
+        padding: 0.5rem;
 
         // animation: popUpCenter 1s ease backwards;
     }
@@ -36,10 +34,10 @@
     &__muteToggle {
         display: flex;
         background: $tertiary-color;
-        width: 4em;
-        margin: 1em;
+        width: 4rem;
+        // margin: 1em;
         border: 4px solid $primary-color;
-        height: 4em;
+        height: 4rem;
 
         &__off {
             background-color: $secondary-color;
@@ -47,7 +45,7 @@
 
         & i {
             color: $primary-color;
-            font-size: 28px;
+            font-size: 1.8rem;
         }
     }
 
@@ -55,8 +53,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 100%;
-        margin-bottom:1.5em;
+        width: 50vh;
+        // margin-bottom:1.5em;
 
 
         &__slider {
