@@ -116,6 +116,17 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
     leaderboard__header.innerHTML = '<i class="fa-solid fa-earth-americas"></i><span class="sidebar__header-text"> GLOBAL TOP 50 <span>'
     leaderboard.style.animation = 'fadingIn 1s ease backwards'
 
+    leaderboard__back_btn.addEventListener('click', (event) => {
+        event.preventDefault()
+
+        leaderboard.remove()
+        leaderboard__back_btn.remove()
+
+        section__menu.classList.remove('hide')
+        section__leaderboard.classList.add('hide')
+
+    })
+
     leaderboard__container.append(leaderboard__header, leaderboard__categoriesContainer)
     leaderboard__container.appendChild(leaderboard__players)
     leaderboard.appendChild(leaderboard__container)
