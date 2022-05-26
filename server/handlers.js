@@ -787,24 +787,24 @@ async function handleGetVictory(room) {
         let winner = leaderboard[0]
 
         // SAVE GAME TO DATABASE HERE
-        console.log('final room', room)
-        console.log('final gamestate', room.gameState)
-        console.log('final leaderboard', room.gameState.leaderboard)
+        // console.log('final room', room)
+        // console.log('final gamestate', room.gameState)
+        // console.log('final leaderboard', room.gameState.leaderboard)
 
-        for (const player in players) {
-            values.push(
-                [
-                    players[player].userId,
-                    24,
-                    players[player].game.position,
-                    players[player].game.trivia.easy.points,
-                    players[player].game.trivia.easy.errors.reduce((accumulator, error) => accumulator + error, 0),
-                    players[player].game.trivia.medium.points,
-                    players[player].game.trivia.medium.errors.reduce((accumulator, error) => accumulator + error, 0),
-                    players[player].game.trivia.hard.points,
-                    players[player].game.trivia.hard.errors.reduce((accumulator, error) => accumulator + error, 0)
-                ])
-        }
+        // for (const player in players) {
+        //     values.push(
+        //         [
+        //             players[player].userId,
+        //             24,
+        //             players[player].game.position,
+        //             players[player].game.trivia.easy.points,
+        //             players[player].game.trivia.easy.errors.reduce((accumulator, error) => accumulator + error, 0),
+        //             players[player].game.trivia.medium.points,
+        //             players[player].game.trivia.medium.errors.reduce((accumulator, error) => accumulator + error, 0),
+        //             players[player].game.trivia.hard.points,
+        //             players[player].game.trivia.hard.errors.reduce((accumulator, error) => accumulator + error, 0)
+        //         ])
+        // }
 
         console.log('params', params)
         console.log('values', values)
