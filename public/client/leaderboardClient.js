@@ -1,5 +1,7 @@
 // we can put the .global_standings on the leaderboard button or icon
 
+let clientLocation = ''
+
 function returnPosition(positionNum){
     
     const checkRemainder = positionNum % 10
@@ -21,6 +23,8 @@ function returnPosition(positionNum){
 
 function global_leaderboard_setup(globalLeaderboard, current__client){
 
+    clientLocation = 'global_leaderboard'
+
     const section__menu = document.querySelector(".section-menu")
     const section__leaderboard = document.querySelector(".section-leaderboard")
 
@@ -28,13 +32,23 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
         document.querySelector('.sidebar').remove()
     }
 
+    if(document.querySelector('.btn__refresh')){
+        document.querySelector('.btn__refresh').remove()
+    }
+
+    if(document.querySelector('.btn__back')){
+        document.querySelector('.btn__back').remove()
+    }
+
     const leaderboard = document.createElement('div')
     const leaderboard__container = document.createElement('div')
     const leaderboard__header = document.createElement('div')
     const leaderboard__players = document.createElement('div')
     const leaderboard__back_btn = document.createElement('a')
+    const leaderboard__refresh_btn = document.createElement('a')
     const leaderboard__categoriesContainer = document.createElement('div')
 
+    leaderboard__refresh_btn.classList.add('btn', 'btn__refresh', 'btn--darkPurple', 'leaderboard__refreshBtn')
     leaderboard__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'leaderboard__backBtn')
     section__leaderboard.classList.add('section-sidebar','section-sidebar--open', 'section-sidebar--open-victory')
     leaderboard.classList.add('sidebar')
@@ -60,6 +74,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 console.log("GLOBAL MATCHES")
+                clientLocation = 'global_history'
                 leaderboard.style.animation = 'none'
                 request_global_matches()
             })
@@ -68,6 +83,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 console.log("PERSONAL MATCHES")
+                clientLocation = 'personal_history'
                 leaderboard.style.animation = 'none'
                 request_user_history()
             })
@@ -76,14 +92,34 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
         leaderboard__categoriesContainer.appendChild(leaderboard__category_btn)
     }
 
+    leaderboard__refresh_btn.addEventListener('click', (event) => {
+        event.preventDefault()
+        switch(clientLocation){
+            case('global_leaderboard'):
+                request_global_leaderboard()
+                break;
+            case('global_history'):
+                console.log("REFRESH GLOBAL HISTORY")
+                leaderboard.style.animation = 'none'
+                request_global_matches()
+                break;
+            case('personal_history'):
+                console.log("REFRESH PERSONAL HISTORY")
+                leaderboard.style.animation = 'none'
+                request_user_history()
+                break;
+        }
+    })
+
     leaderboard__back_btn.innerHTML = `<span>&#8618;</span>`
+    leaderboard__refresh_btn.innerHTML = `&#8634;`
     leaderboard__header.innerHTML = '<i class="fa-solid fa-earth-americas"></i><span class="sidebar__header-text"> GLOBAL TOP 50 <span>'
     leaderboard.style.animation = 'fadingIn 1s ease backwards'
 
     leaderboard__container.append(leaderboard__header, leaderboard__categoriesContainer)
     leaderboard__container.appendChild(leaderboard__players)
     leaderboard.appendChild(leaderboard__container)
-    section__leaderboard.append(leaderboard__back_btn, leaderboard)
+    section__leaderboard.append(leaderboard__back_btn, leaderboard__refresh_btn, leaderboard)
 
     let positionNum = 1
     let counter = 0
@@ -364,9 +400,11 @@ function matchDetailPage(matchData){
 
     const leaderboard = document.querySelector('.sidebar')
     const leaderboard__back_btn = document.querySelector('.leaderboard__backBtn')
+    const leaderboard__refresh_btn = document.querySelector('.btn__refresh')
 
     leaderboard.remove()
     leaderboard__back_btn.remove()
+    leaderboard__refresh_btn.remove()
 
     let winnerData = {}
     let currentClientData = {}
@@ -421,6 +459,16 @@ function matchDetailPage(matchData){
     my_match__crush_name.innerText = `${currentClientData.crush_name}`
     my_match__back_btn.innerHTML = `<span>&#8618;</span>`
     my_match__mini_leaderboard_header.innerHTML = `Match Leaderboard`
+
+    my_match__back_btn.addEventListener('click', (event) => {
+        event.preventDefault()
+
+        my_match__container.remove()
+        my_match__back_btn.remove()
+
+        request_global_leaderboard()
+
+    })
 
 
     for(let i = 0; i < 4; i++){

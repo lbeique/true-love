@@ -339,6 +339,19 @@ body {
   color: #D7FF60;
   padding-top: 12px;
 }
+.btn__refresh {
+  position: absolute;
+  padding-bottom: 13px;
+  padding-left: 3px;
+  right: 13%;
+  top: 2%;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 2em;
+  border-width: 8px;
+  font-size: 70px;
+  z-index: 100;
+}
 
 .icon__btn {
   transition: all 0.2s;
@@ -1064,6 +1077,9 @@ body {
 .leaderboard__backBtn {
   left: 10vw;
 }
+.leaderboard__refreshBtn {
+  right: 10vw;
+}
 .leaderboard__categories-container {
   display: flex;
   justify-content: center;
@@ -1680,19 +1696,6 @@ tr:nth-child(even) {
   letter-spacing: 2px;
   text-shadow: 0 0 10px #D7FF60;
   height: 10px;
-}
-.lobby-list__refreshBtn {
-  position: absolute;
-  padding-bottom: 13px;
-  padding-left: 3px;
-  right: 13%;
-  top: 2%;
-  width: 1.2em;
-  height: 1.2em;
-  border-radius: 2em;
-  border-width: 8px;
-  font-size: 70px;
-  z-index: 100;
 }
 .lobby-list__listContainer {
   display: flex;
