@@ -4,9 +4,11 @@ function checkNameInput(currentName){
 
   setTimeout(() => {
 
-    document.addEventListener('click', function nameUpdateTransition(event) {
+    document.body.addEventListener('click', function nameUpdateTransition(event) {
       event.preventDefault()
       const withinBoundaries = event.composedPath().includes(name__input)
+      console.log("composed path", event.composedPath())
+      console.log("WithinBoundaries", withinBoundaries)
   
       const profile__name = document.createElement('div')
       profile__name.classList.add('profile__name')
@@ -44,6 +46,8 @@ function checkNameInput(currentName){
         checkNameInput(currentName)
     
       })
+
+      document.body.removeEventListener('click', this.nameUpdateTransition)
 
     })
 
@@ -171,10 +175,18 @@ function setProfile(data) {
   achievement__container.classList.add('achievement__container')
   
   profile__back_btn.addEventListener('click', (event) => {
+    event.preventDefault()
     profile__container.remove()
     profile__back_btn.remove()
     section__profile.classList.add("hide")
     section__menu.classList.remove('hide')
+
+    const getDOMListeners = document.body.getEventListeners()['click'][0]
+    console.log('getDomLISTENERS', getDOMListeners)
+
+    document.body.removeEventListener('click', getDOMListeners.listener, getDOMListeners.useCapture)
+
+
   })
 
   profile__back_btn.innerHTML = `<span>&#8618;</span>`

@@ -48,7 +48,7 @@ router.post("/global/history", async (req, res) => {
     return
   }
   const globalMatchHistory = await database.getGlobalMatchHistory()
-  if (!globalLeaderboard) {
+  if (!globalMatchHistory) {
       console.log('Error loading global match history')
       res.status(404).redirect('/mainmenu')
       return
@@ -71,9 +71,9 @@ router.post("/history", async (req, res) => {
     res.status(404).redirect('/mainmenu')
     return
   }
-  let userId = +session.user_info.userId
+  let userId = +session.user_info.user_id
   const userMatchHistory = await database.getUserMatchHistory(userId)
-  if (!globalLeaderboard) {
+  if (!userMatchHistory) {
       console.log('Error loading user match history')
       res.status(404).redirect('/mainmenu')
       return
@@ -102,7 +102,7 @@ router.post("/match", async (req, res) => {
   }
   let roomId = +req.body.roomId
   const roomUsers = await database.getRoomInformationByRoomId(roomId)
-  if (!globalLeaderboard) {
+  if (!roomUsers) {
       console.log('Error loading match information')
       res.status(404).redirect('/mainmenu')
       return
