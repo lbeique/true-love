@@ -9,11 +9,13 @@ function sidebarToggle(){
     const section__sidebar = document.querySelector('.section-sidebar')
     const sidebar__container = document.querySelector('.sidebar__container')
     const sidebar__players = document.querySelector('.sidebar__players')
+    const sidebar__header = document.querySelector('.sidebar__header')
 
     document.querySelector('.sidebar__header-text').classList.toggle('hide')
 
     section__sidebar.classList.toggle('section-sidebar--close')
     section__sidebar.classList.toggle('section-sidebar--open')
+    sidebar__header.classList.toggle('sidebar__header--open')
     sidebar__players.classList.toggle('sidebar__players--close')
     sidebar__players.classList.toggle('sidebar__players--open')
     sidebar__container.classList.toggle('sidebar__container--close')
@@ -412,6 +414,9 @@ socket.on('setup-sidebar-lounge', (phase) => {
 
 })
 
+
+// VICTORY
+
 socket.on('setup-sidebar-victory', (victoryObject) => {
     /* 
     dialogue: Array(0)
@@ -442,57 +447,123 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
 
     currentPhase = victoryObject.phase
     
-    const leaderboard = victoryObject.leaderboard
+    const leaderboardObj = victoryObject.leaderboard
 
     const section__sidebar = document.querySelector('.section-sidebar')
-    const player__positions = document.querySelectorAll('.player__position')
-    const player__avatarContainers = document.querySelectorAll('.player__avatarContainer')
-    
+    // const player__positions = document.querySelectorAll('.player__position')
+    // const player__avatarContainers = document.querySelectorAll('.player__avatarContainer')
 
-    if(section__sidebar.classList.contains('section-sidebar--close')){
-        sidebarToggle()
-        section__sidebar.classList.remove('section-sidebar--open-trivia')
-        player__positions.forEach((position) => {
-            position.classList.remove('hide')
-            position.classList.add('margin-left-2')
-        })
-        
-    }
+    const section__leaderboard = document.createElement('section')
+    const leaderboard = document.createElement('div')
+    const leaderboard__container = document.createElement('div')
+    const leaderboard__header = document.createElement('div')
+    const leaderboard__players = document.createElement('div')
 
-    player__avatarContainers.forEach((avatar) => avatar.classList.add('player__avatarContainer--open-victory'))
-    section__sidebar.classList.add('section-sidebar--open-victory')
+    section__leaderboard.classList.add('section-leaderboard','section-leaderboard--open', 'section-leaderboard--open-victory')
+    leaderboard.classList.add('leaderboard')
+    leaderboard__container.classList.add('leaderboard__container', 'leaderboard__container-victory', 'leaderboard__container--open', 'leaderboard__container--open-leaderboard')
+    leaderboard__header.classList.add('leaderboard__header', 'leaderboard__header--leaderboard')
+    leaderboard__players.classList.add('leaderboard__players', 'leaderboard__players--open')
+
+    leaderboard__header.innerHTML = `<i class="fa-solid fa-flag-checkered"></i> <span class="leaderboard__header-text"> LEADERBOARD<span>`
+
+
+    leaderboard__container.append(leaderboard__header)
+    leaderboard__container.appendChild(leaderboard__players)
+    leaderboard.appendChild(leaderboard__container)
+    section__leaderboard.append(leaderboard)
+
+    // if(section__sidebar.classList.contains('section-sidebar--close')){
+    //     sidebarToggle()
+    //     section__sidebar.classList.remove('section-sidebar--open-trivia')
+    //     player__positions.forEach((position) => {
+    //         position.classList.remove('hide')
+    //         position.classList.add('margin-left-2')
+    //     })
+    // }
+
+    // player__avatarContainers.forEach((avatar) => avatar.classList.add('player__avatarContainer--open-victory'))
+    // section__sidebar.classList.add('section-sidebar--open-victory')
 
     let difficulty = ['easy', 'medium', 'hard']
     let counter = 0
-    for(let player of leaderboard){
-
-        const player__info = document.querySelector(`.player-${player.userId} .player__info`)
-        const info__note = document.querySelector(`.player-${player.userId} .info__note`)
-        const player__triviaPts_container = document.createElement('div')
+    for(let player of leaderboardObj){
         
-        player__triviaPts_container.classList.add('player__subCategory-container')
+        console.log("player", player)
+
+        const leaderboard_player__container = document.createElement('div')
+        const leaderboard_player__avatarContainer = document.createElement('div')
+        const leaderboard_player__avatar = document.createElement('img')
+        const leaderboard_player__info = document.createElement('div')
+        const leaderboard_player__position = document.createElement('span')
+        const info__name = document.createElement('span')
+        const info__note = document.createElement('span')
+
+        leaderboard_player__container.classList.add(`player-${player.userId}`, 'leaderboard-player__container')
+        leaderboard_player__avatarContainer.classList.add('leaderboard-player__avatarContainer', 'leaderboard-player__avatarContainer--open', 'leaderboard-player__avatarContainer--open-victory')
+        leaderboard_player__avatar.classList.add('leaderboard-player__avatar')
+        leaderboard_player__info.classList.add('leaderboard-player__info')
+        leaderboard_player__position.classList.add('leaderboard-player__position')
+        info__name.classList.add('leaderboard-info__name')
+        info__note.classList.add('leaderboard-info__note', 'leaderboard-info__note-victory')
+
+        const player__triviaPts_container = document.createElement('div')
+
+        leaderboard_player__avatar.src = `assets/user-avatars/avatar_${player.avatar}.png`
+        info__name.innerHTML = `${player.username}`
+        info__note.innerHTML = `${player.points} pts`
+        
+        player__triviaPts_container.classList.add('leaderboard-player__subCategory-container')
+
+        leaderboard_player__position.innerHTML = `${position}`
+
+        leaderboard_player__avatarContainer.appendChild(leaderboard_player__avatar)
+        leaderboard_player__container.appendChild(leaderboard_player__position)
+        leaderboard_player__container.appendChild(leaderboard_player__avatarContainer)
+        leaderboard_player__info.appendChild(info__name)
+        leaderboard_player__container.appendChild(leaderboard_player__info)
 
         for(let i = 1; i <= 3; i++){
             const player__categoryPoints = document.createElement('div')
             const player__categoryPoints_left = document.createElement('div')
             const player__categoryPoints_right = document.createElement('div')
 
-            player__categoryPoints.classList.add('info__category-details')
-            player__categoryPoints_left.classList.add('info__category-details--left')
-            player__categoryPoints_right.classList.add('info__category-details--right')
+            player__categoryPoints.classList.add('leaderboard-info__category-details', 'leaderboard-info__category-details-victory')
+            player__categoryPoints_left.classList.add('leaderboard-info__category-details--left')
+            player__categoryPoints_right.classList.add('leaderboard-info__category-details--right')
 
             player__categoryPoints_left.innerText = `Trivia ${i}:`
             player__categoryPoints_right.innerText = `${player[difficulty[counter]]} pts`
 
             player__categoryPoints.append(player__categoryPoints_left, player__categoryPoints_right)
             player__triviaPts_container.appendChild(player__categoryPoints)
+
+            counter++
             
         }
 
-        info__note.innerText = `Total: ${player.points} pts`
+        if(player.userId === +USER_ID){
         
-        player__info.insertBefore(player__triviaPts_container, info__note)
+            const leaderboard_player__YOUcontainer = document.createElement('div')
+            const leaderboard_player__YOU = document.createElement('div')
+            
+            leaderboard_player__YOUcontainer.classList.add('leaderboard-player__youContainer', 'leaderboard-player__youContainer--open')
+            
+            leaderboard_player__YOU.classList.add('leaderboard-player__you')
+            
+            leaderboard_player__YOUcontainer.appendChild(leaderboard_player__YOU)
+            leaderboard_player__container.appendChild(leaderboard_player__YOUcontainer)
+    
+        }
+
+        leaderboard_player__info.append(player__triviaPts_container, info__note)
+
+        leaderboard__players.append(leaderboard_player__container)
+        
+        // leaderboard_player__info.insertBefore(player__triviaPts_container, info__note)
 
     }
+
+   section__sidebar.replaceWith(section__leaderboard)
 
 })

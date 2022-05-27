@@ -14,7 +14,24 @@ html{
 }
 
 // *{
-//     cursor: url(../assets/pointer/alienPointer.png), auto
+//     cursor: none;
+// }
+
+*{
+    cursor: url(../assets/pointer/alienPointer.png), auto;
+    // z-index: 300;
+    // position: absolute;
+
+    &:active{
+        cursor: url(../assets/pointer/alienPointer_click.png), auto;
+    }
+}
+
+// .pointer{
+//     z-index: 300;
+//     position: absolute;
+//     pointer-events: none;
+
 // }
 
 body{ 

@@ -1,3 +1,5 @@
+
+   
 function generateHearts(){
     
     setInterval(function(){
@@ -22,7 +24,6 @@ function generateHearts(){
 function victoryTransition(winnerName){
 
     document.querySelector(".carousel__slideText").classList.add('hide')
-    document.querySelector('.victory__transition').classList.add('victory__transition--fadeOut')
     document.querySelector('.victory__transition').classList.remove()
     document.querySelector('.crush__dialogue').innerText = `${winnerName}! You have stolen my heart! Take me with you to space!`
     document.querySelector('.carousel').classList.remove('hide')
@@ -33,7 +34,7 @@ function victoryTransition(winnerName){
 }
 
 function leaderboard_setUp(){
-    const section__sidebar = document.querySelector(".section-sidebar")
+    const section__leaderboard = document.querySelector(".section-leaderboard")
     const victory__returnLobbyBtn = document.createElement('btn')
     victory__returnLobbyBtn.classList.add('btn', 'btn--green', 'victory__return-btn')
     victory__returnLobbyBtn.innerText = 'Return to Lobby'
@@ -44,8 +45,8 @@ function leaderboard_setUp(){
         socket.emit('return-to-lobby')
     })
 
-    document.querySelector('.victory__screen').prepend(section__sidebar)
-    document.querySelector('.sidebar__players').appendChild(victory__returnLobbyBtn)
+    document.querySelector('.victory__screen').prepend(section__leaderboard)
+    document.querySelector('.leaderboard__players').appendChild(victory__returnLobbyBtn)
 }
 
 socket.on('create-victory', (victoryObject) => {
@@ -155,14 +156,16 @@ socket.on('create-victory', (victoryObject) => {
 })
 
 socket.on('remove-victory', () => {
-    music.victory.fade(MUSIC_STATUS.volume, 0, 3000).stop()
+    music.victory.fade(1, 0, 3000).stop()
     const section__victory = document.querySelector('.section-victory')
     const victory__screen = document.querySelector('.victory__screen')
-    const section__sidebar = document.querySelector('.section-sidebar')
+    const section__leaderboard = document.querySelector('.section-leaderboard')
     const carousel__crush = document.querySelector('.carousel')
+
+    document.querySelectorAll('.victory__heart').forEach((heart) => heart.remove())
     
     victory__screen.remove()
     carousel__crush.remove()
-    section__sidebar.remove()
+    section__leaderboard.remove()
     section__victory.classList.add('hide')
 })

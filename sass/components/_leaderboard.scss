@@ -69,6 +69,11 @@
         border-radius: 4rem;
         z-index: 50;
 
+        &-victory{
+            background-color: rgba($primary-color, .9);
+            animation: slideFromLeft 1s ease backwards;
+        }
+
         &--close{
 
             width: 27%;
@@ -151,13 +156,6 @@
     //     left: 10vw;
     // }
 
-    // &__settings{
-    //     right: 3vw;
-    // }
-
-    // &__refreshBtn{
-    //     right: 10vw;
-    // }
 
     &__categories-container{
         display: flex;
@@ -379,6 +377,10 @@
         &--green{
             color: $tertiary-color;
         }
+
+        &-victory{
+            width: 5vw;
+        }
     }
 
     &__category-details{
@@ -388,6 +390,10 @@
         border-radius: 2rem;
         place-self: center;
         padding: .2rem;
+
+        &-victory{
+            width: 11vw;
+        }
 
         &--left{
             width: 20vw;

@@ -1,8 +1,5 @@
 .profile{
 
-    // &__settings{
-    //     right: 14vw;
-    // }
 
     &__container{
         margin-left: 25vw;
@@ -135,15 +132,17 @@
     &__name{
 
         display: flex;
+        justify-content: flex-end;
         align-items: center;
         color: $tertiary-color;
         font-size: 2.5rem;
         height: 15vh;
         width: 16vw;
-        margin-left: 5vw;
+        margin-left: -1vw;
 
         @include respond(iPhone_SE){
-            font-size: 1.5rem;
+            margin-left: 5vw;
+            font-size: 5.5vw;
         }
 
         @include respond(tab-port){
@@ -155,14 +154,18 @@
             display: flex;
             align-items: center;
             color: $tertiary-color;
-            font-size: 1.5rem;
+            font-size: 2vw;
+            margin-left: 0.5vw;
             animation: slideFromLeft .5s ease backwards;
-            
 
             & span{
-                font-size: 20px;
-                margin-left: 3px;
+                font-size: 1.5vw;
                 color: $tertiary-color;
+
+                @include respond(iPhone_SE){
+                    font-size: 5.5vw;
+                }
+
             }
 
         }
@@ -172,14 +175,19 @@
     &__name-input{
         display: flex;
         align-self: center;
-        width: 40%;
-        height: 50%;
-        border-radius: 2em;
+        width: 14vw;
+        height: 6vh;
+        border-radius: 2vh;
         color: $primary-color;
         background-color: $tertiary-color;
-        padding: 0.5em;
-        font-size: 20px;
+        padding: 1vh;
+        font-size: 2vh;
         letter-spacing: 2px;
+        margin-left: 5vw;
+
+        @include respond(iPhone_SE){
+            width: 30vw
+        }
     }
 
 }
@@ -244,11 +252,27 @@
 
     &__header{
         display: flex;
-        width: 100%;
-        height: 20%;
-        font-size: 35px;
+        width: 100vw;
+        height: 20vh;
+        font-size: 5vh;
         color: $tertiary-color;
         animation: fadingIn ease 1s backwards;
+
+        @include respond(tab-port){
+
+            width: 37vw;
+            font-size: 3vh;
+            
+        }
+
+        @include respond(iPhone_SE){
+
+            width: 52vw;
+            font-size: 4vh;
+            height: 6vh;
+    
+        }
+
     }
 
     &__listContainer{
@@ -256,28 +280,70 @@
         justify-content: center;
         align-items: center;
         column-gap: 2em;
-        width: 100%;
-        height: 80%;
+        width: 44vw;
+        height: 30vh;
+
+        @include respond(tab-port){
+
+            display: grid;
+            grid-template-areas:'a a'
+                                'b b';
+            width: 38vw;
+            height: 34vh;
+    
+        }
+
+        @include respond(iPhone_SE){
+
+            display: grid;
+            grid-template-areas:'a a'
+                                'b b';
+            width: 58vw;
+            height: 46vh;
+    
+        }
+
 
     }
 
     &__avatarName{
 
-        width: 100%;
-        font-size: 25px;
+        width: 8vw;
+        font-size: 3vh;
         color: $tertiary-color;
+
+        @include respond(tab-port){
+             width: 16vw;
+        }
+
+        @include respond(iPhone_SE){
+            width: 16vw;
+       }
 
     }
 
     &__container{
         display: flex;
         flex-direction: column;
-        row-gap: 2em;
+        row-gap: 3vh;
         align-items: center;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 30vh;
         text-align: center;
         animation: fadingIn ease .5s backwards;
+
+        @include respond(tab-port){
+            row-gap: 2vh;
+            width: 13vw;
+            height: 17vh;
+    
+        }
+
+        @include respond(iPhone_SE){
+            row-gap: 2vh;
+            width: 22vw;
+            height: 20vh;
+        }
         
     }
 

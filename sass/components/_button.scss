@@ -39,7 +39,7 @@
         background-color: $primary-color;
         color: $tertiary-color;
         border: 0.4rem solid $secondary-variant;
-        z-index: 50;
+        z-index: 40;
 
         &:hover{
             text-shadow: 0 0 20px $tertiary-color;
