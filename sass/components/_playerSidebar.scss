@@ -1,17 +1,11 @@
-
-
-
-
-
-
 .section-sidebar{
 
     &--close{
 
         position: absolute;
         top: 0;
-        width: 30%;
-        height: 100%;
+        width: 30vw;
+        height: 100vh;
         overflow-x: hidden;
 
     }
@@ -19,16 +13,23 @@
     &--open{
 
         top: 0;
-        width: 50%;
-        height: 100%;
+        // width: 50%;
+        height: 100vh;
         overflow-x: hidden;
 
         &-votingLounge{
-            width: 100%;
+            width: 100vw;
         }
 
         &-trivia{
-            width: 50%;
+            width: 50vw;
+            position: absolute;
+        }
+
+        &-victory{
+            position: absolute;
+            width: 100%;
+            z-index: 50;
         }
 
     }
@@ -41,8 +42,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    height: 100vh;
     transition: all .5s;
 
     &__overlay{
@@ -50,7 +50,7 @@
         position: absolute;
         width: 100vw;
         height: 100vh;
-        z-index: 20;
+        z-index: 50;
         background-color: rgba($secondary-color, 0.5);
         animation: fadingIn 1s ease 
 
@@ -60,22 +60,22 @@
 
         display: flex;
         flex-direction: column;
-        row-gap: 1em;
-        height: 90%;
+        row-gap: 1rem;
+        height: 90vh;
         background-color: $primary-color;
-        border: 7px solid $tertiary-color;
-        border-radius: 40px;
-        z-index: 50;
+        border: 1vh solid $tertiary-color;
+        border-radius: 4vh;
+        z-index: 51;
 
         &--close{
 
-            width: 27%;
-            padding: 1em 0em 1em 3em;
-            transform: translateX(-180%);
-            transition: transform .3s linear, width ;
+            width: 8vw;
+            padding: 1vw 0vw 1vw 3vw;
+            transform: translateX(-14vw);
+            transition: transform .3s linear, width;
 
             &:hover{
-                transform: translateX(-175%);
+                transform: translateX(-13.5vw);
             }
 
         }
@@ -84,14 +84,13 @@
 
             box-shadow: 0px 0px 30px 10px $secondary-color;
             animation: slideFromLeft 1s ease;
-            padding: 2em 2em 2em 0;
-            width: 80%;
+            padding: 2vw 2vw 2vw 0;
+            width: 40vw;
 
             // &-trivia{
             //     transform: translateX(5%);
             //     width: 40%;
             // }
-
 
 
         }
@@ -102,11 +101,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
-        height: 10%;
+        width: 4vw;
+        height: 7vh;
         color: $tertiary-color;
-        font-size: 30px;
+        font-size: 4vh;
         text-transform: uppercase;
+
+        &--open{
+            width: 37vw;
+        }
 
         & i{
             color: $tertiary-color;
@@ -125,14 +128,14 @@
         @include disable-scrollbar;
         overflow-y: scroll;
         overflow-x: hidden;
-        height: 100%;
+        height: 100vh;
 
         &--open{
-            width: 125%;
+            width: 45vw;
         }
 
         &--close{
-            width: 250%;
+            width: 10vw;
         }
 
     }
@@ -146,18 +149,17 @@
         position: relative;
         align-items: center;
         flex-direction: row;
-        column-gap: 1em;
-        width: 100%;
-        height: 10%;
+        column-gap: 1rem;
+        height: 8vh;
 
     }
 
     &__position{
         position:absolute;
         place-self: center;
-        font-size: 30px;
+        font-size: 4vh;
         color: $tertiary-color;
-        margin-left: 0.5em;
+        margin-left: 0.5rem;
 
     }
 
@@ -166,19 +168,24 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 4px solid $secondary-variant;
-        border-radius: 40px;
+        border: .5vh solid $secondary-variant;
+        border-radius: 4vh;
         background-color: $secondary-variant;
 
         &--open{
-            width: 7%;
-            height: 70%;
-            margin-left: 4em;
+            width: 3vw;
+            height: 5vh;
+            margin-left: 4rem;
+
+            &-victory{
+                width: 3.4%
+            }
+
         }
 
         &--close{
-            width: 35%;
-            height: 85%;
+            width: 3.5vw;
+            height: 7vh;
         }
 
         &--green{
@@ -197,31 +204,31 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 60%;
-        height: 100%;
+        width: 30vw;
+        height: 100vh;
     }
 
     &__youContainer{
 
         position: absolute;
-        height: 3em;
+        height: 3rem;
         z-index: -30;
         transition: all .2s;
 
 
         &--open{
 
-            width: 0%;
-            left: 0%;
+            width: 100vw;
             animation: youContainerOpen 1s ease forwards;
 
         }
 
         &--close{
-            width: 4em;
-            left: 1em;
+            width: 5vw;
+            left: 1vw;
             animation: fadeFromLeft .5s backwards;
         }
+
     }
 
     &__you{
@@ -297,6 +304,35 @@
 
         &--green{
             color: $tertiary-color;
+        }
+    }
+
+    &__categoryPts{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        border: 2px solid $secondary-color;
+        border-radius: 20px;
+        column-gap: 2px;
+        place-self: center;
+        padding: .2em;
+
+        &--top{
+            width: 100%;
+            height: 100%;
+            color: $tertiary-color;
+            display: flex;
+            place-content: center;
+            font-size: 14px;
+        }
+
+        &--bottom{
+            width: 100%;
+            height: 100%;
+            color: $tertiary-color;
+            display: flex;
+            place-content: center;
+            font-size: 14px;
         }
     }
 

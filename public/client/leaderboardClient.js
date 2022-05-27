@@ -365,12 +365,12 @@ function displayMatches(matchHistory, leaderboardType){
         match__totalPlayers.innerText = `#Players: ${match.total_players}`
         match__date.innerText = `${new Date(match.date).toLocaleString()}`
 
-        match__container.addEventListener("click", (event) => {
-            event.preventDefault()
-            sfx.positive.play()
-            request_match_detail(match.room_id)
+        // match__container.addEventListener("click", (event) => {
+        //     event.preventDefault()
+        //     sfx.positive.play()
+        //     request_match_detail(match.room_id)
 
-        })
+        // })
 
         match__crushContainer.appendChild(match__crushImg)
         match__container.append(match__crushContainer, match__hostName, match__totalPlayers, match__totalScore, match__date)
