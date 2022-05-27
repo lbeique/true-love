@@ -358,7 +358,7 @@ function displayMatches(matchHistory, leaderboardType){
             match__totalScore.innerText = `Top Score: ${match.total_score}`
         } else if(leaderboardType === 'personal'){
             match__container.classList.add('btn')
-            match__hostName.innerText = `Host: ${match.user_name}`
+            match__hostName.innerText = `User: ${match.user_name}`
             match__totalScore.innerText = `Total Pts: ${match.total_points}`
             match__container.addEventListener("click", (event) => {
                 event.preventDefault()
