@@ -13,12 +13,12 @@ function setTriviaTrack() {
 
 axios.post('/music')
     .then(res => {
-        console.log('get music', res.data.user_info)
+        // console.log('get music', res.data.user_info)
         MUSIC_STATUS = res.data.user_info.music_status
         SFX_STATUS = res.data.user_info.sfx_status
         userLocation = res.data.user_info.location
-        console.log('MUSIC_STATUS', MUSIC_STATUS)
-        console.log('SFX_STATUS', SFX_STATUS)
+        // console.log('MUSIC_STATUS', MUSIC_STATUS)
+        // console.log('SFX_STATUS', SFX_STATUS)
 
 
         music = {
@@ -331,7 +331,7 @@ axios.post('/music')
         settings__textVolume.innerText = "Volume"
         settings__musictext.innerText = "Music"
         settings__sfxtext.innerText = "SFX"
-        exitgame__btn.innerText = `EXIT GAME`
+        exitgame__btn.innerText = `TO MAIN MENU`
 
         settings__nav.appendChild(settings__textBox)
         settings__nav.appendChild(settings__textVolume)
@@ -361,7 +361,7 @@ axios.post('/music')
                 .then(res => {
                     MUSIC_STATUS = res.data.user_info.music_status
                     SFX_STATUS = res.data.user_info.sfx_status
-                    console.log(res.data.user_info)
+                    // console.log(res.data.user_info)
                 })
                 .catch((error) => {
                     console.error('axios sound update broke', error)
@@ -372,7 +372,7 @@ axios.post('/music')
             event.preventDefault()
             sfx.positive.play()
             // updateSound()
-            console.log("OPEN SETTINGS")
+            // console.log("OPEN SETTINGS")
             settingsMenu.classList.toggle('hide')
             settings_icon.classList.toggle('hide')
         })

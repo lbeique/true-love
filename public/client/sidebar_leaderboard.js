@@ -4,7 +4,7 @@ let currentPhase
 
 function sidebarToggle(){
 
-    console.log("NORMAL TOGGLE")
+    // console.log("NORMAL TOGGLE")
 
     const section__sidebar = document.querySelector('.section-sidebar')
     const sidebar__container = document.querySelector('.sidebar__container')
@@ -39,7 +39,7 @@ function sidebarToggle(){
 
 function toggleLounge(){
 
-    console.log("TOGGLE LOUNGE")
+    // console.log("TOGGLE LOUNGE")
 
     document.querySelector('.section-sidebar').classList.toggle('section-sidebar--open-votingLounge')
 
@@ -64,7 +64,7 @@ function toggleLounge(){
 
 function toggleTrivia(){
 
-    console.log("TOGGLE TRIVIA")
+    // console.log("TOGGLE TRIVIA")
 
     const section__sidebar = document.querySelector('.section-sidebar')
     const sidebar__overlay = document.querySelector('.sidebar__overlay')
@@ -85,7 +85,7 @@ function toggleTrivia(){
 
 socket.on('receive room_clients', (room) => {
 
-    console.log("ROOM", room)
+    // console.log("ROOM", room)
 
     const section__voting = document.querySelector('.section-crushes')
     const voting__carousel = document.querySelector('.carousel')
@@ -181,7 +181,7 @@ socket.on('receive room_clients', (room) => {
 
 
 function displayUsers(player){    // player DOM
-    console.log('player', player)
+    // console.log('player', player)
 
     const player__container = document.createElement('div')
     const player__avatarContainer = document.createElement('div')
@@ -383,7 +383,7 @@ socket.on('setup-sidebar-lounge', (phase) => {
 
     currentPhase = phase
 
-    console.log('SETUP SIDEBAR LOUNGE')
+    // console.log('SETUP SIDEBAR LOUNGE')
 
     const section__sidebar = document.querySelector('.section-sidebar')
     const section__lounge = document.querySelector('.section-lounge')

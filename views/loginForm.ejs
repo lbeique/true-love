@@ -16,42 +16,39 @@
 
 <body>
 
+    <section class="settings hide"></section>
+
     <section class="section-header">
-        <h1 class="heading-primary">Love is War!</h1>
         <img class="icon__btn settings__icon settings__cog" src="assets/menu/settings_icon.png" alt="settings icon">
 
     </section>
 
 
     <main>
-        <section class="auth-form">
-            <h1 class="heading-primary">Login</h1>
+        <section class="section-main section-main--bg">
+            <!-- <h1 class="heading-primary">Login</h1> -->
 
-            <div class="form__page">
+            <form method="POST" action="" class="auth-form__container">
 
-                <form method="POST" action=""
-                    style="display: flex;flex-direction: column; align-items: center; width: 100%;">
-                    <div style="display: flex;flex-direction: column;">
-                        <label for="userNameOrEmail" class="login__userNameOrEmail"> User Name </label>
-                        <input type="text" id="userNameOrEmail" name="userNameOrEmail" maxlength="8" required="" style="color: black">
-                    </div>
-                    <div style="display: flex; flex-direction: column;">
-                        <label for="password" class="login__password"> Password </label>
-                        <input type="password" id="password" name="password" required="" style="color: black">
-                    </div>
-                    <div style="display: flex; flex-direction: column;">
-                        <button class="submit"
-                            style="background-color: #D7FF60; border: none; border-radius: 5px; color: #333; /* Dark grey */ padding: 15px 32px; margin-top: 2rem;">
-                            Login </button>
-                    </div>
-                </form>
-            </div>
+                <h2 class="heading-secondary auth-form__header">Login</h2>
+
+                <div class="auth-form__input">
+                    <label for="userNameOrEmail" class="login__userNameOrEmail auth-form__text">Username</label>
+                    <input type="text" id="userNameOrEmail" name="userNameOrEmail" maxlength="8" required="">
+                </div>
+
+                <div class="auth-form__input">
+                    <label for="password" class="login__password auth-form__text">Password</label>
+                    <input type="password" id="password" name="password" required="">
+                </div>
+
+                <button class="btn auth-form__button btn--green">Login</button>
+
+            </form>
+
         </section>
 
-        <section class="settings hide"> </section>
-
     </main>
-
 
 </body>
 <script src="../../client/settings.js" defer></script>

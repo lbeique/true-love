@@ -30,7 +30,7 @@ socket.on('create-lounge', (gameInfo) => {
     const lounge__timer = document.createElement('div')
 
     if(gameInfo.triviaIndex === 1){
-        console.log("FINAL LOUNGE", gameInfo)
+        // console.log("FINAL LOUNGE", gameInfo)
         
         const carousel__slideText = document.querySelector('.carousel__slideText')
 
@@ -99,7 +99,7 @@ socket.on('start-lounge-timer', async function (count, triviaCategory) {
 
 
 socket.on('remove-lounge', () => {
-    console.log('remove-lounge')
+    // console.log('remove-lounge')
     const section__lounge = document.querySelector('.section-lounge')
     const player__position = document.querySelectorAll('.player__position')
     const crush__dialogueContainer = document.querySelector('.crush__dialogueContainer')

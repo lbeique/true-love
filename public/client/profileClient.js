@@ -7,8 +7,8 @@ function checkNameInput(currentName) {
     document.body.addEventListener('click', function nameUpdateTransition(event) {
       event.preventDefault()
       const withinBoundaries = event.composedPath().includes(name__input)
-      console.log("composed path", event.composedPath())
-      console.log("WithinBoundaries", withinBoundaries)
+      // console.log("composed path", event.composedPath())
+      // console.log("WithinBoundaries", withinBoundaries)
 
       const profile__name = document.createElement('div')
       profile__name.classList.add('profile__name')
@@ -35,7 +35,7 @@ function checkNameInput(currentName) {
       profile__name.addEventListener('click', function nameUpdate(event) {
         event.preventDefault()
         sfx.positive.play()
-        console.log('name change mode')
+        // console.log('name change mode')
 
         document.removeEventListener('click', this.nameUpdateTransition)
         const name__input = document.createElement('input')
@@ -69,15 +69,17 @@ function setAvatarList(currentAvatarName) {
 
   const updateAvatar__header = document.createElement('div')
   const updateAvatar__listContainer = document.createElement('div')
-  const updateAvatar__backBtn = document.createElement('a')
+  const updateAvatar__backBtn = document.createElement('img')
 
-  updateAvatar__backBtn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'updateAvatar__backBtn')
+  updateAvatar__backBtn.classList.add('icon__btn', 'profile__backBtn', 'icon__btn__back', 'updateAvatar__backBtn')
+  updateAvatar__backBtn.src = "assets/menu/back_icon.png"
+  updateAvatar__backBtn.alt = "back button"
   profile__container.classList.add('profile__container--updateAvatar')
   updateAvatar__header.classList.add('updateAvatar__header')
   updateAvatar__listContainer.classList.add('updateAvatar__listContainer')
 
   updateAvatar__backBtn.addEventListener('click', goToProfile)
-  updateAvatar__backBtn.innerHTML = `<span>&#8618;</span>`
+  // updateAvatar__backBtn.innerHTML = `<span>&#8618;</span>`
   updateAvatar__header.innerText = 'Select Avatar'
 
   let counter = 1;
@@ -145,7 +147,7 @@ function setProfile(data) {
     updateAvatar__backBtn.remove()
   }
 
-  const profile__back_btn = document.createElement('a')
+  const profile__back_btn = document.createElement('img')
   const profile__container = document.createElement('div')
   const profile__container_top = document.createElement('div')
   const profile__container_bottom = document.createElement('div')
@@ -159,8 +161,11 @@ function setProfile(data) {
 
   const achievements__header = document.createElement('div')
   const achievement__container = document.createElement('div')
+  
 
-  profile__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'profile__backBtn')
+  profile__back_btn.classList.add('icon__btn', 'profile__backBtn', 'icon__btn__back')
+  profile__back_btn.src = "assets/menu/back_icon.png"
+  profile__back_btn.alt = "back button"
   profile__container.classList.add('profile__container')
   profile__container_top.classList.add('profile__container--top')
   profile__container_bottom.classList.add('profile__container--bottom')
@@ -185,7 +190,7 @@ function setProfile(data) {
 
     if (document.body.getEventListeners()['click']) {
       const getDOMListeners = document.body.getEventListeners()['click'][0]
-      console.log('getDomLISTENERS', getDOMListeners)
+      // console.log('getDomLISTENERS', getDOMListeners)
 
       document.body.removeEventListener('click', getDOMListeners.listener, getDOMListeners.useCapture)
     }
@@ -247,7 +252,7 @@ function setProfile(data) {
   profile__name.addEventListener('click', function nameUpdate(event) {
     event.preventDefault()
     sfx.positive.play()
-    console.log('name change mode')
+    // console.log('name change mode')
 
     const name__input = document.createElement('input')
     name__input.classList.add('profile__name-input')
@@ -287,7 +292,7 @@ function goToProfile() {
       // No achievements results in an empty array
       // achievements: [ { achievement_id: 1, achievement_name: 'achieveNerdyBoy' }, {} ]
       // userInfo: {avatar_name: "sunglasses", user_id: 24, user_name: "chicken"}
-      console.log('axios.then', res.data.userData)
+      // console.log('axios.then', res.data.userData)
       const data = res.data.userData
       setProfile(data)
 
@@ -304,7 +309,7 @@ function updateAvatar(avatar_id) {
 
       // Object containing user avatar info
       // { avatar_id: 3, avatar_name: 'bow' }
-      console.log('update Avatar axios.then', res.data)
+      // console.log('update Avatar axios.then', res.data)
 
     })
     .catch((err) => {
@@ -321,7 +326,7 @@ function updateName(newUsername) {
       // Object containing new user name
       // { user_name: 'Chewbacca' }
       // console.log('UPDATE NAME axios.then', res.data)
-      console.log("Update name success")
+      // console.log("Update name success")
 
     })
     .catch((err) => {

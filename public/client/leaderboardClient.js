@@ -6,7 +6,7 @@ function returnPosition(positionNum){
     
     const checkRemainder = positionNum % 10
 
-    console.log("CHECK REMAINDER", checkRemainder)
+    // console.log("CHECK REMAINDER", checkRemainder)
 
     switch(checkRemainder){
         case 1:
@@ -44,12 +44,18 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
     const leaderboard__container = document.createElement('div')
     const leaderboard__header = document.createElement('div')
     const leaderboard__players = document.createElement('div')
-    const leaderboard__back_btn = document.createElement('a')
-    const leaderboard__refresh_btn = document.createElement('a')
+    const leaderboard__back_btn = document.createElement('img')
+    const leaderboard__refresh_btn = document.createElement('img')
     const leaderboard__categoriesContainer = document.createElement('div')
 
-    leaderboard__refresh_btn.classList.add('btn', 'btn__refresh', 'btn--darkPurple', 'leaderboard__refreshBtn')
-    leaderboard__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'leaderboard__backBtn')
+    leaderboard__refresh_btn.classList.add('icon__btn', 'icon__btn__refresh', 'leaderboard__refreshBtn')
+    leaderboard__refresh_btn.src = "assets/menu/refresh_icon.png"
+    leaderboard__refresh_btn.alt = "refresh button"
+
+    leaderboard__back_btn.classList.add('icon__btn', 'icon__btn__back', 'leaderboard__backBtn')
+    leaderboard__back_btn.src = "assets/menu/back_icon.png"
+    leaderboard__back_btn.alt = "back button"
+
     section__leaderboard.classList.add('section-leaderboard','section-leaderboard--open', 'section-leaderboard--open-victory')
     leaderboard.classList.add('leaderboard')
     leaderboard__container.classList.add('leaderboard__container', 'leaderboard__container--open', 'leaderboard__container--open-leaderboard')
@@ -67,25 +73,25 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 sfx.positive.play()
-                console.log("GLOBAL TOP 50")
+                // console.log("GLOBAL TOP 50")
                 request_global_leaderboard()
             })
         } else if (i === 1){
-            leaderboard__category_btn.innerText = `Global Matches`
+            leaderboard__category_btn.innerText = `Global Games`
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 sfx.positive.play()
-                console.log("GLOBAL MATCHES")
+                // console.log("GLOBAL MATCHES")
                 clientLocation = 'global_history'
                 leaderboard.style.animation = 'none'
                 request_global_matches()
             })
         } else if (i === 2){
-            leaderboard__category_btn.innerText = `Personal Matches`
+            leaderboard__category_btn.innerText = `Recent History`
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 sfx.positive.play()
-                console.log("PERSONAL MATCHES")
+                // console.log("PERSONAL MATCHES")
                 clientLocation = 'personal_history'
                 leaderboard.style.animation = 'none'
                 request_user_history()
@@ -103,20 +109,20 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
                 request_global_leaderboard()
                 break;
             case('global_history'):
-                console.log("REFRESH GLOBAL HISTORY")
+                // console.log("REFRESH GLOBAL HISTORY")
                 leaderboard.style.animation = 'none'
                 request_global_matches()
                 break;
             case('personal_history'):
-                console.log("REFRESH PERSONAL HISTORY")
+                // console.log("REFRESH PERSONAL HISTORY")
                 leaderboard.style.animation = 'none'
                 request_user_history()
                 break;
         }
     })
 
-    leaderboard__back_btn.innerHTML = `<span>&#8618;</span>`
-    leaderboard__refresh_btn.innerHTML = `&#8634;`
+    // leaderboard__back_btn.innerHTML = `<span>&#8618;</span>`
+    // leaderboard__refresh_btn.innerHTML = `&#8634;`
     leaderboard__header.innerHTML = '<i class="fa-solid fa-earth-americas"></i><span class="leaderboard__header-text"> GLOBAL TOP 50 <span>'
     leaderboard.style.animation = 'fadingIn 1s ease backwards'
 
@@ -190,7 +196,7 @@ function displayPlayers(player, position, location){
 
     */
 
-    console.log('player', player)
+    // console.log('player', player)
 
     const leaderboard_player__container = document.createElement('div')
     const leaderboard_player__avatarContainer = document.createElement('div')
@@ -244,10 +250,10 @@ function displayPlayers(player, position, location){
     
             if(i === 1){
                 leaderboard_player__subCategory_left.innerText = `Total pts:`
-                leaderboard_player__subCategory_right.innerText = `${player.total_points} pts`    
+                leaderboard_player__subCategory_right.innerText = `${player.total_points}`    
             } else if(i === 2){
                 leaderboard_player__subCategory_left.innerText = `Win Ratio:`
-                leaderboard_player__subCategory_right.innerText = `${+player.win_ratio * 100}%` 
+                leaderboard_player__subCategory_right.innerText = `${+parseFloat(player.win_ratio * 100).toFixed(1)}%` 
             }
     
             leaderboard_player__subCategory.append(leaderboard_player__subCategory_left, leaderboard_player__subCategory_right)
@@ -353,7 +359,7 @@ function displayMatches(matchHistory, leaderboardType){
         } else if(leaderboardType === 'personal'){
             match__container.classList.add('btn')
             match__hostName.innerText = `User: ${match.user_name}`
-            match__totalScore.innerText = `Total Pts: ${match.total_points} pts`
+            match__totalScore.innerText = `Total Pts: ${match.total_points}`
             match__container.addEventListener("click", (event) => {
                 event.preventDefault()
                 sfx.positive.play()
@@ -362,8 +368,9 @@ function displayMatches(matchHistory, leaderboardType){
             })
         }
 
-        match__totalPlayers.innerText = `#Players: ${match.total_players}`
-        match__date.innerText = `${new Date(match.date).toLocaleString()}`
+        match__totalPlayers.innerText = `Players: ${match.total_players}`
+        let date = new Date(match.date)
+        match__date.innerText = `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`
 
         // match__container.addEventListener("click", (event) => {
         //     event.preventDefault()
@@ -422,7 +429,7 @@ function matchDetailPage(matchData){
 
     const leaderboard = document.querySelector('.leaderboard')
     const leaderboard__back_btn = document.querySelector('.leaderboard__backBtn')
-    const leaderboard__refresh_btn = document.querySelector('.btn__refresh')
+    const leaderboard__refresh_btn = document.querySelector('.leaderboard__refreshBtn')
 
     leaderboard.remove()
     leaderboard__back_btn.remove()
@@ -444,7 +451,7 @@ function matchDetailPage(matchData){
         }
     }
 
-    const my_match__back_btn = document.createElement('a')
+    const my_match__back_btn = document.createElement('img')
     const my_match__container = document.createElement('div')
     const my_match__container_top = document.createElement('div')
     const my_match__container_bottom = document.createElement('div')
@@ -460,7 +467,9 @@ function matchDetailPage(matchData){
     const my_match__mini_leaderboard = document.createElement('div')
     const my_match__mini_leaderboard_player = document.createElement('div')
 
-    my_match__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'my-match__backBtn')
+    my_match__back_btn.classList.add('icon__btn', 'icon__btn__back')
+    my_match__back_btn.src = "assets/menu/back_icon.png"
+    my_match__back_btn.alt = "back button"
     my_match__container.classList.add('my-match__container')
     my_match__container_top.classList.add('my-match__container--top')
     my_match__container_bottom.classList.add('my-match__container--bottom')
@@ -479,7 +488,7 @@ function matchDetailPage(matchData){
     const capitalizeCrush_name = currentClientData.crush_nickname.charAt(0).toUpperCase() + currentClientData.crush_nickname.slice(1);
     my_match__crushImg.src = `assets/character-icon/achieve${capitalizeCrush_name}.png`
     my_match__crush_name.innerText = `${currentClientData.crush_name}`
-    my_match__back_btn.innerHTML = `<span>&#8618;</span>`
+    // my_match__back_btn.innerHTML = `<span>&#8618;</span>`
     my_match__mini_leaderboard_header.innerHTML = `Match Leaderboard`
 
     my_match__back_btn.addEventListener('click', (event) => {
@@ -534,7 +543,7 @@ function matchDetailPage(matchData){
         */
 
         trivia_category__header.innerText = `Trivia ${difficulties[i]}: ${currentClientData[`${difficulties[i]}_category_name`]}`
-        trivia_category__points.innerText = `Points: ${currentClientData[`${difficulties[i]}_points`]} pts`
+        trivia_category__points.innerText = `Points: ${currentClientData[`${difficulties[i]}_points`]}`
         trivia_category__errors.innerText = `Errors: ${currentClientData[`${difficulties[i]}_errors`]}`
 
         trivia_category__points_container.append(trivia_category__points, trivia_category__errors)
@@ -564,7 +573,7 @@ function request_global_leaderboard(){
     .then(res => {
 
         // Check DB Access for object ( getGlobalLeaderboard )
-        console.log('global leaderboard axios.then', res.data.globalLeaderboardData)
+        // console.log('global leaderboard axios.then', res.data.globalLeaderboardData)
 
         let globalLeaderboard = res.data.globalLeaderboardData.globalLeaderboard
         let current__client = res.data.globalLeaderboardData.userInfo
@@ -583,7 +592,7 @@ function request_global_matches(){
         .then(res => {
 
             // Check DB Access for object ( getGlobalMatchHistory )
-            console.log('global history axios.then', res.data.globalHistoryData)
+            // console.log('global history axios.then', res.data.globalHistoryData)
 
             let globalMatchHistory = res.data.globalHistoryData.globalMatchHistory
 
@@ -601,7 +610,7 @@ function request_user_history(){
         .then(res => {
 
             // Check DB Access for object ( getUserMatchHistory )
-            console.log('user history axios.then', res.data.userHistoryData)
+            // console.log('user history axios.then', res.data.userHistoryData)
 
             // DOM MANIPULATION HERE
 
@@ -651,14 +660,14 @@ function request_match_detail(room_id){
         .then(res => {
 
             // Check DB Access for object ( getRoomInformationByRoomId )
-            console.log('personal matches detail axios.then', res.data.roomData)
+            // console.log('personal matches detail axios.then', res.data.roomData)
 
             matchDetailPage(res.data.roomData)
             // DOM MANIPULATION HERE
 
             let match__leaderboard = res.data.roomData.roomUsers
             
-            console.log("match__leaderboard", match__leaderboard)
+            // console.log("match__leaderboard", match__leaderboard)
 
             let positionNum = 1
             let counter = 0;
@@ -666,7 +675,7 @@ function request_match_detail(room_id){
                 let position = returnPosition(positionNum)
                 let player = match__leaderboard[counter]
                 if(player){
-                    console.log("player", player)
+                    // console.log("player", player)
                     let playerContainer = displayPlayers(player, position, 'my_match')
                     document.querySelector(".my-match__mini-leaderboard-players").appendChild(playerContainer)
                     counter++

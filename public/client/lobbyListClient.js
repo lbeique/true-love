@@ -1,7 +1,7 @@
 const socket = io.connect()
 
 const lobby_listContainer = document.querySelector('.lobby-list__list')
-const refreshBtn = document.querySelector('.lobby-list__refreshBtn')
+const refreshBtn = document.querySelector('.icon__btn__refresh')
 const section__main = document.querySelector('.section-lobbies')
 
 
@@ -24,7 +24,7 @@ socket.on('lobby-list', (lobbyRooms) => {
     }
 
     for (const lobby of lobbyRooms) {
-        console.log("LOBBY", lobby)
+        // console.log("LOBBY", lobby)
         
         const clientsInLobby = Object.keys(lobby.clients).length;
 

@@ -2,7 +2,7 @@
 socket.on('start-trivia-music', (triviaIndex) => {
 
     if (triviaIndex === 0) {
-        console.log('hi! 0', `${triviaTrack}`)
+        // console.log('hi! 0', `${triviaTrack}`)
         if (triviaTrack === music.trivia1) {
             triviaTrack.seek(0).play() // Gypsy
         } else if (triviaTrack === music.trivia2) {
@@ -11,7 +11,7 @@ socket.on('start-trivia-music', (triviaIndex) => {
             triviaTrack.seek(0).play() // Polka
         }
     } else if (triviaIndex === 1) {
-        console.log('hi! 1', `${triviaTrack}`)
+        // console.log('hi! 1', `${triviaTrack}`)
         if (triviaTrack === music.trivia1) {
             triviaTrack.seek(60).play() // Gypsy
         } else if (triviaTrack === music.trivia2) {
@@ -20,7 +20,7 @@ socket.on('start-trivia-music', (triviaIndex) => {
             triviaTrack.seek(59).play() // Polka
         }
     } else if (triviaIndex === 2) {
-        console.log('hi! 2', `${triviaTrack}`)
+        // console.log('hi! 2', `${triviaTrack}`)
         if (triviaTrack === music.trivia1) {
             triviaTrack.seek(105).play() // Gypsy
         } else if (triviaTrack === music.trivia2) {
@@ -159,6 +159,6 @@ socket.on('remove-trivia', () => {
     trivia__container.remove()
     scoreText.remove()
     section__trivia.classList.add('hide')
-    console.log('trivia assets removed')
+    // console.log('trivia assets removed')
 
 })
