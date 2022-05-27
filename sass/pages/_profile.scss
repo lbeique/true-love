@@ -173,14 +173,19 @@
     &__name-input{
         display: flex;
         align-self: center;
-        width: 40%;
-        height: 50%;
-        border-radius: 2em;
+        width: 14vw;
+        height: 6vh;
+        border-radius: 2vh;
         color: $primary-color;
         background-color: $tertiary-color;
-        padding: 0.5em;
-        font-size: 20px;
+        padding: 1vh;
+        font-size: 2vh;
         letter-spacing: 2px;
+        margin-left: 5vw;
+
+        @include respond(iPhone_SE){
+            width: 30vw
+        }
     }
 
 }
