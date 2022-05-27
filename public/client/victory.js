@@ -161,6 +161,8 @@ socket.on('remove-victory', () => {
     const victory__screen = document.querySelector('.victory__screen')
     const section__leaderboard = document.querySelector('.section-leaderboard')
     const carousel__crush = document.querySelector('.carousel')
+
+    document.querySelectorAll('.victory__heart').forEach((heart) => heart.remove())
     
     victory__screen.remove()
     carousel__crush.remove()
