@@ -9,4 +9,33 @@
     align-self: center;
 }
 
+.section-splash{
+
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    animation: fadingIn 1s ease backwards;
+
+    &--fadeOut{
+
+        animation: fadingOut 1s ease forwards;
+
+    }
+
+}
+
+.splash{
+
+    &__img{
+        margin-top: 10vw;
+        margin-left: 25vw;
+        width: 50vw;
+        height: 60vh;
+        animation: fadingIn 1s ease 1s backwards;
+        object-fit: contain;
+        
+    }
+
+}
+
 
