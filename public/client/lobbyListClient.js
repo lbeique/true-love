@@ -24,7 +24,7 @@ socket.on('lobby-list', (lobbyRooms) => {
     }
 
     for (const lobby of lobbyRooms) {
-        console.log("LOBBY", lobby)
+        // console.log("LOBBY", lobby)
         
         const clientsInLobby = Object.keys(lobby.clients).length;
 

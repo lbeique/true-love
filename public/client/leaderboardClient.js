@@ -6,7 +6,7 @@ function returnPosition(positionNum){
     
     const checkRemainder = positionNum % 10
 
-    console.log("CHECK REMAINDER", checkRemainder)
+    // console.log("CHECK REMAINDER", checkRemainder)
 
     switch(checkRemainder){
         case 1:
@@ -73,7 +73,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 sfx.positive.play()
-                console.log("GLOBAL TOP 50")
+                // console.log("GLOBAL TOP 50")
                 request_global_leaderboard()
             })
         } else if (i === 1){
@@ -81,7 +81,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 sfx.positive.play()
-                console.log("GLOBAL MATCHES")
+                // console.log("GLOBAL MATCHES")
                 clientLocation = 'global_history'
                 leaderboard.style.animation = 'none'
                 request_global_matches()
@@ -91,7 +91,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 sfx.positive.play()
-                console.log("PERSONAL MATCHES")
+                // console.log("PERSONAL MATCHES")
                 clientLocation = 'personal_history'
                 leaderboard.style.animation = 'none'
                 request_user_history()
@@ -109,12 +109,12 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
                 request_global_leaderboard()
                 break;
             case('global_history'):
-                console.log("REFRESH GLOBAL HISTORY")
+                // console.log("REFRESH GLOBAL HISTORY")
                 leaderboard.style.animation = 'none'
                 request_global_matches()
                 break;
             case('personal_history'):
-                console.log("REFRESH PERSONAL HISTORY")
+                // console.log("REFRESH PERSONAL HISTORY")
                 leaderboard.style.animation = 'none'
                 request_user_history()
                 break;
@@ -196,7 +196,7 @@ function displayPlayers(player, position, location){
 
     */
 
-    console.log('player', player)
+    // console.log('player', player)
 
     const leaderboard_player__container = document.createElement('div')
     const leaderboard_player__avatarContainer = document.createElement('div')
@@ -543,7 +543,7 @@ function matchDetailPage(matchData){
         */
 
         trivia_category__header.innerText = `Trivia ${difficulties[i]}: ${currentClientData[`${difficulties[i]}_category_name`]}`
-        trivia_category__points.innerText = `Points: ${currentClientData[`${difficulties[i]}_points`]} pts`
+        trivia_category__points.innerText = `Points: ${currentClientData[`${difficulties[i]}_points`]}`
         trivia_category__errors.innerText = `Errors: ${currentClientData[`${difficulties[i]}_errors`]}`
 
         trivia_category__points_container.append(trivia_category__points, trivia_category__errors)
@@ -573,7 +573,7 @@ function request_global_leaderboard(){
     .then(res => {
 
         // Check DB Access for object ( getGlobalLeaderboard )
-        console.log('global leaderboard axios.then', res.data.globalLeaderboardData)
+        // console.log('global leaderboard axios.then', res.data.globalLeaderboardData)
 
         let globalLeaderboard = res.data.globalLeaderboardData.globalLeaderboard
         let current__client = res.data.globalLeaderboardData.userInfo
@@ -592,7 +592,7 @@ function request_global_matches(){
         .then(res => {
 
             // Check DB Access for object ( getGlobalMatchHistory )
-            console.log('global history axios.then', res.data.globalHistoryData)
+            // console.log('global history axios.then', res.data.globalHistoryData)
 
             let globalMatchHistory = res.data.globalHistoryData.globalMatchHistory
 
@@ -610,7 +610,7 @@ function request_user_history(){
         .then(res => {
 
             // Check DB Access for object ( getUserMatchHistory )
-            console.log('user history axios.then', res.data.userHistoryData)
+            // console.log('user history axios.then', res.data.userHistoryData)
 
             // DOM MANIPULATION HERE
 
@@ -660,14 +660,14 @@ function request_match_detail(room_id){
         .then(res => {
 
             // Check DB Access for object ( getRoomInformationByRoomId )
-            console.log('personal matches detail axios.then', res.data.roomData)
+            // console.log('personal matches detail axios.then', res.data.roomData)
 
             matchDetailPage(res.data.roomData)
             // DOM MANIPULATION HERE
 
             let match__leaderboard = res.data.roomData.roomUsers
             
-            console.log("match__leaderboard", match__leaderboard)
+            // console.log("match__leaderboard", match__leaderboard)
 
             let positionNum = 1
             let counter = 0;
@@ -675,7 +675,7 @@ function request_match_detail(room_id){
                 let position = returnPosition(positionNum)
                 let player = match__leaderboard[counter]
                 if(player){
-                    console.log("player", player)
+                    // console.log("player", player)
                     let playerContainer = displayPlayers(player, position, 'my_match')
                     document.querySelector(".my-match__mini-leaderboard-players").appendChild(playerContainer)
                     counter++

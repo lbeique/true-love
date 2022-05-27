@@ -216,7 +216,7 @@ socket.on('start-crush-timer', async function (count, triviaCategory) {
 
 
 socket.on('remove-crush', () => {
-    console.log('remove-crush')
+    // console.log('remove-crush')
     const section__crushes = document.querySelector('.section-crushes')
     const carousel = document.querySelector('.carousel')
     const reveal__container = document.querySelector('.overlay__container')
