@@ -71,7 +71,7 @@ socket.on('create-victory', (victoryObject) => {
 
     const winner = victoryObject.winner
 
-    console.log('victory Object', victoryObject)
+    // console.log('victory Object', victoryObject)
 
     const section__victory = document.querySelector('.section-victory')
     const carousel__slideContainer = document.querySelector('.carousel__slideContainer')

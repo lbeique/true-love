@@ -7,13 +7,13 @@ function userList(room) { // USER LIST
 
 
     let clients = room.clients
-    console.log(clients)
+    // console.log(clients)
 
 
     user__listContainer.innerHTML = ''
 
     for (const client in clients) {
-        console.log(clients[client].username)
+        // console.log(clients[client].username)
 
         const userContainer = document.createElement('div')
         const user__name = document.createElement('div')
@@ -48,7 +48,7 @@ socket.on('create-kick-users', (room) => {
     const hostID = room.creator_id
     let userNameContainers = document.querySelectorAll('.user__name')
     userNameContainers.forEach(container => {
-        console.log(container.lastChild)
+        // console.log(container.lastChild)
         if (container.lastChild.nodeType !== Node.TEXT_NODE) {
             container.lastChild.remove()
         }
@@ -72,11 +72,11 @@ function allUsersReadyEvent(event) {
 
 
 function kickUserHelper(event) {
-    console.log(+event.target.id)
+    // console.log(+event.target.id)
     event.preventDefault()
     if (event.target.classList.contains('fa-x')) {
         let userId = +event.target.id
-        console.log('kick', userId)
+        // console.log('kick', userId)
         socket.emit('kick-player', (userId))
     }
 
@@ -95,7 +95,7 @@ socket.on('error', function (err) {
 // JOIN
 
 socket.on('user-joined', (user, room) => {
-    console.log('user joined', user)
+    // console.log('user joined', user)
     userList(room)
 
 })
@@ -103,7 +103,7 @@ socket.on('user-joined', (user, room) => {
 // LEAVE
 
 socket.on('user-disconnected', (user, room) => {
-    console.log('user left', user)
+    // console.log('user left', user)
     userList(room)
 
 })
@@ -124,7 +124,7 @@ socket.on('create-lobby', (room, userId) => {
     const gameStart__btn = document.createElement('button')
     const gameReady__btn = document.createElement('button')
     const lobby__userListContainer = document.createElement('div')
-    const lobby__backBtn = document.createElement('a')
+    const lobby__backBtn = document.createElement('img')
 
 
     lobby__container.classList.add('lobby__container')
@@ -136,7 +136,9 @@ socket.on('create-lobby', (room, userId) => {
     gameStart__btn.classList.add('btn', 'lobby__startBtn')
     gameReady__btn.classList.add('btn', 'lobby__readyBtn')
     lobby__userListContainer.classList.add('lobby__userListContainer')
-    lobby__backBtn.classList.add('btn', 'btn__back', 'btn--darkPurple')
+    lobby__backBtn.classList.add('icon__btn', 'icon__btn__back')
+    lobby__backBtn.src = "assets/menu/back_icon.png"
+    lobby__backBtn.alt = "back button"
 
 
     lobby__header.innerText = `Lobby: ${room.room_name}`
@@ -144,8 +146,8 @@ socket.on('create-lobby', (room, userId) => {
     // gameStart__header.innerText = 'Not Ready'
     gameReady__btn.innerText = 'Not Ready'
     gameStart__btn.innerHTML = '<i class="fa-solid fa-play"></i>'
-    lobby__backBtn.innerHTML = '<span>&#8618;</span>'
-    lobby__backBtn.href = '/lobby'
+    // lobby__backBtn.innerHTML = '<span>&#8618;</span>'
+    // lobby__backBtn.href = '/lobby'
 
 
     lobby__leftContainer.appendChild(lobby__code)
@@ -159,12 +161,17 @@ socket.on('create-lobby', (room, userId) => {
 
     section__lobbyClient.appendChild(lobby__container)
 
+    lobby__backBtn.addEventListener('click', (event) => {
+        event.preventDefault()
+        window.location = '/lobby/'
+    })
+
     function gameReadyHelper(event) {
         event.preventDefault()
         sfx.positive.play()
         //sfx.join.play()
         socket.emit(`player-ready`, null)
-        console.log('player ready emit to server')
+        // console.log('player ready emit to server')
         setTimeout(() => { gameReady__btn.removeEventListener('click', gameReadyHelper) }, 0)
         setTimeout(() => { gameReady__btn.addEventListener('click', gameNotReadyHelper) }, 0)
     }
@@ -174,7 +181,7 @@ socket.on('create-lobby', (room, userId) => {
         sfx.positive.play()
         //sfx.join.play()
         socket.emit(`player-not-ready`)
-        console.log('player not ready emit to server')
+        // console.log('player not ready emit to server')
         setTimeout(() => { gameReady__btn.removeEventListener('click', gameNotReadyHelper) }, 0)
         setTimeout(() => { gameReady__btn.addEventListener('click', gameReadyHelper) }, 0)
     }
@@ -189,7 +196,7 @@ socket.on('create-lobby', (room, userId) => {
     }
 
 
-    console.log("USER ID", userId, "HOST ID", hostID)
+    // console.log("USER ID", userId, "HOST ID", hostID)
 
 
     socket.emit(`player-not-ready`)
@@ -263,9 +270,9 @@ socket.on('all_users_not_ready', () => {
 
 // host transfer
 socket.on('host-transfer', (host, phase) => {
-    console.log(phase)
+    // console.log(phase)
     if (phase === 'lobby') {
-        console.log('host transfered to', host.username)
+        // console.log('host transfered to', host.username)
         socket.emit(`player-ready`, true)
         const lobby__leftContainer = document.querySelector('.lobby__leftContainer')
         const lobby__rightContainer = document.querySelector('.lobby__rightContainer')

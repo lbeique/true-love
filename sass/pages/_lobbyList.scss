@@ -1,12 +1,12 @@
-.section-lobbies{
+.section-lobbies {
     background-color: rgba($secondary-variant, 0.5);
     display: flex;
 
 }
 
-.lobby-list{
+.lobby-list {
 
-    &__leftContainer{
+    &__leftContainer {
 
         display: flex;
         flex-direction: column;
@@ -18,179 +18,198 @@
 
     }
 
-    &__rightContainer{
+    &__rightContainer {
 
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        padding: 2em;
+        align-items: center;
+        // padding: 2em;
         width: 60vw;
         height: 100vh;
 
     }
 
-    &__createContainer{
+    &__createContainer {
 
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        row-gap: 1em;
-        width: 25vw;
+        row-gap: 2vh;
+        // width: 25vw;
+        padding: 2vh;
         height: 30vh;
         border: 15px solid $secondary-variant;
         border-radius: 5em;
         background-color: $tertiary-color;
         color: $primary-color;
+        filter: drop-shadow(0px 4px 8px #19083c);
 
     }
 
-    &__btn{
+    &__refresh {
+        right: 15vh
+    }
 
-        width: 100%;
-        height: 50%;
-        padding: 10px;
-        font-size: 15px;
+    &__btn {
+
+        // width: 100%;
+        // height: 50%;
+        padding: 1vh 1vh;
+        font-size: 2vh;
         text-transform: uppercase;
         letter-spacing: 2px;
 
     }
 
-    &__joinContainer{
+    &__joinContainer {
 
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        row-gap: 1em;
-        width: 25vw;
+        row-gap: 2vh;
+        padding: 2vh;
         height: 30vh;
         border: 15px solid $tertiary-color;
         border-radius: 5em;
         background-color: $secondary-color;
         color: $primary-color;
-        
+        filter: drop-shadow(0px 4px 8px #19083c);
+
     }
 
-    &__header{
-        font-size: 40px;
+    &__header {
+        font-size: 6vh;
         letter-spacing: 2px;
         text-shadow: 0 0 10px $tertiary-color;
-        height: 10px;
+        margin-left: -55vh;
+        margin-bottom: 8vh;
+        margin-top: 4vh;
+        
+        @media screen and (max-width: 690px) {
+            font-size: 5vh;
+            margin-left: -45vh;
+        }
     }
 
-    &__listContainer{
+    &__listContainer {
 
         display: flex;
         column-gap: 10px;
-        width: 95%;
+        justify-content: center;
+        // width: 95%;
         height: 80%;
-        
+
     }
 
-    &__list{
+    &__list {
         @include scroll;
         display: flex;
         flex-direction: column;
-        width: 100%;
-        height: 100%;
-        row-gap: 1em;
-        
+        // width: 100%;
+        // height: 100%;
+        row-gap: 2vh;
+
 
     }
 
-    &__room{
+    // &__room {
 
-        width: 100%;
-        max-height: 20%;
+    //     width: 100%;
+    //     max-height: 20%;
 
-    }
+    // }
 
-    &__roomBtn{
+    &__roomBtn {
 
-        width: 100%;
-        height: 100%;
-        font-size: 30px;
-        padding: 10px 20px;
+        width: 50vw;
+        // height: 100%;
+        font-size: 3vh;
+        padding: 1.5vh 2vh;
         justify-content: space-between;
 
-        &--name{
+        &--name {
             text-align: left;
             letter-spacing: 2px;
             color: $tertiary-color;
         }
 
-        &--info{
+        &--info {
             letter-spacing: 3px;
             text-align: right;
             color: $tertiary-color;
 
-            & i{
+            & i {
                 color: $tertiary-color;
             }
         }
-        
+
     }
 
 }
 
 
-.createLobby{
+.createLobby {
 
-    &__header{
+    &__header {
         color: $primary-color;
         text-transform: uppercase;
-        font-size: 32px;
+        font-size: 4vh;
+
+        @media screen and (max-width: 690px) {
+            font-size: 3vh;
+        }
     }
 
-    &__form{
+    &__form {
         display: flex;
         flex-direction: column;
         align-items: center;
-        row-gap: 1em;
+        row-gap: 2vh;
     }
 
-    &__input{
+    &__input {
         padding-left: 4px;
         background-color: $secondary-variant;
         border-radius: 10px;
-        height: 36px;
+        height: 4vh;
         border: 2px solid $primary-color;
         color: $tertiary-color;
         letter-spacing: 2px;
 
-        &::placeholder{
+        &::placeholder {
             color: $tertiary-color
         }
     }
 
 }
 
-.joinLobby{
+.joinLobby {
 
-    &__header{
+    &__header {
         color: $tertiary-color;
-        font-size: 25px;
+        font-size: 3vh;
         font-weight: lighter;
     }
 
-    &__form{
+    &__form {
         display: flex;
         flex-direction: column;
         align-items: center;
-        row-gap: 1em;
+        row-gap: 2vh;
     }
 
-    &__input{
+    &__input {
         padding-left: 4px;
         background-color: $tertiary-color;
         border-radius: 10px;
-        height: 36px;
+        height: 4vh;
         border: 2px solid $primary-color;
         color: $primary-color;
         letter-spacing: 2px;
 
-        &::placeholder{
+        &::placeholder {
             color: $primary-color
         }
 

@@ -147,17 +147,17 @@
     }
 
 
-    &__backBtn{
-        left: 10vw;
-    }
+    // &__backBtn{
+    //     left: 10vw;
+    // }
 
-    &__settings{
-        right: 3vw;
-    }
+    // &__settings{
+    //     right: 3vw;
+    // }
 
-    &__refreshBtn{
-        right: 10vw;
-    }
+    // &__refreshBtn{
+    //     right: 10vw;
+    // }
 
     &__categories-container{
         display: flex;
@@ -362,7 +362,7 @@
         text-align: left;
         letter-spacing: 2px;
         color: $secondary-variant;
-        width: 5vw;
+        width: 9vw;
 
 
         &--green{

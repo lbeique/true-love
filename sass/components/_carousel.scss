@@ -26,6 +26,7 @@
         &--left{
             top: 50%;
             left: 20%;
+            filter: drop-shadow(0px 4px 4px $primary-color);
             object-position: contain;
             
             
@@ -56,6 +57,7 @@
         &--right{
             top: 50%;
             right: 20%;
+            filter: drop-shadow(0px 4px 4px $primary-color);
 
             &:hover{
                 transform: translateY(-54px)
@@ -96,6 +98,7 @@
         left: 50%;
         height: 85%;
         object-fit: contain;
+        filter: drop-shadow(0px 0px 6px $primary-color);
 
         &--original{
             transform: translate(-50%, -35%);

@@ -11,7 +11,7 @@
     right: 0px;
     top: 0px;
     bottom: 0px;
-    z-index: 89;
+    z-index: 200;
     transition: all .2s;
 
 
@@ -28,6 +28,7 @@
         background-color: $secondary-variant;
         font-size: 6vh;
         color: $tertiary-color;
+        filter: drop-shadow(0px 2px 7px $primary-color);
         // margin-bottom: 0.5em;
 
         // animation: popUpCenter 1s ease backwards;
@@ -44,6 +45,7 @@
         border: none;
         font-size: 5vh;
         color: $tertiary-color;
+        filter: drop-shadow(0px 2px 7px $primary-color);
         // margin-bottom: 0.5em;
 
         // animation: popUpCenter 1s ease backwards;
@@ -59,6 +61,7 @@
         border: none;
         font-size: 4vh;
         color: $tertiary-color;
+        filter: drop-shadow(0px 2px 7px $primary-color);
 
         // animation: popUpCenter 1s ease backwards;
 
