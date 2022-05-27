@@ -874,7 +874,7 @@ body {
   text-align: left;
   letter-spacing: 2px;
   color: #7366BD;
-  width: 5vw;
+  width: 9vw;
 }
 .leaderboard-info__name--green {
   color: #D7FF60;
@@ -2007,16 +2007,38 @@ tr:nth-child(even) {
 }
 
 .auth-form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
-  height: 100%;
-  width: 100%;
-  flex-direction: column;
-  row-gap: 2em;
   justify-content: center;
+  align-items: center;
+}
+.auth-form__container {
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  row-gap: 5vh;
+}
+.auth-form__header {
+  display: flex;
+  align-self: center;
+  border: none;
+  font-size: 8vh;
+  color: #D7FF60;
+  filter: drop-shadow(0px 2px 7px #19083c);
+  margin-bottom: 2vh;
+}
+.auth-form__input {
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+}
+.auth-form__button {
+  font-size: 3vh;
+  padding: 1vh 8vh;
+  margin-top: 2vh;
+}
+.auth-form__text {
+  font-size: 3vh;
+  color: #D7FF60;
 }
 
 .section-lounge {

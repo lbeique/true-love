@@ -77,7 +77,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
                 request_global_leaderboard()
             })
         } else if (i === 1){
-            leaderboard__category_btn.innerText = `Global Matches`
+            leaderboard__category_btn.innerText = `Global Games`
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 sfx.positive.play()
@@ -87,7 +87,7 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
                 request_global_matches()
             })
         } else if (i === 2){
-            leaderboard__category_btn.innerText = `Personal Matches`
+            leaderboard__category_btn.innerText = `Recent History`
             leaderboard__category_btn.addEventListener('click', (event) => {
                 event.preventDefault()
                 sfx.positive.play()
@@ -250,10 +250,10 @@ function displayPlayers(player, position, location){
     
             if(i === 1){
                 leaderboard_player__subCategory_left.innerText = `Total pts:`
-                leaderboard_player__subCategory_right.innerText = `${player.total_points} pts`    
+                leaderboard_player__subCategory_right.innerText = `${player.total_points}`    
             } else if(i === 2){
                 leaderboard_player__subCategory_left.innerText = `Win Ratio:`
-                leaderboard_player__subCategory_right.innerText = `${+player.win_ratio * 100}%` 
+                leaderboard_player__subCategory_right.innerText = `${+parseFloat(player.win_ratio * 100).toFixed(1)}%` 
             }
     
             leaderboard_player__subCategory.append(leaderboard_player__subCategory_left, leaderboard_player__subCategory_right)
@@ -358,8 +358,8 @@ function displayMatches(matchHistory, leaderboardType){
             match__totalScore.innerText = `Top Score: ${match.total_score}`
         } else if(leaderboardType === 'personal'){
             match__container.classList.add('btn')
-            match__hostName.innerText = `User: ${match.user_name}`
-            match__totalScore.innerText = `Total Pts: ${match.total_points} pts`
+            match__hostName.innerText = `Host: ${match.user_name}`
+            match__totalScore.innerText = `Total Pts: ${match.total_points}`
             match__container.addEventListener("click", (event) => {
                 event.preventDefault()
                 sfx.positive.play()
@@ -368,8 +368,9 @@ function displayMatches(matchHistory, leaderboardType){
             })
         }
 
-        match__totalPlayers.innerText = `#Players: ${match.total_players}`
-        match__date.innerText = `${new Date(match.date).toLocaleString()}`
+        match__totalPlayers.innerText = `Players: ${match.total_players}`
+        let date = new Date(match.date)
+        match__date.innerText = `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`
 
         // match__container.addEventListener("click", (event) => {
         //     event.preventDefault()
