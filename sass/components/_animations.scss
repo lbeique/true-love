@@ -22,6 +22,16 @@
     }
 }
 
+@keyframes fadingOut{
+    0%{
+        opacity: 100%;
+    }
+
+    100%{
+        opacity: 0%;
+    }
+}
+
 @keyframes heartMove {
     0%{
         opacity: 100%;

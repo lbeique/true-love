@@ -84,6 +84,14 @@ body {
     opacity: 100%;
   }
 }
+@keyframes fadingOut {
+  0% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0%;
+  }
+}
 @keyframes heartMove {
   0% {
     opacity: 100%;
@@ -345,7 +353,6 @@ body {
 }
 .btn__settings {
   top: 2vh;
-
   position: absolute;
   z-index: 199;
 }
@@ -732,7 +739,6 @@ body {
 .leaderboard__players--close {
   width: 250%;
 }
-
 .leaderboard__categories-container {
   display: flex;
   justify-content: center;
@@ -2481,14 +2487,20 @@ tr:nth-child(even) {
 .profile__name-input {
   display: flex;
   align-self: center;
-  width: 40%;
-  height: 50%;
-  border-radius: 2em;
+  width: 14vw;
+  height: 6vh;
+  border-radius: 2vh;
   color: #19083c;
   background-color: #D7FF60;
-  padding: 0.5em;
-  font-size: 20px;
+  padding: 1vh;
+  font-size: 2vh;
   letter-spacing: 2px;
+  margin-left: 5vw;
+}
+@media screen and (max-width: 37.5em) {
+  .profile__name-input {
+    width: 30vw;
+  }
 }
 
 .achievement__header {
@@ -2651,6 +2663,25 @@ tr:nth-child(even) {
   margin-top: 4vh;
   justify-content: center;
   align-self: center;
+}
+
+.section-splash {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  animation: fadingIn 1s ease backwards;
+}
+.section-splash--fadeOut {
+  animation: fadingOut 1s ease forwards;
+}
+
+.splash__img {
+  margin-top: 10vw;
+  margin-left: 25vw;
+  width: 50vw;
+  height: 60vh;
+  animation: fadingIn 1s ease 1s backwards;
+  object-fit: contain;
 }
 
 .victory__screen {
