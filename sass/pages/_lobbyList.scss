@@ -53,10 +53,10 @@
 
     &__btn {
 
-        width: 100%;
-        height: 50%;
-        padding: 10px;
-        font-size: 15px;
+        // width: 100%;
+        // height: 50%;
+        padding: 1vh 1vh;
+        font-size: 2vh;
         text-transform: uppercase;
         letter-spacing: 2px;
 
@@ -87,10 +87,9 @@
         margin-bottom: 8vh;
         margin-top: 4vh;
         
-        @media screen and (max-width: 1000px) {
-            margin-top: 16vh;
-            margin-bottom: 4vh;
-            margin-left: 0;
+        @media screen and (max-width: 690px) {
+            font-size: 5vh;
+            margin-left: -45vh;
         }
     }
 
@@ -124,10 +123,10 @@
 
     &__roomBtn {
 
-        width: 40vw;
+        width: 50vw;
         // height: 100%;
         font-size: 3vh;
-        padding: 1vh 2vh;
+        padding: 1.5vh 2vh;
         justify-content: space-between;
 
         &--name {
@@ -157,6 +156,10 @@
         color: $primary-color;
         text-transform: uppercase;
         font-size: 4vh;
+
+        @media screen and (max-width: 690px) {
+            font-size: 3vh;
+        }
     }
 
     &__form {

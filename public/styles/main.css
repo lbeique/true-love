@@ -1667,22 +1667,22 @@ tr:nth-child(even) {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 60%;
+  height: 60vh;
   background-color: #6250AC;
   border: 0.5em solid #D7FF60;
   border-radius: 2em;
-  font-size: 30px;
+  font-size: 4vh;
   letter-spacing: 2px;
   color: #D7FF60;
-  padding: auto 2em;
-  margin-bottom: 1em;
+  padding: 1vh 1vh;
+  margin-bottom: 2vh;
   text-align: center;
+  filter: drop-shadow(0px 4px 8px #19083c);
 }
 .introductory__button {
-  width: 30%;
-  height: 20%;
-  font-size: 30px;
+  height: 20vh;
+  font-size: 4vh;
+  padding: 2vh;
   text-transform: uppercase;
   text-align: center;
 }
@@ -1704,18 +1704,19 @@ tr:nth-child(even) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  row-gap: 1em;
-  padding: 2vh 2vh;
+  row-gap: 3vh;
+  padding: 4vh 2vh;
   border: 15px solid #7366BD;
   border-radius: 5em;
   background-color: #19083c;
   color: #D7FF60;
-  font-size: 2vh;
-  margin-bottom: 20vh;
+  font-size: 3vh;
+  margin-top: 5vh;
+  margin-bottom: 10vh;
   filter: drop-shadow(0px 4px 4px #19083c);
 }
 .lobby__code span {
-  font-size: 3vh;
+  font-size: 4vh;
   color: #D7FF60;
 }
 .lobby__readyBtn {
@@ -1881,10 +1882,8 @@ tr:nth-child(even) {
   right: 15vh;
 }
 .lobby-list__btn {
-  width: 100%;
-  height: 50%;
-  padding: 10px;
-  font-size: 15px;
+  padding: 1vh 1vh;
+  font-size: 2vh;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -1910,11 +1909,10 @@ tr:nth-child(even) {
   margin-bottom: 8vh;
   margin-top: 4vh;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 690px) {
   .lobby-list__header {
-    margin-top: 16vh;
-    margin-bottom: 4vh;
-    margin-left: 0;
+    font-size: 5vh;
+    margin-left: -45vh;
   }
 }
 .lobby-list__listContainer {
@@ -1944,9 +1942,9 @@ tr:nth-child(even) {
   border: 2px solid #D7FF60;
 }
 .lobby-list__roomBtn {
-  width: 40vw;
+  width: 50vw;
   font-size: 3vh;
-  padding: 1vh 2vh;
+  padding: 1.5vh 2vh;
   justify-content: space-between;
 }
 .lobby-list__roomBtn--name {
@@ -1967,6 +1965,11 @@ tr:nth-child(even) {
   color: #19083c;
   text-transform: uppercase;
   font-size: 4vh;
+}
+@media screen and (max-width: 690px) {
+  .createLobby__header {
+    font-size: 3vh;
+  }
 }
 .createLobby__form {
   display: flex;

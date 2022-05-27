@@ -23,21 +23,21 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        row-gap: 1em;
+        row-gap: 3vh;
         // width: 20vw;
-        padding: 2vh 2vh;
+        padding: 4vh 2vh;
         // height: 20vh;
         border: 15px solid $secondary-variant;
         border-radius: 5em;
         background-color: $primary-color;
         color: $tertiary-color;
-        font-size: 2vh;
-        // margin-top: 3em;
-        margin-bottom: 20vh;
+        font-size: 3vh;
+        margin-top: 5vh;
+        margin-bottom: 10vh;
         filter: drop-shadow(0px 4px 4px #19083c);
 
         & span {
-            font-size: 3vh;
+            font-size: 4vh;
             color: $tertiary-color;
         }
 
