@@ -1,7 +1,7 @@
 const socket = io.connect()
 
 const lobby_listContainer = document.querySelector('.lobby-list__list')
-const refreshBtn = document.querySelector('.lobby-list__refreshBtn')
+const refreshBtn = document.querySelector('.icon__btn__refresh')
 const section__main = document.querySelector('.section-lobbies')
 
 

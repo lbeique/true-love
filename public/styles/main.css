@@ -273,15 +273,15 @@ body {
   text-decoration: none;
   border-radius: 3rem;
   transition: all 0.2s, left;
-  box-shadow: 0 0.1em 0 rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0px 3px 4px #19083c);
 }
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0.3rem 0 rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0px 5px 4px #19083c);
 }
 .btn:active {
   transform: translateY(1px);
-  box-shadow: 0 0.2rem 0 rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0px 5px 4px #19083c);
 }
 .btn--green {
   color: #19083c;
@@ -298,12 +298,13 @@ body {
   text-shadow: 0 0 20px #D7FF60;
 }
 .btn__menu {
-  padding: 2vh 6rem;
-  font-size: 2rem;
+  padding: 2vh 15vh;
+  font-size: 4vh;
 }
 @media screen and (max-width: 37.5em) {
   .btn__menu {
-    font-size: 1.5rem;
+    font-size: 3vh;
+    padding: 3vh 10vh;
     height: 9vh;
   }
 }
@@ -313,24 +314,14 @@ body {
 .btn__auth {
   font-size: 3vh;
   animation: popUpCenter 1s ease 3s backwards;
-  padding: 2vh 6rem;
+  padding: 2vh 15vh;
 }
 .btn__back {
   position: absolute;
-  padding-left: 3px;
-  top: 2%;
-  left: 13%;
-  width: 1.3em;
-  height: 1.3em;
-  border-radius: 2em;
-  border-width: 8px;
-  font-size: 65px;
-  z-index: 80;
-}
-.btn__back span {
-  transform: rotateZ(180deg);
-  color: #D7FF60;
-  padding-top: 12px;
+  top: 3vh .btn__back span;
+  top-transform: rotateZ(180deg);
+  top-color: #D7FF60;
+  top-padding-top: 12px;
 }
 .btn__refresh {
   position: absolute;
@@ -348,13 +339,25 @@ body {
 .btn__settings {
   top: 3vh;
   position: absolute;
+  z-index: 199;
 }
 
 .icon__btn {
   transition: all 0.2s;
   height: 11vh;
-  border-radius: 3rem;
-  box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0px 4px 4px #19083c);
+}
+.icon__btn__back {
+  position: absolute;
+  left: 2vh;
+  top: 2vh;
+  z-index: 190;
+}
+.icon__btn__refresh {
+  position: absolute;
+  right: 2vh;
+  top: 2vh;
+  z-index: 190;
 }
 @media screen and (max-width: 37.5em) {
   .icon__btn {
@@ -366,11 +369,11 @@ body {
 }
 .icon__btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0.5em 0 rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0px 7px 4px #19083c);
 }
 .icon__btn:active {
   transform: translateY(1px);
-  box-shadow: 0 0.3em 0 rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0px 4px 4px #19083c);
 }
 
 .btn-success {
@@ -714,15 +717,6 @@ body {
 }
 .leaderboard__players--close {
   width: 250%;
-}
-.leaderboard__backBtn {
-  left: 10vw;
-}
-.leaderboard__settings {
-  right: 3vw;
-}
-.leaderboard__refreshBtn {
-  right: 10vw;
 }
 .leaderboard__categories-container {
   display: flex;
@@ -1498,10 +1492,6 @@ tr:nth-child(even) {
   z-index: 100;
 }
 
-.game__settings {
-  right: 10vw;
-}
-
 .exitMenu__icon {
   position: absolute;
   top: 2vh;
@@ -1520,7 +1510,7 @@ tr:nth-child(even) {
 .settings__btn {
   width: 40vh;
   font-size: 4vh;
-  padding: 0.5rem;
+  padding: 2vh;
 }
 .settings__muteToggle {
   display: flex;
@@ -1549,9 +1539,10 @@ tr:nth-child(even) {
   border-radius: 5px;
   background: #19083c;
   outline: none;
-  opacity: 0.8;
+  opacity: 0.85;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
+  filter: drop-shadow(0px 2px 7px #19083c);
 }
 .settings__slidecontainer__slider:hover {
   opacity: 1;
@@ -1603,7 +1594,7 @@ tr:nth-child(even) {
   right: 0px;
   top: 0px;
   bottom: 0px;
-  z-index: 89;
+  z-index: 200;
   transition: all 0.2s;
 }
 .settings__textBox {
@@ -1617,6 +1608,7 @@ tr:nth-child(even) {
   background-color: #7366BD;
   font-size: 6vh;
   color: #D7FF60;
+  filter: drop-shadow(0px 2px 7px #19083c);
 }
 .settings__textVolume {
   display: flex;
@@ -1625,6 +1617,7 @@ tr:nth-child(even) {
   border: none;
   font-size: 5vh;
   color: #D7FF60;
+  filter: drop-shadow(0px 2px 7px #19083c);
 }
 .settings__text {
   display: flex;
@@ -1634,6 +1627,7 @@ tr:nth-child(even) {
   border: none;
   font-size: 4vh;
   color: #D7FF60;
+  filter: drop-shadow(0px 2px 7px #19083c);
 }
 .settings__nav {
   display: flex;
@@ -1880,6 +1874,9 @@ tr:nth-child(even) {
   border-radius: 5em;
   background-color: #D7FF60;
   color: #19083c;
+}
+.lobby-list__refresh {
+  right: 15vh;
 }
 .lobby-list__btn {
   width: 100%;
@@ -2138,6 +2135,7 @@ tr:nth-child(even) {
   z-index: 40;
   width: 100vw;
   height: 100vh;
+  filter: drop-shadow(-4px -3px 10px #19083c);
 }
 .menu__spaceship--animated {
   animation: fadingIn 1s ease 1s backwards;
@@ -2168,6 +2166,7 @@ tr:nth-child(even) {
   right: 20%;
   z-index: 2;
   height: 50vh;
+  filter: drop-shadow(0px 2px 4px #19083c);
 }
 @media screen and (max-width: 37.5em) {
   .menu__alien1 {
@@ -2180,6 +2179,7 @@ tr:nth-child(even) {
 .menu__alien2 {
   bottom: 40%;
   right: 0px;
+  filter: drop-shadow(0px 2px 4px #19083c);
 }
 @media screen and (max-width: 37.5em) {
   .menu__alien2 {
@@ -2263,9 +2263,6 @@ tr:nth-child(even) {
   animation: pulsate 2s linear 1.5s infinite backwards;
 }
 
-.profile__settings {
-  right: 14vw;
-}
 .profile__container {
   margin-left: 25vw;
   display: flex;
@@ -2280,6 +2277,7 @@ tr:nth-child(even) {
   padding: 1.5em;
   transition: all 0.2s;
   animation: fadingIn ease 0.5s backwards;
+  filter: drop-shadow(0px 2px 7px #19083c);
 }
 @media screen and (max-width: 37.5em) {
   .profile__container {

@@ -44,12 +44,18 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
     const leaderboard__container = document.createElement('div')
     const leaderboard__header = document.createElement('div')
     const leaderboard__players = document.createElement('div')
-    const leaderboard__back_btn = document.createElement('a')
-    const leaderboard__refresh_btn = document.createElement('a')
+    const leaderboard__back_btn = document.createElement('img')
+    const leaderboard__refresh_btn = document.createElement('img')
     const leaderboard__categoriesContainer = document.createElement('div')
 
-    leaderboard__refresh_btn.classList.add('btn', 'btn__refresh', 'btn--darkPurple', 'leaderboard__refreshBtn')
-    leaderboard__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'leaderboard__backBtn')
+    leaderboard__refresh_btn.classList.add('icon__btn', 'icon__btn__refresh', 'leaderboard__refreshBtn')
+    leaderboard__refresh_btn.src = "assets/menu/refresh_icon.png"
+    leaderboard__refresh_btn.alt = "refresh button"
+
+    leaderboard__back_btn.classList.add('icon__btn', 'icon__btn__back', 'leaderboard__backBtn')
+    leaderboard__back_btn.src = "assets/menu/back_icon.png"
+    leaderboard__back_btn.alt = "back button"
+
     section__leaderboard.classList.add('section-leaderboard','section-leaderboard--open', 'section-leaderboard--open-victory')
     leaderboard.classList.add('leaderboard')
     leaderboard__container.classList.add('leaderboard__container', 'leaderboard__container--open', 'leaderboard__container--open-leaderboard')
@@ -115,8 +121,8 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
         }
     })
 
-    leaderboard__back_btn.innerHTML = `<span>&#8618;</span>`
-    leaderboard__refresh_btn.innerHTML = `&#8634;`
+    // leaderboard__back_btn.innerHTML = `<span>&#8618;</span>`
+    // leaderboard__refresh_btn.innerHTML = `&#8634;`
     leaderboard__header.innerHTML = '<i class="fa-solid fa-earth-americas"></i><span class="leaderboard__header-text"> GLOBAL TOP 50 <span>'
     leaderboard.style.animation = 'fadingIn 1s ease backwards'
 
@@ -365,12 +371,12 @@ function displayMatches(matchHistory, leaderboardType){
         match__totalPlayers.innerText = `#Players: ${match.total_players}`
         match__date.innerText = `${new Date(match.date).toLocaleString()}`
 
-        match__container.addEventListener("click", (event) => {
-            event.preventDefault()
-            sfx.positive.play()
-            request_match_detail(match.room_id)
+        // match__container.addEventListener("click", (event) => {
+        //     event.preventDefault()
+        //     sfx.positive.play()
+        //     request_match_detail(match.room_id)
 
-        })
+        // })
 
         match__crushContainer.appendChild(match__crushImg)
         match__container.append(match__crushContainer, match__hostName, match__totalPlayers, match__totalScore, match__date)
@@ -422,7 +428,7 @@ function matchDetailPage(matchData){
 
     const leaderboard = document.querySelector('.leaderboard')
     const leaderboard__back_btn = document.querySelector('.leaderboard__backBtn')
-    const leaderboard__refresh_btn = document.querySelector('.btn__refresh')
+    const leaderboard__refresh_btn = document.querySelector('.leaderboard__refreshBtn')
 
     leaderboard.remove()
     leaderboard__back_btn.remove()
@@ -444,7 +450,7 @@ function matchDetailPage(matchData){
         }
     }
 
-    const my_match__back_btn = document.createElement('a')
+    const my_match__back_btn = document.createElement('img')
     const my_match__container = document.createElement('div')
     const my_match__container_top = document.createElement('div')
     const my_match__container_bottom = document.createElement('div')
@@ -460,7 +466,9 @@ function matchDetailPage(matchData){
     const my_match__mini_leaderboard = document.createElement('div')
     const my_match__mini_leaderboard_player = document.createElement('div')
 
-    my_match__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'my-match__backBtn')
+    my_match__back_btn.classList.add('icon__btn', 'icon__btn__back')
+    my_match__back_btn.src = "assets/menu/back_icon.png"
+    my_match__back_btn.alt = "back button"
     my_match__container.classList.add('my-match__container')
     my_match__container_top.classList.add('my-match__container--top')
     my_match__container_bottom.classList.add('my-match__container--bottom')
@@ -479,7 +487,7 @@ function matchDetailPage(matchData){
     const capitalizeCrush_name = currentClientData.crush_nickname.charAt(0).toUpperCase() + currentClientData.crush_nickname.slice(1);
     my_match__crushImg.src = `assets/character-icon/achieve${capitalizeCrush_name}.png`
     my_match__crush_name.innerText = `${currentClientData.crush_name}`
-    my_match__back_btn.innerHTML = `<span>&#8618;</span>`
+    // my_match__back_btn.innerHTML = `<span>&#8618;</span>`
     my_match__mini_leaderboard_header.innerHTML = `Match Leaderboard`
 
     my_match__back_btn.addEventListener('click', (event) => {

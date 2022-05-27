@@ -145,7 +145,7 @@ function setProfile(data) {
     updateAvatar__backBtn.remove()
   }
 
-  const profile__back_btn = document.createElement('a')
+  const profile__back_btn = document.createElement('img')
   const profile__container = document.createElement('div')
   const profile__container_top = document.createElement('div')
   const profile__container_bottom = document.createElement('div')
@@ -159,8 +159,11 @@ function setProfile(data) {
 
   const achievements__header = document.createElement('div')
   const achievement__container = document.createElement('div')
+  
 
-  profile__back_btn.classList.add('btn', 'btn__back', 'btn--darkPurple', 'profile__backBtn')
+  profile__back_btn.classList.add('icon__btn', 'profile__backBtn', 'icon__btn__back')
+  profile__back_btn.src = "assets/menu/back_icon.png"
+  profile__back_btn.alt = "back button"
   profile__container.classList.add('profile__container')
   profile__container_top.classList.add('profile__container--top')
   profile__container_bottom.classList.add('profile__container--bottom')
