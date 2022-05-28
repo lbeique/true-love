@@ -1,8 +1,9 @@
-
+let hearts
+let clearHearts
 
 function generateHearts() {
 
-    setInterval(function () {
+    hearts = setInterval(function () {
         const heart = document.createElement('div');
         const scale = Math.random() * 200;
         heart.innerHTML = `<i class="fa-solid fa-heart victory__heart"></i>`
@@ -12,7 +13,7 @@ function generateHearts() {
     }, 100)
 
     setTimeout(() => {
-        setInterval(() => {
+        clearHearts = setInterval(function () {
             let heartArr = document.querySelectorAll('.victory__heart')
             if (heartArr.length > 200) {
                 heartArr[0].remove()
@@ -129,7 +130,7 @@ socket.on('create-victory', (victoryObject) => {
             counter++
             if (counter > victory__script.length) {
                 victoryTransition(winner.username)
-                clearInterval()
+                clearInterval(startTransition)
             }
         }, 500)
     }, 2000)
@@ -164,6 +165,8 @@ socket.on('remove-victory', () => {
 
     document.querySelectorAll('.victory__heart').forEach((heart) => heart.remove())
 
+    clearInterval(hearts)
+    clearInterval(clearHearts)
     victory__screen.remove()
     carousel__crush.remove()
     section__leaderboard.remove()

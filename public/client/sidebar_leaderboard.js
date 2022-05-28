@@ -491,7 +491,7 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
     let positionCounter = 1
     for(let player of leaderboardObj){
         
-        console.log("player", player)
+        // console.log("player", player)
 
         const leaderboard_player__container = document.createElement('div')
         const leaderboard_player__avatarContainer = document.createElement('div')
@@ -539,7 +539,7 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
             player__categoryPoints_right.classList.add('leaderboard-info__category-details--right')
 
             player__categoryPoints_left.innerText = `Trivia ${i + 1}:`
-            console.log(player)
+            // console.log(player)
             player__categoryPoints_right.innerText = `${player[difficulty[i]]} pts`
 
             player__categoryPoints.append(player__categoryPoints_left, player__categoryPoints_right)
