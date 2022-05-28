@@ -354,7 +354,7 @@ function displayMatches(matchHistory, leaderboardType){
         match__crushImg.src = `assets/character-icon/achieve${capitalizeCrush_name}.png`
 
         if(leaderboardType === "global"){
-            match__hostName.innerText = `Host: ${match.user_name}`
+            match__hostName.innerText = `Winner: ${match.user_name}`
             match__totalScore.innerText = `Top Score: ${match.total_score}`
         } else if(leaderboardType === 'personal'){
             match__container.classList.add('btn')
@@ -370,7 +370,7 @@ function displayMatches(matchHistory, leaderboardType){
 
         match__totalPlayers.innerText = `Players: ${match.total_players}`
         let date = new Date(match.date)
-        match__date.innerText = `${date.getUTCDate()}/${date.getUTCMonth()}/${date.getUTCFullYear()}`
+        match__date.innerText = `${date.getUTCDate()}/${date.getUTCMonth() + 1}/${date.getUTCFullYear()}`
 
         // match__container.addEventListener("click", (event) => {
         //     event.preventDefault()
