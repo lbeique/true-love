@@ -1241,6 +1241,14 @@ body {
   column-gap: 1rem;
   height: 8vh;
 }
+.player__container--moveUp {
+  z-index: 100;
+  animation: moveUp 1s ease backwards;
+}
+.player__container--moveDown {
+  z-index: 100;
+  animation: moveDown 1s ease backwards;
+}
 .player__position {
   position: absolute;
   place-self: center;
@@ -2724,9 +2732,11 @@ tr:nth-child(even) {
 .victory__return-btn {
   position: absolute;
   z-index: 50;
-  width: 10em;
-  bottom: 2%;
-  left: 2%;
+  bottom: 2vh;
+  align-self: center;
+  font-size: 2vh;
+  margin-left: -12vh;
+  padding: 1vh;
   border-width: 5px;
 }
 

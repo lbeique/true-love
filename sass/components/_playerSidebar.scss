@@ -153,13 +153,16 @@
         height: 8vh;
 
 
-        // I think the moveUp and moveDown code is now missing
+        &--moveUp{
+            z-index: 100;
+            animation: moveUp 1s ease backwards
+        }
 
-
-
-
-
-
+        &--moveDown{
+            z-index: 100;
+            animation: moveDown 1s ease backwards
+        }
+        
         
     }
 

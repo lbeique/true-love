@@ -488,7 +488,7 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
     // section__sidebar.classList.add('section-sidebar--open-victory')
 
     let difficulty = ['easy', 'medium', 'hard']
-    let counter = 0
+    let positionCounter = 1
     for(let player of leaderboardObj){
         
         console.log("player", player)
@@ -517,6 +517,10 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
         
         player__triviaPts_container.classList.add('leaderboard-player__subCategory-container')
 
+        position = returnPosition(positionCounter)
+
+        positionCounter++
+
         leaderboard_player__position.innerHTML = `${position}`
 
         leaderboard_player__avatarContainer.appendChild(leaderboard_player__avatar)
@@ -525,7 +529,7 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
         leaderboard_player__info.appendChild(info__name)
         leaderboard_player__container.appendChild(leaderboard_player__info)
 
-        for(let i = 1; i <= 3; i++){
+        for(let i = 0; i < 3; i++){
             const player__categoryPoints = document.createElement('div')
             const player__categoryPoints_left = document.createElement('div')
             const player__categoryPoints_right = document.createElement('div')
@@ -535,12 +539,13 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
             player__categoryPoints_right.classList.add('leaderboard-info__category-details--right')
 
             player__categoryPoints_left.innerText = `Trivia ${i}:`
-            player__categoryPoints_right.innerText = `${player[difficulty[counter]]} pts`
+            console.log(player)
+            player__categoryPoints_right.innerText = `${player[difficulty[i]]} pts`
 
             player__categoryPoints.append(player__categoryPoints_left, player__categoryPoints_right)
             player__triviaPts_container.appendChild(player__categoryPoints)
 
-            counter++
+            // counter++
             
         }
 

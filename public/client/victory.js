@@ -1,8 +1,8 @@
 
-   
-function generateHearts(){
-    
-    setInterval(function(){
+
+function generateHearts() {
+
+    setInterval(function () {
         const heart = document.createElement('div');
         const scale = Math.random() * 200;
         heart.innerHTML = `<i class="fa-solid fa-heart victory__heart"></i>`
@@ -12,19 +12,19 @@ function generateHearts(){
     }, 100)
 
     setTimeout(() => {
-        setInterval(function name(params){
-            let heartArr = document.querySelectorAll('.heart')
-            if(heartArr.length > 200){
+        setInterval(() => {
+            let heartArr = document.querySelectorAll('.victory__heart')
+            if (heartArr.length > 200) {
                 heartArr[0].remove()
             }
         }, 50)
     }, 1000)
 }
 
-function victoryTransition(winnerName){
+function victoryTransition(winnerName) {
 
     document.querySelector(".carousel__slideText").classList.add('hide')
-    // document.querySelector('.victory__transition').classList.remove()
+    document.querySelector('.victory__transition').classList.remove('hide')
     document.querySelector('.crush__dialogue').innerText = `${winnerName}! You have stolen my heart! Take me with you to space!`
     document.querySelector('.carousel').classList.remove('hide')
     document.querySelector('.crush__dialogueContainer').classList.remove('hide')
@@ -33,7 +33,7 @@ function victoryTransition(winnerName){
 
 }
 
-function leaderboard_setUp(){
+function leaderboard_setUp() {
     const section__leaderboard = document.querySelector(".section-leaderboard")
     const victory__returnLobbyBtn = document.createElement('btn')
     victory__returnLobbyBtn.classList.add('btn', 'btn--green', 'victory__return-btn')
@@ -111,7 +111,7 @@ socket.on('create-victory', (victoryObject) => {
     victory__skipButton.addEventListener('click', (event) => {
         event.preventDefault()
         sfx.positive.play()
-        
+
         clearInterval(startTransition)
         victoryTransition(winner.username)
         clearTimeout(victoryLeaderboard)
@@ -120,20 +120,19 @@ socket.on('create-victory', (victoryObject) => {
         victory__skipButton.remove()
 
     })
-    
-    const startTransition = setInterval(function(){
+
+    const startTransition = setInterval(function () {
         victory__transition_text.classList.add('opacity-0')
         setTimeout(() => {
             victory__transition_text.innerHTML = `${victory__script[counter]}`
             victory__transition_text.classList.remove('opacity-0')
             counter++
-            if(counter > victory__script.length){
+            if (counter > victory__script.length) {
                 victoryTransition(winner.username)
                 clearInterval()
             }
-            }, 500)
-        }
-    , 2000)
+        }, 500)
+    }, 2000)
 
     const victoryLeaderboard = setTimeout(() => {
         leaderboard_setUp()
@@ -145,7 +144,7 @@ socket.on('create-victory', (victoryObject) => {
     crush__dialogueContainer.appendChild(crush__dialogue)
     carousel__slideContainer.appendChild(crush__dialogueContainer)
 
-    
+
     victory__transition.appendChild(victory__transition_text)
     victory__page.appendChild(victory__transition)
     victory__page.appendChild(carousel__crush)
@@ -164,7 +163,7 @@ socket.on('remove-victory', () => {
     const carousel__crush = document.querySelector('.carousel')
 
     document.querySelectorAll('.victory__heart').forEach((heart) => heart.remove())
-    
+
     victory__screen.remove()
     carousel__crush.remove()
     section__leaderboard.remove()
