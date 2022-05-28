@@ -246,6 +246,8 @@ socket.on('client_voted', (clientID) => {
 
 function returnPosition(positionNum){
     
+    // this doesnt work from 11-13
+
     const checkRemainder = positionNum % 10
 
     switch(checkRemainder){

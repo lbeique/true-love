@@ -24,7 +24,7 @@ function generateHearts(){
 function victoryTransition(winnerName){
 
     document.querySelector(".carousel__slideText").classList.add('hide')
-    document.querySelector('.victory__transition').classList.remove()
+    // document.querySelector('.victory__transition').classList.remove()
     document.querySelector('.crush__dialogue').innerText = `${winnerName}! You have stolen my heart! Take me with you to space!`
     document.querySelector('.carousel').classList.remove('hide')
     document.querySelector('.crush__dialogueContainer').classList.remove('hide')
@@ -145,8 +145,9 @@ socket.on('create-victory', (victoryObject) => {
     crush__dialogueContainer.appendChild(crush__dialogue)
     carousel__slideContainer.appendChild(crush__dialogueContainer)
 
-    victory__page.appendChild(victory__transition)
+    
     victory__transition.appendChild(victory__transition_text)
+    victory__page.appendChild(victory__transition)
     victory__page.appendChild(carousel__crush)
     victory__page.appendChild(victory__skipButton)
 
