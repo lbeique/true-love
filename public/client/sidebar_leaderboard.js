@@ -538,7 +538,7 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
             player__categoryPoints_left.classList.add('leaderboard-info__category-details--left')
             player__categoryPoints_right.classList.add('leaderboard-info__category-details--right')
 
-            player__categoryPoints_left.innerText = `Trivia ${i}:`
+            player__categoryPoints_left.innerText = `Trivia ${i + 1}:`
             console.log(player)
             player__categoryPoints_right.innerText = `${player[difficulty[i]]} pts`
 
