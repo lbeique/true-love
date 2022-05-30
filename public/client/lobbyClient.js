@@ -113,6 +113,8 @@ socket.on('create-lobby', (room, userId) => {
     music.lobby.loop(true).seek(1).play()
     setTriviaTrack()
 
+    const mediaQuery = window.matchMedia('(max-width: 37.5em)') // define the query, returns boolean
+
     const section__lobbyClient = document.querySelector('.section-lobbyClient')
 
     const lobby__container = document.createElement('div')
@@ -141,8 +143,8 @@ socket.on('create-lobby', (room, userId) => {
     lobby__backBtn.alt = "back button"
 
 
-    lobby__header.innerText = `Lobby: ${room.room_name}`
-    lobby__code.innerHTML = `The Lobby Code is: <span>${room.room_code}</span>`
+    lobby__header.innerHTML = `Lobby: <br> ${room.room_name}`
+    lobby__code.innerHTML = `Lobby Code: <span>${room.room_code}</span>`
     // gameStart__header.innerText = 'Not Ready'
     gameReady__btn.innerText = 'Not Ready'
     gameStart__btn.innerHTML = '<i class="fa-solid fa-play"></i>'
@@ -153,7 +155,12 @@ socket.on('create-lobby', (room, userId) => {
     lobby__leftContainer.appendChild(lobby__code)
     // lobby__leftContainer.appendChild(gameStart__header)
     lobby__leftContainer.appendChild(gameReady__btn)
-    lobby__rightContainer.appendChild(lobby__header)
+
+    if(mediaQuery){
+        lobby__container.appendChild(lobby__header)
+    } else{
+        lobby__rightContainer.appendChild(lobby__header)
+    }
     lobby__rightContainer.appendChild(lobby__userListContainer)
     lobby__container.appendChild(lobby__leftContainer)
     lobby__container.appendChild(lobby__rightContainer)
