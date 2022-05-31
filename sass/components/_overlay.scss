@@ -19,6 +19,11 @@
         @include absCenter;
         display: flex;
 
+        @include respond(iPhone_SE){
+            flex-direction: column;
+            align-items: center;
+        }
+
         &--left{
             display: flex;
             flex-direction: column;
@@ -31,6 +36,10 @@
         &--right{
             display: flex;
             width: 40%;
+
+            @include respond(iPhone_SE){
+                width: 100%;
+            }
         }    
         
     }
@@ -41,6 +50,10 @@
         width: 15em;
         height: 2.5em;
         font-size: 30px;
+
+        @include respond(iPhone_SE){
+            height: 5vh;
+        }
 
         &--fromCenterToTop{
             animation: popUpCenter 2s ease 

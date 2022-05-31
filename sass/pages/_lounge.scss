@@ -21,12 +21,18 @@
         &--girl{
             top: 31%;
 
+            @include respond(iPhone_SE){
+                top: 15%
+            }
+
             &--open{
                 left: 7%;
             }
 
             &--close{
                 left: 31%;
+
+                
             }
 
             
@@ -76,7 +82,13 @@
             width: 0;
             height: 1em;
             right: -0.5em;
-            transform: rotate(1deg) skewX(74deg)
+            transform: rotate(1deg) skewX(74deg);
+
+            @include respond(iPhone_SE){
+                right: 19vw;
+                bottom: 0.5rem;
+                transform:  rotate(41deg) skewX(74deg);
+            }
 
         }
 

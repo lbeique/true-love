@@ -61,17 +61,6 @@
 
     }
 
-    // &__startBtn-Header{
-    //     color: $primary-color;
-    //     font-size: 50px;
-    //     text-transform: uppercase;
-    //     letter-spacing: 2px;
-    //     margin-bottom: 10px;
-
-    //     &--readyGreen{
-    //         color: $tertiary-color
-    //     }
-    // }
 
     &__readyBtn {
         font-size: 3vh;
@@ -131,8 +120,7 @@
     &__header {
         margin-top: 2vh;
         margin-bottom: 10vh;
-        margin-left: -12vh;
-        font-size: 5vh;
+        font-size: 7vh;
         letter-spacing: 2px;
         text-shadow: 0 0 5px $tertiary-color;
         height: 2vh;

@@ -28,6 +28,11 @@
         &-trivia{
             width: 50vw;
             position: absolute;
+
+            @include respond(iPhone_SE){
+                z-index: 50;
+                width: 100vw;
+            }
         }
 
         &-victory{
@@ -150,7 +155,11 @@
         }
 
         &--open{
-            width: 97vw;
+            width: 46vw;
+
+            @include respond(iPhone_SE){
+                width: 97vw;
+            }
         }
 
         &--close{
@@ -250,14 +259,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 69%;
-        height: 100vh;
+        width: 60%;
+        height: 100%;
+
     }
 
     &__youContainer{
 
         position: absolute;
-        height: 5vh;
+        height: 7vh;
         z-index: -30;
         transition: all .2s;
 
@@ -315,7 +325,7 @@
             height: 0;
             left: 3em;
             border-top: 23px solid $tertiary-color;
-            border-bottom: 25px solid $tertiary-color; 
+            border-bottom: 28px solid $tertiary-color; 
             border-right: 24px solid transparent; 
             border-left: 10px solid transparent;
             z-index: -32;
@@ -336,7 +346,7 @@
             top: 0;
             left: 2.5em;
             border-top: 20px solid black;
-            border-bottom: 22px solid black; 
+            border-bottom: 24px solid black; 
             border-right: 22px solid transparent; 
             border-left: 10px solid transparent;
             z-index: -31;

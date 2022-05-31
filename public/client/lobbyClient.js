@@ -143,7 +143,6 @@ socket.on('create-lobby', (room, userId) => {
     lobby__backBtn.alt = "back button"
 
 
-    lobby__header.innerHTML = `Lobby: <br> ${room.room_name}`
     lobby__code.innerHTML = `Lobby Code: <span>${room.room_code}</span>`
     // gameStart__header.innerText = 'Not Ready'
     gameReady__btn.innerText = 'Not Ready'
@@ -156,9 +155,11 @@ socket.on('create-lobby', (room, userId) => {
     // lobby__leftContainer.appendChild(gameStart__header)
     lobby__leftContainer.appendChild(gameReady__btn)
 
-    if(mediaQuery){
+    if(mediaQuery.matches){
+        lobby__header.innerHTML = `Lobby: <br> ${room.room_name}`
         lobby__container.appendChild(lobby__header)
     } else{
+        lobby__header.innerHTML = `Lobby: ${room.room_name}`
         lobby__rightContainer.appendChild(lobby__header)
     }
     lobby__rightContainer.appendChild(lobby__userListContainer)

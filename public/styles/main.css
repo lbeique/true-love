@@ -528,7 +528,7 @@ body {
 @media screen and (max-width: 37.5em) {
   .carousel__slideText {
     left: 25vw;
-    font-size: 2.5vh;
+    font-size: 2vh;
   }
 }
 .carousel__slideText--original {
@@ -625,6 +625,12 @@ body {
   padding-bottom: 0.5em;
   letter-spacing: 2px;
   font-size: 30px;
+}
+@media screen and (max-width: 37.5em) {
+  .crush__dialogue {
+    width: 70%;
+    font-size: 3.5vh;
+  }
 }
 .crush__dialogue::before, .crush__dialogue::after {
   position: absolute;
@@ -1204,6 +1210,12 @@ body {
   width: 50vw;
   position: absolute;
 }
+@media screen and (max-width: 37.5em) {
+  .section-sidebar--open-trivia {
+    z-index: 50;
+    width: 100vw;
+  }
+}
 .section-sidebar--open-victory {
   position: absolute;
   width: 100%;
@@ -1312,7 +1324,12 @@ body {
   }
 }
 .sidebar__players--open {
-  width: 97vw;
+  width: 46vw;
+}
+@media screen and (max-width: 37.5em) {
+  .sidebar__players--open {
+    width: 97vw;
+  }
 }
 .sidebar__players--close {
   width: 10vw;
@@ -1391,12 +1408,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 69%;
-  height: 100vh;
+  width: 60%;
+  height: 100%;
 }
 .player__youContainer {
   position: absolute;
-  height: 5vh;
+  height: 7vh;
   z-index: -30;
   transition: all 0.2s;
 }
@@ -1450,7 +1467,7 @@ body {
   height: 0;
   left: 3em;
   border-top: 23px solid #D7FF60;
-  border-bottom: 25px solid #D7FF60;
+  border-bottom: 28px solid #D7FF60;
   border-right: 24px solid transparent;
   border-left: 10px solid transparent;
   z-index: -32;
@@ -1471,7 +1488,7 @@ body {
   top: 0;
   left: 2.5em;
   border-top: 20px solid black;
-  border-bottom: 22px solid black;
+  border-bottom: 24px solid black;
   border-right: 22px solid transparent;
   border-left: 10px solid transparent;
   z-index: -31;
@@ -1556,6 +1573,12 @@ body {
   transform: translate(-50%, -50%);
   display: flex;
 }
+@media screen and (max-width: 37.5em) {
+  .overlay__container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
 .overlay__container--left {
   display: flex;
   flex-direction: column;
@@ -1568,12 +1591,22 @@ body {
   display: flex;
   width: 40%;
 }
+@media screen and (max-width: 37.5em) {
+  .overlay__container--right {
+    width: 100%;
+  }
+}
 .overlay__text {
   color: #D7FF60;
   text-align: center;
   width: 15em;
   height: 2.5em;
   font-size: 30px;
+}
+@media screen and (max-width: 37.5em) {
+  .overlay__text {
+    height: 5vh;
+  }
 }
 .overlay__text--fromCenterToTop {
   animation: popUpCenter 2s ease;
@@ -1625,8 +1658,19 @@ tr:nth-child(even) {
   bottom: 10vh;
   right: 15vh;
 }
+@media screen and (max-width: 37.5em) {
+  .timer__trivia {
+    bottom: 3vh;
+    right: 3vh;
+  }
+}
 .timer__startTrivia {
   font-size: 30px;
+}
+@media screen and (max-width: 37.5em) {
+  .timer__startTrivia {
+    text-align: center;
+  }
 }
 
 .trivia__container {
@@ -1647,6 +1691,12 @@ tr:nth-child(even) {
   background-color: #19083c;
   border: 1vh solid #D7FF60;
 }
+@media screen and (max-width: 37.5em) {
+  .trivia__scoreText {
+    width: 37vw;
+    margin-left: 32vw;
+  }
+}
 .trivia__question {
   display: flex;
   justify-content: center;
@@ -1663,6 +1713,11 @@ tr:nth-child(even) {
   text-align: center;
   filter: drop-shadow(0px 4px 8px #19083c);
 }
+@media screen and (max-width: 37.5em) {
+  .trivia__question {
+    width: 73vw;
+  }
+}
 .trivia__question--animated {
   animation: popUpCenter 1s ease backwards;
 }
@@ -1671,8 +1726,13 @@ tr:nth-child(even) {
   flex-direction: column;
   align-items: center;
   row-gap: 2vh;
-  width: 90vh;
+  width: 90vw;
   height: 9vh;
+}
+@media screen and (max-width: 37.5em) {
+  .trivia__answerContainer {
+    width: 70vw;
+  }
 }
 .trivia__answerContainer--animated {
   animation: popUpCenter 0.8s ease backwards;
@@ -1682,6 +1742,11 @@ tr:nth-child(even) {
   height: 8vh;
   padding: 2vh;
   font-size: 2.5vh;
+}
+@media screen and (max-width: 37.5em) {
+  .trivia__btn {
+    width: 63vw;
+  }
 }
 
 .cross {
@@ -2003,8 +2068,7 @@ tr:nth-child(even) {
 .lobby__header {
   margin-top: 2vh;
   margin-bottom: 10vh;
-  margin-left: -12vh;
-  font-size: 5vh;
+  font-size: 7vh;
   letter-spacing: 2px;
   text-shadow: 0 0 5px #D7FF60;
   height: 2vh;
@@ -2407,6 +2471,11 @@ tr:nth-child(even) {
 .lounge__timerContainer--girl {
   top: 31%;
 }
+@media screen and (max-width: 37.5em) {
+  .lounge__timerContainer--girl {
+    top: 15%;
+  }
+}
 .lounge__timerContainer--girl--open {
   left: 7%;
 }
@@ -2452,6 +2521,13 @@ tr:nth-child(even) {
   height: 1em;
   right: -0.5em;
   transform: rotate(1deg) skewX(74deg);
+}
+@media screen and (max-width: 37.5em) {
+  .lounge__timer--girl::before {
+    right: 19vw;
+    bottom: 0.5rem;
+    transform: rotate(41deg) skewX(74deg);
+  }
 }
 .lounge__timer::after {
   top: 0;
