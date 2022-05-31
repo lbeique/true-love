@@ -25,7 +25,7 @@ function generateHearts() {
 function victoryTransition(winnerName) {
 
     document.querySelector(".carousel__slideText").classList.add('hide')
-    document.querySelector('.victory__transition').classList.remove('hide')
+    document.querySelector('.victory__transition').classList.add('hide')
     document.querySelector('.crush__dialogue').innerText = `${winnerName}! You have stolen my heart! Take me with you to space!`
     document.querySelector('.carousel').classList.remove('hide')
     document.querySelector('.crush__dialogueContainer').classList.remove('hide')
