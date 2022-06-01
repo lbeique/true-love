@@ -607,6 +607,12 @@ body {
   height: 12em;
   left: 50%;
 }
+@media screen and (max-width: 37.5em) {
+  .crush__dialogueContainer--victory {
+    width: 23em;
+    height: 10em;
+  }
+}
 .crush__dialogueContainer--moveRight {
   width: 25em;
   height: 10em;
@@ -841,6 +847,11 @@ body {
   color: #19083c;
   padding: 1vh;
 }
+@media screen and (max-width: 37.5em) {
+  .leaderboard__category-btn {
+    font-size: 1.5vh;
+  }
+}
 .leaderboard__currentPlayer-container {
   width: 78vw;
   height: 8vh;
@@ -873,6 +884,11 @@ body {
   width: 3vw;
   margin-left: 0.5em;
   z-index: 1;
+}
+@media screen and (max-width: 37.5em) {
+  .leaderboard-player__position {
+    font-size: 2.5vh;
+  }
 }
 .leaderboard-player__avatarContainer {
   display: flex;
@@ -913,6 +929,11 @@ body {
   align-items: center;
   width: 52vw;
 }
+@media screen and (max-width: 37.5em) {
+  .leaderboard-player__info {
+    margin-left: 1.5vw;
+  }
+}
 .leaderboard-player__info-match {
   z-index: 1;
   width: 18vw;
@@ -938,7 +959,7 @@ body {
 }
 @media screen and (max-width: 37.5em) {
   .leaderboard-player__youContainer--open {
-    width: 88vw;
+    width: 84vw;
   }
 }
 .leaderboard-player__youContainer--open-match {
@@ -996,8 +1017,8 @@ body {
   .leaderboard-player__you::before {
     height: 100%;
     left: 2.5rem;
-    border-top: 20px solid #D7FF60;
-    border-bottom: 18.5px solid #D7FF60;
+    border-top: 19px solid #D7FF60;
+    border-bottom: 14.5px solid #D7FF60;
   }
 }
 .leaderboard-player__you::after {
@@ -1016,8 +1037,8 @@ body {
 @media screen and (max-width: 37.5em) {
   .leaderboard-player__you::after {
     left: 2rem;
-    border-top: 17px solid black;
-    border-bottom: 15.5px solid black;
+    border-top: 16px solid black;
+    border-bottom: 11.5px solid black;
   }
 }
 .leaderboard-player__youText {
@@ -1044,6 +1065,7 @@ body {
   .leaderboard-info__name {
     width: 0vw;
     margin-right: 10vw;
+    font-size: 2vh;
   }
 }
 .leaderboard-info__name--green {
@@ -1055,6 +1077,11 @@ body {
   color: #7366BD;
   width: 20vw;
 }
+@media screen and (max-width: 37.5em) {
+  .leaderboard-info__note {
+    font-size: 2vh;
+  }
+}
 .leaderboard-info__note--green {
   color: #D7FF60;
 }
@@ -1064,6 +1091,7 @@ body {
 @media screen and (max-width: 37.5em) {
   .leaderboard-info__note-victory {
     width: 10vw;
+    font-size: 2vh;
   }
 }
 .leaderboard-info__category-details {
@@ -1093,6 +1121,8 @@ body {
   .leaderboard-info__category-details--left {
     position: absolute;
     bottom: 7vh;
+    place-content: flex-start;
+    font-size: 1.5vh;
   }
 }
 .leaderboard-info__category-details--left-purple {
@@ -1121,7 +1151,7 @@ body {
 @media screen and (max-width: 37.5em) {
   .match__container {
     width: 74vw;
-    font-size: 1.7vh;
+    font-size: 1.5vh;
   }
 }
 .match__crushContainer {
@@ -1160,6 +1190,7 @@ body {
 }
 .my-match__container {
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   margin-left: 10vw;
@@ -1175,6 +1206,7 @@ body {
 @media screen and (max-width: 37.5em) {
   .my-match__container {
     padding: 4vw 2vw;
+    width: 81vw;
   }
 }
 .my-match__container--top {
@@ -1247,7 +1279,7 @@ body {
 @media screen and (max-width: 37.5em) {
   .my-match__crushContainer {
     width: 17vw;
-    height: 11vh;
+    height: 9.5vh;
   }
 }
 .my-match__crush-img {
@@ -1541,7 +1573,7 @@ body {
 }
 @media screen and (max-width: 37.5em) {
   .sidebar__players--close {
-    width: 22vw;
+    width: 27.5vw;
   }
 }
 
@@ -1638,7 +1670,7 @@ body {
 }
 @media screen and (max-width: 37.5em) {
   .player__youContainer--close {
-    width: 13vw;
+    width: 16vw;
   }
 }
 .player__you {
@@ -1681,8 +1713,8 @@ body {
   .player__you::before {
     height: 100%;
     left: 2.5rem;
-    border-top: 16.5px solid #D7FF60;
-    border-bottom: 18.5px solid #D7FF60;
+    border-top: 17px solid #D7FF60;
+    border-bottom: 16.5px solid #D7FF60;
   }
 }
 .player__you::after {
@@ -1701,8 +1733,8 @@ body {
 @media screen and (max-width: 37.5em) {
   .player__you::after {
     left: 2rem;
-    border-top: 15px solid black;
-    border-bottom: 14.5px solid black;
+    border-top: 14px solid black;
+    border-bottom: 13.5px solid black;
   }
 }
 .player__youText {
@@ -1763,6 +1795,7 @@ body {
   height: 100%;
   z-index: 100;
   width: 100%;
+  overflow: hidden;
   animation: fadingIn 1s ease backwards;
 }
 .overlay--black {
@@ -1818,6 +1851,8 @@ body {
 }
 .overlay__crush {
   object-fit: contain;
+  width: 100%;
+  height: 100%;
   animation: popUpCenter 1s ease 3s backwards;
 }
 
@@ -1900,6 +1935,7 @@ tr:nth-child(even) {
   .trivia__scoreText {
     width: 37vw;
     margin-left: 32vw;
+    font-size: 2vh;
   }
 }
 .trivia__question {
@@ -2478,7 +2514,7 @@ tr:nth-child(even) {
 }
 @media screen and (max-width: 37.5em) {
   .lobby-list__btn {
-    font-size: 1.5vh;
+    font-size: 1.2vh;
   }
 }
 .lobby-list__joinContainer {
@@ -2602,6 +2638,11 @@ tr:nth-child(even) {
   color: #D7FF60;
   letter-spacing: 2px;
 }
+@media screen and (max-width: 37.5em) {
+  .createLobby__input {
+    font-size: 1.5vh;
+  }
+}
 .createLobby__input::placeholder {
   color: #D7FF60;
 }
@@ -2613,7 +2654,7 @@ tr:nth-child(even) {
 }
 @media screen and (max-width: 37.5em) {
   .joinLobby__header {
-    font-size: 2.5vh;
+    font-size: 2.2vh;
   }
 }
 .joinLobby__form {
@@ -2630,6 +2671,11 @@ tr:nth-child(even) {
   border: 2px solid #19083c;
   color: #19083c;
   letter-spacing: 2px;
+}
+@media screen and (max-width: 37.5em) {
+  .joinLobby__input {
+    font-size: 1.5vh;
+  }
 }
 .joinLobby__input::placeholder {
   color: #19083c;
@@ -2683,6 +2729,11 @@ tr:nth-child(even) {
   transform-origin: top left;
   animation: popUpCenter 1s ease backwards;
 }
+@media screen and (max-width: 37.5em) {
+  .lounge__timerContainer {
+    width: 10em;
+  }
+}
 .lounge__timerContainer--boy {
   left: 60%;
   top: 20%;
@@ -2699,7 +2750,7 @@ tr:nth-child(even) {
   left: 7%;
 }
 .lounge__timerContainer--girl--close {
-  left: 31%;
+  left: 51%;
 }
 .lounge__timer {
   position: relative;
@@ -2716,6 +2767,11 @@ tr:nth-child(even) {
   padding-bottom: 0.5em;
   letter-spacing: 2px;
   font-size: 20px;
+}
+@media screen and (max-width: 37.5em) {
+  .lounge__timer {
+    font-size: 16px;
+  }
 }
 .lounge__timer::before, .lounge__timer::after {
   position: absolute;
@@ -2745,7 +2801,7 @@ tr:nth-child(even) {
   .lounge__timer--girl::before {
     right: 19vw;
     bottom: 0.5rem;
-    transform: rotate(41deg) skewX(74deg);
+    transform: rotate(117deg) skewX(74deg);
   }
 }
 .lounge__timer::after {

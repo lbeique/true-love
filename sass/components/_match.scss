@@ -15,7 +15,7 @@
 
         @include respond(iPhone_SE){
             width: 74vw;
-            font-size: 1.7vh;
+            font-size: 1.5vh;
         }
 
     }
@@ -72,6 +72,7 @@
     &__container{
 
         overflow-y: auto;
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
         margin-left: 10vw;
@@ -86,6 +87,7 @@
 
         @include respond(iPhone_SE){
             padding: 4vw 2vw;
+            width: 81vw;
         }
 
         &--top{
@@ -167,7 +169,7 @@
 
         @include respond(iPhone_SE){
             width: 17vw;
-            height: 11vh;
+            height: 9.5vh;
         }
     }
 

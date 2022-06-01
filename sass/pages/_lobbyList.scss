@@ -87,7 +87,7 @@
         letter-spacing: 2px;
 
         @include respond(iPhone_SE){
-            font-size: 1.5vh;
+            font-size: 1.2vh;
         }
 
 
@@ -222,6 +222,10 @@
         color: $tertiary-color;
         letter-spacing: 2px;
 
+        @include respond(iPhone_SE){
+            font-size: 1.5vh;
+        }
+
         &::placeholder {
             color: $tertiary-color
         }
@@ -237,7 +241,7 @@
         font-weight: lighter;
 
         @include respond(iPhone_SE){
-            font-size: 2.5vh;
+            font-size: 2.2vh;
         }
     }
 
@@ -256,6 +260,10 @@
         border: 2px solid $primary-color;
         color: $primary-color;
         letter-spacing: 2px;
+
+        @include respond(iPhone_SE){
+            font-size: 1.5vh;
+        }
 
         &::placeholder {
             color: $primary-color

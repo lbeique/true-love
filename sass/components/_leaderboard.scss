@@ -182,6 +182,10 @@
         background-color: $tertiary-color;
         color: $primary-color;
         padding: 1vh;
+
+        @include respond(iPhone_SE){
+            font-size: 1.5vh;
+        }
     }
 
     &__currentPlayer-container{
@@ -223,6 +227,10 @@
         width: 3vw;
         margin-left: 0.5em;
         z-index: 1;
+
+        @include respond(iPhone_SE){
+            font-size: 2.5vh;
+        }
 
     }
 
@@ -272,6 +280,10 @@
         align-items: center;
         width: 52vw;
 
+        @include respond(iPhone_SE){
+            margin-left: 1.5vw;
+        }
+
         &-match{
             z-index: 1;
             width: 18vw;
@@ -301,7 +313,7 @@
             left: -2vw;
 
             @include respond(iPhone_SE){
-                width: 88vw;
+                width: 84vw;
             }
 
             &-match{
@@ -361,8 +373,8 @@
             @include respond(iPhone_SE){
                 height: 100%;
                 left: 2.5rem;
-                border-top: 20px solid $tertiary-color;
-                border-bottom: 18.5px solid $tertiary-color; 
+                border-top: 19px solid $tertiary-color;
+                border-bottom: 14.5px solid $tertiary-color; 
             }
         }
 
@@ -381,8 +393,8 @@
 
             @include respond(iPhone_SE){
                 left: 2rem;
-                border-top: 17px solid black;
-                border-bottom: 15.5px solid black; 
+                border-top: 16px solid black;
+                border-bottom: 11.5px solid black; 
             }
 
         }
@@ -422,6 +434,7 @@
         @include respond(iPhone_SE){
             width: 0vw;
             margin-right: 10vw;
+            font-size: 2vh;
         }
 
 
@@ -436,6 +449,10 @@
         color: $secondary-variant;
         width: 20vw;
 
+        @include respond(iPhone_SE){
+            font-size: 2vh;
+        }
+
         &--green{
             color: $tertiary-color;
         }
@@ -445,6 +462,7 @@
 
             @include respond(iPhone_SE){
                 width: 10vw;
+                font-size: 2vh;
             }
         }
     }
@@ -475,6 +493,8 @@
             @include respond(iPhone_SE){
                 position: absolute;
                 bottom: 7vh;
+                place-content: flex-start;
+                font-size: 1.5vh;
             }
 
             &-purple{

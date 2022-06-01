@@ -166,7 +166,7 @@
             width: 10vw;
 
             @include respond(iPhone_SE){
-                width: 22vw;
+                width: 27.5vw;
             }
         }
 
@@ -289,7 +289,7 @@
             animation: fadeFromLeft .5s backwards;
 
             @include respond(iPhone_SE){
-                width: 13vw;
+                width: 16vw;
             }
         }
 
@@ -333,8 +333,8 @@
             @include respond(iPhone_SE){
                 height: 100%;
                 left: 2.5rem;
-                border-top: 16.5px solid $tertiary-color;
-                border-bottom: 18.5px solid $tertiary-color; 
+                border-top: 17px solid $tertiary-color;
+                border-bottom: 16.5px solid $tertiary-color; 
             }
         }
 
@@ -353,8 +353,8 @@
 
             @include respond(iPhone_SE){
                 left: 2rem;
-                border-top: 15px solid black;
-                border-bottom: 14.5px solid black; 
+                border-top: 14px solid black;
+                border-bottom: 13.5px solid black; 
             }
 
         }
