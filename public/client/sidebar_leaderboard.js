@@ -534,9 +534,7 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
             player__categoryPoints.classList.add('leaderboard-info__category-details', 'leaderboard-info__category-details-victory')
             player__categoryPoints_right.classList.add('leaderboard-info__category-details--right')
 
-            console.log("CREATE HEADER", positionCounter)
             if(positionCounter === 1){
-                console.log('create header')
                 const player__categoryPoints_left = document.createElement('div')
                 player__categoryPoints_left.classList.add('leaderboard-info__category-details--left')
                 player__categoryPoints_left.innerText = `Trivia ${i + 1}:`

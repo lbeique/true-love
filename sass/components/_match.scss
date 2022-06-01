@@ -13,6 +13,11 @@
         padding: 1vw;
         border-radius: 2rem;
 
+        @include respond(iPhone_SE){
+            width: 74vw;
+            font-size: 1.7vh;
+        }
+
     }
 
     &__crushContainer{

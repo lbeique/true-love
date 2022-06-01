@@ -84,6 +84,7 @@
             box-shadow: 0px 0px 30px 10px $secondary-color;
             padding: 2em 0;
             width: 66vw;
+            overflow-x: hidden;
             animation: slideFromLeft 1s ease;
             // &-trivia{
             //     transform: translateX(5%);
@@ -168,7 +169,7 @@
         display: flex;
         justify-content: center;
         column-gap: 1vw;
-        width: 67vw;
+        width: 100%;
         height: 2vw;
     }
 
@@ -181,8 +182,11 @@
 
     &__currentPlayer-container{
         width: 78vw;
-        overflow-x: hidden;
         height: 8vh;
+
+        @include respond(iPhone_SE){
+            width: 100vw;
+        }
     }
 
 }
@@ -334,8 +338,8 @@
             width: 100%;
             height: 0;
             left: 3em;
-            border-top: 21px solid $tertiary-color;
-            border-bottom: 25px solid $tertiary-color; 
+            border-top: 23px solid $tertiary-color;
+            border-bottom: 28px solid $tertiary-color; 
             border-right: 24px solid transparent; 
             border-left: 10px solid transparent;
             z-index: -32;
@@ -343,7 +347,7 @@
             @include respond(iPhone_SE){
                 height: 100%;
                 left: 2.5rem;
-                border-top: 16.5px solid $tertiary-color;
+                border-top: 20px solid $tertiary-color;
                 border-bottom: 18.5px solid $tertiary-color; 
             }
         }
@@ -356,17 +360,17 @@
             top: 0;
             left: 2.5em;
             border-top: 20px solid black;
-            border-bottom: 19.5px solid black; 
+            border-bottom: 27px solid black; 
             border-right: 22px solid transparent; 
             border-left: 10px solid transparent;
             z-index: -31;
 
             @include respond(iPhone_SE){
                 left: 2rem;
-                border-top: 15px solid black;
-                border-bottom: 14.5px solid black; 
+                border-top: 17px solid black;
+                border-bottom: 15.5px solid black; 
             }
-            
+
         }
 
     }
@@ -400,6 +404,11 @@
         letter-spacing: 2px;
         color: $secondary-variant;
         width: 9vw;
+
+        @include respond(iPhone_SE){
+            width: 0vw;
+            margin-right: 10vw;
+        }
 
 
         &--green{
@@ -443,12 +452,20 @@
         }
 
         &--left{
-            position: absolute;
             width: 20vw;
             color: $tertiary-color;
-            bottom: 7vh;
             display: flex;
+            place-content: center;
             font-size: 2vh;
+
+            @include respond(iPhone_SE){
+                position: absolute;
+                bottom: 7vh;
+            }
+
+            &-purple{
+                color: $secondary-color;
+            }
         }
 
         &--right{
