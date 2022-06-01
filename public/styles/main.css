@@ -2518,6 +2518,11 @@ tr:nth-child(even) {
     margin-bottom: 3vh;
   }
 }
+@media screen and (max-width: 600px) {
+  .lobby-list__header {
+    margin-left: 0vh;
+  }
+}
 .lobby-list__listContainer {
   display: flex;
   column-gap: 10px;
