@@ -131,6 +131,12 @@
             margin-left: -38vh;
             margin-bottom: 3vh;
         }
+
+        @media screen and (max-width: 600px) {
+            
+            margin-left: 0vh;
+            
+        }
     }
 
     &__listContainer {
