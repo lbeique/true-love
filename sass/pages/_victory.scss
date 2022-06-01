@@ -49,9 +49,14 @@
         align-self: center;
         font-size: 2vh;
         bottom: 2vh;
-        margin-left: -8vh;
+        margin-left: -24vh;
         padding: 1vh;
         border-width: 5px;
+
+        @include respond(iPhone_SE){
+            margin-left: -8vh;
+
+        }
     }
 
 }

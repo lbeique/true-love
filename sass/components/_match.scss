@@ -71,6 +71,7 @@
 
     &__container{
 
+        overflow-y: auto;
         display: flex;
         flex-direction: column;
         margin-left: 10vw;
@@ -83,9 +84,13 @@
         background-color: $primary-color;
         border: 1vh solid $tertiary-color;
 
+        @include respond(iPhone_SE){
+            padding: 4vw 2vw;
+        }
+
         &--top{
             display: flex;
-            width: 100vw;
+            width: 100%;
             height: 25vh;
 
             &-left{
@@ -94,6 +99,10 @@
                 justify-content: center;
                 align-items: center;
                 width: 13vw;
+
+                @include respond(iPhone_SE){
+                    width: 20vw;
+                }
             
             }
 
@@ -107,8 +116,14 @@
 
         &--bottom{
             display: flex;
-            width: 100vw;
-            height: 80vh;
+            width: 100%;
+            height: 80%;
+            
+            @include respond(iPhone_SE){
+                flex-direction: column;
+                row-gap: 4vh;
+                height: 100%;
+            }
     
 
             &-left{
@@ -119,6 +134,12 @@
                 flex-direction: column;
                 width: 40vw;
 
+                @include respond(iPhone_SE){
+                    width: 100%;
+                    align-items: flex-start;
+                    row-gap: 3vh;
+                }
+
             }
 
             &-right{
@@ -128,6 +149,10 @@
                 row-gap: 1vh;
                 flex-direction: column;
                 width: 30vw;
+
+                @include respond(iPhone_SE){
+                    width: 100%;
+                }
             }
 
         }
@@ -140,6 +165,10 @@
         border-radius: 4rem;
         background-color: $tertiary-color;
 
+        @include respond(iPhone_SE){
+            width: 17vw;
+            height: 11vh;
+        }
     }
 
     &__crush-img{
@@ -152,6 +181,11 @@
     &__crush-name{
         font-size: 4vh;
         color: $tertiary-color;
+
+        @include respond(iPhone_SE){
+            font-size: 2.5vh;
+        }
+
     }
 
     &__room-details-container{
@@ -165,12 +199,21 @@
         border-radius: 2rem;
         padding: 1vw;
 
+        @include respond(iPhone_SE){
+            width: 49vw;
+            padding: 2vw 3vw;
+        }
+
     }
 
 
     &__room-details{
         font-size: 1.2rem;
         color: $primary-color;
+
+        @include respond(iPhone_SE){
+            font-size: 1.5vh;
+        }
     }
 
     &__mini-leaderboard{
@@ -178,12 +221,21 @@
         &-header{
             font-size: 1.5rem;
             color: $tertiary-color;
+
+            @include respond(iPhone_SE){
+                align-self: center;
+                font-size: 3vh;
+            }
         }
 
         &-players{
             @include disable-scrollbar;
             overflow-y: scroll;
             width: 30vw;
+
+            @include respond(iPhone_SE){
+                width: 71vw;
+            }
         }
 
         overflow-x: visible;
@@ -195,6 +247,10 @@
         row-gap: 1vh;
         border: 4px solid $tertiary-color;
         background-color: $primary-color;
+
+        @include respond(iPhone_SE){
+            width: 80%;
+        }
         
     }
 
@@ -209,12 +265,21 @@
         width: 35vw;
         row-gap: 1vh;
 
+        @include respond(iPhone_SE){
+            width: 100%;
+            flex-direction: row;
+        }
+
     }
 
     &__header{
 
         font-size: 1.5rem;
         color: $tertiary-color;
+
+        @include respond(iPhone_SE){
+            font-size: 2vh;
+        }
 
     }
 
@@ -224,6 +289,10 @@
         column-gap: 1vw;
         justify-content: space-between;
         height: 10vh;
+
+        @include respond(iPhone_SE){
+            height: 5vh;
+        }
 
     }
 
@@ -237,6 +306,11 @@
         height: 7vh;
         font-size: 1.5rem;
         padding: 1vw;
+
+        @include respond(iPhone_SE){
+            height: 5vh;
+            font-size: 2vh;
+        }
 
         &--green{
             background-color: $tertiary-color;

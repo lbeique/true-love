@@ -18,6 +18,10 @@
 
     &--moveBack{
         animation: slideFromRight 1s ease backwards;
+        
+        @include respond(iPhone_SE){
+            animation: none;
+        }
     }
 
 
