@@ -18,7 +18,7 @@
 
     &--moveBack{
         animation: slideFromRight 1s ease backwards;
-        
+
         @include respond(iPhone_SE){
             animation: none;
         }
@@ -238,7 +238,12 @@
         &--victory{
             width: 30em;
             height: 12em;
-            left: 50%
+            left: 50%;
+
+            @include respond(iPhone_SE){
+                width: 23em;
+                height: 10em;
+            }
         }
 
         &--moveRight{

@@ -13,6 +13,10 @@
         transform-origin: top left;
         animation: popUpCenter 1s ease backwards; 
 
+        @include respond(iPhone_SE){
+            width: 10em;
+        }
+
         &--boy{
             left: 60%;
             top: 20%;
@@ -30,7 +34,7 @@
             }
 
             &--close{
-                left: 31%;
+                left: 51%;
 
                 
             }
@@ -56,6 +60,10 @@
         padding-bottom: 0.5em;
         letter-spacing: 2px;
         font-size: 20px;
+
+        @include respond(iPhone_SE){
+            font-size: 16px;
+        }
 
         &::before, &::after{
             position: absolute;
@@ -87,7 +95,7 @@
             @include respond(iPhone_SE){
                 right: 19vw;
                 bottom: 0.5rem;
-                transform:  rotate(41deg) skewX(74deg);
+                transform:  rotate(117deg) skewX(74deg);
             }
 
         }
