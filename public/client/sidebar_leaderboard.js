@@ -519,8 +519,6 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
 
         position = returnPosition(positionCounter)
 
-        positionCounter++
-
         leaderboard_player__position.innerHTML = `${position}`
 
         leaderboard_player__avatarContainer.appendChild(leaderboard_player__avatar)
@@ -531,18 +529,20 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
 
         for(let i = 0; i < 3; i++){
             const player__categoryPoints = document.createElement('div')
-            const player__categoryPoints_left = document.createElement('div')
             const player__categoryPoints_right = document.createElement('div')
 
             player__categoryPoints.classList.add('leaderboard-info__category-details', 'leaderboard-info__category-details-victory')
-            player__categoryPoints_left.classList.add('leaderboard-info__category-details--left')
             player__categoryPoints_right.classList.add('leaderboard-info__category-details--right')
 
-            player__categoryPoints_left.innerText = `Trivia ${i + 1}:`
-            // console.log(player)
+            if(positionCounter === 1){
+                const player__categoryPoints_left = document.createElement('div')
+                player__categoryPoints_left.classList.add('leaderboard-info__category-details--left')
+                player__categoryPoints_left.innerText = `Trivia ${i + 1}:`
+                player__categoryPoints.append(player__categoryPoints_left)
+            } 
             player__categoryPoints_right.innerText = `${player[difficulty[i]]} pts`
 
-            player__categoryPoints.append(player__categoryPoints_left, player__categoryPoints_right)
+            player__categoryPoints.append(player__categoryPoints_right)
             player__triviaPts_container.appendChild(player__categoryPoints)
 
             // counter++
@@ -562,6 +562,8 @@ socket.on('setup-sidebar-victory', (victoryObject) => {
             leaderboard_player__container.appendChild(leaderboard_player__YOUcontainer)
     
         }
+
+        positionCounter++
 
         leaderboard_player__info.append(player__triviaPts_container, info__note)
 

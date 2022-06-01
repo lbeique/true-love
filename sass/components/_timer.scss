@@ -7,10 +7,19 @@
         position: absolute;
         bottom: 10vh;
         right: 15vh;
+
+        @include respond(iPhone_SE){
+            bottom: 3vh;
+            right: 3vh;
+        }
     }
 
     &__startTrivia{
         font-size: 30px;
+        
+        @include respond(iPhone_SE){
+            text-align: center;
+        }
     }
 
 }

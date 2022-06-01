@@ -165,8 +165,17 @@ function global_leaderboard_setup(globalLeaderboard, current__client){
         let player = globalLeaderboard[j]
         if(player.user_id === current__client.user_id){
             let position = returnPosition(positionNum)
+            const mediaQuery = window.matchMedia('(max-width: 37.5em)')
             const client__container = displayPlayers(player, position, 'global') // dom container
             leaderboard__container.appendChild(set_up_client_container(client__container))
+
+            const all_left_titles = document.querySelectorAll('.leaderboard__currentPlayer-container .leaderboard-info__category-details--left')
+
+            if(mediaQuery.matches){
+                all_left_titles.forEach((node) => {
+                    node.remove()
+                })
+            }
             break
         }
         positionNum++
@@ -198,6 +207,8 @@ function displayPlayers(player, position, location){
 
     // console.log('player', player)
 
+    const mediaQuery = window.matchMedia('(max-width: 37.5em)')
+
     const leaderboard_player__container = document.createElement('div')
     const leaderboard_player__avatarContainer = document.createElement('div')
     const leaderboard_player__avatar = document.createElement('img')
@@ -221,7 +232,23 @@ function displayPlayers(player, position, location){
     info__name.innerHTML = `${player.user_name}`
 
     if(location === "global"){
-        info__note.innerHTML = `Total Wins: ${player.total_wins}`
+
+        if(mediaQuery.matches){
+
+            if(position === '1st'){
+
+                info__note.innerHTML = `<span class='leaderboard-info__category-details--left leaderboard-info__category-details--left-purple'> #Wins: </span> ${player.total_wins}`
+            } else {
+                
+                info__note.innerHTML = `${player.total_wins}`
+            }
+
+        } else{
+            console.log("HELLO")
+            info__note.innerHTML = `#Wins: ${player.total_wins}`
+            
+        }
+
     } else if(location === 'my_match'){
         info__note.innerHTML = `${player.total_points} pts`
     }
@@ -241,29 +268,70 @@ function displayPlayers(player, position, location){
 
         for(let i = 1; i <= 2; i++){
             const leaderboard_player__subCategory = document.createElement('div')
-            const leaderboard_player__subCategory_left = document.createElement('div')
             const leaderboard_player__subCategory_right = document.createElement('div')
     
             leaderboard_player__subCategory.classList.add('leaderboard-info__category-details')
-            leaderboard_player__subCategory_left.classList.add('leaderboard-info__category-details--left')
             leaderboard_player__subCategory_right.classList.add('leaderboard-info__category-details--right')
     
-            if(i === 1){
-                leaderboard_player__subCategory_left.innerText = `Total pts:`
-                leaderboard_player__subCategory_right.innerText = `${player.total_points}`    
-            } else if(i === 2){
-                leaderboard_player__subCategory_left.innerText = `Win Ratio:`
-                leaderboard_player__subCategory_right.innerText = `${+parseFloat(player.win_ratio * 100).toFixed(1)}%` 
+            const leaderboard_player__subCategory_left = document.createElement('div')
+            leaderboard_player__subCategory_left.classList.add('leaderboard-info__category-details--left')
+                
+            if(mediaQuery.matches){ // if size is iPhone, then DO the header thing
+                if(position === '1st'){
+                    if(i === 1){
+                        leaderboard_player__subCategory_left.innerText = `Total pts:`
+                    } else if(i === 2){
+                        leaderboard_player__subCategory_left.innerText = `Win Ratio:`
+                    }
+                } 
+                if(i === 1){
+                    leaderboard_player__subCategory_right.innerText = `${player.total_points}`    
+                } else if (i === 2){
+                    leaderboard_player__subCategory_right.innerText = `${+parseFloat(player.win_ratio * 100).toFixed(1)}%` 
+                }
+            
+            } else { // if size is NOT iPhone, DON'T do the header thing
+                console.log("NOT")
+                if(i === 1){
+                    leaderboard_player__subCategory_left.innerText = `Total pts:`
+                    leaderboard_player__subCategory_right.innerText = `${player.total_points}`    
+                } else if (i === 2){
+                    leaderboard_player__subCategory_left.innerText = `Win Ratio:`
+                    leaderboard_player__subCategory_right.innerText = `${+parseFloat(player.win_ratio * 100).toFixed(1)}%` 
+                }
             }
-    
+
+
+            // if(position === '1st'){
+            //     console.log('create header')
+            //     const leaderboard_player__subCategory_left = document.createElement('div')
+            //     leaderboard_player__subCategory_left.classList.add('leaderboard-info__category-details--left')
+            //     if(mediaQuery){
+            //         if(i === 1){
+            //             leaderboard_player__subCategory_left.innerText = `Total pts:`
+            //         } else if(i === 2){
+            //             leaderboard_player__subCategory_left.innerText = `Win Ratio:`
+            //         }
+            //     }
+            //     leaderboard_player__subCategory.append(leaderboard_player__subCategory_left)
+            // } else {
+
+            //     if(i === 1){
+
+            //         leaderboard_player__subCategory_right.innerText = `${player.total_points}`    
+            //     } else if(i === 2){
+            //         leaderboard_player__subCategory_right.innerText = `${+parseFloat(player.win_ratio * 100).toFixed(1)}%` 
+            //     }
+
+            // }
+
             leaderboard_player__subCategory.append(leaderboard_player__subCategory_left, leaderboard_player__subCategory_right)
             leaderboard_player__subCategory_container.appendChild(leaderboard_player__subCategory)
-    
-        }
 
+        } // * end of for loop
         leaderboard_player__info.appendChild(leaderboard_player__subCategory_container)
 
-    }
+    } 
 
     leaderboard_player__info.appendChild(info__note)
 

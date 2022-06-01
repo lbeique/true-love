@@ -12,11 +12,16 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 70%;
-        height: 50%;
+        width: 50vw;
+        height: 45vh;
 
         &--animated{
             animation: fadingIn 1.5s ease;
+        }
+
+        @include respond(iPhone_SE){
+            width: 70vw;
+            height: 50vh;
         }
 
     }
@@ -40,6 +45,11 @@
         text-align: center;
         filter: drop-shadow(0px 4px 8px #19083c);
 
+        @include respond(iPhone_SE){
+            font-size: 3vh;
+        }
+
+
     }
 
     &__button{
@@ -47,10 +57,14 @@
         // width: 30%;
         height: 20vh;
         font-size: 4vh;
-        padding: 2vh;
+        padding: .5vh 6vh;
         text-transform: uppercase;
         text-align: center;
 
+        @include respond(iPhone_SE){
+            font-size: 3vh;
+            padding: 0.5vh 5vh;
+        }
     }
 
 }

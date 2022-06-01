@@ -6,6 +6,11 @@
     overflow: hidden;
     background-color: $primary-color;
 
+    @include respond(iPhone_SE){
+        overflow: hidden;
+    }
+
+
     &--bg{
         background: url(../assets/others/background-revised.png) no-repeat center center fixed;
         background-size: cover;
@@ -13,7 +18,7 @@
         display: flex;
         justify-content: space-evenly;
         flex-direction: column;
-    
+
         // @include respond(iPhone_SE) { // width < 600
         //     background: url(../assets/others/background-revised.png) no-repeat center center fixed;
         //     background-size: 26.6em 47em;

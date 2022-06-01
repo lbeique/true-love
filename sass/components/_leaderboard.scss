@@ -27,7 +27,7 @@
 
         &-victory{
             position: absolute;
-            width: 100%;
+            width: 100vw;
             z-index: 50;
         }
         
@@ -45,6 +45,11 @@
     width: 81vw;
     height: 100vh;
     transition: all .5s;
+
+    @include respond(iPhone_SE){
+        margin-left: 0;
+        width: 100vw;
+    }
 
     &__overlay{
        
@@ -74,29 +79,20 @@
             animation: slideFromLeft 1s ease backwards;
         }
 
-        &--close{
-
-            width: 27%;
-            padding: 1em 0em 1em 3em;
-            transform: translateX(-180%);
-            transition: transform .3s linear, width ;
-
-            &:hover{
-                transform: translateX(-175%);
-            }
-
-        }
-
         &--open{
 
             box-shadow: 0px 0px 30px 10px $secondary-color;
-            padding: 2em 2em 2em 0;
+            padding: 2em 0;
             width: 66vw;
             animation: slideFromLeft 1s ease;
             // &-trivia{
             //     transform: translateX(5%);
             //     width: 40%;
             // }
+
+            @include respond(iPhone_SE){
+                width: 90vw;
+            }
 
             &-leaderboard{
                 animation: none;
@@ -117,10 +113,20 @@
         color: $tertiary-color;
         font-size: 2rem;
         text-transform: uppercase;
+
+        @include respond(iPhone_SE){
+            width: 100%;
+            height: 8vh;
+            font-size: 3vh;
+        }
         
         & i{
             color: $tertiary-color;
             padding-right: 10px;
+
+            @include respond(iPhone_SE){
+                padding-right: 0;
+            }
         }
 
         &-text{
@@ -138,15 +144,17 @@
         row-gap: 2vh;
         overflow-y: scroll;
         overflow-x: hidden;
-        height: 100%;
+        height: 100vh;
+        padding-top: 3vh;
 
         &--open{
             width: 78vw;
             height: 78vh;
-        }
 
-        &--close{
-            width: 250%;
+            @include respond(iPhone_SE){
+                width: 97vw;
+                height: 63vh;
+            }
         }
 
     }
@@ -161,8 +169,12 @@
         display: flex;
         justify-content: center;
         column-gap: 1vw;
-        width: 67vw;
+        width: 100%;
         height: 2vw;
+
+        @include respond(iPhone_SE){
+            height: 3vh
+        }
     }
 
     &__category-btn{
@@ -174,8 +186,11 @@
 
     &__currentPlayer-container{
         width: 78vw;
-        overflow-x: hidden;
         height: 8vh;
+
+        @include respond(iPhone_SE){
+            width: 100vw;
+        }
     }
 
 }
@@ -226,7 +241,12 @@
             height: 4vh;
             margin-left: 0.5vw;
 
-           
+            @include respond(iPhone_SE){
+                width: 5.5vw;
+                height: 6vw;
+                margin-left: 1.5rem;
+            }
+
         }
 
         &--close{
@@ -248,13 +268,19 @@
 
     &__info{
         display: flex;
-        justify-content: space-between;
+        column-gap: 4vw;
         align-items: center;
         width: 52vw;
 
         &-match{
             z-index: 1;
             width: 18vw;
+
+            @include respond(iPhone_SE){
+                width: 44vw;
+            }
+
+           
         }
         
     }
@@ -262,19 +288,30 @@
     &__youContainer{
 
         position: absolute;
-        height: 6vh;
+        height: 7vh;
         z-index: -30;
 
+        @include respond(iPhone_SE){
+            height: 5vh;
+        }
 
         &--open{
 
             width: 68vw;
             left: -2vw;
 
+            @include respond(iPhone_SE){
+                width: 88vw;
+            }
+
             &-match{
                 width: 27vw;
                 z-index: 0;
                 left: 0;
+
+                @include respond(iPhone_SE){
+                    width: 53vw;
+                }
             }
 
         }
@@ -302,17 +339,31 @@
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
 
+        @include respond(iPhone_SE){
+            width: 100%;
+            padding-left: 2rem;
+            border-top-left-radius: 13px;
+            border-bottom-left-radius: 13px;
+        }
+
         &::before{
             content:"";
             position: absolute;
             width: 100%;
             height: 0;
             left: 3em;
-            border-top: 21px solid $tertiary-color;
-            border-bottom: 25px solid $tertiary-color; 
+            border-top: 23px solid $tertiary-color;
+            border-bottom: 28px solid $tertiary-color; 
             border-right: 24px solid transparent; 
             border-left: 10px solid transparent;
             z-index: -32;
+
+            @include respond(iPhone_SE){
+                height: 100%;
+                left: 2.5rem;
+                border-top: 20px solid $tertiary-color;
+                border-bottom: 18.5px solid $tertiary-color; 
+            }
         }
 
         &::after{
@@ -323,11 +374,17 @@
             top: 0;
             left: 2.5em;
             border-top: 20px solid black;
-            border-bottom: 19.5px solid black; 
+            border-bottom: 27px solid black; 
             border-right: 22px solid transparent; 
             border-left: 10px solid transparent;
             z-index: -31;
-            
+
+            @include respond(iPhone_SE){
+                left: 2rem;
+                border-top: 17px solid black;
+                border-bottom: 15.5px solid black; 
+            }
+
         }
 
     }
@@ -342,7 +399,7 @@
 
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        column-gap: 1vw;
+        column-gap: 2vw;
         margin: 0 1vw;
 
         &--leaderboard{
@@ -362,6 +419,11 @@
         color: $secondary-variant;
         width: 9vw;
 
+        @include respond(iPhone_SE){
+            width: 0vw;
+            margin-right: 10vw;
+        }
+
 
         &--green{
             color: $tertiary-color;
@@ -380,6 +442,10 @@
 
         &-victory{
             width: 5vw;
+
+            @include respond(iPhone_SE){
+                width: 10vw;
+            }
         }
     }
 
@@ -391,6 +457,10 @@
         place-self: center;
         padding: .2rem;
 
+        @include respond(iPhone_SE){
+            border: none;
+        }
+
         &-victory{
             width: 11vw;
         }
@@ -401,6 +471,15 @@
             display: flex;
             place-content: center;
             font-size: 2vh;
+
+            @include respond(iPhone_SE){
+                position: absolute;
+                bottom: 7vh;
+            }
+
+            &-purple{
+                color: $secondary-color;
+            }
         }
 
         &--right{

@@ -20,6 +20,11 @@
         background-color: $primary-color;
         border: 1vh solid $tertiary-color;
 
+        @include respond(iPhone_SE){
+            width: 37vw;
+            margin-left: 32vw;
+        }
+
     }
 
     &__question{
@@ -38,6 +43,10 @@
         text-align: center;
         filter: drop-shadow(0px 4px 8px #19083c);
 
+        @include respond(iPhone_SE){
+            width: 73vw;
+        }
+
         &--animated{
             animation: popUpCenter 1s ease backwards;
         }
@@ -48,8 +57,12 @@
         flex-direction: column;
         align-items: center;
         row-gap: 2vh;
-        width: 90vh;
+        width: 90vw;
         height: 9vh;
+        
+        @include respond(iPhone_SE){
+            width: 70vw;
+        }
 
         &--animated{
             animation: popUpCenter .8s ease backwards;
@@ -62,7 +75,10 @@
         height: 8vh;
         padding: 2vh;
         font-size: 2.5vh;
-    
+
+        @include respond(iPhone_SE){
+            width: 63vw;
+        }
     }
 }
 

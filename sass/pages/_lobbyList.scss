@@ -1,6 +1,10 @@
 .section-lobbies {
     background-color: rgba($secondary-variant, 0.5);
     display: flex;
+    
+    @include respond(iPhone_SE){
+       flex-direction: column
+    }
 
 }
 
@@ -12,9 +16,18 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        row-gap: 2.5em;
+        row-gap: 2.5rem;
         width: 40vw;
         height: 100vh;
+
+        @include respond(iPhone_SE){
+            flex-direction: row;
+            align-items: flex-end;
+            column-gap: 3vw;
+            width: 100%;
+            height: 58%;
+           
+        }
 
     }
 
@@ -27,6 +40,11 @@
         width: 60vw;
         height: 100vh;
 
+        @include respond(iPhone_SE){
+            width: 100%;
+        }
+
+
     }
 
     &__createContainer {
@@ -36,14 +54,22 @@
         justify-content: center;
         align-items: center;
         row-gap: 2vh;
-        // width: 25vw;
-        padding: 2vh;
+        padding: 2vw;
         height: 30vh;
-        border: 15px solid $secondary-variant;
-        border-radius: 5em;
+        border: 1vw solid $secondary-variant;
+        border-radius: 5vw;
         background-color: $tertiary-color;
         color: $primary-color;
         filter: drop-shadow(0px 4px 8px #19083c);
+
+        @include respond(iPhone_SE){
+            width: 45vw;
+            height: 25vh;
+            border: 2vw solid $secondary-variant;
+            border-radius: 14vw;
+            // border: 2vw solid $secondary-variant;
+        }
+
 
     }
 
@@ -60,6 +86,11 @@
         text-transform: uppercase;
         letter-spacing: 2px;
 
+        @include respond(iPhone_SE){
+            font-size: 1.5vh;
+        }
+
+
     }
 
     &__joinContainer {
@@ -69,13 +100,21 @@
         justify-content: center;
         align-items: center;
         row-gap: 2vh;
-        padding: 2vh;
+        padding: 2vw;
         height: 30vh;
-        border: 15px solid $tertiary-color;
-        border-radius: 5em;
+        border: 1vw solid $tertiary-color;
+        border-radius: 5vw;
         background-color: $secondary-color;
         color: $primary-color;
         filter: drop-shadow(0px 4px 8px #19083c);
+
+        @include respond(iPhone_SE){
+            width: 45vw;
+            height: 25vh;
+            border: 2vw solid $tertiary-color;
+            border-radius: 14vw;
+            // border: 2vw solid $secondary-variant;
+        }
 
     }
 
@@ -88,8 +127,9 @@
         margin-top: 4vh;
         
         @media screen and (max-width: 690px) {
-            font-size: 5vh;
-            margin-left: -45vh;
+            font-size: 3.5vh;
+            margin-left: -38vh;
+            margin-bottom: 3vh;
         }
     }
 
@@ -107,19 +147,13 @@
         @include scroll;
         display: flex;
         flex-direction: column;
-        // width: 100%;
-        // height: 100%;
+        width: 100vw;
+        margin-left: 11vw;
+        padding-left: 1vw;
         row-gap: 2vh;
 
 
     }
-
-    // &__room {
-
-    //     width: 100%;
-    //     max-height: 20%;
-
-    // }
 
     &__roomBtn {
 
@@ -128,6 +162,10 @@
         font-size: 3vh;
         padding: 1.5vh 2vh;
         justify-content: space-between;
+
+        @include respond(iPhone_SE){
+            width: 60vw;
+        }
 
         &--name {
             text-align: left;
@@ -158,7 +196,7 @@
         font-size: 4vh;
 
         @media screen and (max-width: 690px) {
-            font-size: 3vh;
+            font-size: 2.5vh;
         }
     }
 
@@ -191,6 +229,10 @@
         color: $tertiary-color;
         font-size: 3vh;
         font-weight: lighter;
+
+        @include respond(iPhone_SE){
+            font-size: 2.5vh;
+        }
     }
 
     &__form {
