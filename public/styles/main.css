@@ -37,6 +37,8 @@ body {
 @media screen and (max-width: 37.5em) {
   body {
     height: 100vh;
+    width: 100vw;
+    overflow: hidden;
   }
 }
 
@@ -2041,6 +2043,11 @@ tr:nth-child(even) {
   height: 100vh;
   overflow: hidden;
   background-color: #19083c;
+}
+@media screen and (max-width: 37.5em) {
+  .section-main {
+    overflow: hidden;
+  }
 }
 .section-main--bg {
   background: url(../assets/others/background-revised.png) no-repeat center center fixed;
