@@ -866,11 +866,12 @@ body {
 }
 .leaderboard__currentPlayer-container {
   display: flex;
+  align-items: center;
   overflow-x: hidden;
   height: 10vh;
   overflow-x: hidden;
   width: 78vw;
-  height: 8vh;
+  height: 11vh;
 }
 @media screen and (max-width: 37.5em) {
   .leaderboard__currentPlayer-container {
@@ -884,7 +885,7 @@ body {
   align-items: center;
   flex-direction: row;
   column-gap: 1vw;
-  height: 6vh;
+  height: 8vh;
 }
 .leaderboard-player__container--moveUp {
   z-index: 100;
@@ -1719,7 +1720,7 @@ body {
   width: 100%;
   height: 0;
   left: 3em;
-  border-top: 23px solid #D7FF60;
+  border-top: 25px solid #D7FF60;
   border-bottom: 28px solid #D7FF60;
   border-right: 24px solid transparent;
   border-left: 10px solid transparent;
@@ -1740,8 +1741,8 @@ body {
   height: 0;
   top: 0;
   left: 2.5em;
-  border-top: 20px solid black;
-  border-bottom: 24px solid black;
+  border-top: 23px solid black;
+  border-bottom: 24.5px solid black;
   border-right: 22px solid transparent;
   border-left: 10px solid transparent;
   z-index: -31;
