@@ -189,8 +189,13 @@
     }
 
     &__currentPlayer-container{
+        display: flex;
+        align-items: center;
+        overflow-x: hidden;
+        height: 10vh;
+        overflow-x: hidden;
         width: 78vw;
-        height: 8vh;
+        height: 11vh;
 
         @include respond(iPhone_SE){
             width: 100vw;
@@ -207,7 +212,7 @@
         align-items: center;
         flex-direction: row;
         column-gap: 1vw;
-        height: 6vh;
+        height: 8vh;
 
         &--moveUp{
             z-index: 100;

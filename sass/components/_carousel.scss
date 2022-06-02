@@ -190,8 +190,10 @@
     
         &--open{
             display: grid;
+            margin-left: -14%;
             grid-template-columns: 1fr 1fr 1fr;
             width: 50vw;
+            animation: fadingIn 1s ease;
 
             @include respond(iPhone_SE){
                 margin-left: 0;
@@ -325,7 +327,11 @@
             width: 100%;
             height: 100%;
             color: $tertiary-color;
-            font-size: 3.5vw;
+            font-size: 1.5vw;
+
+            @include respond(iPhone_SE){
+                font-size: 3.5vw;
+            }
         }
 
         &--bottom{
@@ -334,7 +340,11 @@
             width: 100%;
             height: 100%;
             color: $tertiary-color;
-            font-size: 2.5vw;
+            font-size: 1.5vw;
+
+            @include respond(iPhone_SE){
+                font-size: 2.5vw;
+            }
         }
     }
 
