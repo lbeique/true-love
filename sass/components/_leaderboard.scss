@@ -189,6 +189,10 @@
     }
 
     &__currentPlayer-container{
+        display: flex;
+        overflow-x: hidden;
+        height: 10vh;
+        overflow-x: hidden;
         width: 78vw;
         height: 8vh;
 

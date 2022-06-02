@@ -565,8 +565,10 @@ body {
 }
 .carousel__slideText--open {
   display: grid;
+  margin-left: -14%;
   grid-template-columns: 1fr 1fr 1fr;
   width: 50vw;
+  animation: fadingIn 1s ease;
 }
 @media screen and (max-width: 37.5em) {
   .carousel__slideText--open {
@@ -683,7 +685,12 @@ body {
   width: 100%;
   height: 100%;
   color: #D7FF60;
-  font-size: 3.5vw;
+  font-size: 1.5vw;
+}
+@media screen and (max-width: 37.5em) {
+  .crush__triviaContainer--top {
+    font-size: 3.5vw;
+  }
 }
 .crush__triviaContainer--bottom {
   display: flex;
@@ -691,7 +698,12 @@ body {
   width: 100%;
   height: 100%;
   color: #D7FF60;
-  font-size: 2.5vw;
+  font-size: 1.5vw;
+}
+@media screen and (max-width: 37.5em) {
+  .crush__triviaContainer--bottom {
+    font-size: 2.5vw;
+  }
 }
 
 .section-leaderboard--close {
@@ -853,6 +865,10 @@ body {
   }
 }
 .leaderboard__currentPlayer-container {
+  display: flex;
+  overflow-x: hidden;
+  height: 10vh;
+  overflow-x: hidden;
   width: 78vw;
   height: 8vh;
 }
