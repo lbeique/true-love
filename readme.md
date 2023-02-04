@@ -11,18 +11,18 @@ A multiplayer party game featuring a group of Aliens fighting for the love of a 
 
 
 <div align="center">
-<img width="45%" alt="login-screen" src="./public/assets/screenshots/login-screen.png">
-<img width="45%" alt="main-menu-screen" src="./public/assets/screenshots/main-menu-screen.png">
-<img width="45%" alt="lobby-screen" src="./public/assets/screenshots/lobby-screen.png">
-<img width="45%" alt="trivia-game-screen" src="./public/assets/screenshots/trivia-game-screen.png">
-<img width="45%" alt="lobby-checkpoint-screen" src="./public/assets/screenshots/lobby-checkpoint-screen.png">
-<img width="45%" alt="victory-leaderboard-screen" src="./public/assets/screenshots/victory-leaderboard-screen.png">
+<img width="35%" alt="login-screen" src="./public/assets/screenshots/login-screen.png">
+<img width="35%" alt="main-menu-screen" src="./public/assets/screenshots/main-menu-screen.png">
+<img width="35%" alt="lobby-screen" src="./public/assets/screenshots/lobby-screen.png">
+<img width="35%" alt="trivia-game-screen" src="./public/assets/screenshots/trivia-game-screen.png">
+<img width="35%" alt="lobby-checkpoint-screen" src="./public/assets/screenshots/lobby-checkpoint-screen.png">
+<img width="35%" alt="victory-leaderboard-screen" src="./public/assets/screenshots/victory-leaderboard-screen.png">
 </div>
 <div align="center">
-<img width="45%" alt="global-leaderboard" src="./public/assets/screenshots/global-leaderboard.png">
-<img width="45%" alt="history-gameplay-screen" src="./public/assets/screenshots/history-gameplay-screen.png">
-<img width="45%" alt="avatar-customization-screen" src="./public/assets/screenshots/avatar-customization-screen.png">
-<img width="45%" alt="profile-screen" src="./public/assets/screenshots/profile-screen.png">
+<img width="35%" alt="global-leaderboard" src="./public/assets/screenshots/global-leaderboard.png">
+<img width="35%" alt="history-gameplay-screen" src="./public/assets/screenshots/history-gameplay-screen.png">
+<img width="35%" alt="avatar-customization-screen" src="./public/assets/screenshots/avatar-customization-screen.png">
+<img width="35%" alt="profile-screen" src="./public/assets/screenshots/profile-screen.png">
 </div>
 
 ## Built with <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Smiling%20Face%20with%20Hearts.png" alt="Smiling Face with Hearts" width="35" height="35" />
